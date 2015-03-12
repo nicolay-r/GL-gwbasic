@@ -11,14 +11,23 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 
 %%
 
-[\t ]+
+[\t\r ]+
 
 \n			{ return EOLN;	}
 
-RUN			{ printf("run\n");return RUN; }
+RUN			{ return RUN; }
 SYSTEM			{ return SYSTEM; }
+AUTO			{ return AUTO; }
+BLOAD			{ return BLOAD; }
+BSAVE			{ return BSAVE; }
+MERGE			{ return MERGE; }
+CHDIR			{ return CHDIR; }
+CLEAR			{ return CLEAR; }
+CONT			{ return CONT; }
+DELETE			{ return DELETE; }
 
-,			{ printf("comma\n"); return COMMA; }
+
+,			{ return COMMA; }
 :			{ return COLON; }
 &			{ return AMPERSANT; }
 #			{ return SHARP; }
@@ -26,10 +35,12 @@ SYSTEM			{ return SYSTEM; }
 !			{ return BANG;	}
 \$			{ return DOLLAR; }
 
+-			{ return SUB; }
+
 {NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
 {NUMBER}+		{ return CONST_INTEGER; }
 
-\"[^\"]\"		{ return CONST_STRING; }
+\"[^\"]+\"		{ return CONST_STRING; }
 	
 {DECLARATION}		{ return DECLARATION; /* ref. 6.2.1 */ }	
 
