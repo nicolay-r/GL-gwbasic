@@ -10,11 +10,15 @@ NUMBER		[0-9]+
 DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 
 %%
-[\n ]+
 
-\t			{ return EOLN;	}
+[\t ]+
 
-,			{ return COMMA;	}
+\n			{ return EOLN;	}
+
+RUN			{ printf("run\n");return RUN; }
+SYSTEM			{ return SYSTEM; }
+
+,			{ printf("comma\n"); return COMMA; }
 :			{ return COLON; }
 &			{ return AMPERSANT; }
 #			{ return SHARP; }
@@ -28,6 +32,7 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 \"[^\"]\"		{ return CONST_STRING; }
 	
 {DECLARATION}		{ return DECLARATION; /* ref. 6.2.1 */ }	
+
 %%
 
 /*
