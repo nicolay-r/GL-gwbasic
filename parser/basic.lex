@@ -33,6 +33,9 @@ LLIST			{ return LLIST; }
 LOAD			{ return LOAD; }
 NAME			{ return NAME; }
 MKDIR			{ return MKDIR; }
+TRON			{ return TRON; }
+TROFF			{ return TROFF; }
+
 AS			{ return AS; }
 
 \.			{ return DOT; }

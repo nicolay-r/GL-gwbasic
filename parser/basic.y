@@ -4,7 +4,7 @@
 	char* ne = "Not Implemented";
 %}
 /* command keywords*/
-%token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME
+%token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
 %token AS
 
@@ -43,6 +43,8 @@ Command: Run
 	| Load
 	| MkDir
 	| Name
+	| TrOn
+	| TrOff
 ;
 Statements: Statement COMMA Statements
 	| Statement
@@ -77,7 +79,9 @@ Load:	LOAD FileName COMMA LoadOption
 	| LOAD FileName
 MkDir: MKDIR PathName
 Name: NAME OldFileName AS NewFileName
-	
+TrOn:	TRON
+TrOff:	TROFF
+
 Expression: CONST_INTEGER;
 
 StringVarType: DOLLAR;
