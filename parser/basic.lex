@@ -25,8 +25,17 @@ CHDIR			{ return CHDIR; }
 CLEAR			{ return CLEAR; }
 CONT			{ return CONT; }
 DELETE			{ return DELETE; }
+EDIT			{ return EDIT; }
+FILES			{ return FILES; }
+KILL			{ return KILL; }
+LIST			{ return LIST; }
+LLIST			{ return LLIST; }
+LOAD			{ return LOAD; }
+NAME			{ return NAME; }
+MKDIR			{ return MKDIR; }
+AS			{ return AS; }
 
-
+\.			{ return DOT; }
 ,			{ return COMMA; }
 :			{ return COLON; }
 &			{ return AMPERSANT; }
