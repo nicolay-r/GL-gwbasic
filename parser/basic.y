@@ -26,25 +26,25 @@ DirectMode: Command EOLN			{ printf("-command\n"); }
 	| Statements EOLN
 	;
 Command: Run
-	| System
-	| Auto
-	| BLoad
-	| BSave
-	| Merge
-	| ChDir
-	| Clear
-	| Cont
-	| Delete
+	| System				{ printf("SYSTEM %s\n", ne); }
+	| Auto					{ printf("AUTO  %s\n", ne); }
+	| BLoad					{ printf("BLOAD %s\n", ne); }
+	| BSave					{ printf("BSAVE %s\n", ne); }
+	| Merge					{ printf("MERGE %s\n", ne); }
+	| ChDir					{ printf("CHDIR %s\n", ne); }
+	| Clear					{ printf("CLEAR %s\n", ne); }
+	| Cont					{ printf("CONT %s\n", ne); }
+	| Delete				{ printf("DELETE %s\n", ne); }
 	| Edit					{ printf("EDIT %s\n", ne); }
 	| Files					{ printf("FILES %s\n", ne); }
 	| Kill					{ printf("KILL %s\n", ne); }
 	| List					{ printf("LIST %s\n", ne); }
-	| LList
-	| Load
-	| MkDir
-	| Name
-	| TrOn
-	| TrOff
+	| LList					{ printf("LLIST %s\n", ne); }
+	| Load					{ printf("LOAD %s\n", ne); }
+	| MkDir					{ printf("MKDIR %s\n", ne); }
+	| Name					{ printf("NAME %s\n", ne); }
+	| TrOn					{ printf("TRON %s\n", ne); }
+	| TrOff					{ printf("TROFF %s\n", ne); }
 ;
 Statements: Statement COMMA Statements
 	| Statement
@@ -54,16 +54,16 @@ Statement: StringVariable  			{ printf("EXPR\n"); }
 StringVariable: DECLARATION StringVarType 	{ printf("string var"); }
 
 Run:	RUN
-System:	SYSTEM					{ printf("bye!\n"); }
-Auto:	AUTO LineNumber COMMA Increment		{ printf("AUTO %s\n", ne); }
-BLoad: 	BLOAD FileName COMMA Offset		{ printf("BLOAD %s\n", ne); }
-BSave:	BSAVE FileName COMMA Offset COMMA Length { printf("BSAVE %s\n", ne); }
-Merge:	MERGE FileName				{ printf("CLEAR %s\n", ne); }
-ChDir:	CHDIR					{ printf("CHDIR %s\n", ne); }
-Clear:	CLEAR Expression			{ printf("CLEAR %s\n", ne); }
-Cont:	CONT					{ printf("CONT %s\n", ne); }
-Delete:	DELETE LineNumber Dash LineNumber	{ printf("DELETE %s\n", ne); }
-	| DELETE LineNumber Dash		{ printf("DELETE %s\n", ne); } 
+System:	SYSTEM
+Auto:	AUTO LineNumber COMMA Increment
+BLoad: 	BLOAD FileName COMMA Offset
+BSave:	BSAVE FileName COMMA Offset COMMA Length
+Merge:	MERGE FileName
+ChDir:	CHDIR
+Clear:	CLEAR Expression			
+Cont:	CONT					
+Delete:	DELETE LineNumber Dash LineNumber	
+	| DELETE LineNumber Dash	
 Edit: 	EDIT LineNumber
 	| EDIT DOT
 Files:	FILES FilePath

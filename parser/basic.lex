@@ -36,6 +36,25 @@ MKDIR			{ return MKDIR; }
 TRON			{ return TRON; }
 TROFF			{ return TROFF; }
 
+BEEP			{ return BEEP; }
+CALL			{ return CALL; }
+
+=			{ return EQUAL; }
+\<\>			{ return INEQUAL; }
+\<			{ return LT; }
+\>			{ return GT; }
+\<=			{ return LTE; }
+\>=			{ return GTE; }
+
+NOT			{ return NOT; }
+AND			{ return AND; }
+OR			{ return OR; }
+XOR			{ return XOR; }
+EQV			{ return EQV; }
+
+
+SIN			{ return SIN; }
+
 AS			{ return AS; }
 
 \.			{ return DOT; }
@@ -48,6 +67,10 @@ AS			{ return AS; }
 \$			{ return DOLLAR; }
 
 -			{ return SUB; }
+\+			{ return PLUS; }
+\*			{ return STAR; }
+\\			{ return BACKSLASH; }
+\^			{ return CARET; }
 
 {NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
 {NUMBER}+		{ return CONST_INTEGER; }
