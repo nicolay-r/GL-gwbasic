@@ -6,11 +6,19 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
+%token BEEP CALL
+
 %token AS
 
 %token DECLARATION
 /* Arithmetic operations */
-%token SUB
+%token SUB PLUS STAR BACKSLASH CARET
+%token GT LT GTE LTE EQUAL INEQUAL
+%token NOT AND OR XOR IMP EQV
+%token LPAREN RPAREN
+
+/* Math functions*/
+%token SIN
 /* functional symbols */
 %token COLON COMMA SHARP AMPERSANT PERCENT BANG DOLLAR DOT EOLN
 
@@ -45,18 +53,18 @@ Command: Run
 	| Name					{ printf("NAME %s\n", ne); }
 	| TrOn					{ printf("TRON %s\n", ne); }
 	| TrOff					{ printf("TROFF %s\n", ne); }
-;
+
 Statements: Statement COMMA Statements
 	| Statement
-	;
-Statement: StringVariable  			{ printf("EXPR\n"); }
-	
-StringVariable: DECLARATION StringVarType 	{ printf("string var"); }
 
+Statement: Beep
+	| Call
+	
 Run:	RUN
 System:	SYSTEM
 Auto:	AUTO LineNumber COMMA Increment
 BLoad: 	BLOAD FileName COMMA Offset
+	| BLOAD FileName
 BSave:	BSAVE FileName COMMA Offset COMMA Length
 Merge:	MERGE FileName
 ChDir:	CHDIR
@@ -82,11 +90,77 @@ Name: NAME OldFileName AS NewFileName
 TrOn:	TRON
 TrOff:	TROFF
 
-Expression: CONST_INTEGER;
 
-StringVarType: DOLLAR;
-Dash: SUB
+Beep:	BEEP
+Call:	CALL LPAREN Variables RPAREN
 
+
+Variables: Variable COMMA Variables
+	| Variable
+
+Variable: StringVariable
+	| NumericVariable
+	| ArrayVariable
+
+StringVariable: DECLARATION DOLLAR
+
+NumericVariable: IntegerVar
+	| SinglePrecVar
+	| DoublePrecVar
+
+ArrayVariable: DECLARATION LPAREN ConstIntegers RPAREN 
+
+IntegerVar: DECLARATION PERCENT
+SinglePrecVar: DECLARATION BANG
+DoublePrecVar: DECLARATION SHARP
+
+ConstIntegers: CONST_INTEGER COMMA ConstIntegers
+	| CONST_INTEGER
+
+Expression: Operator
+
+StringConstant:	CONST_STRING
+NumericConstant: CONST_INTEGER
+	| CONST_FLOAT
+
+Operator: ArithmeticOperator
+	| RelationalOperator
+	| LogicalOperator
+	| FunctionalOperator
+
+ArithmeticOperator: LPAREN ArithmeticOperator RPAREN 
+	| ArithmeticOperator Exponent ArithmeticOperator
+	| Negation ArithmeticOperator
+	| ArithmeticOperator Mul ArithmeticOperator
+	| ArithmeticOperator Divide ArithmeticOperator
+	| ArithmeticOperator Add ArithmeticOperator
+	| ArithmeticOperator Sub ArithmeticOperator
+	| NumericVariable
+	| NumericConstant 
+
+RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator
+	| ArithmeticOperator INEQUAL ArithmeticOperator
+	| ArithmeticOperator LT	ArithmeticOperator
+	| ArithmeticOperator GT ArithmeticOperator  
+	| ArithmeticOperator LTE ArithmeticOperator
+	| ArithmeticOperator GTE ArithmeticOperator   
+
+LogicalOperator: NOT RelationalOperator
+	| RelationalOperator AND RelationalOperator
+	| RelationalOperator OR RelationalOperator
+	| RelationalOperator XOR RelationalOperator
+	| RelationalOperator EQV RelationalOperator
+	| RelationalOperator IMP RelationalOperator
+
+FunctionalOperator: SIN LPAREN ArithmeticOperator RPAREN
+
+Negation: SUB;
+Exponent: CARET;
+Dash: SUB;
+Mul: STAR;
+Divide: BACKSLASH;
+Add: PLUS;
+Sub: SUB;
 LoadOption: DECLARATION;
 FilePath: CONST_STRING;
 PathName: CONST_STRING;
