@@ -65,6 +65,8 @@ AS			{ return AS; }
 %			{ return PERCENT; }
 !			{ return BANG;	}
 \$			{ return DOLLAR; }
+\(			{ return LPAREN; }
+\)			{ return RPAREN; }
 
 -			{ return SUB; }
 \+			{ return PLUS; }
