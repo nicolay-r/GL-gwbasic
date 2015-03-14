@@ -54,12 +54,12 @@ Command: Run
 	| TrOn					{ printf("TRON %s\n", ne); }
 	| TrOff					{ printf("TROFF %s\n", ne); }
 
-Statements: Statement COMMA Statements
-	| Statement
+Statements: Statement COMMA Statements		{ printf("-List Of Statements\n"); }
+	| Statement				{ printf("-Statement\n"); }
 
-Statement: Beep
-	| Call
-	
+Statement: Beep					{ printf("BEEP %s\n", ne); }
+	| Call					{ printf("CALL %s\n", ne); }
+	| Expression				{ printf("Expression\n"); }	
 Run:	RUN
 System:	SYSTEM
 Auto:	AUTO LineNumber COMMA Increment
@@ -127,6 +127,7 @@ Operator: ArithmeticOperator
 	| RelationalOperator
 	| LogicalOperator
 	| FunctionalOperator
+	| StringOperator
 
 ArithmeticOperator: LPAREN ArithmeticOperator RPAREN 
 	| ArithmeticOperator Exponent ArithmeticOperator
@@ -138,12 +139,21 @@ ArithmeticOperator: LPAREN ArithmeticOperator RPAREN
 	| NumericVariable
 	| NumericConstant 
 
+StringOperator:	StringOperator Add StringOperator
+	| StringVariable
+	| StringConstant
+
 RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator
 	| ArithmeticOperator INEQUAL ArithmeticOperator
 	| ArithmeticOperator LT	ArithmeticOperator
 	| ArithmeticOperator GT ArithmeticOperator  
 	| ArithmeticOperator LTE ArithmeticOperator
 	| ArithmeticOperator GTE ArithmeticOperator   
+	| StringOperator EQUAL StringOperator
+	| StringOperator INEQUAL StringOperator
+	| StringOperator LT StringOperator
+	| StringOperator LTE StringOperator
+	| StringOperator GTE StringOperator
 
 LogicalOperator: NOT RelationalOperator
 	| RelationalOperator AND RelationalOperator
