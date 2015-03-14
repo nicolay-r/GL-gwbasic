@@ -104,15 +104,14 @@ Variable: StringVariable
 
 StringVariable: DECLARATION DOLLAR
 
-NumericVariable: IntegerVar
-	| SinglePrecVar
-	| DoublePrecVar
+NumericVariable: IntegerVariable
+	| SinglePrecisionVariable
+	| DoublePrecisionVariable
 
 ArrayVariable: DECLARATION LPAREN ConstIntegers RPAREN 
-
-IntegerVar: DECLARATION PERCENT
-SinglePrecVar: DECLARATION BANG
-DoublePrecVar: DECLARATION SHARP
+IntegerVariable: DECLARATION PERCENT
+SinglePrecisionVariable: DECLARATION BANG
+DoublePrecisionVariable: DECLARATION SHARP
 
 ConstIntegers: CONST_INTEGER COMMA ConstIntegers
 	| CONST_INTEGER
