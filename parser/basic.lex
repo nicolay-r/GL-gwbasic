@@ -59,22 +59,21 @@ SIN			{ return SIN; }
 
 AS			{ return AS; }
 
-\.			{ return DOT; }
-,			{ return COMMA; }
-:			{ return COLON; }
-&			{ return AMPERSANT; }
-#			{ return SHARP; }
-%			{ return PERCENT; }
-!			{ return BANG;	}
-\$			{ return DOLLAR; }
-\(			{ return LPAREN; }
-\)			{ return RPAREN; }
-
--			{ return SUB; }
-\+			{ return PLUS; }
-\*			{ return STAR; }
-\/			{ return FRONTSLASH; }
-\^			{ return CARET; }
+\. |
+,  |	
+:  |
+&  |
+#  |
+%  |
+!  |
+\$ |
+\( |
+\) |
+-  |
+\+ |
+\* |
+\/ |
+\^ 			{ return yytext[0]; }
 
 {NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
 {NUMBER}+		{

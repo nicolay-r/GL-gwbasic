@@ -11,11 +11,9 @@
 %token AS
 
 %token DECLARATION
-/* Arithmetic operations */
-%token SUB PLUS STAR FRONTSLASH CARET
+
 %token GT LT GTE LTE EQUAL INEQUAL
 %token NOT AND OR XOR IMP EQV
-%token LPAREN RPAREN
 
 /* Math functions*/
 %token SIN
@@ -26,9 +24,9 @@
 %token CONST_INTEGER CONST_FLOAT CONST_STRING
 
 /* Arithmetic precedence */
-%left PLUS DASH
-%left STAR FRONTSLASH
-%left CARRET
+%left '+' '-'
+%left '*' '/'
+%left '^'
 %nonassoc UMINUS
 %%
 GWBasicInterpreter: DirectMode			{ printf("-direct mode\n"); return 0; }
@@ -99,7 +97,7 @@ TrOff:	TROFF
 
 
 Beep:	BEEP
-Call:	CALL LPAREN Variables RPAREN
+Call:	CALL '('  Variables ')'
 Dim:	DIM ArrayVariables
 
 
@@ -119,7 +117,7 @@ NumericVariable: IntegerVariable
 	| SinglePrecisionVariable
 	| DoublePrecisionVariable
 
-ArrayVariable: DECLARATION LPAREN ConstIntegers RPAREN 
+ArrayVariable: DECLARATION '(' ConstIntegers ')'
 IntegerVariable: DECLARATION PERCENT
 SinglePrecisionVariable: DECLARATION BANG
 DoublePrecisionVariable: DECLARATION SHARP
@@ -146,7 +144,7 @@ ArithmeticOperator: ArithmeticOperator Add ArithmeticOperator	{ printf("A + B\n"
 	| ArithmeticOperator Exponent ArithmeticTerm		{ printf("A ^ B\n"); }
 	| ArithmeticTerm
 
-ArithmeticTerm: LPAREN ArithmeticOperator RPAREN		{ printf("(Exp)\n"); } 
+ArithmeticTerm: '(' ArithmeticOperator ')'			{ printf("(Exp)\n"); } 
 	| Negation ArithmeticOperator %prec UMINUS		{ printf("Unary minus\n"); }	
 	| NumericVariable					{ printf("%s\n", $1.str); }
 	| NumericConstant 					{ printf("%d\n", $1.int_number); }
@@ -174,15 +172,15 @@ LogicalOperator: NOT RelationalOperator
 	| RelationalOperator EQV RelationalOperator
 	| RelationalOperator IMP RelationalOperator
 
-FunctionalOperator: SIN LPAREN ArithmeticOperator RPAREN
+FunctionalOperator: SIN '(' ArithmeticOperator ')'
 
-Negation: SUB;
-Exponent: CARET;
-Dash: SUB;
-Mul: STAR;
-Divide: FRONTSLASH;
-Add: PLUS;
-Sub: SUB;
+Negation: '-';
+Exponent: '^';
+Dash: '-';
+Mul: '*';
+Divide: '/';
+Add: '+';
+Sub: '-';
 LoadOption: DECLARATION;
 FilePath: CONST_STRING;
 PathName: CONST_STRING;
