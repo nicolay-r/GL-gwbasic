@@ -2,6 +2,7 @@
 
 %{
 	#include <stdio.h>
+	#include "basic.lex.h"
 	#include "basic.tab.h"
 %}
 
@@ -38,6 +39,7 @@ TROFF			{ return TROFF; }
 
 BEEP			{ return BEEP; }
 CALL			{ return CALL; }
+DIM			{ return DIM; }
 
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
@@ -71,11 +73,14 @@ AS			{ return AS; }
 -			{ return SUB; }
 \+			{ return PLUS; }
 \*			{ return STAR; }
-\\			{ return BACKSLASH; }
+\/			{ return FRONTSLASH; }
 \^			{ return CARET; }
 
 {NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
-{NUMBER}+		{ return CONST_INTEGER; }
+{NUMBER}+		{
+				yylval.int_number = atoi(yytext);	 
+				return CONST_INTEGER; 
+			}
 
 \"[^\"]+\"		{ return CONST_STRING; }
 	

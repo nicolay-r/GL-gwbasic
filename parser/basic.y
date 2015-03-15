@@ -1,18 +1,18 @@
 %{
 	#include <stdio.h>
-
+	#include "basic.lex.h"		// for YYTYPE structure
 	char* ne = "Not Implemented";
 %}
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL
+%token BEEP CALL DIM
 
 %token AS
 
 %token DECLARATION
 /* Arithmetic operations */
-%token SUB PLUS STAR BACKSLASH CARET
+%token SUB PLUS STAR FRONTSLASH CARET
 %token GT LT GTE LTE EQUAL INEQUAL
 %token NOT AND OR XOR IMP EQV
 %token LPAREN RPAREN
@@ -25,6 +25,11 @@
 /* constants */
 %token CONST_INTEGER CONST_FLOAT CONST_STRING
 
+/* Arithmetic precedence */
+%left PLUS DASH
+%left STAR FRONTSLASH
+%left CARRET
+%nonassoc UMINUS
 %%
 GWBasicInterpreter: DirectMode			{ printf("-direct mode\n"); return 0; }
 		| IndirectMode			{ printf("-indirect mode\n"); return 0; }
@@ -60,6 +65,8 @@ Statements: Statement COMMA Statements		{ printf("-List Of Statements\n"); }
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }
 	| Expression				{ printf("Expression\n"); }	
+	| Dim					{ printf("DIM %s\n", ne); }
+
 Run:	RUN
 System:	SYSTEM
 Auto:	AUTO LineNumber COMMA Increment
@@ -93,8 +100,12 @@ TrOff:	TROFF
 
 Beep:	BEEP
 Call:	CALL LPAREN Variables RPAREN
+Dim:	DIM ArrayVariables
 
 
+
+ArrayVariables: ArrayVariable COMMA ArrayVariables
+	| ArrayVariable
 Variables: Variable COMMA Variables
 	| Variable
 
@@ -128,15 +139,17 @@ Operator: ArithmeticOperator
 	| FunctionalOperator
 	| StringOperator
 
-ArithmeticOperator: LPAREN ArithmeticOperator RPAREN 
-	| ArithmeticOperator Exponent ArithmeticOperator
-	| Negation ArithmeticOperator
-	| ArithmeticOperator Mul ArithmeticOperator
-	| ArithmeticOperator Divide ArithmeticOperator
-	| ArithmeticOperator Add ArithmeticOperator
-	| ArithmeticOperator Sub ArithmeticOperator
-	| NumericVariable
-	| NumericConstant 
+ArithmeticOperator: ArithmeticOperator Add ArithmeticOperator	{ printf("A + B\n"); }
+	| ArithmeticOperator Sub ArithmeticOperator		{ printf("A - B\n"); }
+	| ArithmeticOperator Mul ArithmeticTerm			{ printf("A * B\n"); }
+	| ArithmeticOperator Divide ArithmeticTerm		{ printf("A / B\n"); }
+	| ArithmeticOperator Exponent ArithmeticTerm		{ printf("A ^ B\n"); }
+	| ArithmeticTerm
+
+ArithmeticTerm: LPAREN ArithmeticOperator RPAREN		{ printf("(Exp)\n"); } 
+	| Negation ArithmeticOperator %prec UMINUS		{ printf("Unary minus\n"); }	
+	| NumericVariable					{ printf("%s\n", $1.str); }
+	| NumericConstant 					{ printf("%d\n", $1.int_number); }
 
 StringOperator:	StringOperator Add StringOperator
 	| StringVariable
@@ -167,7 +180,7 @@ Negation: SUB;
 Exponent: CARET;
 Dash: SUB;
 Mul: STAR;
-Divide: BACKSLASH;
+Divide: FRONTSLASH;
 Add: PLUS;
 Sub: SUB;
 LoadOption: DECLARATION;
