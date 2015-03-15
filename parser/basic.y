@@ -6,7 +6,7 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE
 
 %token AS
 
@@ -17,8 +17,8 @@
 
 /* Math functions*/
 %token SIN
-/* functional symbols */
-%token COLON COMMA SHARP AMPERSANT PERCENT BANG DOLLAR DOT EOLN
+/* Specific Symbols */
+%token EOLN
 
 /* constants */
 %token CONST_INTEGER CONST_FLOAT CONST_STRING
@@ -57,20 +57,25 @@ Command: Run
 	| TrOn					{ printf("TRON %s\n", ne); }
 	| TrOff					{ printf("TROFF %s\n", ne); }
 
-Statements: Statement COMMA Statements		{ printf("-List Of Statements\n"); }
+Statements: Statement ':' Statements		{ printf("-List Of Statements\n"); }
 	| Statement				{ printf("-Statement\n"); }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
-	| Call					{ printf("CALL %s\n", ne); }
-	| Expression				{ printf("Expression\n"); }	
+	| Call					{ printf("CALL %s\n", ne); }	
 	| Dim					{ printf("DIM %s\n", ne); }
+	| Let					{ printf("LET %s\n", ne); }
+	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
+	| DefFn					{ printf("DEF FN %s\n", ne); }
+	| Circle				{ printf("CIRCLE %s\n", ne); }
+	| Screen				{ printf("SCREEN %s\n", ne); }
+	| Line					{ printf("LINE %s\n", ne); }
 
 Run:	RUN
 System:	SYSTEM
-Auto:	AUTO LineNumber COMMA Increment
-BLoad: 	BLOAD FileName COMMA Offset
+Auto:	AUTO LineNumber ',' Increment
+BLoad: 	BLOAD FileName ',' Offset
 	| BLOAD FileName
-BSave:	BSAVE FileName COMMA Offset COMMA Length
+BSave:	BSAVE FileName ',' Offset ',' Length
 Merge:	MERGE FileName
 ChDir:	CHDIR
 Clear:	CLEAR Expression			
@@ -78,51 +83,95 @@ Cont:	CONT
 Delete:	DELETE LineNumber Dash LineNumber	
 	| DELETE LineNumber Dash	
 Edit: 	EDIT LineNumber
-	| EDIT DOT
+	| EDIT '.'
 Files:	FILES FilePath
 	| FILES					
 Kill: 	KILL FileName
-List:	LineNumber Dash LineNumber COMMA FileName
-	| LineNumber Dash COMMA FileName
+List:	LineNumber Dash LineNumber ',' FileName
+	| LineNumber Dash ',' FileName
 	| LineNumber Dash LineNumber
 	| LineNumber Dash			
 LList:	LLIST LineNumber Dash LineNumber
 	| LLIST LineNumber Dash
-Load:	LOAD FileName COMMA LoadOption
+Load:	LOAD FileName ',' LoadOption
 	| LOAD FileName
-MkDir: MKDIR PathName
-Name: NAME OldFileName AS NewFileName
+MkDir: 	MKDIR PathName
+Name:	NAME OldFileName AS NewFileName
 TrOn:	TRON
 TrOff:	TROFF
-
 
 Beep:	BEEP
 Call:	CALL '('  Variables ')'
 Dim:	DIM ArrayVariables
+OptionBase: OPTION BASE NumericConstant
+Let: 	LET Variable EQUAL Expression
+	| Variable EQUAL Expression
+DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
+	| DEF FN VariableName EQUAL Expression
+Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 
+CircleOptions: 
+	| ',' CircleColor
+	| ',' CircleColor ',' CircleStart
+	| ',' ',' CircleStart
+	| ',' CircleColor ',' CircleStart ',' CircleEnd
+	| ',' ',' CircleStart ',' CircleEnd
+	| ',' ',' ',' CircleEnd 
+	| ',' CircleColor ',' CircleStart ',' CircleEnd ',' CircleAspect
+	| ',' ',' CircleStart ',' CircleEnd ',' CircleAspect
+	| ',' ',' ',' CircleEnd ',' CircleAspect
+	| ',' ',' ',' ',' CircleAspect
+CircleRadius: VariableName
+	| NumericConstant
+CircleColor: VariableName
+	| NumericConstant
+CircleStart: VariableName
+	| NumericConstant
+CircleEnd: VariableName
+	| NumericConstant
+CircleAspect: VariableName
+	| NumericConstant
+
+Screen: SCREEN ScreenMode
+ScreenMode: CONST_INTEGER
+
+Line: LINE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' LineOptions
+	| LINE '-' '(' ScreenCoord ',' ScreenCoord ')' LineOptions
+LineOptions: 
+	| ',' LineColor
+	| ',' LineColor ',' FillingFormat 
+	| ',' ',' FillingFormat
+FillingFormat: DECLARATION 
+LineColor: Expression
 
 
 
-ArrayVariables: ArrayVariable COMMA ArrayVariables
+ScreenCoord: VariableName
+	| NumericConstant
+
+
+FunctionArguments: VariableName ',' FunctionArguments
+	| VariableName
+
+ArrayVariables: ArrayVariable ',' ArrayVariables
 	| ArrayVariable
-Variables: Variable COMMA Variables
+
+Variables: Variable ',' Variables
 	| Variable
 
 Variable: StringVariable
 	| NumericVariable
 	| ArrayVariable
 
-StringVariable: DECLARATION DOLLAR
-
+StringVariable: VariableName '$'
 NumericVariable: IntegerVariable
 	| SinglePrecisionVariable
 	| DoublePrecisionVariable
-
 ArrayVariable: DECLARATION '(' ConstIntegers ')'
-IntegerVariable: DECLARATION PERCENT
-SinglePrecisionVariable: DECLARATION BANG
-DoublePrecisionVariable: DECLARATION SHARP
+IntegerVariable: DECLARATION '%'
+SinglePrecisionVariable: DECLARATION '!'
+DoublePrecisionVariable: DECLARATION '#'
 
-ConstIntegers: CONST_INTEGER COMMA ConstIntegers
+ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
 
 Expression: Operator
@@ -174,6 +223,7 @@ LogicalOperator: NOT RelationalOperator
 
 FunctionalOperator: SIN '(' ArithmeticOperator ')'
 
+
 Negation: '-';
 Exponent: '^';
 Dash: '-';
@@ -181,6 +231,7 @@ Mul: '*';
 Divide: '/';
 Add: '+';
 Sub: '-';
+VariableName: DECLARATION;
 LoadOption: DECLARATION;
 FilePath: CONST_STRING;
 PathName: CONST_STRING;

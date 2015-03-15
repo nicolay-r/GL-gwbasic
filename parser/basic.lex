@@ -40,6 +40,14 @@ TROFF			{ return TROFF; }
 BEEP			{ return BEEP; }
 CALL			{ return CALL; }
 DIM			{ return DIM; }
+LET			{ return LET; }
+OPTION			{ return OPTION; }
+BASE			{ return BASE; }
+DEF			{ return DEF; }
+FN			{ return FN; }
+CIRCLE			{ return CIRCLE; }
+LINE			{ return LINE; }
+SCREEN			{ return SCREEN; }
 
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
