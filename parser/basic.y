@@ -1,6 +1,8 @@
 %{
 	#include <stdio.h>
 	#include "basic.lex.h"		// for YYTYPE structure
+	#include "ast/interpreter.h"	// GWBasic Interpreter AST Node
+	
 	char* ne = "Not Implemented";
 %}
 /* command keywords*/
