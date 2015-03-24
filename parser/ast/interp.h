@@ -7,13 +7,12 @@
 	используются для установления типа вершины ast-де
 	рева
 */
-#include "types.h"
+#include "stdlib.h"
 
-#include "cmds/commands.h"
-#include "stmts/statements.h"
+#include "types.h"			/* Defined AST node types */
+#include "cmds/commands.h" 		/* Command typedef */
+#include "stmts/statements.h"		/* Statement typedef */
 
-// их нужно объявить в других файлах, в частности 
-// каталоге Stmts и Cmds соответственно.
 typedef struct Statements {
 	Statement* statement;
 	struct Statements* next;
@@ -32,16 +31,19 @@ typedef struct {
 	Statements* statements;
 } IndirectMode;
 
-typedef struct {	
+typedef union {
 	int type;
 	union {
 		DirectMode* direct;
 		IndirectMode* indirect;
 	};
-} Mode;
-
-typedef union {
-	Mode* mode;
 } GWBasicInterpreter;
+
+/* 
+	GWBasicInterpreter Ctor 
+	будет перенесено в отдельный файл, а также будут
+	передваваться дополнительные  параметры инициализации
+*/
+GWBasicInterpreter* AstNode_GWBasicInterpreter(int type);
 
 #endif 

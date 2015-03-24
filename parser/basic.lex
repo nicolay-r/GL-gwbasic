@@ -2,7 +2,6 @@
 
 %{
 	#include <stdio.h>
-	#include "basic.lex.h"
 	#include "basic.tab.h"
 %}
 

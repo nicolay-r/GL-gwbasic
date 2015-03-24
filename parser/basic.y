@@ -1,8 +1,5 @@
 %{
 	#include <stdio.h>
-	#include "basic.lex.h"		// for YYTYPE structure
-	#include "ast/interpreter.h"	// GWBasic Interpreter AST Node
-	
 	char* ne = "Not Implemented";
 %}
 /* command keywords*/
@@ -30,8 +27,35 @@
 %left '*' '/'
 %left '^'
 %nonassoc UMINUS
+
+/* Type declaration */
+%code requires {
+	#include "ast/interp.h"	
+}
+
+%union SyntaxTypes {
+	GWBasicInterpreter* interpreter;
+
+	/* integer constant */
+	int int_number;
+	
+	/* fractional constants */
+	float float_number;
+	double double_number;
+	
+	/* keywords, commands, constant string, etc.*/ 
+	char *str;
+}
+
+%type <interpreter> GWBasicInterpreter
+
 %%
-GWBasicInterpreter: DirectMode			{ printf("-direct mode\n"); return 0; }
+GWBasicInterpreter: DirectMode			{ 	
+							printf("-direct mode\n"); 
+							// конструктор будет принимать больше аргументов
+							$$ = AstNode_GWBasicInterpreter(1);
+							return 0;							
+						}
 		| IndirectMode			{ printf("-indirect mode\n"); return 0; }
 		;
 IndirectMode: LineNumber Statements
@@ -197,8 +221,8 @@ ArithmeticOperator: ArithmeticOperator Add ArithmeticOperator	{ printf("A + B\n"
 
 ArithmeticTerm: '(' ArithmeticOperator ')'			{ printf("(Exp)\n"); } 
 	| Negation ArithmeticOperator %prec UMINUS		{ printf("Unary minus\n"); }	
-	| NumericVariable					{ printf("%s\n", $1.str); }
-	| NumericConstant 					{ printf("%d\n", $1.int_number); }
+	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
+	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
 StringOperator:	StringOperator Add StringOperator
 	| StringVariable
