@@ -19,11 +19,11 @@ typedef struct Statements {
 } Statements;
 
 typedef struct {
-	int operationType;
-	union {
+	int opType;
+	union DirectModeOperation {
 		Command* command;
 		Statements* statements;
-	};
+	} op;
 } DirectMode;
 
 typedef struct {
@@ -33,10 +33,10 @@ typedef struct {
 
 typedef union {
 	int type;
-	union {
+	union GWBasicInterpreterMode {
 		DirectMode* direct;
 		IndirectMode* indirect;
-	};
+	} mode;
 } GWBasicInterpreter;
 
 /* 

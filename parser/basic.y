@@ -53,13 +53,19 @@
 GWBasicInterpreter: DirectMode			{ 	
 							printf("-direct mode\n"); 
 							// конструктор будет принимать больше аргументов
-							$$ = AstNode_GWBasicInterpreter(1);
+							$$ = AstNode_GWBasicInterpreter(GWB_DIRECT_MODE_TYPE);
 							return 0;							
 						}
-		| IndirectMode			{ printf("-indirect mode\n"); return 0; }
+		| IndirectMode			{
+							printf("-indirect mode\n"); 
+							$$ = AstNode_GWBasicInterpreter(GWB_INDIRECT_MODE_TYPE);
+							return 0; 
+						}
 		;
 IndirectMode: LineNumber Statements
-DirectMode: Command EOLN			{ printf("-command\n"); }
+DirectMode: Command EOLN			{ 	
+							printf("-command\n");
+						}
 	| Statements EOLN
 	;
 Command: Run
