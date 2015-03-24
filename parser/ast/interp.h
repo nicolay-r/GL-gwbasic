@@ -44,6 +44,8 @@ typedef union {
 	будет перенесено в отдельный файл, а также будут
 	передваваться дополнительные  параметры инициализации
 */
-GWBasicInterpreter* AstNode_GWBasicInterpreter(int type);
+GWBasicInterpreter* AstNode_GWBasicInterpreter(int type, union GWBasicInterpreterMode mode);
+IndirectMode* AstNode_IndirectMode(int lineNumber, Statements* statements);
+DirectMode* AstNode_DirectMode(int opType, union DirectModeOperation operation);
 
 #endif 

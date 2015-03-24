@@ -34,40 +34,48 @@
 }
 
 %union SyntaxTypes {
-	GWBasicInterpreter* interpreter;
-
+	GWBasicInterpreter* 		interpreter;
+	DirectMode*			directMode;
+	IndirectMode* 			indirectMode;
 	/* integer constant */
-	int int_number;
+	int 				int_number;
 	
 	/* fractional constants */
-	float float_number;
-	double double_number;
+	float 				float_number;
+	double 				double_number;
 	
 	/* keywords, commands, constant string, etc.*/ 
 	char *str;
 }
 
 %type <interpreter> GWBasicInterpreter
+%type <directMode> DirectMode
+%type <indirectMode> IndirectMode
+%type <int_number> LineNumber CONST_INTEGER
 
 %%
-GWBasicInterpreter: DirectMode			{ 	
-							printf("-direct mode\n"); 
-							// конструктор будет принимать больше аргументов
-							$$ = AstNode_GWBasicInterpreter(GWB_DIRECT_MODE_TYPE);
+
+GWBasicInterpreter: DirectMode			{ 	 
+							union GWBasicInterpreterMode mode; mode.direct = $1;
+							$$ = AstNode_GWBasicInterpreter(GWB_DIRECT_MODE_TYPE, mode);
 							return 0;							
 						}
-		| IndirectMode			{
-							printf("-indirect mode\n"); 
-							$$ = AstNode_GWBasicInterpreter(GWB_INDIRECT_MODE_TYPE);
+		| IndirectMode			{	
+							union GWBasicInterpreterMode mode; mode.indirect = $1;
+							$$ = AstNode_GWBasicInterpreter(GWB_INDIRECT_MODE_TYPE, mode);
 							return 0; 
 						}
-		;
-IndirectMode: LineNumber Statements
-DirectMode: Command EOLN			{ 	
-							printf("-command\n");
+IndirectMode: LineNumber Statements		{	
+							$$ = AstNode_IndirectMode($1, NULL);	
 						}
-	| Statements EOLN
-	;
+DirectMode: Command EOLN			{ 	
+							union DirectModeOperation op; op.command = NULL;	
+							$$ = AstNode_DirectMode(GWB_COMMAND_TYPE, op);
+						}
+	| Statements EOLN			{	
+							union DirectModeOperation op; op.statements = NULL;
+							$$ = AstNode_DirectMode(GWB_STATEMENT_TYPE, op);
+						}
 Command: Run
 	| System				{ printf("SYSTEM %s\n", ne); }
 	| Auto					{ printf("AUTO  %s\n", ne); }
@@ -89,7 +97,7 @@ Command: Run
 	| TrOn					{ printf("TRON %s\n", ne); }
 	| TrOff					{ printf("TROFF %s\n", ne); }
 
-Statements: Statement ':' Statements		{ printf("-List Of Statements\n"); }
+Statements: Statement ':' Statements		{ }
 	| Statement				{ printf("-Statement\n"); }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
