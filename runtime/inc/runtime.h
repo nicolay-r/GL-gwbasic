@@ -1,0 +1,1 @@
+/* GWBasic Runtime header */

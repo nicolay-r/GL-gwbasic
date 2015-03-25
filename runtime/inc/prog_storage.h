@@ -1,0 +1,1 @@
+/* GWBasic header for program storage structures */
