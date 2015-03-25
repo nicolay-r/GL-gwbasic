@@ -33,10 +33,10 @@
 	#include "ast/interp.h"	
 }
 
-%parse-param {GWBasicInterpreter* interpreter}
+%parse-param {Interpreter* interpreter}
 
 %union {
-	GWBasicInterpreter* 		interpreter;
+	Interpreter* 			interpreter;
 	DirectMode*			directMode;
 	IndirectMode* 			indirectMode;
 	/* integer constant */
@@ -50,21 +50,21 @@
 	char *str;
 }
 
-%type <interpreter> GWBasicInterpreter
+%type <interpreter> Interpreter
 %type <directMode> DirectMode
 %type <indirectMode> IndirectMode
 %type <int_number> LineNumber CONST_INTEGER
 
 %%
 
-GWBasicInterpreter: DirectMode			{ 	 
-							union GWBasicInterpreterMode mode; mode.direct = $1;
-							$$ = AstNode_GWBasicInterpreter(GWB_DIRECT_MODE_TYPE, mode);
+Interpreter: DirectMode				{
+							union InterpreterMode mode; mode.direct = $1;
+							$$ = AstNode_Interpreter(GWB_DIRECT_MODE_TYPE, mode);
 							return 0;							
 						}
-		| IndirectMode			{	
-							union GWBasicInterpreterMode mode; mode.indirect = $1;
-							$$ = AstNode_GWBasicInterpreter(GWB_INDIRECT_MODE_TYPE, mode);
+	| IndirectMode				{
+							union InterpreterMode mode; mode.indirect = $1;
+							$$ = AstNode_Interpreter(GWB_INDIRECT_MODE_TYPE, mode);
 							return 0; 
 						}
 IndirectMode: LineNumber Statements		{	
@@ -290,7 +290,7 @@ int main(int argc, char **argv)
 {
 	while (1)
 	{
-		GWBasicInterpreter* interpreter = (GWBasicInterpreter*) malloc(sizeof(GWBasicInterpreter*));
+		Interpreter* interpreter = (Interpreter*) malloc(sizeof(Interpreter*));
 		yyparse(interpreter);
 	}
 }

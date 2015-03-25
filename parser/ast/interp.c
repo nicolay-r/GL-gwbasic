@@ -4,9 +4,9 @@
 
 #include "interp.h"
 
-GWBasicInterpreter* AstNode_GWBasicInterpreter(int type, union GWBasicInterpreterMode mode)
+Interpreter* AstNode_Interpreter(int type, union InterpreterMode mode)
 {
-	GWBasicInterpreter* result = (GWBasicInterpreter*) malloc(sizeof(GWBasicInterpreter));
+	Interpreter* result = (Interpreter*) malloc(sizeof(Interpreter));
 	result->type = type;
 	result->mode = mode;
 	return result;

@@ -31,20 +31,20 @@ typedef struct {
 	Statements* statements;
 } IndirectMode;
 
-typedef union {
+typedef struct {
 	int type;
-	union GWBasicInterpreterMode {
+	union InterpreterMode {
 		DirectMode* direct;
 		IndirectMode* indirect;
 	} mode;
-} GWBasicInterpreter;
+} Interpreter;
 
 /* 
 	GWBasicInterpreter Ctor 
 	будет перенесено в отдельный файл, а также будут
 	передваваться дополнительные  параметры инициализации
 */
-GWBasicInterpreter* AstNode_GWBasicInterpreter(int type, union GWBasicInterpreterMode mode);
+Interpreter* AstNode_Interpreter(int type, union InterpreterMode mode);
 IndirectMode* AstNode_IndirectMode(int lineNumber, Statements* statements);
 DirectMode* AstNode_DirectMode(int opType, union DirectModeOperation operation);
 
