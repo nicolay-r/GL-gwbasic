@@ -3,10 +3,11 @@
 */
 
 #include "interp.h"
+#include <stdio.h> 	/* printf */
 
 Interpreter* AstNode_Interpreter(int type, union InterpreterMode mode)
 {
-	Interpreter* result = (Interpreter*) malloc(sizeof(Interpreter));
+	Interpreter* result = (Interpreter*) malloc (sizeof(Interpreter));
 	result->type = type;
 	result->mode = mode;
 	return result;

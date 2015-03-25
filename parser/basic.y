@@ -1,5 +1,7 @@
 %{
 	#include <stdio.h>
+	#include "ast/interp.h"	
+
 	char* ne = "Not Implemented";
 %}
 /* command keywords*/
@@ -33,7 +35,7 @@
 	#include "ast/interp.h"	
 }
 
-%parse-param {Interpreter* interpreter}
+%parse-param {Interpreter** interpreter}
 
 %union {
 	Interpreter* 			interpreter;
@@ -60,11 +62,13 @@
 Interpreter: DirectMode				{
 							union InterpreterMode mode; mode.direct = $1;
 							$$ = AstNode_Interpreter(GWB_DIRECT_MODE_TYPE, mode);
+							*interpreter = $$;
 							return 0;							
 						}
 	| IndirectMode				{
 							union InterpreterMode mode; mode.indirect = $1;
 							$$ = AstNode_Interpreter(GWB_INDIRECT_MODE_TYPE, mode);
+							*interpreter = $$;
 							return 0; 
 						}
 IndirectMode: LineNumber Statements		{	
@@ -286,15 +290,9 @@ Offset: CONST_INTEGER;
 Length: CONST_INTEGER;
 %%
 
-int main(int argc, char **argv)
-{
-	while (1)
-	{
-		Interpreter* interpreter = (Interpreter*) malloc(sizeof(Interpreter*));
-		yyparse(interpreter);
-	}
-}
-
+/*
+	GWBasic syntax Analyzer
+*/
 yyerror(char *s)
 {
 	fprintf(stderr, "error %s\n", s);
