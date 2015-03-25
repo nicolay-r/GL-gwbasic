@@ -33,7 +33,9 @@
 	#include "ast/interp.h"	
 }
 
-%union SyntaxTypes {
+%parse-param {GWBasicInterpreter* interpreter}
+
+%union {
 	GWBasicInterpreter* 		interpreter;
 	DirectMode*			directMode;
 	IndirectMode* 			indirectMode;
@@ -288,7 +290,8 @@ int main(int argc, char **argv)
 {
 	while (1)
 	{
-		yyparse();	
+		GWBasicInterpreter* interpreter = (GWBasicInterpreter*) malloc(sizeof(GWBasicInterpreter*));
+		yyparse(interpreter);
 	}
 }
 
