@@ -5,7 +5,7 @@
 #include "interp.h"			
 #include "../../parser/ast/types.h"
 
-void gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp)
+GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp)
 {
 	/*
 		Interpreter Handler for Interpreter AST node

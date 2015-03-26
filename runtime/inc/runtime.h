@@ -3,6 +3,18 @@
 
 #define _GWBR_RUNTIME_H_
 
+#include "../../parser/ast/interp.h"
+
+/*
+	Result Of Interpretation
+*/
+typedef struct GWBR_Result {
+	int res_type;
+	union {
+		char* msg;	/* same as gwbr_results */
+	};
+} GWBR_Result;
+
 /*
 	Calls yyparse and returns "Interpreter*" -- root
 	node of the AST.
