@@ -4,5 +4,5 @@
 	Error Descriptions
 */
 char **gwbr_errors= {
-	"division by zero"
-};
+	"Ok"
+;
