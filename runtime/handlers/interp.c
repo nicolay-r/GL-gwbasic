@@ -1,0 +1,16 @@
+/* GWBasic Handler for Interpreter Mode Node in AST */
+
+#include <stdio.h>
+
+#include "interp.h"			
+#include "../../parser/ast/types.h"
+
+void gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp)
+{
+	/*
+		Interpreter Handler for Interpreter AST node
+	*/
+	printf("In gwbh_Interprer Handler\n");
+
+	return;
+} 

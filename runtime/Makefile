@@ -1,5 +1,10 @@
+
+AST_FOLDER=../parser/ast/
+PARSER_FOLDER=../parser/
+PARSER_SRCS= $(PARSER_FOLDER)basic.tab.c $(PARSER_FOLDER)lex.yy.c $(AST_FOLDER)interp.c
+RUNTIME_SRCS= runtime.c env.c handlers/*.c
 all:
-	# Build GWBasic lexical and syntax parser
-	make -C ../parser
+	# Build GWBasic lexical and syntax parsers
+	make -C $(PARSER_FOLDER)
 	# Build GWBasic Runtime Module
-	gcc runtime.c ../parser/basic.tab.c ../parser/lex.yy.c ../parser/ast/interp.c -lfl -o runtime
+	gcc main.c $(RUNTIME_SRCS) $(AST_SRCS) $(PARSER_SRCS) -lfl -o run

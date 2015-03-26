@@ -6,7 +6,7 @@
 /*
 	Parse and Build AST for GWBasic Command/Statement/Function
 */
-Interpreter* GWBSyntax_Interpretate()
+Interpreter* gwbr_Parse()
 {
 	Interpreter** interpreter = (Interpreter**) malloc (sizeof(Interpreter*));
 
@@ -17,10 +17,3 @@ Interpreter* GWBSyntax_Interpretate()
 	return result;
 }
 
-int main(int argc, char** argv)
-{
-	Interpreter* interpreter; 
-	interpreter = GWBSyntax_Interpretate();
-	printf("%d\n", interpreter->type);
-	return 0;
-}

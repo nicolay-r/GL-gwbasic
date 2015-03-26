@@ -236,11 +236,11 @@ ArithmeticOperator: ArithmeticOperator Add ArithmeticOperator	{ printf("A + B\n"
 	| ArithmeticOperator Sub ArithmeticOperator		{ printf("A - B\n"); }
 	| ArithmeticOperator Mul ArithmeticTerm			{ printf("A * B\n"); }
 	| ArithmeticOperator Divide ArithmeticTerm		{ printf("A / B\n"); }
-	| ArithmeticOperator Exponent ArithmeticTerm		{ printf("A ^ B\n"); }
 	| ArithmeticTerm
 
 ArithmeticTerm: '(' ArithmeticOperator ')'			{ printf("(Exp)\n"); } 
-	| Negation ArithmeticOperator %prec UMINUS		{ printf("Unary minus\n"); }	
+	| Negation ArithmeticTerm %prec UMINUS			{ printf("Unary minus\n"); }	
+	| ArithmeticTerm Exponent ArithmeticTerm		{ printf("A ^ B\n"); }
 	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
 	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
