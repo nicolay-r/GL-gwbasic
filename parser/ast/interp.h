@@ -44,8 +44,8 @@ typedef struct {
 	будет перенесено в отдельный файл, а также будут
 	передваваться дополнительные  параметры инициализации
 */
-Interpreter* AstNode_Interpreter(int type, union InterpreterMode mode);
-IndirectMode* AstNode_IndirectMode(int lineNumber, Statements* statements);
-DirectMode* AstNode_DirectMode(int opType, union DirectModeOperation operation);
+Interpreter* gwbn_Interpreter(int type, union InterpreterMode mode);
+IndirectMode* gwbn_IndirectMode(int lineNumber, Statements* statements);
+DirectMode* gwbn_DirectMode(int opType, union DirectModeOperation operation);
 
 #endif 

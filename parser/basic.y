@@ -61,26 +61,26 @@
 
 Interpreter: DirectMode				{
 							union InterpreterMode mode; mode.direct = $1;
-							$$ = AstNode_Interpreter(GWB_DIRECT_MODE_TYPE, mode);
+							$$ = gwbn_Interpreter(GWBNT_DIRECT_MODE, mode);
 							*interpreter = $$;
 							return 0;							
 						}
 	| IndirectMode				{
 							union InterpreterMode mode; mode.indirect = $1;
-							$$ = AstNode_Interpreter(GWB_INDIRECT_MODE_TYPE, mode);
+							$$ = gwbn_Interpreter(GWBNT_INDIRECT_MODE, mode);
 							*interpreter = $$;
 							return 0; 
 						}
 IndirectMode: LineNumber Statements		{	
-							$$ = AstNode_IndirectMode($1, NULL);	
+							$$ = gwbn_IndirectMode($1, NULL);	
 						}
 DirectMode: Command EOLN			{ 	
 							union DirectModeOperation op; op.command = NULL;	
-							$$ = AstNode_DirectMode(GWB_COMMAND_TYPE, op);
+							$$ = gwbn_DirectMode(GWBNT_COMMAND, op);
 						}
 	| Statements EOLN			{	
 							union DirectModeOperation op; op.statements = NULL;
-							$$ = AstNode_DirectMode(GWB_STATEMENT_TYPE, op);
+							$$ = gwbn_DirectMode(GWBNT_STATEMENT, op);
 						}
 Command: Run
 	| System				{ printf("SYSTEM %s\n", ne); }
