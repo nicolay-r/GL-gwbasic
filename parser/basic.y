@@ -3,6 +3,14 @@
 	#include "ast/interp.h"	
 
 	char* ne = "Not Implemented";
+
+	/*
+		Connection with the yylex structures:
+		yy_scan_string, and yy_delete_buffer
+	*/	
+	typedef struct yy_buffer_state * YY_BUFFER_STATE;
+	extern YY_BUFFER_STATE yy_scan_string(char *str);
+	extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 %}
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
@@ -296,4 +304,20 @@ Length: CONST_INTEGER;
 yyerror(char *s)
 {
 	fprintf(stderr, "error %s\n", s);
-} 
+}
+
+/*
+	GWBasic program parser from char* buffer
+*/
+Interpreter* gwbp_Parse(char* sourceCode)
+{
+	Interpreter** interpreter = (Interpreter**) malloc (sizeof(Interpreter*));
+
+	YY_BUFFER_STATE buffer = yy_scan_string(sourceCode);
+	yyparse(interpreter);
+	yy_delete_buffer(buffer);
+	
+	Interpreter* result = *interpreter;
+	free(interpreter);
+	return result; 
+}	
