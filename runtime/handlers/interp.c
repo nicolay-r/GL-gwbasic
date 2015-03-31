@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 #include "interp.h"			
-#include "../../parser/ast/types.h"
 
 GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp)
 {
