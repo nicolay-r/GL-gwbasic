@@ -49,6 +49,9 @@
 	Interpreter* 			interpreter;
 	DirectMode*			directMode;
 	IndirectMode* 			indirectMode;
+	Command*			command;
+	
+	Auto*				_auto;
 	/* integer constant */
 	int 				int_number;
 	
@@ -63,7 +66,10 @@
 %type <interpreter> Interpreter
 %type <directMode> DirectMode
 %type <indirectMode> IndirectMode
-%type <int_number> LineNumber CONST_INTEGER
+%type <command> Command
+%type <_auto> Auto
+
+%type <int_number> LineNumber Increment CONST_INTEGER
 
 %%
 
@@ -92,7 +98,10 @@ DirectMode: Command EOLN			{
 						}
 Command: Run
 	| System				{ printf("SYSTEM %s\n", ne); }
-	| Auto					{ printf("AUTO  %s\n", ne); }
+	| Auto					{ 
+							union Commands cmds; cmds._auto = $1;
+							$$ = gwbn_Command(GWBNT_AUTO, cmds); 
+						}
 	| BLoad					{ printf("BLOAD %s\n", ne); }
 	| BSave					{ printf("BSAVE %s\n", ne); }
 	| Merge					{ printf("MERGE %s\n", ne); }
@@ -126,7 +135,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 
 Run:	RUN
 System:	SYSTEM
-Auto:	AUTO LineNumber ',' Increment
+Auto:	AUTO LineNumber ',' Increment		{ $$ = gwbn_Auto($2, $4); }
 BLoad: 	BLOAD FileName ',' Offset
 	| BLOAD FileName
 BSave:	BSAVE FileName ',' Offset ',' Length

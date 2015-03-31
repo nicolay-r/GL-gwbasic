@@ -10,7 +10,7 @@
 #include "stdlib.h"
 
 #include "types.h"			/* Defined AST node types */
-#include "cmds/commands.h" 		/* Command typedef */
+#include "cmds/inc/commands.h" 		/* Command typedef */
 #include "stmts/statements.h"		/* Statement typedef */
 
 typedef struct Statements {
