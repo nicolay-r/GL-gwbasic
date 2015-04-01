@@ -13,14 +13,14 @@ typedef struct {
 	int type;
 	char* name;
 	union VariableValue {
-		int _int;
-		float _float;
-		double _double;
+		int int_val;
+		float float_val;
+		double double_val;
 	} value;
 } GWBE_Variable;
 
-void gwbe_NewVariable();
-void gwbe_DeleteVariable();
+GWBE_Variable* gwbe_NewVariable();
+void gwbe_DeleteVariable(GWBE_Variable* var);
 
 typedef struct {
 	GWBE_Variable *value, *next;
