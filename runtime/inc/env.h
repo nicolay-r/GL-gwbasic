@@ -27,15 +27,15 @@ typedef struct {
 } GWBE_VariableList;
 
 // можно вместо void возвращать GWBR_Result;
-void gwbe_VariableList_Add(GWBE_Variable* new_var);
-void gwbe_VariableList_Remove(char* name);
+void gwbe_VariableList_Add(GWBE_VariableList** list, GWBE_Variable* new_var);
+void gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
 
 /*
 	Program
 */
 typedef struct {
 	int number;
-	char* source;
+	char* source;			// заменить на GWBCT_Char
 	Interpreter* parsed;
 } GWBE_ProgramLine;
 
@@ -46,14 +46,35 @@ typedef struct {
 	GWBE_ProgramLine *value, *next; 
 } GWBE_ProgramLineList;
 
-// можно вместо void возвращать GWBR_Result;
-void gwbe_ProgramLineList_Add(GWBE_ProgramLine* new_line);
-void gwbe_ProgramLineList_Remove(int number);
+void gwbe_ProgramLineList_Add(GWBE_ProgramLineList** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
+void gwbe_ProgramLineList_Remove(GWBE_ProgramLineList** list, int number);
 
 typedef struct {
 	GWBE_VariableList* global_vars;
 	GWBE_ProgramLineList* lines;	
 } GWBE_Program;
+
+
+/*
+	Functions
+*/
+typedef int Expression;
+
+typedef struct {
+	char* name;
+	GWBE_VariableList* vars;
+	Expression* body;		/* function body */
+} GWBE_Function;
+
+GWBE_Function* GWBE_NewFunction(char* name, GWBE_VariableList* vars, Expression* body);
+void GWBE_DeleteFunction(GWBE_Function* func);
+
+typedef struct {
+	GWBE_Function *value, *next;
+} GWBE_FunctionList;
+
+void gwbe_FunctionList_Add(GWBE_FunctionList** list, GWBE_Function* func);
+void gwbe_FunctionList_Remove(GWBE_FunctionList** list, char* name);
 
 /*
 	Environment
@@ -61,6 +82,7 @@ typedef struct {
 typedef struct {
 	GWBE_VariableList* vars;
 	GWBE_Program* program;		
+	GWBE_FunctionList* udef_funcs;
 } GWBE_Environment;
 
 /* Malloc environment structure */
