@@ -1,6 +1,5 @@
 %{
 	#include <stdio.h>
-	#include "ast/interp.h"	
 
 	char* ne = "Not Implemented";
 
@@ -47,6 +46,7 @@
 /* Type declaration */
 %code requires {
 	#include "ast/interp.h"	
+	#include "ast/expr.h"
 }
 
 %parse-param {Interpreter** interpreter}
@@ -58,6 +58,13 @@
 	Command*			command;
 	
 	Auto*				_auto;
+
+	/* expressions */	
+	GWBN_Expression*		expr;
+	//GWBN_NumericExpression*		num_expr;
+	//GWBN_StringOperator*		str_op;
+
+
 	/* integer constant */
 	int 				int_number;
 	
@@ -75,6 +82,11 @@
 %type <command> Command
 %type <_auto> Auto
 
+%type <expr> Expression
+/*
+%type <num_expr> NumericExpression
+%type <str_op> StringOperator
+*/
 %type <int_number> LineNumber Increment CONST_INTEGER
 
 %%
@@ -243,29 +255,35 @@ DoublePrecisionVariable: DECLARATION '#'
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
 
-Expression: MathExpression					{ printf("-Math Expression\n"); }
-	| StringOperator					{ printf("-String Operator\n"); }
+Expression: NumericExpression					{ 
+									printf("-Numeric Expression\n"); 
+									$$ = gwbn_NewExpression();
+								}
+	| StringOperator					{ 
+									printf("-String Operator\n"); 
+									$$ = gwbn_NewExpression();
+								}
 
-ArithmeticOperator: MathExpression '+' MathExpression		{ printf("A + B\n"); }
-	| MathExpression '-' MathExpression			{ printf("A - B\n"); }
-	| MathExpression '*' MathTerm				{ printf("A * B\n"); }
-	| MathExpression '/' MathTerm				{ printf("A / B\n"); }
-	| MathTerm
-
-MathExpression : ArithmeticOperator
+NumericExpression : ArithmeticOperator
 	| RelationalOperator
 	| LogicalOperator
 	| FunctionalOperator
 
-MathTerm: '(' MathExpression ')'					{ printf("(Exp)\n"); } 
-	| '-' MathTerm %prec UMINUS				{ printf("Unary minus\n"); }	
-	| MathTerm '^' MathTerm					{ printf("A ^ B\n"); }
+ArithmeticOperator: NumericExpression '+' NumericExpression	{ printf("A + B\n"); }
+	| NumericExpression '-' NumericExpression		{ printf("A - B\n"); }
+	| NumericExpression '*' NumericTerm			{ printf("A * B\n"); }
+	| NumericExpression '/' NumericTerm			{ printf("A / B\n"); }
+	| NumericTerm
+
+NumericTerm: '(' NumericExpression ')'				{ printf("(Exp)\n"); } 
+	| '-' NumericTerm %prec UMINUS				{ printf("Unary minus\n"); }	
+	| NumericTerm '^' NumericTerm				{ printf("A ^ B\n"); }
 	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
 	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
-StringOperator:	StringOperator '+' StringOperator
-	| StringVariable
-	| StringConstant
+StringOperator:	StringOperator '+' StringOperator		{ printf("S1 + S2\n"); }
+	| StringVariable					{ printf("String Variable\n"); }
+	| StringConstant					{ printf("String Constant\n"); }
 
 StringConstant:	CONST_STRING
 NumericConstant: CONST_INTEGER
