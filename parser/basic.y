@@ -33,6 +33,12 @@
 %token CONST_INTEGER CONST_FLOAT CONST_STRING
 
 /* Arithmetic precedence */
+%left GT LT GTE LTE EQUEAL INEQUAL
+%left IMP EQV
+%left XOR
+%left OR
+%left AND
+%nonassoc NOT
 %left '+' '-'
 %left '*' '/'
 %left '^'
@@ -237,63 +243,57 @@ DoublePrecisionVariable: DECLARATION '#'
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
 
-Expression: Operator
+Expression: MathExpression					{ printf("-Math Expression\n"); }
+	| StringOperator					{ printf("-String Operator\n"); }
+
+ArithmeticOperator: MathExpression '+' MathExpression		{ printf("A + B\n"); }
+	| MathExpression '-' MathExpression			{ printf("A - B\n"); }
+	| MathExpression '*' MathTerm				{ printf("A * B\n"); }
+	| MathExpression '/' MathTerm				{ printf("A / B\n"); }
+	| MathTerm
+
+MathExpression : ArithmeticOperator
+	| RelationalOperator
+	| LogicalOperator
+	| FunctionalOperator
+
+MathTerm: '(' MathExpression ')'					{ printf("(Exp)\n"); } 
+	| '-' MathTerm %prec UMINUS				{ printf("Unary minus\n"); }	
+	| MathTerm '^' MathTerm					{ printf("A ^ B\n"); }
+	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
+	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
+
+StringOperator:	StringOperator '+' StringOperator
+	| StringVariable
+	| StringConstant
 
 StringConstant:	CONST_STRING
 NumericConstant: CONST_INTEGER
 	| CONST_FLOAT
 
-Operator: ArithmeticOperator
-	| RelationalOperator
-	| LogicalOperator
-	| FunctionalOperator
-	| StringOperator
+RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ printf("A = B\n"); }
+	| ArithmeticOperator INEQUAL ArithmeticOperator		{ printf("A <> B\n"); }
+	| ArithmeticOperator LT	ArithmeticOperator		{ printf("A < B\n"); } 
+	| ArithmeticOperator GT ArithmeticOperator 		{ printf("A > B\n"); } 
+	| ArithmeticOperator LTE ArithmeticOperator		{ printf("A <= B\n"); } 
+	| ArithmeticOperator GTE ArithmeticOperator  		{ printf("A >= B\n"); } 
+	| StringOperator EQUAL StringOperator			{ printf("S1 = S2\n"); } 
+	| StringOperator INEQUAL StringOperator			{ printf("S1 <> S2\n"); } 
+	| StringOperator LT StringOperator			{ printf("S1 < S2\n"); } 
+	| StringOperator LTE StringOperator			{ printf("S1 <= S2\n"); } 
+	| StringOperator GTE StringOperator			{ printf("S1 >= S2\n"); } 
 
-ArithmeticOperator: ArithmeticOperator Add ArithmeticOperator	{ printf("A + B\n"); }
-	| ArithmeticOperator Sub ArithmeticOperator		{ printf("A - B\n"); }
-	| ArithmeticOperator Mul ArithmeticTerm			{ printf("A * B\n"); }
-	| ArithmeticOperator Divide ArithmeticTerm		{ printf("A / B\n"); }
-	| ArithmeticTerm
-
-ArithmeticTerm: '(' ArithmeticOperator ')'			{ printf("(Exp)\n"); } 
-	| Negation ArithmeticTerm %prec UMINUS			{ printf("Unary minus\n"); }	
-	| ArithmeticTerm Exponent ArithmeticTerm		{ printf("A ^ B\n"); }
-	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
-	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
-
-StringOperator:	StringOperator Add StringOperator
-	| StringVariable
-	| StringConstant
-
-RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator
-	| ArithmeticOperator INEQUAL ArithmeticOperator
-	| ArithmeticOperator LT	ArithmeticOperator
-	| ArithmeticOperator GT ArithmeticOperator  
-	| ArithmeticOperator LTE ArithmeticOperator
-	| ArithmeticOperator GTE ArithmeticOperator   
-	| StringOperator EQUAL StringOperator
-	| StringOperator INEQUAL StringOperator
-	| StringOperator LT StringOperator
-	| StringOperator LTE StringOperator
-	| StringOperator GTE StringOperator
-
-LogicalOperator: NOT RelationalOperator
-	| RelationalOperator AND RelationalOperator
-	| RelationalOperator OR RelationalOperator
-	| RelationalOperator XOR RelationalOperator
-	| RelationalOperator EQV RelationalOperator
-	| RelationalOperator IMP RelationalOperator
+LogicalOperator: NOT RelationalOperator				{ printf("NOT A\n"); } 
+	| RelationalOperator AND RelationalOperator		{ printf("A AND B\n"); } 
+	| RelationalOperator OR RelationalOperator		{ printf("A OR B\n"); } 
+	| RelationalOperator XOR RelationalOperator		{ printf("A XOR B\n"); } 
+	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
+	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
 FunctionalOperator: SIN '(' ArithmeticOperator ')'
 
 
-Negation: '-';
-Exponent: '^';
 Dash: '-';
-Mul: '*';
-Divide: '/';
-Add: '+';
-Sub: '-';
 VariableName: DECLARATION;
 LoadOption: DECLARATION;
 FilePath: CONST_STRING;

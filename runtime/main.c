@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	/*
 		Handle the received "Interpreter*" 
 	*/
-	gwbh_Interpreter(env, interpreter);
+	//gwbh_Interpreter(env, interpreter);
 
 	printf("%d\n", interpreter->type);
 	return 0;
