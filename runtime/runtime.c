@@ -15,14 +15,14 @@ void gwbr_ReadRequest(char* buffer)
 /*
 	Run GWBasic Shell
 */
-void gwbr_RunShell(GWBE_Environment* env, char* line_buffer)
+void gwbr_RunShell(GWBE_Environment* env)
 {
 	Interpreter* interpreter; 
 	while (1)
 	{
-		gwbr_ReadRequest(line_buffer);
+		gwbr_ReadRequest(env->line_buffer);
 		/* Parse user request */
-		interpreter = gwbr_Parse(line_buffer); 
+		interpreter = gwbr_Parse(env->line_buffer); 
 		/* Handle the received "Interpreter*" (Part 3) */
 		//gwbh_Interpreter(env, interpreter);
 	}	

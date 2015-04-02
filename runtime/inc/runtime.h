@@ -3,7 +3,8 @@
 
 #define _GWBR_RUNTIME_H_
 
-#include "../../parser/ast/interp.h"
+#include "parser.h"
+#include "env.h"
 
 #define GWBR_LINE_LENGTH	255
 
@@ -18,9 +19,10 @@ typedef struct GWBR_Result {
 } GWBR_Result;
 
 /*
-	Calls yyparse and returns "Interpreter*" -- root
-	node of the AST.
+	Runtime Functions
 */
 Interpreter* gwbr_Parse();
+void gwbr_ReadRequest();
+void gwbr_RunShell(GWBE_Environment* env);
 
 #endif

@@ -61,14 +61,15 @@ void gwbe_FunctionList_Remove(GWBE_FunctionList** list, char* name);
 	Environment
 */
 typedef struct {
+	char* line_buffer;
 	GWBE_VariableList* vars;
 	GWBE_Program* program;		
 	GWBE_FunctionList* udef_funcs;
 } GWBE_Environment;
 
 /* Malloc environment structure */
-GWBE_Environment* gwbe_Create();
+GWBE_Environment* gwbe_NewEnvironment();
 /* Free environment structure */
-void gwbe_Delete(GWBE_Environment* env);
+void gwbe_DeleteEnvironment(GWBE_Environment* env);
 
 #endif
