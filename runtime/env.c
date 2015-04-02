@@ -11,7 +11,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 {
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
 
-	env->line_buffer = (char*) malloc(sizeof(GWBR_LINE_LENGTH));	
+	env->line_buffer = (char*) malloc(GWBR_LINE_LENGTH * sizeof(char));
 	return env;
 }
 
