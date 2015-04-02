@@ -5,6 +5,8 @@
 
 #include "../../parser/ast/interp.h"
 
+#define GWBR_LINE_LENGTH	255
+
 /*
 	Result Of Interpretation
 */
