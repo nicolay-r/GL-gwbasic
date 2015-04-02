@@ -4,30 +4,14 @@
 
 #define _GWBR_ENVIRONMENT_H_
 
-#include "parser.h" /* Interpreter */
-
-/*
-	Variable
-*/
+#include "parser.h" 		/* Interpreter */
+#include "core.h"		/* GWBC_Variable, GWBC_Array */
 typedef struct {
-	int type;
-	char* name;
-	union VariableValue {
-		int int_val;
-		float float_val;
-		double double_val;
-	} value;
-} GWBE_Variable;
-
-GWBE_Variable* gwbe_NewVariable();
-void gwbe_DeleteVariable(GWBE_Variable* var);
-
-typedef struct {
-	GWBE_Variable *value, *next;
+	GWBC_Variable *value, *next;
 } GWBE_VariableList;
 
 // можно вместо void возвращать GWBR_Result;
-void gwbe_VariableList_Add(GWBE_VariableList** list, GWBE_Variable* new_var);
+void gwbe_VariableList_Add(GWBE_VariableList** list, GWBC_Variable* new_var);
 void gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
 
 /*
@@ -54,19 +38,16 @@ typedef struct {
 	GWBE_ProgramLineList* lines;	
 } GWBE_Program;
 
-
 /*
 	Functions
 */
-typedef int Expression;
-
 typedef struct {
 	char* name;
 	GWBE_VariableList* vars;
-	Expression* body;		/* function body */
+	GWBN_Expression* body;		/* function body */
 } GWBE_Function;
 
-GWBE_Function* GWBE_NewFunction(char* name, GWBE_VariableList* vars, Expression* body);
+GWBE_Function* GWBE_NewFunction(char* name, GWBE_VariableList* vars, GWBN_Expression* body);
 void GWBE_DeleteFunction(GWBE_Function* func);
 
 typedef struct {
