@@ -61,7 +61,7 @@
 
 	/* expressions */	
 	GWBN_Expression*		expr;
-	//GWBN_NumericExpression*		num_expr;
+	//GWBN_NumericExpression*	num_expr;
 	//GWBN_StringOperator*		str_op;
 
 
@@ -103,14 +103,14 @@ Interpreter: DirectMode				{
 							*interpreter = $$;
 							return 0; 
 						}
-IndirectMode: LineNumber Statements		{	
+IndirectMode: LineNumber Statements		{	printf("-IndirectMode");
 							$$ = gwbn_IndirectMode($1, NULL);	
 						}
-DirectMode: Command EOLN			{ 	
+DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							union DirectModeOperation op; op.command = NULL;	
 							$$ = gwbn_DirectMode(GWBNT_COMMAND, op);
 						}
-	| Statements EOLN			{	
+	| Statements EOLN			{	printf("-Statements\n");
 							union DirectModeOperation op; op.statements = NULL;
 							$$ = gwbn_DirectMode(GWBNT_STATEMENT, op);
 						}
@@ -243,14 +243,14 @@ Variable: StringVariable
 	| NumericVariable
 	| ArrayVariable
 
-StringVariable: VariableName '$'
+StringVariable: VariableName '$'				{ printf("-String decl\n");}
 NumericVariable: IntegerVariable
 	| SinglePrecisionVariable
 	| DoublePrecisionVariable
-ArrayVariable: DECLARATION '(' ConstIntegers ')'
-IntegerVariable: DECLARATION '%'
-SinglePrecisionVariable: DECLARATION '!'
-DoublePrecisionVariable: DECLARATION '#'
+ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ printf("-Array decl\n"); }
+IntegerVariable: DECLARATION '%'				{ printf("-Integer decl\n"); }
+SinglePrecisionVariable: DECLARATION '!'			{ printf("-Single var decl\n"); }
+DoublePrecisionVariable: DECLARATION '#'			{ printf("-Double var decl\n");}
 
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
