@@ -46,7 +46,11 @@ DEF			{ return DEF; }
 FN			{ return FN; }
 CIRCLE			{ return CIRCLE; }
 LINE			{ return LINE; }
+PAINT			{ return PAINT; }
 SCREEN			{ return SCREEN; }
+PSET			{ return PSET; }
+PRESET			{ return PRESET; }
+CLS			{ return CLS; }
 
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }

@@ -14,7 +14,7 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS
 
 %token AS
 
@@ -150,6 +150,10 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Circle				{ printf("CIRCLE %s\n", ne); }
 	| Screen				{ printf("SCREEN %s\n", ne); }
 	| Line					{ printf("LINE %s\n", ne); }
+	| Paint					{ printf("PAINT %s\n", ne); }
+	| Pset					{ printf("PSET %s\n", ne); }
+	| Preset				{ printf("PRESET %s\n", ne); }
+	| Cls					{ printf("CLS %s\n", ne); }
 
 Run:	RUN
 System:	SYSTEM
@@ -223,11 +227,31 @@ LineOptions:
 	| ',' ',' FillingFormat
 FillingFormat: DECLARATION 
 LineColor: Expression
+Paint: PAINT '(' ScreenCoord ',' ScreenCoord ')' PaintOptions
+PaintOptions:
+	| ',' PaintAttribute
+	| ',' PaintAttribute ',' BorderAttribute
+	| ',' PaintAttribute ',' BorderAttribute ',' BckgrndAttribute
+PaintAttribute: NumericConstant
+BorderAttribute: NumericConstant
+BckgrndAttribute: NumericConstant
 
 
+Preset: PRESET '(' ScreenCoord ',' ScreenCoord ')' PresetOption
+PresetOption:
+	| ',' PresetColor
+PresetColor: VariableName
+	| NumericConstant
+Pset: PSET '(' ScreenCoord ',' ScreenCoord ')' PsetOption
+PsetOption:
+	| ',' PsetColor
+PsetColor: VariableName
+	| NumericConstant
 
 ScreenCoord: VariableName
 	| NumericConstant
+
+Cls: CLS
 
 
 FunctionArguments: VariableName ',' FunctionArguments
