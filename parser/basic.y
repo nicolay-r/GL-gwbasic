@@ -15,8 +15,9 @@
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
 %token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT
+%token LOCATE MID
 
-%token TO STEP AS
+%token TO STEP AS ON ERROR
 
 %token DECLARATION
 
@@ -162,7 +163,12 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| IfThenElse				{ printf("IF ... THEN ... ELSE %s\n", ne); }
 	| Input					{ printf("INPUT %s\n", ne); }
 	| Print					{ printf("PRINT %s\n", ne); }
-
+	| LineInput				{ printf("LINE INPUT %s\n", ne); }		
+	| Locate				{ printf("LOCATE %s\n", ne); }
+	| Mid					{ printf("MID$ %s\n", ne); }
+	| OnErrorGoto				{ printf("ON ERROR GOTO %s\n", ne); }
+	| OnGosub				{ printf("ON .. GOSUB ..%s\n", ne); }
+	| OnGoto				{ printf("ON .. GOTO .. %s\n", ne); }
 Run:	RUN
 System:	SYSTEM
 Auto:	AUTO LineNumber ',' Increment		{ $$ = gwbn_Auto($2, $4); }
@@ -297,6 +303,31 @@ PrintSeparator:
 	| ','
 	| ';'
 
+LineInput: LINE INPUT InputPromptString StringVariable
+
+Locate: LOCATE LocateRow LocateColumn LocateCursor LocateStart LocateStop
+LocateRow: ','
+	| NumericConstant
+LocateColumn: ','
+	| NumericConstant
+LocateCursor: ','
+	| NumericConstant
+LocateStart: ','
+	| NumericConstant
+LocateStop: ','
+	| NumericConstant
+
+Mid: MID'$' '(' StringExpression ',' MidFrom  MidTo ')' EQUAL StringExpression
+MidFrom: NumericExpression
+MidTo:
+	| ',' NumericExpression
+
+OnErrorGoto: ON ERROR GOTO LineNumber
+OnGosub: ON Expression GOSUB LineNumbers
+OnGoto: ON Expression GOTO LineNumbers
+LineNumbers: LineNumber ',' LineNumbers
+	| LineNumber
+
 
 FunctionArguments: VariableName ',' FunctionArguments
 	| VariableName
@@ -312,6 +343,7 @@ Variable: StringVariable
 	| ArrayVariable
 
 StringVariable: VariableName '$'				{ printf("-String decl\n");}
+
 NumericVariable: IntegerVariable
 	| SinglePrecisionVariable
 	| DoublePrecisionVariable
@@ -327,7 +359,7 @@ Expression: NumericExpression					{
 									printf("-Numeric Expression\n"); 
 									$$ = gwbn_NewExpression();
 								}
-	| StringOperator					{ 
+	| StringExpression					{ 
 									printf("-String Operator\n"); 
 									$$ = gwbn_NewExpression();
 								}
@@ -349,6 +381,7 @@ NumericTerm: '(' NumericExpression ')'				{ printf("(Exp)\n"); }
 	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
 	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
+StringExpression: StringOperator
 StringOperator:	StringOperator '+' StringOperator		{ printf("S1 + S2\n"); }
 	| StringVariable					{ printf("String Variable\n"); }
 	| StringConstant					{ printf("String Constant\n"); }

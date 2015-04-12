@@ -62,7 +62,8 @@ THEN 			{ return THEN; }
 ELSE			{ return ELSE; }
 INPUT			{ return INPUT; }
 PRINT			{ return PRINT; }
-
+LOCATE			{ return LOCATE; }
+MID			{ return MID; }
 
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
@@ -83,6 +84,8 @@ SIN			{ return SIN; }
 AS			{ return AS; }
 TO			{ return TO; }
 STEP			{ return STEP; }
+ON			{ return ON; }
+ERROR			{ return ERROR; }
 
 \? |
 ;  |
