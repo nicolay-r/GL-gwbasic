@@ -11,10 +11,10 @@
 
 #include "types.h"			/* Defined AST node types */
 #include "cmds/inc/commands.h" 		/* Command typedef */
-#include "stmts/statements.h"		/* Statement typedef */
+#include "stmts/inc/statements.h"	/* Statement typedef */
 
 typedef struct Statements {
-	Statement* statement;
+	GWBN_Statement* statement;
 	struct Statements* next;
 } Statements;
 
