@@ -14,9 +14,9 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE 
 
-%token AS
+%token TO STEP AS
 
 %token DECLARATION
 
@@ -154,6 +154,13 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Pset					{ printf("PSET %s\n", ne); }
 	| Preset				{ printf("PRESET %s\n", ne); }
 	| Cls					{ printf("CLS %s\n", ne); }
+	| For					{ printf("FOR %s\n", ne); }
+	| Next					{ printf("NEXT %s\n", ne); }
+	| GoSub					{ printf("GOSUB %s\n", ne); }
+	| Return				{ printf("RETURN %s\n", ne); }
+	| Goto					{ printf("GOTO	%s\n", ne); }
+	| IfThenElse				{ printf("IF ... THEN ... ELSE %s\n", ne); }
+
 
 Run:	RUN
 System:	SYSTEM
@@ -253,6 +260,24 @@ ScreenCoord: VariableName
 
 Cls: CLS
 
+For: FOR Variable '=' NumericExpression TO NumericExpression ForOptionalStep
+ForOptionalStep:
+	| STEP NumericExpression
+Next: NEXT Variables
+
+GoSub: GOSUB LineNumber
+
+Return: RETURN ReturnOptions
+ReturnOptions:
+	| LineNumber
+
+Goto: GOTO LineNumber
+
+IfThenElse: IF Expression Then Else 
+Then: THEN Statements 
+	| GOTO LineNumber 
+Else:
+	| ELSE Statements
 
 FunctionArguments: VariableName ',' FunctionArguments
 	| VariableName
@@ -322,6 +347,7 @@ RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ printf("A = B\
 	| StringOperator EQUAL StringOperator			{ printf("S1 = S2\n"); } 
 	| StringOperator INEQUAL StringOperator			{ printf("S1 <> S2\n"); } 
 	| StringOperator LT StringOperator			{ printf("S1 < S2\n"); } 
+	| StringOperator GT StringOperator			{ printf("$1 > $2\n"); }
 	| StringOperator LTE StringOperator			{ printf("S1 <= S2\n"); } 
 	| StringOperator GTE StringOperator			{ printf("S1 >= S2\n"); } 
 

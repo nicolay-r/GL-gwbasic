@@ -52,6 +52,15 @@ PSET			{ return PSET; }
 PRESET			{ return PRESET; }
 CLS			{ return CLS; }
 
+FOR			{ return FOR; }
+NEXT			{ return NEXT; }
+GOSUB			{ return GOSUB; }
+RETURN			{ return RETURN; }
+GOTO			{ return GOTO; }
+IF			{ return IF; }
+THEN 			{ return THEN; }
+ELSE			{ return ELSE; }
+
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
 \<			{ return LT; }
@@ -69,6 +78,8 @@ EQV			{ return EQV; }
 SIN			{ return SIN; }
 
 AS			{ return AS; }
+TO			{ return TO; }
+STEP			{ return STEP; }
 
 \. |
 ,  |	
