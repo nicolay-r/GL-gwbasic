@@ -14,7 +14,7 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE 
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT
 
 %token TO STEP AS
 
@@ -160,7 +160,8 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Return				{ printf("RETURN %s\n", ne); }
 	| Goto					{ printf("GOTO	%s\n", ne); }
 	| IfThenElse				{ printf("IF ... THEN ... ELSE %s\n", ne); }
-
+	| Input					{ printf("INPUT %s\n", ne); }
+	| Print					{ printf("PRINT %s\n", ne); }
 
 Run:	RUN
 System:	SYSTEM
@@ -278,6 +279,24 @@ Then: THEN Statements
 	| GOTO LineNumber 
 Else:
 	| ELSE Statements
+
+Input: INPUT InputPrompt Variables
+InputPrompt: InputPromptString InputPromptEnd
+InputPromptString:
+	| StringConstant
+InputPromptEnd: ','
+	| ';'
+
+Print: PrintOperator PrintExpressions
+PrintOperator: PRINT
+	| '?'
+PrintExpressions: Expression PrintSeparator PrintExpressions
+	| Expression
+	| PrintSeparator
+PrintSeparator:
+	| ','
+	| ';'
+
 
 FunctionArguments: VariableName ',' FunctionArguments
 	| VariableName

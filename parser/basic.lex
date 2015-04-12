@@ -60,6 +60,9 @@ GOTO			{ return GOTO; }
 IF			{ return IF; }
 THEN 			{ return THEN; }
 ELSE			{ return ELSE; }
+INPUT			{ return INPUT; }
+PRINT			{ return PRINT; }
+
 
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
@@ -81,6 +84,8 @@ AS			{ return AS; }
 TO			{ return TO; }
 STEP			{ return STEP; }
 
+\? |
+;  |
 \. |
 ,  |	
 :  |
