@@ -11,41 +11,41 @@
 
 #include "types.h"			/* Defined AST node types */
 #include "../cmds/inc/cmds.h"	 	/* Command typedef */
-#include "../stmts/inc/stmts.h"		/* Statement typedef */
+#include "../stmts/inc/stmts.h"		/* GWBN_Statements typedef */
 
-typedef struct Statements {
-	GWBN_Statement* statement;
-	struct Statements* next;
-} Statements;
+typedef struct GWBN_DirectMode GWBN_DirectMode;
+typedef struct GWBN_IndirectMode GWBN_IndirectMode;
+typedef struct GWBN_Interpreter GWBN_Interpreter;
 
-typedef struct {
-	int opType;
-	union DirectModeOperation {
-		Command* command;
-		Statements* statements;
-	} op;
-} DirectMode;
-
-typedef struct {
-	int lineNumber;
-	Statements* statements;
-} IndirectMode;
-
-typedef struct {
+struct GWBN_DirectMode {
 	int type;
-	union InterpreterMode {
-		DirectMode* direct;
-		IndirectMode* indirect;
-	} mode;
-} Interpreter;
+	union {
+		struct GWBN_Command* command;
+		struct GWBN_Statements* statements;
+	};
+};
+
+struct GWBN_IndirectMode{
+	int line_number;
+	GWBN_Statements* statements;
+};
+
+struct GWBN_Interpreter{
+	int type;
+	union {
+		struct GWBN_DirectMode* direct;
+		struct GWBN_IndirectMode* indirect;
+	};
+};
 
 /* 
-	GWBasicInterpreter Ctor 
-	будет перенесено в отдельный файл, а также будут
-	передваваться дополнительные  параметры инициализации
+	Prototypes	
 */
-Interpreter* gwbn_Interpreter(int type, union InterpreterMode mode);
-IndirectMode* gwbn_IndirectMode(int lineNumber, Statements* statements);
-DirectMode* gwbn_DirectMode(int opType, union DirectModeOperation operation);
+GWBN_DirectMode* gwbn_NewDirectMode();
+void gwbn_DeleteDirectMode(GWBN_DirectMode* ptr);
+GWBN_IndirectMode* gwbn_NewIndirectMode();
+void gwbn_DeleteIndirectMode(GWBN_IndirectMode* ptr);
+GWBN_Interpreter* gwbn_NewInterpreter();
+void gwbn_DeleteInterpreter(GWBN_Interpreter* ptr);
 
 #endif 

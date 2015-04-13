@@ -4,7 +4,7 @@
 
 #define _GWBR_ENVIRONMENT_H_
 
-#include "parser.h" 		/* Interpreter */
+#include "parser.h" 		/* GWBN_Interpreter */
 #include "core.h"		/* GWBC_Variable, GWBC_Array */
 typedef struct {
 	GWBC_Variable *value, *next;
@@ -20,7 +20,7 @@ void gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
 typedef struct {
 	int number;
 	char* source;			// заменить на GWBCT_Char
-	Interpreter* parsed;
+	GWBN_Interpreter* parsed;
 } GWBE_ProgramLine;
 
 GWBE_ProgramLine* gwbe_NewProgramLine();

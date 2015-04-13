@@ -4,7 +4,7 @@
 
 #include "interp.h"			
 
-GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp)
+GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* interp)
 {
 	/*
 		Interpreter Handler for Interpreter AST node

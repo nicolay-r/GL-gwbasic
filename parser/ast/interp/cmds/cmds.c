@@ -1,11 +1,7 @@
 #include "inc/cmds.h"
-#include <stdlib.h> /* malloc */
 
-Command* gwbn_Command(int type, union Commands cmds)
+GWBN_Command* gwbn_NewCommand()
 {
-	Command* cmd = malloc(sizeof(Command));
-	cmd->type = type;
-	cmd->cmds = cmds;
-
-	return cmd;
+	GWBN_Command* result = (GWBN_Command*) malloc(sizeof(GWBN_Command));
+	return result;
 }

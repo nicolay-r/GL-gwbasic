@@ -17,21 +17,21 @@ void gwbr_ReadRequest(char* buffer)
 */
 void gwbr_RunShell(GWBE_Environment* env)
 {
-	Interpreter* interpreter; 
+	GWBN_Interpreter* interpreter; 
 	while (1)
 	{
 		gwbr_ReadRequest(env->line_buffer);
 		/* Parse user request */
 		interpreter = gwbr_Parse(env->line_buffer); 
-		/* Handle the received "Interpreter*" (Part 3) */
-		//gwbh_Interpreter(env, interpreter);
+		/* Handle the received "GWBN_Interpreter*" (Part 3) */
+		//gwbh_GWBN_Interpreter(env, interpreter);
 	}	
 }
 
 /*
 	Lexical And Syntax Parser
 */
-Interpreter* gwbr_Parse(char* sourceCode)
+GWBN_Interpreter* gwbr_Parse(char* sourceCode)
 {
-	return (Interpreter*) gwbp_Parse(sourceCode);		
+	return (GWBN_Interpreter*) gwbp_Parse(sourceCode);		
 }

@@ -21,7 +21,7 @@ typedef struct GWBR_Result {
 /*
 	Runtime Functions
 */
-Interpreter* gwbr_Parse();
+GWBN_Interpreter* gwbr_Parse();
 void gwbr_ReadRequest();
 void gwbr_RunShell(GWBE_Environment* env);
 

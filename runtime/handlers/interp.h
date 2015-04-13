@@ -4,4 +4,4 @@
 #include "../inc/runtime.h"		/* GWBR_Result */
 #include "../inc/parser.h"		/* Interpreter */
 
-GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, Interpreter* interp);
+GWBR_Result* gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* interp);

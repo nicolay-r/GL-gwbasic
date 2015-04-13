@@ -52,34 +52,33 @@
 	#include "ast/interp/stmts/inc/stmts.h"
 }
 
-%parse-param {Interpreter** interpreter}
+%parse-param {GWBN_Interpreter** interpreter}
 
 %union {
-	Interpreter* 			interpreter;
-	DirectMode*			directMode;
-	IndirectMode* 			indirectMode;
-	Command*			command;
+	/* Interpreter */
+	GWBN_Interpreter* 		interpreter;
+	GWBN_DirectMode*		directMode;
+	GWBN_IndirectMode* 		indirectMode;
 	
+	/* Commands */
+	GWBN_Command*			command;	
 	Auto*				_auto;
 
 	/* Statements */
 	GWBN_Statement*			statement;
 	//GWBN_Beep*			beep;
-	/* expressions */	
+	
+	/* Expressions */	
 	GWBN_Expression*		expr;
 	//GWBN_NumericExpression*	num_expr;
 	//GWBN_StringOperator*		str_op;
 
 
-	/* integer constant */
+	/* Constants */
 	int 				int_number;
-	
-	/* fractional constants */
 	float 				float_number;
 	double 				double_number;
-	
-	/* keywords, commands, constant string, etc.*/ 
-	char *str;
+	char*				str;
 }
 
 %type <interpreter> Interpreter
@@ -105,33 +104,39 @@
 %%
 
 Interpreter: DirectMode				{
-							union InterpreterMode mode; mode.direct = $1;
-							$$ = gwbn_Interpreter(GWBNT_DIRECT_MODE, mode);
-							*interpreter = $$;
+							$$ = gwbn_NewInterpreter();
+							$$->type = GWBNT_DIRECT_MODE;
+							$$->direct = $1;
+							*interpreter = $$;	
 							return 0;							
 						}
 	| IndirectMode				{
-							union InterpreterMode mode; mode.indirect = $1;
-							$$ = gwbn_Interpreter(GWBNT_INDIRECT_MODE, mode);
-							*interpreter = $$;
+							$$ = gwbn_NewInterpreter();
+							$$->type = GWBNT_INDIRECT_MODE;
+							$$->indirect = $1;
+							*interpreter = $$;								
 							return 0; 
 						}
 IndirectMode: LineNumber Statements		{	printf("-IndirectMode");
-							$$ = gwbn_IndirectMode($1, NULL);	
+							$$ = gwbn_NewIndirectMode();	
+							$$->line_number = $1
 						}
 DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
-							union DirectModeOperation op; op.command = NULL;	
-							$$ = gwbn_DirectMode(GWBNT_COMMAND, op);
+							$$ = gwbn_NewDirectMode();
+							$$->type = GWBNT_COMMAND;
+							$$->command = NULL;
 						}
 	| Statements EOLN			{	printf("-Statements\n");
-							union DirectModeOperation op; op.statements = NULL;
-							$$ = gwbn_DirectMode(GWBNT_STATEMENT, op);
+							$$ = gwbn_NewDirectMode();
+							$$->type = GWBNT_STATEMENT;
+							$$->statements = NULL;
 						}
 Command: Run
 	| System				{ printf("SYSTEM %s\n", ne); }
 	| Auto					{ 
-							union Commands cmds; cmds._auto = $1;
-							$$ = gwbn_Command(GWBNT_AUTO, cmds); 
+							$$ = gwbn_NewCommand();
+							$$->type = GWBNT_AUTO;
+							$$->_auto = $1;
 						}
 	| BLoad					{ printf("BLOAD %s\n", ne); }
 	| BSave					{ printf("BSAVE %s\n", ne); }
@@ -154,7 +159,7 @@ Command: Run
 Statements: Statement ':' Statements		{ }
 	| Statement				{ printf("-Statement\n"); }
 
-Statement: Beep					{ $$ = gwbn_NewStatement(); }
+Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
 	| Dim					{ printf("DIM %s\n", ne); }
 	| Let					{ printf("LET %s\n", ne); }
@@ -450,15 +455,15 @@ yyerror(char *s)
 /*
 	GWBasic program parser from char* buffer
 */
-Interpreter* gwbp_Parse(char* sourceCode)
+GWBN_Interpreter* gwbp_Parse(char* sourceCode)
 {
-	Interpreter** interpreter = (Interpreter**) malloc (sizeof(Interpreter*));
+	GWBN_Interpreter** interpreter = (GWBN_Interpreter**) malloc (sizeof(GWBN_Interpreter*));
 
 	YY_BUFFER_STATE buffer = yy_scan_string(sourceCode);
 	yyparse(interpreter);
 	yy_delete_buffer(buffer);
 	
-	Interpreter* result = *interpreter;
+	GWBN_Interpreter* result = *interpreter;
 	free(interpreter);
 	return result; 
 }	

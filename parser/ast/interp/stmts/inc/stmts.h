@@ -4,6 +4,8 @@
 
 #include <stdlib.h>
 
+typedef struct GWBN_Statements GWBN_Statements;
+typedef struct GWBN_Statement GWBN_Statement;
 typedef struct GWBN_Beep GWBN_Beep;
 typedef struct GWBN_Call GWBN_Call;
 typedef struct GWBN_Dim GWBN_Dim;
@@ -33,9 +35,18 @@ typedef struct GWBN_OnGosub GWBN_OnGosub;
 typedef struct GWBN_OnGoto GWBN_OnGoto;
 
 /*
+	Statements
+*/
+
+struct GWBN_Statements {
+	struct GWBN_Statement* stmt;
+	struct GWBN_Statements* next;
+};
+
+/*
 	Statement
 */
-typedef struct {
+struct GWBN_Statement {
 	int type;
 	union {
 		struct GWBN_Call* call;
@@ -46,7 +57,7 @@ typedef struct {
 		struct GWBN_Screen* screen;
 		struct GWBN_Line* line;		
 	};
-} GWBN_Statement;
+}; 
 
 /*
 	Structures
