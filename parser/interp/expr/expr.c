@@ -1,6 +1,6 @@
 /* GWBasic Functions for Expression AST Nodes */
 
-#include "expr.h"
+#include "inc/expr.h"
 #include <stdlib.h>
 
 GWBN_Expression* gwbn_NewExpression()

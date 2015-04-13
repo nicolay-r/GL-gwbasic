@@ -10,8 +10,8 @@
 #include "stdlib.h"
 
 #include "types.h"			/* Defined AST node types */
-#include "cmds/inc/commands.h" 		/* Command typedef */
-#include "stmts/inc/statements.h"	/* Statement typedef */
+#include "../cmds/inc/commands.h" 	/* Command typedef */
+#include "../stmts/inc/statements.h"	/* Statement typedef */
 
 typedef struct Statements {
 	GWBN_Statement* statement;

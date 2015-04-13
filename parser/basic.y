@@ -10,6 +10,7 @@
 	typedef struct yy_buffer_state * YY_BUFFER_STATE;
 	extern YY_BUFFER_STATE yy_scan_string(char *str);
 	extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
+
 %}
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
@@ -46,8 +47,9 @@
 
 /* Type declaration */
 %code requires {
-	#include "ast/interp.h"	
-	#include "ast/expr.h"
+	#include "interp/inc/interp.h"	
+	#include "interp/expr/inc/expr.h"
+	#include "interp/stmts/inc/statements.h"
 }
 
 %parse-param {Interpreter** interpreter}
@@ -60,6 +62,9 @@
 	
 	Auto*				_auto;
 
+	/* Statements */
+	GWBN_Statement*			statement;
+	//GWBN_Beep*			beep;
 	/* expressions */	
 	GWBN_Expression*		expr;
 	//GWBN_NumericExpression*	num_expr;
@@ -83,13 +88,20 @@
 %type <command> Command
 %type <_auto> Auto
 
+/*
+	Statements
+*/
+%type <statement> Statement
+
+/*
+	Expressions
+*/
 %type <expr> Expression
 /*
 %type <num_expr> NumericExpression
 %type <str_op> StringOperator
 */
 %type <int_number> LineNumber Increment CONST_INTEGER
-
 %%
 
 Interpreter: DirectMode				{
@@ -142,7 +154,7 @@ Command: Run
 Statements: Statement ':' Statements		{ }
 	| Statement				{ printf("-Statement\n"); }
 
-Statement: Beep					{ printf("BEEP %s\n", ne); }
+Statement: Beep					{ $$ = gwbn_NewStatement(); }
 	| Call					{ printf("CALL %s\n", ne); }	
 	| Dim					{ printf("DIM %s\n", ne); }
 	| Let					{ printf("LET %s\n", ne); }
@@ -207,7 +219,7 @@ Let: 	LET Variable EQUAL Expression
 	| Variable EQUAL Expression
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
-Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 
+Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 
 CircleOptions: 
 	| ',' CircleColor
 	| ',' CircleColor ',' CircleStart

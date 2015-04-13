@@ -2,7 +2,7 @@
 	Contains implementation for AST Nodes, declared in "interp.h"
 */
 
-#include "interp.h"
+#include "inc/interp.h"
 #include <stdio.h> 	/* printf */
 
 Interpreter* gwbn_Interpreter(int type, union InterpreterMode mode)
