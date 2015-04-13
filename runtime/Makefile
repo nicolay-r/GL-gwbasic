@@ -1,8 +1,18 @@
 
-AST_FOLDER=../parser/
 PARSER_FOLDER=../parser/
-PARSER_SRCS= $(PARSER_FOLDER)basic.tab.c $(PARSER_FOLDER)lex.yy.c $(AST_FOLDER)interp/*.c $(AST_FOLDER)interp/cmds/*.c $(AST_FOLDER)interp/stmts/*.c $(AST_FOLDER)interp/expr/*.c
+
+AST_FOLDER=$(PARSER_FOLDER)ast/
+
+PARSER_SRCS= \
+	$(PARSER_FOLDER)basic.tab.c \
+	$(PARSER_FOLDER)lex.yy.c \
+	$(AST_FOLDER)interp/*.c \
+	$(AST_FOLDER)interp/cmds/*.c \
+	$(AST_FOLDER)interp/stmts/*.c \
+	$(AST_FOLDER)interp/expr/*.c
+
 RUNTIME_SRCS= runtime.c env.c handlers/*.c
+
 all:
 	# Build GWBasic lexical and syntax parsers
 	make -C $(PARSER_FOLDER)

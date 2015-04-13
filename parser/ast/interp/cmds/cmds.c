@@ -1,4 +1,4 @@
-#include "inc/commands.h"
+#include "inc/cmds.h"
 #include <stdlib.h> /* malloc */
 
 Command* gwbn_Command(int type, union Commands cmds)

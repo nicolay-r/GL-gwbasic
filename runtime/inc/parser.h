@@ -1,9 +1,13 @@
 /* GWBasic Runtime Connection With the GWBasic Parsers (Lexical and Syntax) */
+#ifndef _GWBR_PARSER_H_
+#define _GWBR_PARSER_H_
 
 #include "../../parser/basic.tab.h"
-#include "../../parser/interp/inc/interp.h"
-#include "../../parser/interp/cmds/inc/auto.h"
+#include "../../parser/ast/interp/inc/interp.h"
+#include "../../parser/ast/interp/cmds/inc/auto.h"
 
-#include "../../parser/interp/expr/inc/expr.h"
-#include "../../parser/interp/stmts/inc/statements.h"
+#include "../../parser/ast/interp/expr/inc/expr.h"
+#include "../../parser/ast/interp/stmts/inc/stmts.h"
+
+#endif
 

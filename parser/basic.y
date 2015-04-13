@@ -47,9 +47,9 @@
 
 /* Type declaration */
 %code requires {
-	#include "interp/inc/interp.h"	
-	#include "interp/expr/inc/expr.h"
-	#include "interp/stmts/inc/statements.h"
+	#include "ast/interp/inc/interp.h"	
+	#include "ast/interp/expr/inc/expr.h"
+	#include "ast/interp/stmts/inc/stmts.h"
 }
 
 %parse-param {Interpreter** interpreter}

@@ -1,6 +1,6 @@
 /* GWBasic statements.h functions implementation */
 
-#include "inc/statements.h"
+#include "inc/stmts.h"
 
 /* 
 	Constructor and Destructors
