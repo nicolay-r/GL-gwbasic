@@ -11,12 +11,14 @@
 /*
 	Result Of Interpretation
 */
-typedef struct GWBR_Result {
-	int res_type;
+typedef struct GWBR_Result GWBR_Result;
+
+struct GWBR_Result {
+	int type;
 	union {
 		char* msg;	/* same as gwbr_results */
 	};
-} GWBR_Result;
+};
 
 /*
 	Runtime Functions

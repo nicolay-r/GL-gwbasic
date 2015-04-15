@@ -3,12 +3,18 @@
 import sys
 
 def generateHandlerPrototype(nterm):
-	hndl_prot = """GWBR_Result* gwbh_%s(GWBE_Environment *env, GWBN_%s* node);"""%(nterm, nterm)
+	hndl_prot = """GWBR_Result gwbh_%s(GWBE_Environment *env, GWBN_%s* node);"""%(nterm, nterm)
 	return hndl_prot
 def generateHandler(nterm):
-	hndlr = """GWBR_Result* gwbh_%s(GWBE_Environment *env, GWBN_%s* node) {
+	
+	hndlr = """GWBR_Result gwbh_%s(GWBE_Environment *env, GWBN_%s* node) {
+	GWBR_Result result;
+
 	/* \"%s\" handler implementation */
 	printf(\"In \\"%s\\" Handler\\n\"); 
+
+	result.type = GWBR_RESULT_OK;
+	return result;	 
 } 
 	"""%(nterm, nterm, nterm, nterm)
 	return hndlr
