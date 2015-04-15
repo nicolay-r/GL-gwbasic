@@ -8,7 +8,7 @@ def generateHandlerPrototype(nterm):
 def generateHandler(nterm):
 	hndlr = """GWBR_Result* gwbh_%s(GWBE_Environment *env, GWBN_%s* node) {
 	/* \"%s\" handler implementation */
-	printf(\"In \"%s\" Handler\\n\"); 
+	printf(\"In \\"%s\\" Handler\\n\"); 
 } 
 	"""%(nterm, nterm, nterm, nterm)
 	return hndlr
