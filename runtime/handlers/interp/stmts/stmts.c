@@ -3,6 +3,23 @@
 #include "inc/stmts.h"
 #include <stdio.h>
 
+GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
+	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
+
+	printf("In \"Statements\" Handler\n"); 
+	do
+	{
+		if (node != NULL)
+			result = gwbh_Statement(env, node->stmt);
+		else 
+			result.type = GWBR_RESULT_NULLPTR;
+	}
+	while ( result.type == GWBR_RESULT_OK && node->next != NULL );
+	return result;	 
+} 
+	
+
 GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 	GWBR_Result result;
 

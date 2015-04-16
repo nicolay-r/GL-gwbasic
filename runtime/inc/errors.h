@@ -8,5 +8,6 @@
 */
 
 #define GWBR_RESULT_OK			0
+#define GWBR_RESULT_NULLPTR		1
 
 #endif

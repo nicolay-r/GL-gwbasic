@@ -8,6 +8,7 @@
 #include "../../../../inc/parser.h"		/* Interpreter */
 #include "../../../../inc/errors.h"
 
+GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node);
 GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node);
 GWBR_Result gwbh_Beep(GWBE_Environment *env, GWBN_Beep* node);
 GWBR_Result gwbh_Call(GWBE_Environment *env, GWBN_Call* node);

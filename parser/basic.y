@@ -65,6 +65,7 @@
 	Auto*				_auto;
 
 	/* Statements */
+	GWBN_Statements*		statements;
 	GWBN_Statement*			statement;
 	//GWBN_Beep*			beep;
 	
@@ -83,6 +84,7 @@
 
 %type <interpreter> Interpreter
 %type <directMode> DirectMode
+%type <statements> Statements
 %type <indirectMode> IndirectMode
 %type <command> Command
 %type <_auto> Auto
@@ -124,12 +126,12 @@ IndirectMode: LineNumber Statements		{	printf("-IndirectMode");
 DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$ = gwbn_NewDirectMode();
 							$$->type = GWBNT_COMMAND;
-							$$->command = NULL;
+							$$->command = $1;
 						}
 	| Statements EOLN			{	printf("-Statements\n");
 							$$ = gwbn_NewDirectMode();
 							$$->type = GWBNT_STATEMENT;
-							$$->statements = NULL;
+							$$->statements = $1;
 						}
 Command: Run
 	| System				{ printf("SYSTEM %s\n", ne); }

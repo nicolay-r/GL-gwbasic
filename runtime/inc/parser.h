@@ -9,6 +9,7 @@
 #include "../../parser/ast/inc/types.h"
 #include "../../parser/ast/interp/expr/inc/expr.h"
 #include "../../parser/ast/interp/stmts/inc/stmts.h"
+#include "../../parser/ast/interp/cmds/inc/cmds.h"
 
 #endif
 

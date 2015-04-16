@@ -25,12 +25,21 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 
 GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	GWBR_Result result;
-
-	/* "DirectMode" handler implementation */
-	printf("In \"DirectMode\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
-	return result;	 
+
+	printf("In \"DirectMode\" Handler\n"); 
+	
+	if (node->type == GWBNT_COMMAND)
+	{
+		// result = gwbh_Command(env, node->command);
+		gwbh_Command(env, node->command);
+	}
+	else 
+	{
+		result = gwbh_Statements(env, node->statements);
+	}
+
+	return result;
 } 
 	
 GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
@@ -39,6 +48,6 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	/* "IndirectMode" handler implementation */
 	printf("In \"IndirectMode\" Handler\n"); 
 	result.type = GWBR_RESULT_OK;
+
 	return result;	 
-} 
-	
+} 	
