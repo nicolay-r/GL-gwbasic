@@ -9,7 +9,7 @@
 */
 #include "stdlib.h"
 
-#include "types.h"			/* Defined AST node types */
+#include "../../inc/types.h"		/* Defined AST node types */
 #include "../cmds/inc/cmds.h"	 	/* Command typedef */
 #include "../stmts/inc/stmts.h"		/* GWBN_Statements typedef */
 

@@ -6,6 +6,7 @@
 #include "../../parser/ast/interp/inc/interp.h"
 #include "../../parser/ast/interp/cmds/inc/auto.h"
 
+#include "../../parser/ast/inc/types.h"
 #include "../../parser/ast/interp/expr/inc/expr.h"
 #include "../../parser/ast/interp/stmts/inc/stmts.h"
 

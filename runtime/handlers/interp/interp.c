@@ -4,12 +4,22 @@
 #include "inc/interp.h"	
 #include "stmts/inc/stmts.h"	/* GWBasic Statements AST Nodes */
 
-GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* interp)
+GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 {
 	GWBR_Result result;	
-	printf("In gwbh_Interprer Handler\n");
-	
 	result.type = GWBR_RESULT_OK;
+	
+	printf("In \"Interprer\" Handler\n");
+	
+	switch (node->type)
+	{
+		case GWBNT_DIRECT_MODE:
+			result = gwbh_DirectMode(env, node->direct);
+			break;
+		case GWBNT_INDIRECT_MODE:
+			result = gwbh_IndirectMode(env, node->indirect);
+			break;
+	}
 	return result;	
 }
 

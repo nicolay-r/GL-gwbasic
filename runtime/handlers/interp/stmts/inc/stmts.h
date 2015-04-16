@@ -37,5 +37,4 @@ GWBR_Result gwbh_OnErrorGoto(GWBE_Environment *env, GWBN_OnErrorGoto* node);
 GWBR_Result gwbh_OnGosub(GWBE_Environment *env, GWBN_OnGosub* node);
 GWBR_Result gwbh_OnGoto(GWBE_Environment *env, GWBN_OnGoto* node);
 
-
 #endif
