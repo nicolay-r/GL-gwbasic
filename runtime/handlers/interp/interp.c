@@ -38,7 +38,6 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 
 	/* "IndirectMode" handler implementation */
 	printf("In \"IndirectMode\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
