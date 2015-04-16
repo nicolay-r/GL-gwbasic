@@ -23,9 +23,18 @@ typedef struct GWBE_ProgramLineList GWBE_ProgramLineList;
 */
 struct GWBE_Environment {
 	char* line_buffer;
-	struct GWBE_VariableList* vars;
+	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
 	struct GWBE_FunctionList* udef_funcs;
+};
+
+/*
+	Context
+*/
+struct GWBE_Context {
+	int level;					/* уровень вложенности */
+	struct GWBE_VariableList* system_vars;	   	/* глобальные переменные GWBasic */
+	struct GWBE_VariableList* local_vars[255];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 };
 
 /*
