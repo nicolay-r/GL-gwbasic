@@ -5,6 +5,15 @@
 /* 
 	Constructor and Destructors
 */
+GWBN_Statements* gwbn_NewStatements() {
+	GWBN_Statements* result = (GWBN_Statements*) malloc (sizeof(GWBN_Statements));
+	return result;
+} 
+	
+void gwbn_DeleteStatements(GWBN_Statements* ptr) {
+	free(ptr);
+}
+
 GWBN_Statement* gwbn_NewStatement() {
 	GWBN_Statement* result = (GWBN_Statement*) malloc (sizeof(GWBN_Statement));
 	return result;

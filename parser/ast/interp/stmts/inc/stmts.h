@@ -146,6 +146,8 @@ struct GWBN_OnGoto {
 /*
 	Prototypes
 */
+GWBN_Statements* gwbn_NewStatements();
+void gwbn_DeleteStatements(GWBN_Statements* ptr);
 GWBN_Statement* gwbn_NewStatement();
 void gwbn_DeleteStatement(GWBN_Statement* ptr);
 GWBN_Beep* gwbn_NewBeep();

@@ -12,4 +12,13 @@
 #define GWBNT_COMMAND			1004
 #define GWBNT_STATEMENT			1005
 
+/*
+	Statements
+*/
+#define GWBNT_LET			1100
+
+/*
+	Commands
+*/
+
 #endif

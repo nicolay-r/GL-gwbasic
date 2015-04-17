@@ -68,7 +68,7 @@
 	GWBN_Statements*		statements;
 	GWBN_Statement*			statement;
 	//GWBN_Beep*			beep;
-	
+	GWBN_Let*			let;
 	/* Expressions */	
 	GWBN_Expression*		expr;
 	//GWBN_NumericExpression*	num_expr;
@@ -84,7 +84,6 @@
 
 %type <interpreter> Interpreter
 %type <directMode> DirectMode
-%type <statements> Statements
 %type <indirectMode> IndirectMode
 %type <command> Command
 %type <_auto> Auto
@@ -92,7 +91,9 @@
 /*
 	Statements
 */
+%type <statements> Statements
 %type <statement> Statement
+%type <let> Let
 
 /*
 	Expressions
@@ -158,13 +159,24 @@ Command: Run
 	| TrOn					{ printf("TRON %s\n", ne); }
 	| TrOff					{ printf("TROFF %s\n", ne); }
 
-Statements: Statement ':' Statements		{ }
-	| Statement				{ printf("-Statement\n"); }
+Statements: Statement ':' Statements		{
+							$$ = gwbn_NewStatements();
+							$$->stmt = $1;
+							$$->next = $3;
+						}
+	| Statement				{
+							$$ = gwbn_NewStatements();
+							$$->stmt = $1;
+							$$->next = NULL;
+						}
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
 	| Dim					{ printf("DIM %s\n", ne); }
-	| Let					{ printf("LET %s\n", ne); }
+	| Let					{ 
+							$$ = gwbn_NewStatement();
+							$$->let = $1;
+						}
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
 	| Circle				{ printf("CIRCLE %s\n", ne); }
@@ -222,8 +234,8 @@ Beep:	BEEP
 Call:	CALL '('  Variables ')'
 Dim:	DIM ArrayVariables
 OptionBase: OPTION BASE NumericConstant
-Let: 	LET Variable EQUAL Expression
-	| Variable EQUAL Expression
+Let: 	LET Variable EQUAL Expression			{ $$ = gwbn_NewLet(); }
+	| Variable EQUAL Expression			{ $$ = gwbn_NewLet(); }
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 

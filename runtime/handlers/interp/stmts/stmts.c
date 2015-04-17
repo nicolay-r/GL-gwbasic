@@ -2,20 +2,25 @@
 
 #include "inc/stmts.h"
 #include <stdio.h>
+#include <assert.h> /* assert() */
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
 	printf("In \"Statements\" Handler\n"); 
+	GWBN_Statements *stmts = node;
 	do
 	{
-		if (node != NULL)
-			result = gwbh_Statement(env, node->stmt);
-		else 
+		if (stmts != NULL)
+			result = gwbh_Statement(env, stmts->stmt);
+		else { 
 			result.type = GWBR_RESULT_NULLPTR;
+			break;
+		}
+		stmts = stmts->next;
 	}
-	while ( result.type == GWBR_RESULT_OK && node->next != NULL );
+	while ( result.type == GWBR_RESULT_OK && stmts != NULL );
 	return result;	 
 } 
 	
@@ -25,7 +30,15 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 
 	/* "Statement" handler implementation */
 	printf("In \"Statement\" Handler\n"); 
+	
+	assert(node != NULL);
 
+	switch (node->type)
+	{
+		case GWBNT_LET:
+			result = gwbh_Let(env, node->let);
+			return;
+	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
