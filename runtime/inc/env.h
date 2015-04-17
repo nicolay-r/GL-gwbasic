@@ -35,7 +35,7 @@ struct GWBE_Environment {
 */
 struct GWBE_Context {
 	int level;					/* уровень вложенности */
-	struct GWBE_VariableListNode* system_vars;	   	/* глобальные переменные GWBasic */
+	struct GWBE_VariableListNode* system_vars;	/* глобальные переменные GWBasic */
 	struct GWBE_VariableListNode* local_vars[255];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 };
 
@@ -50,14 +50,14 @@ struct GWBE_VariableListNode {
 	Program
 */
 struct GWBE_Program {
-	struct GWBE_VariableListNode* global_vars;
-	struct GWBE_ProgramLineListNode* lines;	
+	struct GWBE_VariableListNode* global_vars;	/* Убрать, так как есть system_vars */
+	struct GWBE_ProgramLineListNode* lines;		/* Заменить на массив линий */
 };
 
 struct GWBE_ProgramLine {
 	int number;
-	char* source;			// заменить на GWBCT_Char
-	struct GWBN_Interpreter* parsed;
+	char* source;					// заменить на GWBCT_Char
+	struct GWBN_Statements* stmts;
 };
 
 struct GWBE_ProgramLineListNode{
