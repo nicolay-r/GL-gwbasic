@@ -9,18 +9,6 @@
 #define GWBR_LINE_LENGTH	255
 
 /*
-	Result Of Interpretation
-*/
-typedef struct GWBR_Result GWBR_Result;
-
-struct GWBR_Result {
-	int type;
-	union {
-		char* msg;	/* same as gwbr_results */
-	};
-};
-
-/*
 	Runtime Functions
 */
 GWBN_Interpreter* gwbr_Parse();

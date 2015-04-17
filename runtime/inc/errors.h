@@ -10,4 +10,16 @@
 #define GWBR_RESULT_OK			0
 #define GWBR_RESULT_NULLPTR		1
 
+/*
+	Result Of Interpretation
+*/
+typedef struct GWBR_Result GWBR_Result;
+
+struct GWBR_Result {
+	int type;
+	union {
+		char* msg;	/* same as gwbr_results */
+	};
+};
+
 #endif

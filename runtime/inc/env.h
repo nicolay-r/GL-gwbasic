@@ -4,8 +4,10 @@
 
 #define _GWBR_ENVIRONMENT_H_
 
+#include "errors.h"		/* GWBR_Result */
 #include "parser.h" 		/* GWBN_Interpreter */
 #include "core.h"		/* GWBC_Variable, GWBC_Array */
+
 /*
 	Type Definitions
 */
@@ -95,13 +97,13 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 */
 
 
-void gwbe_ProgramLineList_Add(GWBE_ProgramLineList** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
-void gwbe_ProgramLineList_Remove(GWBE_ProgramLineList** list, int number);
+GWBR_Result gwbe_ProgramLineList_Add(GWBE_ProgramLineList** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
+GWBR_Result gwbe_ProgramLineList_Remove(GWBE_ProgramLineList** list, int number);
 
-void gwbe_FunctionList_Add(GWBE_FunctionList** list, GWBE_Function* func);
-void gwbe_FunctionList_Remove(GWBE_FunctionList** list, char* name);
+GWBR_Result gwbe_FunctionList_Add(GWBE_FunctionList** list, GWBE_Function* func);
+GWBR_Result gwbe_FunctionList_Remove(GWBE_FunctionList** list, char* name);
 
-void gwbe_VariableList_Add(GWBE_VariableList** list, GWBC_Variable* new_var);
-void gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
+GWBR_Result gwbe_VariableList_Add(GWBE_VariableList** list, GWBC_Variable* new_var);
+GWBR_Result gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
 
 #endif
