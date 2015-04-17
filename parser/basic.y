@@ -47,6 +47,7 @@
 
 /* Type declaration */
 %code requires {
+	#include "ast/inc/types.h"
 	#include "ast/interp/inc/interp.h"	
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
@@ -172,10 +173,13 @@ Statements: Statement ':' Statements		{
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
-	| Dim					{ printf("DIM %s\n", ne); }
+	| Dim					{ 
+							printf("DIM %s\n", ne); 
+						}
 	| Let					{ 
 							$$ = gwbn_NewStatement();
 							$$->let = $1;
+							$$->type = GWBNT_LET;
 						}
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
