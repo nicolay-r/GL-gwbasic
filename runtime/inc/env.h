@@ -50,8 +50,7 @@ struct GWBE_VariableListNode {
 	Program
 */
 struct GWBE_Program {
-	struct GWBE_VariableListNode* global_vars;	/* Убрать, так как есть system_vars */
-	struct GWBE_ProgramLineListNode* lines;		/* Заменить на массив линий */
+	struct GWBE_ProgramLine* lines[65536];		
 };
 
 struct GWBE_ProgramLine {
@@ -96,10 +95,6 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 	Надо добавить GWBR_Result, но его надо вынести в отдельный хедер
 	Иначе получается циклический include
 */
-
-
-GWBR_Result gwbe_ProgramLineListNode_Add(GWBE_ProgramLineListNode** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
-GWBR_Result gwbe_ProgramLineListNode_Remove(GWBE_ProgramLineListNode** list, int number);
 
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func);
 GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* name);

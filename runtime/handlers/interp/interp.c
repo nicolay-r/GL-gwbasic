@@ -4,6 +4,7 @@
 #include "inc/interp.h"	
 #include "stmts/inc/stmts.h"	/* GWBasic Statements AST Nodes */
 #include <assert.h>		/* assert() */
+
 GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 {
 	GWBR_Result result;	
@@ -44,20 +45,18 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	
 GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	GWBR_Result result;
-
-	/* "IndirectMode" handler implementation */
 	printf("In \"IndirectMode\" Handler\n"); 
 	result.type = GWBR_RESULT_OK;
-	/* Добавляем строку кода GWBasic в окружение */
 
 	assert(env->program != NULL);
-	GWBE_ProgramLineListNode** lines = &env->program->lines; /* gwbe_Program_AddLine */
-	
+	assert(env->program->lines != NULL);
+
 	GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
 	line->number = node->line_number;
 	line->source = env->line_buffer;
 	line->stmts = node->statements;
-
-	gwbe_ProgramLineListNode_Add(lines, line);
+	
+	env->program->lines[line->number] = line;
+	
 	return result;	 
 } 	
