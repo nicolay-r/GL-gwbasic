@@ -5,7 +5,6 @@
 #include "../../../../inc/parser.h"
 #include "../../../../inc/env.h"
 #include "../../../../inc/errors.h"
-#include "../../../../inc/runtime.h"
 
 GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node);
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node);

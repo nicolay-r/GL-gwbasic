@@ -2,7 +2,8 @@
 
 #include <stdio.h> 		/* printf */
 #include "inc/interp.h"	
-#include "stmts/inc/stmts.h"	/* GWBasic Statements AST Nodes */
+#include "stmts/inc/stmts.h"	/* GWBasic Statements AST Node Handlers */
+#include "cmds/inc/cmds.h"	/* GWBasic Commands AST Node Handlers */
 #include <assert.h>		/* assert() */
 
 GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
@@ -30,10 +31,11 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 
 	printf("In \"DirectMode\" Handler\n"); 
 	
+	assert(node != NULL);
+
 	if (node->type == GWBNT_COMMAND)
 	{
-		// result = gwbh_Command(env, node->command);
-		gwbh_Command(env, node->command);
+		result = gwbh_Command(env, node->command);
 	}
 	else 
 	{
@@ -45,9 +47,10 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	
 GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	GWBR_Result result;
-	printf("In \"IndirectMode\" Handler\n"); 
 	result.type = GWBR_RESULT_OK;
 
+	printf("In \"IndirectMode\" Handler\n"); 
+	
 	assert(env->program != NULL);
 	assert(env->program->lines != NULL);
 
