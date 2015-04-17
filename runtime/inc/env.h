@@ -12,13 +12,13 @@
 	Type Definitions
 */
 typedef struct GWBE_Environment GWBE_Environment;
-typedef struct GWBE_VariableList GWBE_VariableList;
+typedef struct GWBE_VariableListNode GWBE_VariableListNode;
 typedef struct GWBE_Program GWBE_Program;
 typedef struct GWBE_Function GWBE_Function;
-typedef struct GWBE_FunctionList GWBE_FunctionList;
-typedef struct GWBE_VariableList GWBE_VariableList;
+typedef struct GWBE_FunctionListNode GWBE_FunctionListNode;
+typedef struct GWBE_VariableListNode GWBE_VariableListNode;
 typedef struct GWBE_ProgramLine GWBE_ProgramLine;
-typedef struct GWBE_ProgramLineList GWBE_ProgramLineList;
+typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 
 /*
 	Environment
@@ -27,7 +27,7 @@ struct GWBE_Environment {
 	char* line_buffer;
 	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
-	struct GWBE_FunctionList* udef_funcs;
+	struct GWBE_FunctionListNode* udef_funcs;
 };
 
 /*
@@ -35,23 +35,23 @@ struct GWBE_Environment {
 */
 struct GWBE_Context {
 	int level;					/* уровень вложенности */
-	struct GWBE_VariableList* system_vars;	   	/* глобальные переменные GWBasic */
-	struct GWBE_VariableList* local_vars[255];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
+	struct GWBE_VariableListNode* system_vars;	   	/* глобальные переменные GWBasic */
+	struct GWBE_VariableListNode* local_vars[255];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 };
 
 /*
-	Variable List
+	Variable ListNode
 */
-struct GWBE_VariableList {
-	struct GWBC_Variable *value, *next;
+struct GWBE_VariableListNode {
+	struct GWBC_Variable *val, *next;
 };
 
 /*
 	Program
 */
 struct GWBE_Program {
-	struct GWBE_VariableList* global_vars;
-	struct GWBE_ProgramLineList* lines;	
+	struct GWBE_VariableListNode* global_vars;
+	struct GWBE_ProgramLineListNode* lines;	
 };
 
 struct GWBE_ProgramLine {
@@ -60,8 +60,9 @@ struct GWBE_ProgramLine {
 	struct GWBN_Interpreter* parsed;
 };
 
-struct GWBE_ProgramLineList{
-	struct GWBE_ProgramLine *value, *next; 
+struct GWBE_ProgramLineListNode{
+	struct GWBE_ProgramLine *val;
+	struct GWBE_ProgramLineListNode *next; 
 };
 
 /*
@@ -69,12 +70,12 @@ struct GWBE_ProgramLineList{
 */
 struct GWBE_Function {
 	char* name;
-	struct GWBE_VariableList* vars;
+	struct GWBE_VariableListNode* vars;
 	struct GWBN_Expression* body;		/* function body */
 };
 
-struct GWBE_FunctionList {
-	struct GWBE_Function *value, *next;
+struct GWBE_FunctionListNode {
+	struct GWBE_Function *val, *next;
 };
 
 /*
@@ -88,7 +89,7 @@ void gwbe_DeleteEnvironment(GWBE_Environment* env);
 GWBE_ProgramLine* gwbe_NewProgramLine();
 GWBE_ProgramLine* gwbe_DeleteProgramLine();
 
-//GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableList* vars, struct GWBN_Expression* body);
+//GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableListNode* vars, struct GWBN_Expression* body);
 //void GWBE_DeleteFunction(struct GWBE_Function* func);
 
 /*
@@ -97,13 +98,13 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 */
 
 
-GWBR_Result gwbe_ProgramLineList_Add(GWBE_ProgramLineList** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
-GWBR_Result gwbe_ProgramLineList_Remove(GWBE_ProgramLineList** list, int number);
+GWBR_Result gwbe_ProgramLineListNode_Add(GWBE_ProgramLineListNode** list, GWBE_ProgramLine* new_line); // можно вместо void возвращать GWBR_Result;
+GWBR_Result gwbe_ProgramLineListNode_Remove(GWBE_ProgramLineListNode** list, int number);
 
-GWBR_Result gwbe_FunctionList_Add(GWBE_FunctionList** list, GWBE_Function* func);
-GWBR_Result gwbe_FunctionList_Remove(GWBE_FunctionList** list, char* name);
+GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func);
+GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* name);
 
-GWBR_Result gwbe_VariableList_Add(GWBE_VariableList** list, GWBC_Variable* new_var);
-GWBR_Result gwbe_VariableList_Remove(GWBE_VariableList** list, char* name);
+GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
+GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
 
 #endif
