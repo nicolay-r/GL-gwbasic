@@ -103,7 +103,9 @@ ERROR			{ return ERROR; }
 \+ |
 \* |
 \/ |
-\^ 			{ return yytext[0]; }
+\^ 			{
+				return yytext[0]; 
+			}
 
 {NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
 {NUMBER}+		{
@@ -114,7 +116,7 @@ ERROR			{ return ERROR; }
 \"[^\"]+\"		{ return CONST_STRING; }
 	
 {DECLARATION}		{ 
-				yylval.str = yytext;
+				yylval.str = strdup(yytext);
 				return DECLARATION; 	/* ref. 6.2.1 */ 
 			}	
 

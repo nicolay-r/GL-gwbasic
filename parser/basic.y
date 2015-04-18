@@ -23,6 +23,8 @@
 
 %token DECLARATION
 
+%token '$'
+
 %token GT LT GTE LTE EQUAL INEQUAL
 %token NOT AND OR XOR IMP EQV
 
@@ -397,13 +399,13 @@ Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGV
 	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1;}
 	| ArrayVariable						{ $$ = gwbn_NewVariable(); $$->type = GWBNT_ARRAYVARIABLE; $$->arr = $1; }
 
-StringVariable: DECLARATION '$'					{ $$ = gwbn_NewStringVariable(); $$->name = strdup($1); }
+StringVariable: DECLARATION '$'					{ $$ = gwbn_NewStringVariable(); $$->name = $1; }
 
-NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; $$->name = strdup($1); }
-	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = strdup($1); }
-	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = strdup($1); }
+NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; $$->name = $1; }
+	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
+	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = $1; }
 
-ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = strdup($1); }
+ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = $1; }
 
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
