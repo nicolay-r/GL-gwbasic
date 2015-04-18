@@ -49,6 +49,7 @@
 %code requires {
 	#include "ast/inc/types.h"
 	#include "ast/interp/inc/interp.h"	
+	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
 }
@@ -70,11 +71,17 @@
 	GWBN_Statement*			statement;
 	//GWBN_Beep*			beep;
 	GWBN_Let*			let;
+
 	/* Expressions */	
 	GWBN_Expression*		expr;
 	//GWBN_NumericExpression*	num_expr;
 	//GWBN_StringOperator*		str_op;
 
+	/* Variable */
+	GWBN_Variable*			variable;
+	GWBN_NumericVariable*		num_var;
+	GWBN_StringVariable*		str_var;
+	GWBN_ArrayVariable*		arr_var;
 
 	/* Constants */
 	int 				int_number;
@@ -88,7 +95,6 @@
 %type <indirectMode> IndirectMode
 %type <command> Command
 %type <_auto> Auto
-
 /*
 	Statements
 */
@@ -100,6 +106,14 @@
 	Expressions
 */
 %type <expr> Expression
+
+/*
+	Variables
+*/
+%type <variable> Variable;
+%type <num_var> NumericVariable;
+%type <str_var> StringVariable;
+%type <arr_var> ArrayVariable;
 /*
 %type <num_expr> NumericExpression
 %type <str_op> StringOperator
@@ -238,8 +252,8 @@ Beep:	BEEP
 Call:	CALL '('  Variables ')'
 Dim:	DIM ArrayVariables
 OptionBase: OPTION BASE NumericConstant
-Let: 	LET Variable EQUAL Expression			{ $$ = gwbn_NewLet(); }
-	| Variable EQUAL Expression			{ $$ = gwbn_NewLet(); }
+Let: 	LET Variable EQUAL Expression			{ $$ = gwbn_NewLet(); $$->var = $2; $$->expr = $4; }
+	| Variable EQUAL Expression			{ $$ = gwbn_NewLet(); $$->var = $1; $$->expr = $3; }
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 
@@ -373,19 +387,19 @@ ArrayVariables: ArrayVariable ',' ArrayVariables
 Variables: Variable ',' Variables
 	| Variable
 
-Variable: StringVariable
-	| NumericVariable
-	| ArrayVariable
+Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGVARIABLE; }
+	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; }
+	| ArrayVariable						{ $$ = gwbn_NewVariable(); $$->type = GWBNT_ARRAYVARIABLE; }
 
-StringVariable: VariableName '$'				{ printf("-String decl\n");}
+StringVariable: VariableName '$'				{ $$ = gwbn_NewStringVariable();}
 
-NumericVariable: IntegerVariable
-	| SinglePrecisionVariable
-	| DoublePrecisionVariable
-ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ printf("-Array decl\n"); }
-IntegerVariable: DECLARATION '%'				{ printf("-Integer decl\n"); }
-SinglePrecisionVariable: DECLARATION '!'			{ printf("-Single var decl\n"); }
-DoublePrecisionVariable: DECLARATION '#'			{ printf("-Double var decl\n");}
+NumericVariable: IntegerVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; }
+	| SinglePrecisionVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; }
+	| DoublePrecisionVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; }
+ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ /*printf("-Array decl\n");*/ }
+IntegerVariable: DECLARATION '%'				{ /*printf("-Integer decl\n");*/ }
+SinglePrecisionVariable: DECLARATION '!'			{ /*printf("-Single var decl\n");*/ }
+DoublePrecisionVariable: DECLARATION '#'			{ /*printf("-Double var decl\n");*/ }
 
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER

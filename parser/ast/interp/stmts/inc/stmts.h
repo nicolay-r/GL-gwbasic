@@ -3,6 +3,8 @@
 #define _GWBASIC_STATEMENTS_H_
 
 #include <stdlib.h>
+#include "../../expr/inc/expr.h"
+#include "../../vars/inc/vars.h"
 
 typedef struct GWBN_Statements GWBN_Statements;
 typedef struct GWBN_Statement GWBN_Statement;
@@ -72,7 +74,8 @@ struct GWBN_Dim {
 	/* Not Implemented */
 };
 struct GWBN_Let {
-	/* Not Implemented */
+	GWBN_Variable *var;
+	GWBN_Expression *expr;
 };
 struct GWBN_OptionBase {
 	/* Not Implemented */

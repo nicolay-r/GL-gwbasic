@@ -1,6 +1,8 @@
 #ifndef _GWBASIC_EXPRESSIONS_H_
 #define _GWBASIC_EXPRESSIONS_H_
 
+#include "../../vars/inc/vars.h"
+
 #define GWBNT_EXPRESSION_NUMERIC		4000
 #define GWBNT_EXPRESSION_STRING			4001
 #define GWBNT_EXPRESSION_SUBEXPR		4002
@@ -15,7 +17,6 @@
 /*
 	String Expression
 */
-typedef void GWBN_StringVariable;
 
 typedef struct {
 	int type;
@@ -31,7 +32,6 @@ typedef struct {
 /*
 	Numeric Expression
 */
-typedef void GWBN_NumericVariable;
 typedef void GWBN_NumericConstant;
 
 /* for reference to each other */
