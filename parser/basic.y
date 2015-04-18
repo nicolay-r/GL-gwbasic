@@ -77,8 +77,15 @@
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
-	//GWBN_NumericExpression*	num_expr;
-	//GWBN_StringOperator*		str_op;
+	GWBN_NumericExpression*		num_expr;
+	GWBN_ArithmeticOperator*	arithm_op;
+	GWBN_NumericTerm*		num_term;
+	GWBN_StringExpression*		str_expr;
+	GWBN_StringOperator*		str_op;
+	GWBN_StringTerm*		str_term;
+	GWBN_RelationalOperator*	rel_op;
+	GWBN_LogicalOperator*		log_op;
+	GWBN_FunctionalOperator*	func_op;
 
 	/* Variable */
 	GWBN_Variable*			variable;
@@ -87,6 +94,7 @@
 	GWBN_ArrayVariable*		arr_var;
 
 	/* Constants */
+	GWBN_NumericConstant*		num_const;
 	int 				int_number;
 	float 				float_number;
 	double 				double_number;
@@ -109,6 +117,15 @@
 	Expressions
 */
 %type <expr> Expression
+%type <num_expr> NumericExpression
+%type <arithm_op> ArithmeticOperator
+%type <num_term> NumericTerm
+%type <str_expr> StringExpression
+%type <str_op> StringOperator
+%type <str_term> StringTerm
+%type <rel_op> RelationalOperator
+%type <log_op> LogicalOperator
+%type <func_op> FunctionalOperator
 
 /*
 	Variables
@@ -410,19 +427,19 @@ ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable()
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
 
-Expression: NumericExpression					{ $$ = gwbn_NewExpression(); }
-	| StringExpression					{ $$ = gwbn_NewExpression(); }
+Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBN_NUMERICEXPRESSION; $$->num_expr = $1; }
+	| StringExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBN_STRINGEXPRESSION; $$->str_expr = $1; }
 
-NumericExpression : ArithmeticOperator
-	| RelationalOperator
-	| LogicalOperator
-	| FunctionalOperator
+NumericExpression : ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBN_ARITHMETICOPERATOR; $$->arithm = $1;}
+	| RelationalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBN_RELATIONALOPERATOR; $$->rel = $1; }
+	| LogicalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBN_LOGICALOPERATOR; $$->log = $1; }
+	| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBN_FUNCTIONALOPERATOR; $$->func = $1; }
 
-ArithmeticOperator: NumericExpression '+' NumericExpression	{ printf("A + B\n"); }
-	| NumericExpression '-' NumericExpression		{ printf("A - B\n"); }
-	| NumericExpression '*' NumericTerm			{ printf("A * B\n"); }
-	| NumericExpression '/' NumericTerm			{ printf("A / B\n"); }
-	| NumericTerm
+ArithmeticOperator: NumericExpression '+' NumericExpression	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBB_ADD; }
+	| NumericExpression '-' NumericExpression		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBB_SUB; }
+	| NumericExpression '*' NumericTerm			{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBB_MUL; }
+	| NumericExpression '/' NumericTerm			{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBB_DIV; }
+	| NumericTerm						{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBN_NUMERICTERM; }
 
 NumericTerm: '(' NumericExpression ')'				{ printf("(Exp)\n"); } 
 	| '-' NumericTerm %prec UMINUS				{ printf("Unary minus\n"); }	
@@ -430,7 +447,7 @@ NumericTerm: '(' NumericExpression ')'				{ printf("(Exp)\n"); }
 	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
 	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
-StringExpression: StringOperator				{  }
+StringExpression: StringOperator				{ $$ = gwbn_NewStringExpression(); }
 StringOperator:	StringTerm '+' StringOperator			{ printf("S1 + S2\n"); }
 	| StringTerm
 StringTerm: StringVariable					{ printf("String Variable\n"); }
@@ -439,7 +456,7 @@ StringTerm: StringVariable					{ printf("String Variable\n"); }
 NumericConstant: CONST_INTEGER
 	| CONST_FLOAT
 
-RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ printf("A = B\n"); }
+RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ $$ = gwbn_NewRelationalOperator();  }
 	| ArithmeticOperator INEQUAL ArithmeticOperator		{ printf("A <> B\n"); }
 	| ArithmeticOperator LT	ArithmeticOperator		{ printf("A < B\n"); } 
 	| ArithmeticOperator GT ArithmeticOperator 		{ printf("A > B\n"); } 
@@ -452,7 +469,7 @@ RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ printf("A = B\
 	| StringOperator LTE StringOperator			{ printf("S1 <= S2\n"); } 
 	| StringOperator GTE StringOperator			{ printf("S1 >= S2\n"); } 
 
-LogicalOperator: NOT RelationalOperator				{ printf("NOT A\n"); } 
+LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); } 
 	| RelationalOperator AND RelationalOperator		{ printf("A AND B\n"); } 
 	| RelationalOperator OR RelationalOperator		{ printf("A OR B\n"); } 
 	| RelationalOperator XOR RelationalOperator		{ printf("A XOR B\n"); } 

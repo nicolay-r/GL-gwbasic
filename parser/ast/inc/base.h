@@ -18,7 +18,6 @@
 #define GWBB_POW			104
 #define GWBB_UNARY_MINUS		105
 
-
 /*
 	Typedefs
 */

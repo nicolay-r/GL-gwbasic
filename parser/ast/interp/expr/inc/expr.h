@@ -23,7 +23,7 @@ struct GWBN_Expression{
 	int type; /*GWBN_NUMERICEXPRESSION, GWBN_STRINGOPERATOR */
 	union {
 		GWBN_NumericExpression*	num_expr;
-		GWBN_StringOperator* str_expr;
+		GWBN_StringExpression* str_expr;
 	};
 };
 
@@ -32,13 +32,13 @@ struct GWBN_NumericExpression{
 	union {
 		GWBN_ArithmeticOperator* arithm;
 		GWBN_RelationalOperator* rel;
-		GWBN_LogicalOperator* logic;
+		GWBN_LogicalOperator* log;
 		GWBN_FunctionalOperator* func;
 	};
 };
 
 struct GWBN_ArithmeticOperator{
-	int type;
+	int type; /* GWBB_ADD, GWBB_SUB, GWBB_MUL, GWBB_DIV, GWBN_NUMERICTERM */
 	union {
 		struct {
 			GWBN_NumericExpression *a, *b;
