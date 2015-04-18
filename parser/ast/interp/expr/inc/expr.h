@@ -14,11 +14,31 @@
 #define GWBNT_OPERATION_POW			4024
 #define GWBNT_OPERATION_UNARY_MINUS		4025
 
+typedef void GWBN_RelationalOperator;
+typedef void GWBN_LogicalOperator;
+typedef void GWBN_FunctionalOperator;
+typedef void GWBN_NumericConstant;
+typedef struct GWBN_NumericExpression GWBN_NumericExpression;  
+typedef struct GWBN_ArithmeticOperator GWBN_ArithmeticOperator;
+typedef struct GWBN_Expression GWBN_Expression;
+typedef struct GWBN_NumericTerm GWBN_NumericTerm;
+typedef struct GWBN_StringOperator GWBN_StringOperator;
+
+/*
+	Expression
+*/
+struct GWBN_Expression{
+	int type;
+	union {
+		GWBN_NumericExpression*	num_expr;
+		GWBN_StringOperator* str_expr;
+	};
+};
+
 /*
 	String Expression
 */
-
-typedef struct {
+struct GWBN_StringOperator{
 	int type;
 	union {
 		struct {
@@ -27,18 +47,9 @@ typedef struct {
 		GWBN_StringVariable* var;
 		char* str;
 	};
-} GWBN_StringOperator;
+};
 	
-/*
-	Numeric Expression
-*/
-typedef void GWBN_NumericConstant;
-
-/* for reference to each other */
-typedef struct GWBN_NumericExpression GWBN_NumericExpression;  
-typedef struct GWBN_ArithmeticOperator GWBN_ArithmeticOperator;
- 
-typedef struct {
+struct GWBN_NumericTerm {
 	int type;
 	union {
 		GWBN_NumericExpression* num_expr;
@@ -49,8 +60,7 @@ typedef struct {
 		GWBN_NumericVariable* var;
 		GWBN_NumericConstant* num;
 	};
-} GWBN_NumericTerm;
-
+};
 
 struct GWBN_ArithmeticOperator{
 	int type;
@@ -61,10 +71,6 @@ struct GWBN_ArithmeticOperator{
 		GWBN_NumericTerm *term;	
 	};
 };
-
-typedef void GWBN_RelationalOperator;
-typedef void GWBN_LogicalOperator;
-typedef void GWBN_FunctionalOperator;
 
 struct GWBN_NumericExpression{
 	int type;
@@ -77,16 +83,9 @@ struct GWBN_NumericExpression{
 };
 
 /*
-	Expression
+	Prototypes
 */
-typedef struct {
-	int type;
-	union {
-		GWBN_NumericExpression*	num_expr;
-		GWBN_StringOperator* str_expr;
-	};
-} GWBN_Expression;
-
 GWBN_Expression* gwbn_NewExpression();
 void gwbn_DeleteExpression();
+
 #endif 

@@ -410,14 +410,8 @@ ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable()
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
 
-Expression: NumericExpression					{ 
-									printf("-Numeric Expression\n"); 
-									$$ = gwbn_NewExpression();
-								}
-	| StringExpression					{ 
-									printf("-String Operator\n"); 
-									$$ = gwbn_NewExpression();
-								}
+Expression: NumericExpression					{ $$ = gwbn_NewExpression(); }
+	| StringExpression					{ $$ = gwbn_NewExpression(); }
 
 NumericExpression : ArithmeticOperator
 	| RelationalOperator
