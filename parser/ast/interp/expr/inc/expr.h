@@ -2,17 +2,7 @@
 #define _GWBASIC_EXPRESSIONS_H_
 
 #include "../../vars/inc/vars.h"
-
-#define GWBNT_EXPRESSION_NUMERIC		4000
-#define GWBNT_EXPRESSION_STRING			4001
-#define GWBNT_EXPRESSION_SUBEXPR		4002
-
-#define GWBNT_OPERATION_ADD			4020
-#define GWBNT_OPERATION_SUB			4021
-#define GWBNT_OPEARTION_MUL			4022
-#define GWBNT_OPERATION_DIV			4023
-#define GWBNT_OPERATION_POW			4024
-#define GWBNT_OPERATION_UNARY_MINUS		4025
+#include "../../../inc/base.h"		/* GWBB_Integer, GWBB_Single, GWBB_Double, GWBB_String */
 
 typedef struct GWBN_NumericExpression GWBN_NumericExpression;  
 typedef struct GWBN_ArithmeticOperator GWBN_ArithmeticOperator;
@@ -30,7 +20,7 @@ typedef struct GWBN_NumericConstant GWBN_NumericConstant;
 	Expression
 */
 struct GWBN_Expression{
-	int type;
+	int type; /*GWBN_NUMERICEXPRESSION, GWBN_STRINGOPERATOR */
 	union {
 		GWBN_NumericExpression*	num_expr;
 		GWBN_StringOperator* str_expr;
@@ -71,39 +61,58 @@ struct GWBN_NumericTerm {
 };
 
 struct GWBN_StringExpression{
-		
+	GWBN_StringOperator* op;
 };
 
 struct GWBN_StringOperator{
-	int type;
+	int type; /* GWBB_ADD, GWBB_STRINGTERM */
 	union {
 		struct {
 			struct GWBN_StringOperator *a, *b;
 		};
-		GWBN_StringVariable* var;
-		char* str;
+		GWBN_StringTerm* var;
 	};
 };
 
 struct GWBN_StringTerm {
-
+	int type; /* GWBN_STRINGVARIABLE, GWBB_STRING */
+	union {
+		GWBN_StringVariable* var;
+		GWBB_String str;
+	};
 };
 
+
 struct GWBN_NumericConstant {
-	
+	int type; /* GWBB_INTEGER, GWBB_SINGLE */
+	union {
+		GWBB_Integer const_int;
+		GWBB_Single const_float;
+	};
 };
 
 struct GWBN_RelationalOperator {
-
+	int op_type;	/*GWBB_EQUAL, GWBB_INEQUAL, ... */
+	int args_type;	/*GWBN_ARITHMETICOPERATOR, GWBN_STRINGOPERATOR */
+	union {
+		struct {
+			GWBN_ArithmeticOperator *a, *b;	
+		};
+		struct {
+			GWBN_StringOperator *s1, *s2;
+		};
+	};
 };
 
 struct GWBN_LogicalOperator {
-	
+	int type;	/* GWBB_NOT, GWBB_AND, GWBB_OR, GWBB_XOR */
+	GWBN_RelationalOperator* rop;
 };
 
 struct GWBN_FunctionalOperator {
 	
 };
+
 /*
 	Prototypes
 */
