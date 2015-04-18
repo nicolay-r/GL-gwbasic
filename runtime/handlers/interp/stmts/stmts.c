@@ -78,7 +78,15 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 
 	/* "Let" handler implementation */
 	printf("In \"Let\" Handler\n"); 
-
+	switch (node->var->type)
+	{
+		case GWBNT_NUMERICVARIABLE:
+			printf("variable name: %s", node->var->num->name);
+			break;
+		case GWBNT_STRINGVARIABLE:
+			printf("variable name: %s", node->var->str->name);
+			break;
+	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 

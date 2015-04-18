@@ -24,15 +24,19 @@ struct GWBN_Variable {
 	};
 };
 struct GWBN_StringVariable {
-	/* Not Implemented */
+	char* name;
 };
 struct GWBN_NumericVariable {
 	int type;		/* 	GWBNT_INTEGERVARIABLE
 					GWBNT_SINGLEPRECISIONVARIABLE 
 					GWBNT_DOUBLEPRECISIONVARIABLE 	*/
+	char* name;
 };
 struct GWBN_ArrayVariable {
 	int type;
+	char* name;
+	//GWBN_ConstIntegers* dims;
+	int* dim;
 };
 
 /*

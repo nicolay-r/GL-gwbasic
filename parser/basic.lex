@@ -113,7 +113,10 @@ ERROR			{ return ERROR; }
 
 \"[^\"]+\"		{ return CONST_STRING; }
 	
-{DECLARATION}		{ return DECLARATION; /* ref. 6.2.1 */ }	
+{DECLARATION}		{ 
+				yylval.str = yytext;
+				return DECLARATION; 	/* ref. 6.2.1 */ 
+			}	
 
 %%
 

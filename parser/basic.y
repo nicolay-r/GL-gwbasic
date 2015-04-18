@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include <string.h>
 
 	char* ne = "Not Implemented";
 
@@ -114,6 +115,11 @@
 %type <num_var> NumericVariable;
 %type <str_var> StringVariable;
 %type <arr_var> ArrayVariable;
+
+/*
+	Constants
+*/
+%type <str> DECLARATION;
 /*
 %type <num_expr> NumericExpression
 %type <str_op> StringOperator
@@ -387,19 +393,17 @@ ArrayVariables: ArrayVariable ',' ArrayVariables
 Variables: Variable ',' Variables
 	| Variable
 
-Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGVARIABLE; }
-	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; }
-	| ArrayVariable						{ $$ = gwbn_NewVariable(); $$->type = GWBNT_ARRAYVARIABLE; }
+Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGVARIABLE; $$->str = $1;}
+	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1;}
+	| ArrayVariable						{ $$ = gwbn_NewVariable(); $$->type = GWBNT_ARRAYVARIABLE; $$->arr = $1; }
 
-StringVariable: VariableName '$'				{ $$ = gwbn_NewStringVariable();}
+StringVariable: DECLARATION '$'					{ $$ = gwbn_NewStringVariable(); $$->name = strdup($1); }
 
-NumericVariable: IntegerVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; }
-	| SinglePrecisionVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; }
-	| DoublePrecisionVariable				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; }
-ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ /*printf("-Array decl\n");*/ }
-IntegerVariable: DECLARATION '%'				{ /*printf("-Integer decl\n");*/ }
-SinglePrecisionVariable: DECLARATION '!'			{ /*printf("-Single var decl\n");*/ }
-DoublePrecisionVariable: DECLARATION '#'			{ /*printf("-Double var decl\n");*/ }
+NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; $$->name = strdup($1); }
+	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = strdup($1); }
+	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = strdup($1); }
+
+ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = strdup($1); }
 
 ConstIntegers: CONST_INTEGER ',' ConstIntegers
 	| CONST_INTEGER
