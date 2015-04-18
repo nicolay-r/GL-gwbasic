@@ -346,7 +346,7 @@ Else:
 Input: INPUT InputPrompt Variables
 InputPrompt: InputPromptString InputPromptEnd
 InputPromptString:
-	| StringConstant
+	| CONST_STRING
 InputPromptEnd: ','
 	| ';'
 
@@ -430,12 +430,12 @@ NumericTerm: '(' NumericExpression ')'				{ printf("(Exp)\n"); }
 	| NumericVariable					{ /*printf("%s\n", $1.str);*/ }
 	| NumericConstant 					{ /*printf("%d\n", $1.int_number);*/ }
 
-StringExpression: StringOperator
-StringOperator:	StringOperator '+' StringOperator		{ printf("S1 + S2\n"); }
-	| StringVariable					{ printf("String Variable\n"); }
-	| StringConstant					{ printf("String Constant\n"); }
+StringExpression: StringOperator				{  }
+StringOperator:	StringTerm '+' StringOperator			{ printf("S1 + S2\n"); }
+	| StringTerm
+StringTerm: StringVariable					{ printf("String Variable\n"); }
+	| CONST_STRING						{ printf("String Constant\n"); }
 
-StringConstant:	CONST_STRING
 NumericConstant: CONST_INTEGER
 	| CONST_FLOAT
 
@@ -459,8 +459,8 @@ LogicalOperator: NOT RelationalOperator				{ printf("NOT A\n"); }
 	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
 	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
-FunctionalOperator: SIN '(' ArithmeticOperator ')'
-
+FunctionalOperator: FunctionName '(' ArithmeticOperator ')'
+FunctionName: SIN  
 
 Dash: '-';
 VariableName: DECLARATION;
