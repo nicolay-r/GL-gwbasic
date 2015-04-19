@@ -3,6 +3,9 @@
 #define _GWBASIC_STATEMENTS_H_
 
 #include <stdlib.h>
+
+#include "print.h"
+
 #include "../../expr/inc/expr.h"
 #include "../../vars/inc/vars.h"
 
@@ -126,7 +129,7 @@ struct GWBN_Input {
 	/* Not Implemented */
 };
 struct GWBN_Print {
-	/* Not Implemented */
+	GWBN_PrintExpressions* exprs;
 };
 struct GWBN_LineInput {
 	/* Not Implemented */

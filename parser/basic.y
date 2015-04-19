@@ -55,6 +55,7 @@
 	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
+	#include "ast/interp/stmts/inc/print.h"
 }
 
 %parse-param {GWBN_Interpreter** interpreter}
@@ -74,6 +75,8 @@
 	GWBN_Statement*			statement;
 	//GWBN_Beep*			beep;
 	GWBN_Let*			let;
+	GWBN_Print*			print;
+	GWBN_PrintExpressions*		print_exprs;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -99,6 +102,7 @@
 	float 				float_num;
 	double 				double_num;
 	char*				str;
+	int				term_type;
 }
 
 %type <interpreter> Interpreter
@@ -112,7 +116,9 @@
 %type <statements> Statements
 %type <statement> Statement
 %type <let> Let
-
+%type <print> Print
+%type <print_exprs> PrintExpressions
+%type <term_type> PrintSeparator
 /*
 	Expressions
 */
@@ -365,15 +371,15 @@ InputPromptString:
 InputPromptEnd: ','
 	| ';'
 
-Print: PrintOperator PrintExpressions
+Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }
 PrintOperator: PRINT
 	| '?'
-PrintExpressions: Expression PrintSeparator PrintExpressions
-	| Expression
-	| PrintSeparator
-PrintSeparator:
-	| ','
-	| ';'
+PrintExpressions: Expression PrintSeparator PrintExpressions		{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = $2; $$->next = $3; }
+	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; }
+	| PrintSeparator						{ $$ = gwbn_NewPrintExpressions(); $$->sep_type = $1; $$->next = NULL; }
+PrintSeparator:								{ /* дополнить */ }
+	| ','								{ $$ = GWBBT_COMMA; }
+	| ';'								{ $$ = GWBBT_SEMICOLON; }
 
 LineInput: LINE INPUT InputPromptString StringVariable
 

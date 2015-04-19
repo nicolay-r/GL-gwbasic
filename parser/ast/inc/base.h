@@ -18,6 +18,9 @@
 #define GWBBT_POW			104
 #define GWBBT_UNARY_MINUS		105
 
+
+#define GWBBT_COMMA			200
+#define GWBBT_SEMICOLON			201
 /*
 	Typedefs
 */
