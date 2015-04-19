@@ -81,10 +81,12 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	switch (node->var->type)
 	{
 		case GWBNT_NUMERICVARIABLE:
-			printf("variable name: %s", node->var->num->name);
+			/* вычислить выражение */
+			/* проверить сходство типов */
 			break;
 		case GWBNT_STRINGVARIABLE:
-			printf("variable name: %s", node->var->str->name);
+			/* вычислить выражение */
+			/* проверить сходство типов */
 			break;
 	}
 	result.type = GWBR_RESULT_OK;
