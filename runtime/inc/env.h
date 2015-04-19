@@ -97,12 +97,6 @@ GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* nam
 GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
 GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
 
-/* For GWBC_Variable type */
-GWBC_Value gwbe_Variable_GetValue(char* name);
-GWBR_Result gwbe_Variable_SetValue(char* name, GWBC_Value val);
-
-/* For GWBC_Array type */
-GWBC_Value gwbe_Variable_GetArrayValue(char* name, int* indexes);
-GWBR_Result gwbe_Variable_SetArrayValue(char* name, int* indexes, GWBC_Value val);
+GWBC_Variable* gwbe_Variable_Get(char* name);
 
 #endif
