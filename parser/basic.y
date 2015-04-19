@@ -217,11 +217,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Dim					{ 
 							printf("DIM %s\n", ne); 
 						}
-	| Let					{ 
-							$$ = gwbn_NewStatement();
-							$$->let = $1;
-							$$->type = GWBNT_LET;
-						}
+	| Let					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LET; $$->let = $1; }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
 	| Circle				{ printf("CIRCLE %s\n", ne); }

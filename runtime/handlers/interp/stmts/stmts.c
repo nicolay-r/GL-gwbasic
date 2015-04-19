@@ -3,6 +3,7 @@
 #include "inc/stmts.h"
 #include <stdio.h>
 #include <assert.h> /* assert() */
+#include "../expr/inc/eval.h"
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;
@@ -78,6 +79,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 
 	/* "Let" handler implementation */
 	printf("In \"Let\" Handler\n"); 
+	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
 	switch (node->var->type)
 	{
 		case GWBNT_NUMERICVARIABLE:
@@ -89,6 +91,8 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			/* проверить сходство типов */
 			break;
 	}
+	if (expr_res.val_type == GWBCT_STRING)
+		printf("value: %s", expr_res.val.str_val);
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
