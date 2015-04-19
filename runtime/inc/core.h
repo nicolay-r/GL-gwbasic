@@ -6,12 +6,7 @@
 /*
 	Value Types
 */
-#define GWBCT_INTEGER		1
-#define GWBCT_SINGLE		2
-#define GWBCT_DOUBLE		3
-#define GWBCT_STRING		4
-
-typedef union GWBC_Value GWBC_Value;
+typedef struct GWBC_Value GWBC_Value;
 typedef struct GWBC_ArrayDimension GWBC_ArrayDimension;    
 typedef struct GWBC_Array GWBC_Array;
 typedef struct GWBC_Variable GWBC_Variable;
@@ -20,7 +15,7 @@ typedef struct GWBC_Variable GWBC_Variable;
 	Variable
 */
 struct GWBC_Variable{
-	int type;	/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
+	int type;	/* GWBC_VALUE, GWBC_ARRAY */
 	char* name;
 	union {
 		GWBC_Value* vals;
@@ -31,8 +26,10 @@ struct GWBC_Variable{
 /*
 	Array
 */
+#define GWBC_MAX_DIM_COUNT	255
+
 struct GWBC_Array{
-	int elem_type;
+	int elem_type;	/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
 	int dim_count;
 	GWBC_ArrayDimension* dim; 
 };
@@ -48,11 +45,19 @@ struct GWBC_ArrayDimension {
 /*
 	Values
 */
-union GWBC_Value{
-	int int_val;		/* integer */
-	float single_val;	/* single prec */
-	double double_val;	/* double prec */	
-	char* str_val;		/* string */
+#define GWBCT_INTEGER		1
+#define GWBCT_SINGLE		2
+#define GWBCT_DOUBLE		3
+#define GWBCT_STRING		4
+
+struct GWBC_Value{
+	int type;			/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
+	union {
+		int int_val;		/* integer */
+		float single_val;	/* single prec */
+		double double_val;	/* double prec */	
+		char* str_val;		/* string */
+	};
 };
 
 /*

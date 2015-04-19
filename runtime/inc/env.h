@@ -91,15 +91,18 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 //GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableListNode* vars, struct GWBN_Expression* body);
 //void GWBE_DeleteFunction(struct GWBE_Function* func);
 
-/*
-	Надо добавить GWBR_Result, но его надо вынести в отдельный хедер
-	Иначе получается циклический include
-*/
-
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func);
 GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* name);
 
 GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
 GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
+
+/* For GWBC_Variable type */
+GWBC_Value gwbe_Variable_GetValue(char* name);
+GWBR_Result gwbe_Variable_SetValue(char* name, GWBC_Value val);
+
+/* For GWBC_Array type */
+GWBC_Value gwbe_Variable_GetArrayValue(char* name, int* indexes);
+GWBR_Result gwbe_Variable_SetArrayValue(char* name, int* indexes, GWBC_Value val);
 
 #endif
