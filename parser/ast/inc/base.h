@@ -6,17 +6,17 @@
 /*
 	Types
 */
-#define GWBB_INTEGER	1
-#define GWBB_SINGLE	2
-#define GWBB_DOUBLE	3
-#define GWBB_STRING	4
+#define GWBBT_INTEGER	1
+#define GWBBT_SINGLE	2
+#define GWBBT_DOUBLE	3
+#define GWBBT_STRING	4
 
-#define GWBB_ADD			100
-#define GWBB_SUB			101
-#define GWBB_MUL			102
-#define GWBB_DIV			103
-#define GWBB_POW			104
-#define GWBB_UNARY_MINUS		105
+#define GWBBT_ADD			100
+#define GWBBT_SUB			101
+#define GWBBT_MUL			102
+#define GWBBT_DIV			103
+#define GWBBT_POW			104
+#define GWBBT_UNARY_MINUS		105
 
 /*
 	Typedefs

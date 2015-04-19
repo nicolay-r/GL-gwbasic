@@ -41,7 +41,11 @@ struct GWBN_ArithmeticOperator{
 	int type; /* GWBB_ADD, GWBB_SUB, GWBB_MUL, GWBB_DIV, GWBN_NUMERICTERM */
 	union {
 		struct {
-			GWBN_NumericExpression *a, *b;
+			GWBN_NumericExpression *a;
+			union {
+				GWBN_NumericExpression *b;
+				GWBN_NumericTerm *term_b;
+			};
 		};
 		GWBN_NumericTerm *term;	
 	};
@@ -56,7 +60,7 @@ struct GWBN_NumericTerm {
 		};
 		struct GWBN_NumericTerm* term;
 		GWBN_NumericVariable* var;
-		GWBN_NumericConstant* num;
+		GWBN_NumericConstant* num_const;
 	};
 };
 
@@ -68,9 +72,10 @@ struct GWBN_StringOperator{
 	int type; /* GWBB_ADD, GWBB_STRINGTERM */
 	union {
 		struct {
-			struct GWBN_StringOperator *a, *b;
+			struct GWBN_StringTerm *a;
+			struct GWBN_StringOperator *b;
 		};
-		GWBN_StringTerm* var;
+		GWBN_StringTerm* term;
 	};
 };
 

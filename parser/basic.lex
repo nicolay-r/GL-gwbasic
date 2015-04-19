@@ -107,9 +107,12 @@ ERROR			{ return ERROR; }
 				return yytext[0]; 
 			}
 
-{NUMBER}\.{NUMBER}*	{ return CONST_FLOAT; }
+{NUMBER}\.{NUMBER}*	{ 
+				yylval.float_num = atof(yytext);
+				return CONST_FLOAT; 
+			}
 {NUMBER}+		{
-				yylval.int_number = atoi(yytext);	 
+				yylval.int_num = atoi(yytext);	 
 				return CONST_INTEGER; 
 			}
 
