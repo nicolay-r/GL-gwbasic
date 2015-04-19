@@ -92,7 +92,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			break;
 	}
 	if (expr_res.val_type == GWBCT_STRING)
-		printf("value: %s", expr_res.val.str_val);
+		printf("value: %s\n", expr_res.val.str_val);
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
