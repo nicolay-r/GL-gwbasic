@@ -87,7 +87,9 @@
 	GWBN_Let*			let;
 	GWBN_Print*			print;
 	GWBN_PrintExpressions*		print_exprs;
-
+	GWBN_Input*			input;
+	GWBN_InputPrompt*		input_prompt;
+	
 	/* Expressions */	
 	GWBN_Expression*		expr;
 	GWBN_NumericExpression*		num_expr;
@@ -101,6 +103,7 @@
 	GWBN_FunctionalOperator*	func_op;
 
 	/* Variable */
+	GWBN_Variables*			variables;
 	GWBN_Variable*			variable;
 	GWBN_NumericVariable*		num_var;
 	GWBN_StringVariable*		str_var;
@@ -129,6 +132,10 @@
 %type <print> Print
 %type <print_exprs> PrintExpressions
 %type <term_type> PrintSeparator
+%type <input> Input
+%type <input_prompt> InputPrompt
+%type <str> InputPromptString
+%type <term_type> InputPromptEndType
 /*
 	Expressions
 */
@@ -146,6 +153,7 @@
 /*
 	Variables
 */
+%type <variables> Variables;
 %type <variable> Variable;
 %type <num_var> NumericVariable;
 %type <str_var> StringVariable;
@@ -374,12 +382,12 @@ Then: THEN Statements
 Else:
 	| ELSE Statements
 
-Input: INPUT InputPrompt Variables						
-InputPrompt: InputPromptString InputPromptEndType
-InputPromptString:
-	| CONST_STRING
-InputPromptEndType: ','
-	| ';'
+Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }	
+InputPrompt: InputPromptString InputPromptEndType			{ $$ = gwbn_NewInputPrompt(); $$->str = $1; $$->end_type = $2; }
+InputPromptString:							{ $$ = NULL; }
+	| CONST_STRING							{ $$ = $1; }
+InputPromptEndType: ','							{ $$ = GWBBT_COMMA; }
+	| ';'								{ $$ = GWBBT_SEMICOLON; }
 
 Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }		
 PrintOperator: PRINT	
@@ -423,8 +431,8 @@ FunctionArguments: VariableName ',' FunctionArguments
 ArrayVariables: ArrayVariable ',' ArrayVariables
 	| ArrayVariable
 
-Variables: Variable ',' Variables
-	| Variable
+Variables: Variable ',' Variables				{ $$ = gwbn_NewVariables(); $$->var = $1; $$->next = $3; }
+	| Variable						{ $$ = gwbn_NewVariables(); $$->var = $1; $$->next = NULL; }
 
 Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGVARIABLE; $$->str = $1;}
 	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1;}
