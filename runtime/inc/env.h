@@ -12,6 +12,7 @@
 	Type Definitions
 */
 typedef struct GWBE_Environment GWBE_Environment;
+typedef struct GWBE_Context GWBE_Context;
 typedef struct GWBE_VariableListNode GWBE_VariableListNode;
 typedef struct GWBE_Program GWBE_Program;
 typedef struct GWBE_Function GWBE_Function;
@@ -43,7 +44,8 @@ struct GWBE_Context {
 	Variable ListNode
 */
 struct GWBE_VariableListNode {
-	struct GWBC_Variable *val, *next;
+	GWBC_Variable* var;
+	struct GWBE_VariableListNode *next;
 };
 
 /*
@@ -60,7 +62,7 @@ struct GWBE_ProgramLine {
 };
 
 struct GWBE_ProgramLineListNode{
-	struct GWBE_ProgramLine *val;
+	struct GWBE_ProgramLine *line;
 	struct GWBE_ProgramLineListNode *next; 
 };
 
@@ -97,6 +99,6 @@ GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* nam
 GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
 GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
 
-GWBC_Variable* gwbe_Variable_Get(char* name);
+GWBC_Variable* gwbe_Variable_Get(GWBE_Environment* env, char* var_name);
 
 #endif

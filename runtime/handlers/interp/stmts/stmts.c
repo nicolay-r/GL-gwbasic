@@ -38,10 +38,10 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 	{
 		case GWBNT_LET:
 			result = gwbh_Let(env, node->let);
-			return;
+			return result;
 		case GWBNT_PRINT:
 			result = gwbh_Print(env, node->print);
-			return;
+			return result;
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 

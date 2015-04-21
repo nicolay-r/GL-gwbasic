@@ -41,3 +41,26 @@ GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* nam
 {
 
 }
+
+GWBC_Variable* gwbe_Variable_Get(GWBE_Environment* env, char* var_name)
+{
+	assert(env->ctx != NULL);
+
+	GWBE_Context* ctx = env->ctx;
+	
+	int curr_level;
+	for (curr_level = ctx->level; curr_level >= 0; curr_level--)
+	{
+		assert(ctx->local_vars[curr_level] != NULL);
+
+		GWBE_VariableListNode* vars = ctx->local_vars[curr_level];		
+		while (vars != NULL)
+		{
+			if (strcmp(vars->var->name, var_name) == 0)
+				return vars->var;
+			vars = vars->next;
+		}
+	}
+	
+	return NULL;	
+}
