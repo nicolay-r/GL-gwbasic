@@ -374,15 +374,15 @@ Then: THEN Statements
 Else:
 	| ELSE Statements
 
-Input: INPUT InputPrompt Variables				
+Input: INPUT InputPrompt Variables						
 InputPrompt: InputPromptString InputPromptEndType
 InputPromptString:
 	| CONST_STRING
 InputPromptEndType: ','
 	| ';'
 
-Print: PrintOperator PrintExpressions					
-PrintOperator: PRINT
+Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }		
+PrintOperator: PRINT	
 	| '?'
 PrintExpressions: Expression PrintSeparator PrintExpressions		{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = $2; $$->next = $3; }
 	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; }
