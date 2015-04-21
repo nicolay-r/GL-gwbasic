@@ -2,6 +2,16 @@
 
 #include "inc/vars.h"
 
+GWBN_Variables* gwbn_NewVariables() {
+	GWBN_Variables* result = (GWBN_Variables*) malloc (sizeof(GWBN_Variables));
+	return result;
+} 
+	
+void gwbn_DeleteVariables(GWBN_Variables* ptr) {
+	free(ptr);
+}
+
+
 GWBN_Variable* gwbn_NewVariable() {
 	GWBN_Variable* result = (GWBN_Variable*) malloc (sizeof(GWBN_Variable));
 	return result;

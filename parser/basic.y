@@ -374,14 +374,14 @@ Then: THEN Statements
 Else:
 	| ELSE Statements
 
-Input: INPUT InputPrompt Variables
-InputPrompt: InputPromptString InputPromptEnd
+Input: INPUT InputPrompt Variables				
+InputPrompt: InputPromptString InputPromptEndType
 InputPromptString:
 	| CONST_STRING
-InputPromptEnd: ','
+InputPromptEndType: ','
 	| ';'
 
-Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }
+Print: PrintOperator PrintExpressions					
 PrintOperator: PRINT
 	| '?'
 PrintExpressions: Expression PrintSeparator PrintExpressions		{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = $2; $$->next = $3; }

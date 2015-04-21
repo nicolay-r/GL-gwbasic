@@ -7,19 +7,15 @@
 
 typedef struct GWBN_Input GWBN_Input;
 typedef struct GWBN_InputPrompt GWBN_InputPrompt;
-typedef struct GWBN_InputPromptEnd GWBN_InputPromptEnd;
+typedef int GWBN_InputPromptEndType;
+typedef GWBB_String GWBN_InputPromptString;
 
 /*
 	Structs
 */
-struct GWBN_Input {
-	/* Not Implemented */
-};
 struct GWBN_InputPrompt {
-	/* Not Implemented */
-};
-struct GWBN_InputPromptEnd {
-	/* Not Implemented */
+	GWBN_InputPromptString str;
+	GWBN_InputPromptEndType end_type; 
 };
 
 /*
@@ -27,7 +23,5 @@ struct GWBN_InputPromptEnd {
 */
 GWBN_InputPrompt* gwbn_NewInputPrompt();
 void gwbn_DeleteInputPrompt(GWBN_InputPrompt* ptr);
-GWBN_InputPromptEnd* gwbn_NewInputPromptEnd();
-void gwbn_DeleteInputPromptEnd(GWBN_InputPromptEnd* ptr);
 
 #endif

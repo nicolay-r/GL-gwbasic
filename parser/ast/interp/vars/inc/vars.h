@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 
+typedef struct GWBN_Variables GWBN_Variables;
 typedef struct GWBN_Variable GWBN_Variable;
 typedef struct GWBN_StringVariable GWBN_StringVariable;
 typedef struct GWBN_NumericVariable GWBN_NumericVariable;
@@ -13,6 +14,10 @@ typedef struct GWBN_ArrayVariable GWBN_ArrayVariable;
 /*
 	Structures
 */
+struct GWBN_Variables {
+	GWBN_Variable* var;
+	struct GWBN_Variables* next;
+};
 struct GWBN_Variable {
 	int type;		/*	GWBNT_STRINGVARIABLE
 					GWBNT_NUMERICVARIABLE
@@ -42,6 +47,8 @@ struct GWBN_ArrayVariable {
 /*
 	Prototypes
 */
+GWBN_Variables* gwbn_NewVariables();
+void gwbn_DeleteVariables(GWBN_Variables* ptr);
 GWBN_Variable* gwbn_NewVariable();
 void gwbn_DeleteVariable(GWBN_Variable* ptr);
 GWBN_StringVariable* gwbn_NewStringVariable();

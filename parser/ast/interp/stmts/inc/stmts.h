@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "print.h"
+#include "input.h"
 
 #include "../../expr/inc/expr.h"
 #include "../../vars/inc/vars.h"
@@ -126,7 +127,8 @@ struct GWBN_IfThenElse {
 	/* Not Implemented */
 };
 struct GWBN_Input {
-	/* Not Implemented */
+	GWBN_InputPrompt* prompt;
+	GWBN_Variables* vars;	
 };
 struct GWBN_Print {
 	GWBN_PrintExpressions* exprs;
