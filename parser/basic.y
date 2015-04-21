@@ -11,7 +11,7 @@
 	typedef struct yy_buffer_state * YY_BUFFER_STATE;
 	extern YY_BUFFER_STATE yy_scan_string(char *str);
 	extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
-
+	
 %}
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
@@ -50,12 +50,22 @@
 
 /* Type declaration */
 %code requires {
+	
+	/*	
+		AST Node Types 
+	*/
 	#include "ast/inc/types.h"
 	#include "ast/interp/inc/interp.h"	
 	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
 	#include "ast/interp/stmts/inc/print.h"
+
+	/*
+		Main Parser Prototype (Runtime Requires)	
+	*/
+	GWBN_Interpreter* gwbp_Parse(char* sourceCode);
+
 }
 
 %parse-param {GWBN_Interpreter** interpreter}
