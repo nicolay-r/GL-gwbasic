@@ -370,7 +370,7 @@ Goto: GOTO LineNumber
 
 IfThenElse: IF Expression Then Else 
 Then: THEN Statements 
-	| GOTO LineNumber 
+	| Goto
 Else:
 	| ELSE Statements
 
