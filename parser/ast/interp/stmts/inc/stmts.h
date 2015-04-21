@@ -61,7 +61,9 @@ struct GWBN_Statement {
 		struct GWBN_DefFn* def_fn;
 		struct GWBN_Circle* circle;
 		struct GWBN_Screen* screen;
-		struct GWBN_Line* line;		
+		struct GWBN_Line* line;
+		struct GWBN_Print* print;
+		struct GWBN_Input* input;		
 	};
 }; 
 

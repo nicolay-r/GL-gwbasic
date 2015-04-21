@@ -39,6 +39,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 		case GWBNT_LET:
 			result = gwbh_Let(env, node->let);
 			return;
+		case GWBNT_PRINT:
+			result = gwbh_Print(env, node->print);
+			return;
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -259,11 +262,27 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	
 GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 	GWBR_Result result;
-
-	/* "Print" handler implementation */
-	printf("In \"Print\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
+
+	assert (node != NULL);
+
+	GWBN_PrintExpressions* print_exprs = node->exprs;
+	
+	do
+	{
+		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
+		
+		if (expr_res.val_type == GWBCT_STRING)
+		{	/* вывод строки */
+			printf("%s\n", expr_res.val.str_val);
+		}
+
+		else if (expr_res.val_type == GWBCT_INTEGER) { /* вывод целочисленных значений */ }
+		else if (expr_res.val_type == GWBCT_SINGLE) { /* вывод вещественных чисел одинарной точности */}
+		else if (expr_res.val_type == GWBCT_DOUBLE) { /* вывод вещественных чисел двойной точности */}
+	}
+	while (print_exprs->next != NULL);
+	
 	return result;	 
 } 
 	

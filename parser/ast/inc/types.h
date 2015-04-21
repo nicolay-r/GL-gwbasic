@@ -16,7 +16,7 @@
 	Statements
 */
 #define GWBNT_LET			1100
-
+#define GWBNT_PRINT			1101
 /*
 	Variables
 */
@@ -26,6 +26,7 @@
 #define GWBNT_INTEGERVARIABLE		1203
 #define GWBNT_SINGLEPRECISIONVARIABLE 	1204
 #define	GWBNT_DOUBLEPRECISIONVARIABLE 	1205
+
 /*
 	Expressions
 */
