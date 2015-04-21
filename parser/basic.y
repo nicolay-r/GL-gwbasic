@@ -490,7 +490,7 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
 	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
-FunctionalOperator: FunctionName '(' ArithmeticOperator ')'
+FunctionalOperator: FunctionName '(' ArithmeticOperator ')'	{ $$ = gwbn_NewFunctionalOperator(); }
 FunctionName: SIN  
 
 Dash: '-';
