@@ -6,10 +6,19 @@
 /*
 	Value Types
 */
+typedef struct GWBC_VariableListNode GWBC_VariableListNode;
 typedef struct GWBC_Value GWBC_Value;
 typedef struct GWBC_ArrayDimension GWBC_ArrayDimension;    
 typedef struct GWBC_Array GWBC_Array;
 typedef struct GWBC_Variable GWBC_Variable;
+
+/*
+	Variable ListNode
+*/
+struct GWBC_VariableListNode {
+	GWBC_Variable* var;
+	struct GWBC_VariableListNode *next;
+};
 
 /*
 	Variable
@@ -65,6 +74,7 @@ struct GWBC_Value{
 */
 GWBC_Variable* gwbc_NewVariable();
 void gwbc_DeleteVariable(GWBC_Variable* var);
+
 
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes);
 GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_Value val);

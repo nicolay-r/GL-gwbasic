@@ -42,7 +42,7 @@ GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* nam
 
 }
 
-GWBC_Variable* gwbe_Variable_Get(GWBE_Environment* env, char* var_name)
+GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name)
 {
 	assert(env->ctx != NULL);
 
@@ -53,7 +53,7 @@ GWBC_Variable* gwbe_Variable_Get(GWBE_Environment* env, char* var_name)
 	{
 		assert(ctx->local_vars[curr_level] != NULL);
 
-		GWBE_VariableListNode* vars = ctx->local_vars[curr_level];		
+		GWBC_VariableListNode* vars = ctx->local_vars[curr_level];		
 		while (vars != NULL)
 		{
 			if (strcmp(vars->var->name, var_name) == 0)
@@ -63,4 +63,17 @@ GWBC_Variable* gwbe_Variable_Get(GWBE_Environment* env, char* var_name)
 	}
 	
 	return NULL;	
+}
+
+GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* var)
+{
+	assert(env->ctx != NULL);
+
+	GWBE_Context* ctx = env->ctx;
+
+	assert(ctx->local_vars != NULL);
+	assert(ctx->local_vars[ctx->level] != NULL);
+
+
+			
 }
