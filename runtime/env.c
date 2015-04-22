@@ -67,13 +67,41 @@ GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name)
 
 GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* var)
 {
+	GWBR_Result result; 
+	result.type = GWBR_RESULT_OK;
+
 	assert(env->ctx != NULL);
 
 	GWBE_Context* ctx = env->ctx;
 
 	assert(ctx->local_vars != NULL);
 	assert(ctx->local_vars[ctx->level] != NULL);
+	
+	struct GWBC_VariableListNode** var_node = ctx->local_vars;
+	
+	if (*var_node == NULL)
+	{
+		*var_node = malloc(sizeof(GWBC_VariableListNode));
+		(*var_node)->var = var;
+		(*var_node)->next = NULL;
+	}
+	else 
+	{
+		struct GWBC_VariableListNode* node = *var_node;
+		
+		while (node != NULL)
+		{
+			if (strcmp(node->var->name, var->name) == 0)
+			{
+				/* проверить существование такой переменной */
+				return result;
+			}	
+			node = node->next;
+		}
+		node->next = malloc(sizeof(GWBC_VariableListNode));
+		node->next->var = var;
+		node->next->next = NULL;
+	}
 
-
-			
+	return result;
 }

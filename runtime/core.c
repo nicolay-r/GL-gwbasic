@@ -25,3 +25,4 @@ GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_V
 {
 	/* Not Implemented */
 }
+

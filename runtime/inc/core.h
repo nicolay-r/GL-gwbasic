@@ -75,7 +75,6 @@ struct GWBC_Value{
 GWBC_Variable* gwbc_NewVariable();
 void gwbc_DeleteVariable(GWBC_Variable* var);
 
-
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes);
 GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_Value val);
 
