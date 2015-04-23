@@ -85,17 +85,26 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
 	switch (node->var->type)
 	{
-		case GWBNT_NUMERICVARIABLE:
-			/* вычислить выражение */
-			/* проверить сходство типов */
-			break;
 		case GWBNT_STRINGVARIABLE:
-			/* вычислить выражение */
-			/* проверить сходство типов */
+		{
+			GWBC_Variable* var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
+			if (expr_res.val_type == GWBCT_STRING)
+			{
+				printf("Value: %s\n", expr_res.val.str_val);
+				var->val->type = GWBCT_STRING;
+				var->val->str_val = expr_res.val.str_val;
+			}
+			else 
+			{
+				/* выдать ошибку */
+			}
+			/*
+				Добавить проверку на существование такой переменной
+			*/
+			gwbe_Context_AddLocalVariable(env, var);
 			break;
+		}	
 	}
-	if (expr_res.val_type == GWBCT_STRING)
-		printf("value: %s\n", expr_res.val.str_val);
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 

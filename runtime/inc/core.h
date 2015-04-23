@@ -3,6 +3,8 @@
 #ifndef _GWBR_CORE_H_
 #define _GWBR_CORE_H_
 
+#include "errors.h"
+
 /*
 	Value Types
 */
@@ -23,11 +25,14 @@ struct GWBC_VariableListNode {
 /*
 	Variable
 */
+#define GWBCT_VALUE		1
+#define GWBCT_ARRAY		2
+
 struct GWBC_Variable{
-	int type;	/* GWBC_VALUE, GWBC_ARRAY */
+	int type;	/* GWBCT_VALUE, GWBCT_ARRAY */
 	char* name;
 	union {
-		GWBC_Value* vals;
+		GWBC_Value* val;
 		GWBC_Array* arr;
 	};
 };
@@ -72,7 +77,7 @@ struct GWBC_Value{
 /*
 	Functions
 */
-GWBC_Variable* gwbc_NewVariable();
+GWBC_Variable* gwbc_NewVariable(int type, char* name);
 void gwbc_DeleteVariable(GWBC_Variable* var);
 
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes);
