@@ -80,19 +80,24 @@ GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* 
 	}
 	else	/* если в списке есть элементы */ 
 	{	
-		struct GWBC_VariableListNode* node = *var_node;
+		GWBC_VariableListNode *node = *var_node, *prev = node;	
 		while (node != NULL)
 		{
+			assert(node->var->name != NULL);
+			assert(var->name != NULL);
 			if (strcmp(node->var->name, var->name) == 0)
 			{
 				/* проверить существование такой переменной */
 				return result;
 			}	
+			prev = node;
 			node = node->next;
 		}
-		node->next = malloc(sizeof(GWBC_VariableListNode));
-		node->next->var = var;
-		node->next->next = NULL;
+		
+		assert(prev != NULL);
+		prev->next = malloc(sizeof(GWBC_VariableListNode));
+		prev->next->var = var;
+		prev->next->next = NULL;
 	}
 
 	return result;
