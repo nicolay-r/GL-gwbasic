@@ -105,3 +105,26 @@ GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* 
 
 	return result;
 }
+
+char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var)
+{
+	assert(env->ctx != NULL);
+	
+	GWBE_Context* ctx = env->ctx;
+	
+	int curr_level;
+	for (curr_level = ctx->level; curr_level >= 0; curr_level--)
+	{
+		assert(ctx->local_vars[curr_level] != NULL);
+
+		GWBC_VariableListNode* vars = ctx->local_vars[curr_level];		
+		while (vars != NULL)
+		{
+			if (strcmp(vars->var->name, var->name) == 0)
+				return 1;
+			vars = vars->next;
+		}
+	}
+
+	return 0;
+}

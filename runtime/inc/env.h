@@ -73,9 +73,7 @@ struct GWBE_FunctionListNode {
 /*
 	Prototypes
 */
-/* Malloc environment structure */
 GWBE_Environment* gwbe_NewEnvironment();
-/* Free environment structure */
 void gwbe_DeleteEnvironment(GWBE_Environment* env);
 
 GWBE_ProgramLine* gwbe_NewProgramLine();
@@ -84,13 +82,17 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 //GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableListNode* vars, struct GWBN_Expression* body);
 //void GWBE_DeleteFunction(struct GWBE_Function* func);
 
+/* FunctionListNode Prototypes */
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func);
 GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* name);
 
+/* VariableListNode Prototypes */
 GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
 GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
 
+/* Context Prototypes */
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name);
 GWBR_Result gwbe_Context_AddVariable(GWBE_Environment* env, GWBC_Variable* var);
+char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var);
 
 #endif

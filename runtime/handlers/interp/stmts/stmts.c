@@ -87,12 +87,12 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	{
 		case GWBNT_STRINGVARIABLE:
 		{
-			GWBC_Variable* var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
+			GWBC_Variable* new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
 			if (expr_res.val_type == GWBCT_STRING)
 			{
 				printf("Value: %s\n", expr_res.val.str_val);
-				var->val->type = GWBCT_STRING;
-				var->val->str_val = expr_res.val.str_val;
+				new_var->val->type = GWBCT_STRING;
+				new_var->val->str_val = expr_res.val.str_val;
 			}
 			else 
 			{
@@ -101,7 +101,14 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			/*
 				Добавить проверку на существование такой переменной
 			*/
-			gwbe_Context_AddLocalVariable(env, var);
+			if (!gwbe_Context_ExistsVariable(env, new_var))
+				gwbe_Context_AddLocalVariable(env, new_var);
+			else
+			{
+				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
+				gwbc_Variable_SetValue(var, new_var->val);
+			}
+				
 			break;
 		}	
 	}
