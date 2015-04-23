@@ -2,6 +2,7 @@
 
 #include "inc/eval.h"
 #include <string.h>	/* strcat() */
+#include <assert.h>
 
 GWBR_ExpressionResult gwbr_EvaluateExpression(GWBE_Environment* env, GWBN_Expression* node)
 {
@@ -52,12 +53,27 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 	switch (node->type)
 	{
 		case GWBNT_STRINGVARIABLE:
-			/* Take a variable value by name*/
+		{	
+			GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->name);
+			if (var->type == GWBCT_VALUE)
+			{
+				assert(var->val != NULL);
+
+				result.val_type = GWBCT_STRING;
+				result.val.str_val = var->val->str_val;
+			}
+			else 
+			{
+				/* error */
+			}
 			break;
+		}
 		case GWBBT_STRING:
+		{
 			result.val_type = GWBCT_STRING; 
 			result.val.str_val = node->str;	
 			break;
+		}
 	}
 	return result;
 }
