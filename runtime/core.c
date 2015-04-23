@@ -28,6 +28,12 @@ void gwbc_DeleteVariable(GWBC_Variable* var)
 	free(var);
 }
 
+GWBC_VariableListNode* gwbc_NewVariableListNode()
+{
+	GWBC_VariableListNode* result = (GWBC_VariableListNode*) malloc(sizeof(GWBC_VariableListNode));
+	return result;
+}
+
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes)
 {
 	/* Not Implemented */

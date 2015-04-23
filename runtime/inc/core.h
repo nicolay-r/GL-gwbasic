@@ -77,7 +77,8 @@ struct GWBC_Value{
 /*
 	Functions
 */
-
+/* VariableListNode Prototypes */
+GWBC_VariableListNode* gwbc_NewVariableListNode();
 /* Variable Prototypes */
 GWBC_Variable* gwbc_NewVariable(int type, char* name);
 void gwbc_DeleteVariable(GWBC_Variable* var);

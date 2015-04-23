@@ -16,7 +16,6 @@ typedef struct GWBE_Context GWBE_Context;
 typedef struct GWBE_Program GWBE_Program;
 typedef struct GWBE_Function GWBE_Function;
 typedef struct GWBE_FunctionListNode GWBE_FunctionListNode;
-typedef struct GWBE_VariableListNode GWBE_VariableListNode;
 typedef struct GWBE_ProgramLine GWBE_ProgramLine;
 typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 
@@ -33,10 +32,12 @@ struct GWBE_Environment {
 /*
 	Context
 */
+#define GWBE_CTX_MAXLEVELS	255
+
 struct GWBE_Context {
-	int level;					/* уровень вложенности */
-	struct GWBC_VariableListNode* system_vars;	/* глобальные переменные GWBasic */
-	struct GWBC_VariableListNode* local_vars[255];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
+	int level;							/* уровень вложенности */
+	struct GWBC_VariableListNode* system_vars;			/* глобальные переменные GWBasic */
+	struct GWBC_VariableListNode* local_vars[GWBE_CTX_MAXLEVELS];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 };
 
 /*
@@ -85,10 +86,6 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 /* FunctionListNode Prototypes */
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func);
 GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* name);
-
-/* VariableListNode Prototypes */
-GWBR_Result gwbe_VariableListNode_Add(GWBE_VariableListNode** list, GWBC_Variable* new_var);
-GWBR_Result gwbe_VariableListNode_Remove(GWBE_VariableListNode** list, char* name);
 
 /* Context Prototypes */
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name);
