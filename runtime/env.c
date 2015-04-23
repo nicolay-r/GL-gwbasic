@@ -33,11 +33,6 @@ GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Functio
 
 }
 
-GWBR_Result gwbe_VariableListNode_Remove(GWBC_VariableListNode** list, char* name)
-{
-
-}
-
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name)
 {
 	assert(env->ctx != NULL);
