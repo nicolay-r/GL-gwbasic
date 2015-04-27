@@ -60,7 +60,7 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 				assert(var->val != NULL);
 
 				result.val_type = GWBCT_STRING;
-				result.val.str_val = var->val->str_val;
+				result.val.str_val = strdup(var->val->str_val);
 			}
 			else 
 			{
@@ -71,7 +71,7 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 		case GWBBT_STRING:
 		{
 			result.val_type = GWBCT_STRING; 
-			result.val.str_val = node->str;	
+			result.val.str_val = strdup(node->str);	
 			break;
 		}
 	}
