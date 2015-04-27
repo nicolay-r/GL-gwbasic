@@ -5,10 +5,6 @@
 #include <stdlib.h> /* malloc */
 #include "auto.h"
 
-#define GWBNT_SYSTEM	3001
-#define GWBNT_AUTO	3002
-#define GWBNT_BLOAD	3003
-
 typedef struct GWBN_Command GWBN_Command;
 typedef struct GWBN_System GWBN_System;
 typedef struct GWBN_Auto GWBN_Auto;

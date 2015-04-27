@@ -14,5 +14,6 @@
 GWBN_Interpreter* gwbr_Parse();
 void gwbr_ReadRequest();
 void gwbr_RunShell(GWBE_Environment* env);
+void gwbr_TerminateShell(GWBE_Environment* env);
 
 #endif

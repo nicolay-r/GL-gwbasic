@@ -9,7 +9,6 @@
 #define GWBNT_INTERPRETER		1001
 #define GWBNT_DIRECT_MODE		1002	
 #define GWBNT_INDIRECT_MODE		1003
-#define GWBNT_COMMAND			1004
 #define GWBNT_STATEMENT			1005
 
 /*
@@ -45,4 +44,13 @@
 	CONSTANTS
 */
 #define GWBNT_NUMERICCONSTANT			1500
+
+/*	
+	Commands
+*/
+#define GWBNT_COMMAND				1700
+#define GWBNT_SYSTEM				1701
+#define GWBNT_AUTO				1702
+#define GWBNT_BLOAD				1703
+
 #endif

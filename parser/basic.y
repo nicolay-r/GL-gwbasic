@@ -201,7 +201,11 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$->statements = $1;
 						}
 Command: Run
-	| System				{ printf("SYSTEM %s\n", ne); }
+	| System				{
+							$$ = gwbn_NewCommand();
+							$$->type = GWBNT_SYSTEM;
+							/* NULL AST subnode */
+						}
 	| Auto					{ 
 							$$ = gwbn_NewCommand();
 							$$->type = GWBNT_AUTO;

@@ -12,6 +12,7 @@ void gwbr_ReadRequest(char* buffer)
 	size_t nbytes = GWBR_LINE_LENGTH - 1;
 	getline(&buffer, &nbytes, stdin);
 }
+
 /*
 	Run GWBasic Shell
 */
@@ -26,6 +27,14 @@ void gwbr_RunShell(GWBE_Environment* env)
 		/* Handle the received "GWBN_Interpreter*" (Part 3) */
 		gwbh_Interpreter(env, interpreter);
 	}	
+}
+
+/*
+	Terminate GWBasic Shell
+*/
+void gwbr_TerminateShell(GWBE_Environment* env)
+{
+	exit(0);
 }
 
 /*

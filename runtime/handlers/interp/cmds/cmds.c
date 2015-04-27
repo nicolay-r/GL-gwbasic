@@ -1,24 +1,31 @@
 
 #include "inc/cmds.h"
+#include <assert.h>
 #include <stdio.h>
 
 GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
-	GWBR_Result result;
+	GWBR_Result result;	
+	result.type = GWBR_RESULT_OK;
 
-	/* "Command" handler implementation */
 	printf("In \"Command\" Handler\n"); 
 
-	result.type = GWBR_RESULT_OK;
+	assert(node != NULL);
+	
+	switch (node->type)
+	{
+		case GWBNT_SYSTEM:
+			gwbh_System(env, NULL);
+	}
 	return result;	 
 }
 
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node) {
 	GWBR_Result result;
-
-	/* "System" handler implementation */
-	printf("In \"System\" Handler\n"); 
-
+	printf("In \"System\" Handler\n"); 	
 	result.type = GWBR_RESULT_OK;
+
+	gwbr_TerminateShell(env);
+
 	return result;	 
 } 
 	
