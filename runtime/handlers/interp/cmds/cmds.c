@@ -1,5 +1,6 @@
 
 #include "inc/cmds.h"
+#include "../stmts/inc/stmts.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -15,6 +16,10 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 	{
 		case GWBNT_SYSTEM:
 			gwbh_System(env, NULL);
+			break;
+		case GWBNT_RUN:
+			gwbh_Run(env, node->run);
+			break;
 	}
 	return result;	 
 }
@@ -23,7 +28,18 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	GWBR_Result result;
 	printf("In \"Run\" Handler\n"); 	
 	result.type = GWBR_RESULT_OK;
+	
+	assert(node != NULL);
+	int i;
+	for (i = 0; i < GWBE_PROGRAM_MAXLINES; i++)
+	{
+		assert(env->program != NULL);
+		assert(env->program->lines != NULL);
+		assert(env->program->lines[i] != NULL);
 
+		gwbh_Statements(env, env->program->lines[i]->stmts);	
+	}	
+	
 	return result;	 
 } 
 

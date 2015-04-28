@@ -43,8 +43,10 @@ struct GWBE_Context {
 /*
 	Program
 */
+#define GWBE_PROGRAM_MAXLINES	65536
+
 struct GWBE_Program {
-	struct GWBE_ProgramLine* lines[65536];		
+	struct GWBE_ProgramLine* lines[GWBE_PROGRAM_MAXLINES];		
 };
 
 struct GWBE_ProgramLine {

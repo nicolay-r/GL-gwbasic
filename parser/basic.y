@@ -78,6 +78,7 @@
 	
 	/* Commands */
 	GWBN_Command*			command;	
+	GWBN_Run*			run;
 	Auto*				_auto;
 
 	/* Statements */
@@ -122,7 +123,13 @@
 %type <directMode> DirectMode
 %type <indirectMode> IndirectMode
 %type <command> Command
+
+/*
+	Commands
+*/
 %type <_auto> Auto
+%type <run> Run
+
 /*
 	Statements
 */
@@ -200,7 +207,7 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$->type = GWBNT_STATEMENT;
 							$$->statements = $1;
 						}
-Command: Run
+Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{
 							$$ = gwbn_NewCommand();
 							$$->type = GWBNT_SYSTEM;
@@ -269,7 +276,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| OnErrorGoto				{ printf("ON ERROR GOTO %s\n", ne); }
 	| OnGosub				{ printf("ON .. GOSUB ..%s\n", ne); }
 	| OnGoto				{ printf("ON .. GOTO .. %s\n", ne); }
-Run:	RUN
+Run:	RUN					{ $$ = gwbn_NewRun(); }
 System:	SYSTEM
 Auto:	AUTO LineNumber ',' Increment		{ $$ = gwbn_Auto($2, $4); }
 BLoad: 	BLOAD FileName ',' Offset

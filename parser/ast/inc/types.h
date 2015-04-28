@@ -51,6 +51,7 @@
 #define GWBNT_COMMAND				1700
 #define GWBNT_SYSTEM				1701
 #define GWBNT_AUTO				1702
-#define GWBNT_BLOAD				1703
+#define GWBNT_RUN				1703
+#define GWBNT_BLOAD				1704
 
 #endif

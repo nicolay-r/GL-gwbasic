@@ -34,6 +34,7 @@ struct GWBN_Command {
 	int type;
 	union {
 		Auto* _auto;				
+		GWBN_Run* run;
 	};
 };
 struct GWBN_Run {
