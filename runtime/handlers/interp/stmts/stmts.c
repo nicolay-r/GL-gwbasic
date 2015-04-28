@@ -11,17 +11,14 @@ GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 
 	printf("In \"Statements\" Handler\n"); 
 	GWBN_Statements *stmts = node;
-	do
+	
+	assert(stmts != NULL);
+
+	while ( result.type == GWBR_RESULT_OK && stmts != NULL )
 	{
-		if (stmts != NULL)
-			result = gwbh_Statement(env, stmts->stmt);
-		else { 
-			result.type = GWBR_RESULT_NULLPTR;
-			break;
-		}
+		result = gwbh_Statement(env, stmts->stmt);
 		stmts = stmts->next;
 	}
-	while ( result.type == GWBR_RESULT_OK && stmts != NULL );
 	return result;	 
 } 
 	
