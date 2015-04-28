@@ -35,9 +35,13 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	{
 		assert(env->program != NULL);
 		assert(env->program->lines != NULL);
-		assert(env->program->lines[i] != NULL);
-
-		gwbh_Statements(env, env->program->lines[i]->stmts);	
+		
+		if (env->program->lines[i] != NULL)
+		{
+			/* строка присутствует, поэтому ее нужно обработать */
+			printf("Line %d presented\n", i);
+			gwbh_Statements(env, env->program->lines[i]->stmts);
+		}
 	}	
 	
 	return result;	 
