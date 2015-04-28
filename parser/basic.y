@@ -186,7 +186,7 @@ Interpreter: DirectMode				{
 							*interpreter = $$;								
 							return 0; 
 						}
-IndirectMode: LineNumber Statements		{	printf("-IndirectMode");
+IndirectMode: LineNumber Statements		{	printf("-IndirectMode\n");
 							$$ = gwbn_NewIndirectMode();	
 							$$->line_number = $1;
 						}

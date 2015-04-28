@@ -19,6 +19,14 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 	return result;	 
 }
 
+GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
+	GWBR_Result result;
+	printf("In \"Run\" Handler\n"); 	
+	result.type = GWBR_RESULT_OK;
+
+	return result;	 
+} 
+
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node) {
 	GWBR_Result result;
 	printf("In \"System\" Handler\n"); 	

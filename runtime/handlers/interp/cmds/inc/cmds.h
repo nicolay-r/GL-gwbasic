@@ -7,6 +7,7 @@
 #include "../../../../inc/errors.h"
 
 GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node);
+GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node);
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node);
 GWBR_Result gwbh_Auto(GWBE_Environment *env, GWBN_Auto* node);
 GWBR_Result gwbh_BLoad(GWBE_Environment *env, GWBN_BLoad* node);

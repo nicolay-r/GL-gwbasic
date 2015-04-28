@@ -6,6 +6,11 @@ GWBN_Command* gwbn_NewCommand()
 	return result;
 }
 
+GWBN_Run* gwbn_NewRun() {
+	GWBN_Run* result = (GWBN_Run*) malloc (sizeof(GWBN_Run));
+	return result;
+}
+
 GWBN_System* gwbn_NewSystem() {
 	GWBN_System* result = (GWBN_System*) malloc (sizeof(GWBN_System));
 	return result;
