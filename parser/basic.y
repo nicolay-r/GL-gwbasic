@@ -196,6 +196,7 @@ Interpreter: DirectMode				{
 IndirectMode: LineNumber Statements		{	printf("-IndirectMode\n");
 							$$ = gwbn_NewIndirectMode();	
 							$$->line_number = $1;
+							$$->statements = $2;
 						}
 DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$ = gwbn_NewDirectMode();
