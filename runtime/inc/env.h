@@ -36,6 +36,7 @@ struct GWBE_Environment {
 
 struct GWBE_Context {
 	int level;							/* уровень вложенности */
+	int current_line;							/* текущая строка */
 	struct GWBC_VariableListNode* system_vars;			/* глобальные переменные GWBasic */
 	struct GWBC_VariableListNode* local_vars[GWBE_CTX_MAXLEVELS];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 };
