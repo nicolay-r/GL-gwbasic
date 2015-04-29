@@ -1,6 +1,6 @@
 /* GWBasic Auxulary implementation for if_then_else.h */
 
-#include "inc/if_then_else.h"
+#include "inc/stmts.h"
 
 GWBN_IfThenElse* gwbn_NewIfThenElse() {
 	GWBN_IfThenElse* result = (GWBN_IfThenElse*) malloc (sizeof(GWBN_IfThenElse));

@@ -58,10 +58,7 @@
 	#include "ast/interp/inc/interp.h"	
 	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
-
 	#include "ast/interp/stmts/inc/stmts.h"
-	#include "ast/interp/stmts/inc/if_then_else.h"
-
 	#include "ast/interp/stmts/inc/print.h"
 
 	/*
@@ -279,7 +276,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| GoSub					{ printf("GOSUB %s\n", ne); }
 	| Return				{ printf("RETURN %s\n", ne); }
 	| Goto					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
-	| IfThenElse				{ printf("IF ... THEN ... ELSE %s\n", ne); }
+	| IfThenElse				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_IFTHENELSE; $$->if_then_else = $1; }
 	| Input					{ printf("INPUT %s\n", ne); }
 	| Print					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_PRINT; $$->print = $1; }
 	| LineInput				{ printf("LINE INPUT %s\n", ne); }		
@@ -402,7 +399,7 @@ Goto: GOTO LineNumber							{ $$ = gwbn_NewGoto(); $$->line = $2; }
 IfThenElse: IF Expression Then Else					{ $$ = gwbn_NewIfThenElse(); $$->expr = $2; $$->then = $3; $$->_else = $4; } 
 Then: THEN Statements 							{ $$ = gwbn_NewThen(); $$->type = GWBNT_STATEMENTS; $$->stmts = $2; }
 	| Goto								{ $$ = gwbn_NewThen(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
-Else:									{ $$ = gwbn_NewElse(); $$->stmts = NULL;  }
+Else:									{ $$ = gwbn_NewElse(); $$->stmts = NULL; }
 	| ELSE Statements						{ $$ = gwbn_NewElse(); $$->stmts = $2; }
 
 Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }	

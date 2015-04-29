@@ -42,6 +42,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 		case GWBNT_GOTO:
 			result = gwbh_Goto(env, node->_goto);
 			return result;
+		case GWBNT_IFTHENELSE:
+			result = gwbh_IfThenElse(env, node->if_then_else);
+			return result;
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -260,11 +263,37 @@ GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node) {
 	
 GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	GWBR_Result result;
-
-	/* "IfThenElse" handler implementation */
-	printf("In \"IfThenElse\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
+	
+	printf("In \"IfThenElse\" Handler\n"); 
+	assert(node->expr != NULL);
+	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
+	if (expr_res.val_type == GWBNT_INTEGERVARIABLE)
+	{
+		if (expr_res.val.int_val != 0)
+		{	/* then */
+			assert(node->then != NULL);
+			switch (node->then->type)
+			{
+				case GWBNT_STATEMENTS:
+					return gwbh_Statements(env, node->then->stmts);
+				case GWBNT_GOTO:
+					return gwbh_Goto(env, node->then->_goto);
+			}
+		}
+		else
+		{	/* else */
+			assert(node->_else != NULL);
+			if (node->_else->stmts != NULL)
+			{
+				return gwbh_Statements(env, node->_else->stmts);
+			}
+		}
+	}
+	else 
+	{
+		printf("Result has another type. Expected Numeric (Integer)\n This message should be represented as error \n");
+	}
 	return result;	 
 } 
 	

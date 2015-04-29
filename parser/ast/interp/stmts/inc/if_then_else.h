@@ -3,8 +3,9 @@
 #ifndef _GWBN_IF_THEN_ELSE_H_
 #define _GWBN_IF_THEN_ELSE_H_
 
-#include "stmts.h"
-#include "../../expr/inc/expr.h"
+/*
+	This file included into stmts.h
+*/
 
 typedef struct GWBN_IfThenElse GWBN_IfThenElse;
 typedef struct GWBN_Then GWBN_Then;
@@ -28,12 +29,12 @@ struct GWBN_Then {
 struct GWBN_Else {
 	GWBN_Statements* stmts;
 };
+
 /*
 	Prototypes
 */
-
 GWBN_IfThenElse* gwbn_NewIfThenElse();
-void gwbn_DeleteIfThenElse();
+void gwbn_DeleteIfThenElse(GWBN_IfThenElse* ptr);
 GWBN_Then* gwbn_NewThen();
 void gwbn_DeleteThen(GWBN_Then* ptr);
 GWBN_Else* gwbn_NewElse();

@@ -2,11 +2,10 @@
 #ifndef _GWBASIC_STATEMENTS_H_
 #define _GWBASIC_STATEMENTS_H_
 
+/*
+	Statements Depends on
+*/
 #include <stdlib.h>
-
-#include "print.h"
-#include "input.h"
-
 #include "../../expr/inc/expr.h"
 #include "../../vars/inc/vars.h"
 
@@ -40,6 +39,13 @@ typedef struct GWBN_OnGosub GWBN_OnGosub;
 typedef struct GWBN_OnGoto GWBN_OnGoto;
 
 /*
+	Statements Includes
+*/
+#include "print.h"
+#include "input.h"
+#include "if_then_else.h"
+
+/*
 	Statements
 */
 
@@ -54,16 +60,17 @@ struct GWBN_Statements {
 struct GWBN_Statement {
 	int type;
 	union {
-		struct GWBN_Call* call;
-		struct GWBN_Let* let;
-		struct GWBN_Dim* dim;
-		struct GWBN_DefFn* def_fn;
-		struct GWBN_Circle* circle;
-		struct GWBN_Screen* screen;
-		struct GWBN_Line* line;
-		struct GWBN_Print* print;
-		struct GWBN_Input* input;
-		GWBN_Goto* _goto;		
+		GWBN_Call* call;
+		GWBN_Let* let;
+		GWBN_Dim* dim;
+		GWBN_DefFn* def_fn;
+		GWBN_Circle* circle;
+		GWBN_Screen* screen;
+		GWBN_Line* line;
+		GWBN_Print* print;
+		GWBN_Input* input;
+		GWBN_Goto* _goto;
+		GWBN_IfThenElse* if_then_else;		
 	};
 }; 
 
