@@ -90,6 +90,7 @@
 	GWBN_PrintExpressions*		print_exprs;
 	GWBN_Input*			input;
 	GWBN_InputPrompt*		input_prompt;
+	GWBN_Goto*			_goto;	
 	
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -143,6 +144,7 @@
 %type <input_prompt> InputPrompt
 %type <str> InputPromptString
 %type <term_type> InputPromptEndType
+%type <_goto> Goto
 /*
 	Expressions
 */
@@ -386,13 +388,13 @@ Return: RETURN ReturnOptions
 ReturnOptions:
 	| LineNumber
 
-Goto: GOTO LineNumber
+Goto: GOTO LineNumber							{ $$ = gwbn_NewGoto(); $$->line = $2; }
 
-IfThenElse: IF Expression Then Else 
-Then: THEN Statements 
-	| Goto
-Else:
-	| ELSE Statements
+IfThenElse: IF Expression Then Else					{ /* $$ = gwbn_NewIfThenElse(); $$->expr = $1;*/ } 
+Then: THEN Statements 							{ /* $$ = gwbn_NewThen(); $$->type = GWBNT_STATEMENTS: $$->stmts = $2; */ }
+	| Goto								{ /*$$ = gwbn_NewThen(); $$->type = GWBNT_GOTO; $$->_goto = $1; */ }
+Else:									{ /*$$ = gwbn_NewElse(); $$->stmts = NULL; */ }
+	| ELSE Statements						{ /*$$ = gwbn_NewElse(); $$->stmts = $2;*/ }
 
 Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }	
 InputPrompt: InputPromptString InputPromptEndType			{ $$ = gwbn_NewInputPrompt(); $$->str = $1; $$->end_type = $2; }

@@ -123,7 +123,7 @@ struct GWBN_Return {
 	/* Not Implemented */
 };
 struct GWBN_Goto {
-	/* Not Implemented */
+	GWBB_Integer line;	
 };
 struct GWBN_IfThenElse {
 	/* Not Implemented */
