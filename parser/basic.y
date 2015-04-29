@@ -278,7 +278,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Next					{ printf("NEXT %s\n", ne); }
 	| GoSub					{ printf("GOSUB %s\n", ne); }
 	| Return				{ printf("RETURN %s\n", ne); }
-	| Goto					{ printf("GOTO	%s\n", ne); }
+	| Goto					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
 	| IfThenElse				{ printf("IF ... THEN ... ELSE %s\n", ne); }
 	| Input					{ printf("INPUT %s\n", ne); }
 	| Print					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_PRINT; $$->print = $1; }

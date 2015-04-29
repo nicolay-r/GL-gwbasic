@@ -62,7 +62,8 @@ struct GWBN_Statement {
 		struct GWBN_Screen* screen;
 		struct GWBN_Line* line;
 		struct GWBN_Print* print;
-		struct GWBN_Input* input;		
+		struct GWBN_Input* input;
+		GWBN_Goto* _goto;		
 	};
 }; 
 

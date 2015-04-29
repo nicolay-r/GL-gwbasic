@@ -39,6 +39,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 		case GWBNT_PRINT:
 			result = gwbh_Print(env, node->print);
 			return result;
+		case GWBNT_GOTO:
+			result = gwbh_Goto(env, node->_goto);
+			return result;
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -245,11 +248,13 @@ GWBR_Result gwbh_Return(GWBE_Environment *env, GWBN_Return* node) {
 	
 GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node) {
 	GWBR_Result result;
-
-	/* "Goto" handler implementation */
-	printf("In \"Goto\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
+	
+	printf("In \"Goto\" Handler\n"); 
+	assert(node != NULL);
+	assert(env->ctx != NULL);
+	env->ctx->current_line = node->line;	
+
 	return result;	 
 } 
 	
