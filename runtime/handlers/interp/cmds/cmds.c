@@ -30,20 +30,25 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	result.type = GWBR_RESULT_OK;
 	
 	assert(node != NULL);
-	int i;
-	for (i = 0; i < GWBE_PROGRAM_MAXLINES; i++)
+	assert(env->ctx != NULL);
+
+	int current_line = env->ctx->current_line;
+ 
+	while (current_line < GWBE_PROGRAM_MAXLINES)
 	{
 		assert(env->program != NULL);
 		assert(env->program->lines != NULL);
 		
-		if (env->program->lines[i] != NULL)
-		{
-			/* строка присутствует, поэтому ее нужно обработать */
-			printf("Line %d presented\n", i);
-			assert(env->ctx != NULL);
-			env->ctx->current_line = i;
-			gwbh_Statements(env, env->program->lines[i]->stmts);
+		if (env->program->lines[current_line] != NULL)
+		{	/* строка присутствует, поэтому ее нужно обработать */
+			printf("Line %d presented\n", current_line);
+			gwbh_Statements(env, env->program->lines[current_line]->stmts);
 		}
+		
+		assert(env->ctx != NULL);
+		
+		env->ctx->current_line++;
+		current_line = env->ctx->current_line;	
 	}	
 	
 	return result;	 
