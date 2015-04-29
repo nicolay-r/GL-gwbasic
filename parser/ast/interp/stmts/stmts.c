@@ -185,15 +185,7 @@ void gwbn_DeleteGoto(GWBN_Goto* ptr) {
 	free(ptr);
 }
 	
-GWBN_IfThenElse* gwbn_NewIfThenElse() {
-	GWBN_IfThenElse* result = (GWBN_IfThenElse*) malloc (sizeof(GWBN_IfThenElse));
-	return result;
-} 
-	
-void gwbn_DeleteIfThenElse(GWBN_IfThenElse* ptr) {
-	free(ptr);
-}
-	
+
 GWBN_Input* gwbn_NewInput() {
 	GWBN_Input* result = (GWBN_Input*) malloc (sizeof(GWBN_Input));
 	return result;

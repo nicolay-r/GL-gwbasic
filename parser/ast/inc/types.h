@@ -9,6 +9,7 @@
 #define GWBNT_INTERPRETER		1001
 #define GWBNT_DIRECT_MODE		1002	
 #define GWBNT_INDIRECT_MODE		1003
+#define GWBNT_STATEMENTS		1004
 #define GWBNT_STATEMENT			1005
 
 /*
@@ -16,6 +17,8 @@
 */
 #define GWBNT_LET			1100
 #define GWBNT_PRINT			1101
+#define GWBNT_IFTHENELSE		1102
+#define GWBNT_GOTO			1103
 /*
 	Variables
 */

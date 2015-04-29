@@ -30,7 +30,6 @@ typedef struct GWBN_Next GWBN_Next;
 typedef struct GWBN_GoSub GWBN_GoSub;
 typedef struct GWBN_Return GWBN_Return;
 typedef struct GWBN_Goto GWBN_Goto;
-typedef struct GWBN_IfThenElse GWBN_IfThenElse;
 typedef struct GWBN_Input GWBN_Input;
 typedef struct GWBN_Print GWBN_Print;
 typedef struct GWBN_LineInput GWBN_LineInput;
@@ -125,9 +124,6 @@ struct GWBN_Return {
 struct GWBN_Goto {
 	GWBB_Integer line;	
 };
-struct GWBN_IfThenElse {
-	/* Not Implemented */
-};
 struct GWBN_Input {
 	GWBN_InputPrompt* prompt;
 	GWBN_Variables* vars;	
@@ -196,8 +192,6 @@ GWBN_Return* gwbn_NewReturn();
 void gwbn_DeleteReturn(GWBN_Return* ptr);
 GWBN_Goto* gwbn_NewGoto();
 void gwbn_DeleteGoto(GWBN_Goto* ptr);
-GWBN_IfThenElse* gwbn_NewIfThenElse();
-void gwbn_DeleteIfThenElse(GWBN_IfThenElse* ptr);
 GWBN_Input* gwbn_NewInput();
 void gwbn_DeleteInput(GWBN_Input* ptr);
 GWBN_Print* gwbn_NewPrint();
