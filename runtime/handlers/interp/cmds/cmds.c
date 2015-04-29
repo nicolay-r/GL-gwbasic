@@ -40,6 +40,8 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 		{
 			/* строка присутствует, поэтому ее нужно обработать */
 			printf("Line %d presented\n", i);
+			assert(env->ctx != NULL);
+			env->ctx->current_line = i;
 			gwbh_Statements(env, env->program->lines[i]->stmts);
 		}
 	}	
