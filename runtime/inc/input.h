@@ -5,6 +5,6 @@
 
 #include "env.h"
 
-void GWBI_GetString(GWBE_Environment* env);
+void gwbi_GetString(GWBE_Environment* env);
 
 #endif

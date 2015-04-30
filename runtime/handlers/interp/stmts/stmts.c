@@ -2,6 +2,7 @@
 
 #include "inc/stmts.h"
 #include <stdio.h>
+#include <string.h>
 #include <assert.h> /* assert() */
 #include "../expr/inc/eval.h"
 #include "../../../inc/input.h"	/* GWBI_GetLine() */
@@ -223,7 +224,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 	GWBR_Result result;
 
-	/* "Next" handler implementation */
+	/* "Next" handler implementatione examplen */
 	printf("In \"Next\" Handler\n"); 
 
 	result.type = GWBR_RESULT_OK;
@@ -301,9 +302,40 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	GWBR_Result result;
 
-	/* "Input" handler implementation */
 	printf("In \"Input\" Handler\n"); 
+	
+	assert(env != NULL);
+	assert(node != NULL);	
+	assert(node->prompt != NULL);
+	
+	if (node->prompt->str != NULL)
+		printf("%s\n", node->prompt->str);
+	
+	if (node->vars != NULL)
+	{
+		assert(node->vars != NULL);
 
+		GWBN_Variables* vars = node->vars;
+		while (vars != NULL)
+		{
+			assert(vars->var != NULL);
+			GWBC_Variable* runtime_var; 
+			switch(vars->var->type)
+			{		
+				case GWBNT_STRINGVARIABLE:
+				{
+					runtime_var = gwbe_Context_GetVariable(env, vars->var->str->name);
+					gwbi_GetString(env);
+					runtime_var->val->str_val = strdup(env->input->buffer);
+					break;
+				}
+				case GWBNT_NUMERICVARIABLE:
+				case GWBNT_ARRAYVARIABLE:
+					break;
+			}
+			vars = vars->next;
+		}	
+	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
