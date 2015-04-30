@@ -116,7 +116,7 @@ ERROR			{ return ERROR; }
 				return CONST_INTEGER; 
 			}
 
-\"[^\"]+\"		{ 
+\"[^\"]*\"		{ 
 				yytext[strlen(yytext)-1] = 0;
 				yylval.str = strdup(&yytext[1]);
 				return CONST_STRING; 
