@@ -403,6 +403,7 @@ Else:									{ $$ = gwbn_NewElse(); $$->stmts = NULL; }
 	| ELSE Statements						{ $$ = gwbn_NewElse(); $$->stmts = $2; }
 
 Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }	
+Input: INPUT Variables							{ $$ = gwbn_NewInput(); $$->prompt = NULL; $$->vars = $2; }
 InputPrompt: InputPromptString InputPromptEndType			{ $$ = gwbn_NewInputPrompt(); $$->str = $1; $$->end_type = $2; }
 InputPromptString:							{ $$ = NULL; }
 	| CONST_STRING							{ $$ = $1; }
