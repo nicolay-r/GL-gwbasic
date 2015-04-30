@@ -47,6 +47,8 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 		case GWBNT_IFTHENELSE:
 			result = gwbh_IfThenElse(env, node->if_then_else);
 			return result;
+		case GWBNT_INPUT:
+			result = gwbh_Input(env, node->input);
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 

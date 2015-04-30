@@ -19,6 +19,7 @@
 #define GWBNT_PRINT			1101
 #define GWBNT_IFTHENELSE		1102
 #define GWBNT_GOTO			1103
+#define GWBNT_INPUT			1104
 /*
 	Variables
 */
