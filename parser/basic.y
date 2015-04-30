@@ -505,7 +505,8 @@ RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ $$ = gwbn_NewR
 	| ArithmeticOperator GT ArithmeticOperator 		{ printf("A > B\n"); } 
 	| ArithmeticOperator LTE ArithmeticOperator		{ printf("A <= B\n"); } 
 	| ArithmeticOperator GTE ArithmeticOperator  		{ printf("A >= B\n"); } 
-	| StringOperator EQUAL StringOperator			{ printf("S1 = S2\n"); } 
+	| StringOperator EQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->op_type = GWBBT_EQUAL; 
+								  $$->args_type = GWBNT_STRINGOPERATOR; $$->s1 = $1; $$->s2 = $3; }
 	| StringOperator INEQUAL StringOperator			{ printf("S1 <> S2\n"); } 
 	| StringOperator LT StringOperator			{ printf("S1 < S2\n"); } 
 	| StringOperator GT StringOperator			{ printf("$1 > $2\n"); }

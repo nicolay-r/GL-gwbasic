@@ -17,7 +17,8 @@
 #define GWBBT_DIV			103
 #define GWBBT_POW			104
 #define GWBBT_UNARY_MINUS		105
-
+#define GWBBT_EQUAL			106
+#define GWBBT_INEQUAL			107
 
 #define GWBBT_COMMA			200
 #define GWBBT_SEMICOLON			201
