@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <assert.h> /* assert() */
 #include "../expr/inc/eval.h"
+#include "../../../inc/input.h"	/* GWBI_GetLine() */
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;
