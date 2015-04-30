@@ -19,6 +19,10 @@ GWBE_Environment* gwbe_NewEnvironment()
 	
 	env->ctx->level = 0;
 	env->ctx->local_vars[0] = NULL;
+	
+	env->input = (GWBE_Input*) malloc(sizeof(GWBE_Input));
+	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
+	env->input->buffer_len = GWBE_INPUT_BUFFERLENGTH;
 
 	return env;
 }

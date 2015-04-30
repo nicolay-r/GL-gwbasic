@@ -327,17 +327,25 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 				case GWBNT_STRINGVARIABLE:
 				{
 					runtime_var = gwbe_Context_GetVariable(env, vars->var->str->name);
+					
+					if (node->prompt->end_type == GWBBT_COMMA)	
+						printf("? ");
+
 					gwbi_GetString(env);
 					runtime_var->val->str_val = strdup(env->input->buffer);
 					break;
 				}
 				case GWBNT_NUMERICVARIABLE:
+					printf("Numeric variables\n");
+					break;
 				case GWBNT_ARRAYVARIABLE:
+					/* Not Implemented */
+					printf("Array variables not supported\n");
 					break;
 			}
 			vars = vars->next;
 		}	
-	}
+	}	
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 

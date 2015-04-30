@@ -79,6 +79,7 @@ struct GWBE_FunctionListNode {
 /*
 	Input
 */
+#define GWBE_INPUT_BUFFERLENGTH			2048
 struct GWBE_Input {
 	char* buffer;				/* буфер прочитанной строки */
 	size_t buffer_len;			/* длина буфера (задается при инициализации Environment структуры */
