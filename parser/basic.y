@@ -108,6 +108,8 @@
 	GWBN_RelationalOperator*	rel_op;
 	GWBN_LogicalOperator*		log_op;
 	GWBN_FunctionalOperator*	func_op;
+	GWBN_GoSub*			gosub;
+	GWBN_Return*			_return;
 
 	/* Variable */
 	GWBN_Variables*			variables;
@@ -155,6 +157,8 @@
 %type <_else> Else
 %type <_for> For
 %type <next> Next
+%type <gosub> GoSub
+%type <_return> Return
 /*
 	Expressions
 */
@@ -168,7 +172,6 @@
 %type <rel_op> RelationalOperator
 %type <log_op> LogicalOperator
 %type <func_op> FunctionalOperator
-
 /*
 	Variables
 */
@@ -390,11 +393,9 @@ Cls: CLS
 For: FOR Variable '=' NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
 	| FOR Variable '=' NumericExpression TO NumericExpression STEP NumericExpression{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = $8; }
 Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							
-GoSub: GOSUB LineNumber
-
-Return: RETURN ReturnOptions
-ReturnOptions:
-	| LineNumber
+GoSub: GOSUB LineNumber									{ $$ = gwbn_NewGoSub(); $$->line = $2; }
+Return: RETURN										{ $$ = gwbn_NewReturn(); $$->type = GWBNT_RETURN;/* нужно в runtime реализовать стек возврата */}
+	| RETURN LineNumber								{ $$ = gwbn_NewReturn(); $$->line = GWBNT_LINENUMBER; $$->line = $2; }
 
 Goto: GOTO LineNumber							{ $$ = gwbn_NewGoto(); $$->line = $2; }
 

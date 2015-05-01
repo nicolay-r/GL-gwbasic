@@ -125,10 +125,11 @@ struct GWBN_Next {
 	GWBN_Variables* vars;
 };
 struct GWBN_GoSub {
-	/* Not Implemented */
+	GWBB_Integer line;
 };
-struct GWBN_Return {
-	/* Not Implemented */
+struct GWBN_Return {	
+	int type;
+	GWBB_Integer line;
 };
 struct GWBN_Goto {
 	GWBB_Integer line;	
