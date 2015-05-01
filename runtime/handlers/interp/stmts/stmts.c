@@ -215,11 +215,133 @@ GWBR_Result gwbh_Cls(GWBE_Environment *env, GWBN_Cls* node) {
 	
 GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 	GWBR_Result result;
-
-	/* "For" handler implementation */
-	printf("In \"For\" Handler\n"); 
-
 	result.type = GWBR_RESULT_OK;
+	
+	printf("In \"For\" Handler\n"); 
+	
+	assert(node->var != NULL);
+	assert(node->from_num_expr != NULL);
+	assert(node->to_num_expr != NULL);
+
+	if (node->var->type == GWBNT_NUMERICVARIABLE)
+	{
+		assert(env != NULL);
+		/* 
+			Входим в цикл 
+		*/
+		env->ctx->level++;
+		/*
+			Проверяем условия	
+		*/
+		GWBR_ExpressionResult from = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
+		GWBR_ExpressionResult to = gwbr_EvaluateNumericExpression(env, node->to_num_expr);
+		if (from.val_type == to.val_type)
+		{
+			switch (from.val_type)
+			{
+				case GWBCT_INTEGER: 
+					if (to.val.int_val <= from.val.int_val)
+					{
+						/* Завершение выполнения цикла */
+					}
+					break;
+			}
+		}
+
+		GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->str->name);
+		if (var != NULL)
+		{	
+			/* 
+				Вычисляем шаг
+			*/
+			GWBR_ExpressionResult step;
+			if (node->step != NULL)
+			{
+				step = gwbr_EvaluateNumericExpression(env, node->step);
+			}
+			else 
+			{
+				step.val_type = GWBCT_INTEGER;
+				step.val.int_val = 1;
+			}
+
+			/*
+				Задаем новое значение
+			*/
+
+			if (var->val->type == step.val_type)
+			{
+				switch (var->val->type)
+				{
+					case GWBCT_INTEGER:
+					{
+						if (step.val_type == GWBCT_INTEGER)
+						{
+							var->val->int_val += step.val.int_val;
+						}
+						else 
+						{
+							/* Undefined types */
+						}
+					}
+				}
+			}
+			else 
+			{
+				/* Incompatible types */
+			}
+		}
+		else 
+		{	/* 
+				Создание новой переменной 
+			*/
+			switch (node->var->type)
+			{
+				case GWBNT_INTEGERVARIABLE:
+					var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name); 
+					var->val->type = GWBCT_INTEGER;
+					break;
+				case GWBNT_SINGLEPRECISIONVARIABLE:
+				case GWBNT_DOUBLEPRECISIONVARIABLE:
+					/* Undefined types */
+					break;
+			}
+			
+			GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
+			if (var->val->type == res.val_type)
+			{
+				switch (res.val_type)
+				{
+					case GWBCT_INTEGER:
+						var->val->int_val = res.val.int_val;
+						break;
+					case GWBCT_SINGLE:
+						var->val->single_val = res.val.single_val;
+						break;
+					case GWBCT_DOUBLE:
+						var->val->double_val = res.val.double_val;
+						break;
+				}
+			}
+			else 
+			{
+				/* Incompatible types */
+			}
+			gwbe_Context_AddLocalVariable(env, var);
+			
+			/* 
+				Добавление адреса возврата 
+			*/
+			assert(env->ctx->callback_stack);
+			env->ctx->callback_stack->callback[env->ctx->callback_stack->top_index] = env->ctx->current_line;
+			env->ctx->callback_stack->top_index++;
+		}
+
+	}
+	else 
+	{
+		/* Error */
+	}
 	return result;	 
 } 
 	

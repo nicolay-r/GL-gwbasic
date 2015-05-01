@@ -19,6 +19,11 @@ GWBR_ExpressionResult gwbr_EvaluateExpression(GWBE_Environment* env, GWBN_Expres
 	return result;
 }
 
+GWBR_ExpressionResult gwbr_EvaluateNumericExpression(GWBE_Environment* env, GWBN_NumericExpression* node)
+{
+	/* Not implemented */
+}
+
 GWBR_ExpressionResult gwbr_EvaluateStringExpression(GWBE_Environment* env, GWBN_StringExpression* node)
 {
 	return gwbr_EvaluateStringOperator(env, node->op);
