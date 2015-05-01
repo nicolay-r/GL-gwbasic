@@ -13,6 +13,7 @@
 */
 typedef struct GWBE_Environment GWBE_Environment;
 typedef struct GWBE_Context GWBE_Context;
+typedef struct GWBE_CallbackStack GWBE_CallbackStack;
 typedef struct GWBE_Program GWBE_Program;
 typedef struct GWBE_Function GWBE_Function;
 typedef struct GWBE_FunctionListNode GWBE_FunctionListNode;
@@ -41,6 +42,14 @@ struct GWBE_Context {
 	int current_line;							/* текущая строка */
 	struct GWBC_VariableListNode* system_vars;			/* глобальные переменные GWBasic */
 	struct GWBC_VariableListNode* local_vars[GWBE_CTX_MAXLEVELS];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
+	struct GWBE_CallbackStack* callback_stack;				
+};
+
+#define GWBE_CALLBACKSTACK_MAXSIZE	255
+
+struct GWBE_CallbackStack {
+	int top_index;
+	int callback[GWBE_CALLBACKSTACK_MAXSIZE];
 };
 
 /*
