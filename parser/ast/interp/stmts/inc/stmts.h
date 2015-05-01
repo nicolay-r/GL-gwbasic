@@ -122,7 +122,7 @@ struct GWBN_For {
 	GWBN_NumericExpression *from_num_expr, *to_num_expr, *step; 
 };
 struct GWBN_Next {
-	/* Not Implemented */
+	GWBN_Variables* vars;
 };
 struct GWBN_GoSub {
 	/* Not Implemented */

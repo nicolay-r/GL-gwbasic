@@ -95,6 +95,7 @@
 	GWBN_Then*			then;
 	GWBN_Else*			_else;	
 	GWBN_For*			_for;
+	GWBN_Next*			next;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -153,6 +154,7 @@
 %type <then> Then
 %type <_else> Else
 %type <_for> For
+%type <next> Next
 /*
 	Expressions
 */
@@ -387,8 +389,7 @@ Cls: CLS
 
 For: FOR Variable '=' NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
 	| FOR Variable '=' NumericExpression TO NumericExpression STEP NumericExpression{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = $8; }
-Next: NEXT Variables								
-
+Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							
 GoSub: GOSUB LineNumber
 
 Return: RETURN ReturnOptions
