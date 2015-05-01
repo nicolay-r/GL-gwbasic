@@ -118,7 +118,8 @@ struct GWBN_Cls {
 	/* Not Implemented */
 };
 struct GWBN_For {
-	/* Not Implemented */
+	GWBN_Variable* var;
+	GWBN_NumericExpression *from_num_expr, *to_num_expr, *step; 
 };
 struct GWBN_Next {
 	/* Not Implemented */

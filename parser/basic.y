@@ -94,6 +94,8 @@
 	GWBN_IfThenElse*		if_then_else;
 	GWBN_Then*			then;
 	GWBN_Else*			_else;	
+	GWBN_For*			_for;
+
 	/* Expressions */	
 	GWBN_Expression*		expr;
 	GWBN_NumericExpression*		num_expr;
@@ -150,7 +152,7 @@
 %type <if_then_else> IfThenElse
 %type <then> Then
 %type <_else> Else
-
+%type <_for> For
 /*
 	Expressions
 */
@@ -383,10 +385,9 @@ ScreenCoord: VariableName
 
 Cls: CLS
 
-For: FOR Variable '=' NumericExpression TO NumericExpression ForOptionalStep
-ForOptionalStep:
-	| STEP NumericExpression
-Next: NEXT Variables
+For: FOR Variable '=' NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
+	| FOR Variable '=' NumericExpression TO NumericExpression STEP NumericExpression{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = $8; }
+Next: NEXT Variables								
 
 GoSub: GOSUB LineNumber
 
