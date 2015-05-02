@@ -78,8 +78,21 @@ OR			{ return OR; }
 XOR			{ return XOR; }
 EQV			{ return EQV; }
 
-
+ABS			{ return ABS; }
+EXP			{ return EXP; }
+TAN			{ return TAN; }
 SIN			{ return SIN; }
+COS			{ return COS; }
+LOG			{ return LOG; }
+FIX			{ return FIX; }
+INT			{ return INT; }
+CINT			{ return CINT; }
+SGN			{ return SGN; }
+
+ASC			{ return ASC; }
+LEN			{ return LEN; }
+
+EXTERR			{ return EXTERR; }
 
 AS			{ return AS; }
 TO			{ return TO; }

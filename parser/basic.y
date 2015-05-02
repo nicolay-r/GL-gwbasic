@@ -19,6 +19,9 @@
 %token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT
 %token LOCATE MID
 
+%token ABS ASC 
+%token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN 
+
 %token TO STEP AS ON ERROR
 
 %token DECLARATION
@@ -171,7 +174,9 @@
 %type <str_term> StringTerm
 %type <rel_op> RelationalOperator
 %type <log_op> LogicalOperator
-%type <func_op> FunctionalOperator
+/*
+	%type <func_op> FunctionalOperator
+*/
 /*
 	Variables
 */
@@ -222,6 +227,9 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$ = gwbn_NewDirectMode();
 							$$->type = GWBNT_STATEMENT;
 							$$->statements = $1;
+						}
+	| Functions				{	
+							$$ = gwbn_NewDirectMode();
 						}
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{
@@ -479,7 +487,7 @@ Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_
 NumericExpression : ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;}
 	| RelationalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_RELATIONALOPERATOR; $$->rel = $1; }
 	| LogicalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_LOGICALOPERATOR; $$->log = $1; }
-	| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_FUNCTIONALOPERATOR; $$->func = $1; }
+	| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_FUNCTIONALOPERATOR; /*$$->func = $1;*/ }
 
 ArithmeticOperator: NumericExpression '+' NumericExpression	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_ADD; $$->a = $1;  $$->b = $3; }
 	| NumericExpression '-' NumericExpression		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_SUB; $$->a = $1;  $$->b = $3; }
@@ -532,8 +540,28 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
 	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
-FunctionalOperator: FunctionName '(' ArithmeticOperator ')'	{ $$ = gwbn_NewFunctionalOperator(); }
-FunctionName: SIN  
+FunctionalOperator: MathFunctions
+	| StringFunctions
+
+Functions: StringFunctions
+	| MathFunctions
+	| SystemFunctions
+
+StringFunctions: ASC '(' StringExpression ')'
+	| LEN '(' StringExpression ')'
+
+MathFunctions: ABS '(' NumericExpression ')'
+	| EXP '(' NumericExpression ')'
+	| SIN '(' NumericExpression ')'
+	| COS '(' NumericExpression ')'				
+	| TAN '(' NumericExpression ')'
+	| LOG '(' NumericExpression ')'
+	| FIX '(' NumericExpression ')'
+	| INT '(' NumericExpression ')'
+	| CINT	'(' NumericExpression ')'
+	| SGN '(' NumericExpression ')'
+
+SystemFunctions: EXTERR '(' CONST_INTEGER ')'
 
 Dash: '-';
 VariableName: DECLARATION;
