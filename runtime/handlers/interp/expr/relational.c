@@ -13,15 +13,16 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 			switch (b.val_type)
 			{
 				case GWBCT_INTEGER:
-					printf("a.val = %d\n", a.val.int_val);
-					printf("b.val = %d\n", b.val.int_val);
 					result.val_type = GWBCT_INTEGER;
 					result.val.int_val = (a.val.int_val == b.val.int_val);
 					break;
 				case GWBCT_SINGLE:
+					result.val_type = GWBCT_SINGLE;
+					result.val.single_val = (a.val.int_val == b.val.single_val);
 					break;
 				case GWBCT_DOUBLE:
-
+					result.val_type = GWBCT_DOUBLE;
+					result.val.double_val = (a.val.int_val == b.val.double_val);
 					break;
 				default:
 					/* error! */
@@ -34,15 +35,17 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 			switch (b.val_type)
 			{
 				case GWBCT_INTEGER:
-					
+					result.val_type = GWBCT_SINGLE;
+					result.val.single_val = (a.val.single_val == b.val.int_val);
 					break;
 				case GWBCT_SINGLE:
-
+					result.val_type = GWBCT_SINGLE;
+					result.val.single_val = (a.val.single_val == b.val.single_val);
 					break;
 				case GWBCT_DOUBLE:
-				
+					result.val_type = GWBCT_DOUBLE;
+					result.val.double_val = (a.val.single_val == b.val.double_val);
 					break;
-
 				default:
 					/* error */
 					break;
@@ -54,13 +57,19 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 			switch (b.val_type)
 			{
 				case GWBCT_INTEGER:
-					
+					result.val_type = GWBCT_DOUBLE;
+					result.val.double_val = (a.val.double_val == b.val.int_val);
 					break;
 				case GWBCT_SINGLE:
-
+					result.val_type = GWBCT_DOUBLE;
+					result.val.double_val = (a.val.double_val == b.val.single_val);
 					break;
 				case GWBCT_DOUBLE:
-
+					result.val_type = GWBCT_DOUBLE;
+					result.val.double_val = (a.val.double_val == b.val.double_val);
+					break;
+				default:
+					/* error */
 					break;
 			}
 			break;
