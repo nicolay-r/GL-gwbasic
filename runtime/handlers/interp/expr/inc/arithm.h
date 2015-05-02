@@ -1,7 +1,7 @@
 /* GWBasic arithm operataions */
 
-#ifndef _GWBR_BINARY_H_
-#define _GWBR_BINARY_H_
+#ifndef _GWBR_ARITHM_H_
+#define _GWBR_ARITHM_H_
 
 #include "eval.h"
 

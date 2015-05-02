@@ -1,8 +1,9 @@
 /* GWBasic Evaluator */
 
 #include "inc/eval.h"
-#include "inc/arithm.h" /* ArithmeticOperations */
-#include <string.h>	/* strcat() */
+#include "inc/arithm.h" 		/* ArithmeticOperations */
+#include "inc/relational.h" 		/* RelationalOperations */
+#include <string.h>			/* strcat() */
 #include <assert.h>
 #include <stdio.h>
 
