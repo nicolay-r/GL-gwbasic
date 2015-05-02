@@ -1,5 +1,8 @@
 /* GWBasic Runtime Expression evaluator */
 
+#ifndef _GWBR_EVAL_H_
+#define _GWBR_EVAL_H_
+
 #include "../../../../inc/env.h"	/* GWBE_Environment */
 #include "../../../../inc/core.h"	/* GWBC_Value */
 #include "../../../../inc/parser.h"	/* GWBN_* */
@@ -31,3 +34,5 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 GWBR_ExpressionResult gwbr_EvaluateStringExpression(GWBE_Environment* env, GWBN_StringExpression* node);
 GWBR_ExpressionResult gwbr_EvaluateStringOperator(GWBE_Environment* env, GWBN_StringOperator* node);
 GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_StringTerm* node);
+
+#endif

@@ -1,6 +1,7 @@
 /* GWBasic Evaluator */
 
 #include "inc/eval.h"
+#include "inc/binary.h"
 #include <string.h>	/* strcat() */
 #include <assert.h>
 #include <stdio.h>
@@ -58,7 +59,7 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateNumericExpression(env, node->b);
-			/* выполнить сложение */
+			result = gwbr_EvaluateAdd(a, b);
 			break;
 		}
 		case GWBBT_SUB:
