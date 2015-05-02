@@ -90,14 +90,16 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	/* "Let" handler implementation */
 	printf("In \"Let\" Handler\n"); 
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
+	GWBC_Variable* new_var; 
 	switch (node->var->type)
 	{
 		case GWBNT_STRINGVARIABLE:
 		{
-			GWBC_Variable* new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
+			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
+			
 			if (expr_res.val_type == GWBCT_STRING)
 			{
-				printf("Value: %s\n", expr_res.val.str_val);
+				printf("String Value: %s\n", expr_res.val.str_val);
 				new_var->val->type = GWBCT_STRING;
 				new_var->val->str_val = expr_res.val.str_val;
 			}
@@ -105,20 +107,53 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			{
 				/* выдать ошибку */
 			}
-			/*
-				Добавить проверку на существование такой переменной
-			*/
-			if (!gwbe_Context_ExistsVariable(env, new_var))
-				gwbe_Context_AddLocalVariable(env, new_var);
-			else
-			{
-				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
-				gwbc_Variable_SetValue(var, new_var->val);
-			}
-				
+			
 			break;
-		}	
+		}
+		case GWBNT_NUMERICVARIABLE:
+			
+			printf("Numeric variable\n");
+			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
+			new_var->val->type = expr_res.val_type;
+			switch (expr_res.val_type)
+			{
+				case GWBCT_INTEGER:
+					printf("Integer value: %d\n", expr_res.val.int_val);
+					new_var->val->int_val = expr_res.val.int_val;	
+					break;
+				case GWBCT_SINGLE:
+					/* Not Implemented */
+					break;
+				case GWBCT_DOUBLE:
+					/* Not Implemented */
+					break;
+			}
+			
+			
+			break;
+		case GWBNT_ARRAYVARIABLE:
+			/* Not Implemented */
+			break;
 	}
+	
+	/*
+		Сохранение значения 
+	*/
+	if (!gwbe_Context_ExistsVariable(env, new_var))
+		gwbe_Context_AddLocalVariable(env, new_var);
+	else
+	{
+		GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
+		if (var->type == GWBCT_VALUE)
+		{
+			gwbc_Variable_SetValue(var, new_var->val);
+		}
+		else if (var->type == GWBCT_ARRAY)
+		{
+			/* присовение значения элементу массива */	
+		}
+	}
+				
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 

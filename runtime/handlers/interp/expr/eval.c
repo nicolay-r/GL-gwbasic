@@ -3,6 +3,8 @@
 #include "inc/eval.h"
 #include <string.h>	/* strcat() */
 #include <assert.h>
+#include <stdio.h>
+
 
 GWBR_ExpressionResult gwbr_EvaluateExpression(GWBE_Environment* env, GWBN_Expression* node)
 {
@@ -80,6 +82,9 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 			/* выполнить деление */
 			break;
 		}
+		case GWBNT_NUMERICTERM:
+			result = gwbr_EvaluateNumericTerm(env, node->term);
+			break;
 	}
 
 	return result;
@@ -170,7 +175,6 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_NumericConstant *node)
 {
 	GWBR_ExpressionResult result;
-	
 	assert(node != NULL);
 
 	switch (node->type)
@@ -179,11 +183,11 @@ GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_N
 			result.val_type = GWBCT_INTEGER;
 			result.val.int_val = node->const_int;
 			break;
-		case GWBCT_SINGLE:
+		case GWBBT_SINGLE:
 			result.val_type = GWBCT_SINGLE;
 			result.val.single_val = node->const_float;
 			break;
-		case GWBCT_DOUBLE:
+		case GWBBT_DOUBLE:
 			/* Not Implemented */
 			break;
 	}
