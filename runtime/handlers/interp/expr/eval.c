@@ -86,9 +86,7 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 		}
 		case GWBNT_NUMERICTERM:
 		{
-			printf("eval term\n");
 			result = gwbr_EvaluateNumericTerm(env, node->term);
-			printf("r = %d\n", result.val.int_val);
 			break;
 		}
 	}
@@ -228,13 +226,10 @@ GWBR_ExpressionResult gwbr_EvaluateRelationalOperator(GWBE_Environment *env, GWB
 	/*
 		Выполнение операций сравнения
 	*/
-	printf("va = %d\n", a.val.int_val);
-	printf("vb = %d\n", b.val.int_val);
 	switch (node->op_type)
 	{
 		case GWBBT_EQUAL:
 			/* equal */
-			gwbo_DisplayMessage(env, "equal\n");
 			result = gwbr_EvaluateEqual(a, b);
 			break;
 		case GWBBT_INEQUAL:
