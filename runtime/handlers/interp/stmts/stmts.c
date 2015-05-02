@@ -49,6 +49,7 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			return result;
 		case GWBNT_INPUT:
 			result = gwbh_Input(env, node->input);
+			return result;
 	}
 	result.type = GWBR_RESULT_OK;
 	return result;	 
