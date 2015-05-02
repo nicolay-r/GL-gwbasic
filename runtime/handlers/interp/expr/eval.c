@@ -1,7 +1,7 @@
 /* GWBasic Evaluator */
 
 #include "inc/eval.h"
-#include "inc/binary.h"
+#include "inc/arithm.h" /* ArithmeticOperations */
 #include <string.h>	/* strcat() */
 #include <assert.h>
 #include <stdio.h>
@@ -200,6 +200,46 @@ GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_N
 GWBR_ExpressionResult gwbr_EvaluateRelationalOperator(GWBE_Environment *env, GWBN_RelationalOperator *node)
 {
 	GWBR_ExpressionResult result;
+	
+	assert(node != NULL);
+
+	GWBR_ExpressionResult a, b;
+	switch (node->args_type)
+	{
+		case GWBNT_ARITHMETICOPERATOR:
+		{
+			a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			b = gwbr_EvaluateArithmeticOperator(env, node->b);
+		}
+		case GWBNT_STRINGOPERATOR:
+		{
+			a = gwbr_EvaluateStringOperator(env, node->s1);
+			b = gwbr_EvaluateStringOperator(env, node->s2);
+		}
+	}
+	
+	/*
+		Выполнение операций сравнения
+	*/
+	switch (node->op_type)
+	{
+		case GWBBT_EQUAL:
+			/* equal */
+			break;
+		case GWBBT_INEQUAL:
+			/* inequal */
+			break;
+		case GWBBT_LT:
+			/* lt */
+			break;
+		case GWBBT_GT:
+			/* gt */
+			break;
+		case GWBBT_GTE:
+			/* gte */
+			break;
+	}
+
 	return result;
 }
 GWBR_ExpressionResult gwbr_EvaluateLogicalOperator(GWBE_Environment *env, GWBN_LogicalOperator *node)

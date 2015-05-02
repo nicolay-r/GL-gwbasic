@@ -1,4 +1,4 @@
-/* GWBasic binary operataions */
+/* GWBasic arithm operataions */
 
 #ifndef _GWBR_BINARY_H_
 #define _GWBR_BINARY_H_

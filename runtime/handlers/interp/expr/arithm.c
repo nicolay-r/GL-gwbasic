@@ -1,6 +1,6 @@
-/* GWBasic binary operations implementation */
+/* GWBasic Arithm operations implementation */
 
-#include "inc/binary.h"
+#include "inc/arithm.h"
 
 GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionResult b)
 {
