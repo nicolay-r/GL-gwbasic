@@ -12,12 +12,11 @@ PARSER_SRCS= \
 	$(AST_FOLDER)interp/expr/*.c \
 	$(AST_FOLDER)interp/vars/*.c
 
-RUNTIME_SRCS= runtime.c env.c core.c input.c \
+RUNTIME_SRCS= runtime.c env.c core.c input.c output.c \
 	handlers/interp/*.c \
 	handlers/interp/stmts/*.c \
 	handlers/interp/cmds/*.c \
 	handlers/interp/expr/*.c
-
 all:
 	# Build GWBasic lexical and syntax parsers
 	make -C $(PARSER_FOLDER)
