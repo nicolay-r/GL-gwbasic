@@ -502,19 +502,28 @@ StringTerm: StringVariable					{ $$ = gwbn_NewStringTerm(); $$->type = GWBNT_STR
 NumericConstant: CONST_INTEGER					{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_INTEGER; $$->const_int = $1; }
 	| CONST_FLOAT						{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_SINGLE; $$->const_float = $1; }	
 
-RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ $$ = gwbn_NewRelationalOperator();  }
-	| ArithmeticOperator INEQUAL ArithmeticOperator		{ printf("A <> B\n"); }
-	| ArithmeticOperator LT	ArithmeticOperator		{ printf("A < B\n"); } 
-	| ArithmeticOperator GT ArithmeticOperator 		{ printf("A > B\n"); } 
-	| ArithmeticOperator LTE ArithmeticOperator		{ printf("A <= B\n"); } 
-	| ArithmeticOperator GTE ArithmeticOperator  		{ printf("A >= B\n"); } 
-	| StringOperator EQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->op_type = GWBBT_EQUAL; 
-								  $$->args_type = GWBNT_STRINGOPERATOR; $$->s1 = $1; $$->s2 = $3; }
-	| StringOperator INEQUAL StringOperator			{ printf("S1 <> S2\n"); } 
-	| StringOperator LT StringOperator			{ printf("S1 < S2\n"); } 
-	| StringOperator GT StringOperator			{ printf("$1 > $2\n"); }
-	| StringOperator LTE StringOperator			{ printf("S1 <= S2\n"); } 
-	| StringOperator GTE StringOperator			{ printf("S1 >= S2\n"); } 
+RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_ARITHMETICOPERATOR; 
+								  $$->op_type = GWBBT_EQUAL; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator INEQUAL ArithmeticOperator		{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_ARITHMETICOPERATOR; 
+								  $$->op_type = GWBBT_INEQUAL; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator LT	ArithmeticOperator		{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_ARITHMETICOPERATOR; 
+								  $$->op_type = GWBBT_LT; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator GT ArithmeticOperator 		{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_ARITHMETICOPERATOR; 
+ 								  $$->op_type = GWBBT_GT; $$->a = $1; $$->b = $3; }	
+	| ArithmeticOperator LTE ArithmeticOperator		{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_ARITHMETICOPERATOR; 
+ 								  $$->op_type = GWBBT_GTE; $$->a = $1; $$->b = $3; }	 
+	| StringOperator EQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_EQUAL; $$->s1 = $1; $$->s2 = $3; }
+	| StringOperator INEQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_INEQUAL; $$->s1 = $1; $$->s2 = $3; }
+	| StringOperator LT StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_LT; $$->s1 = $1; $$->s2 = $3; }
+	| StringOperator GT StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_GT; $$->s1 = $1; $$->s2 = $3; }
+	| StringOperator LTE StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_LTE; $$->s1 = $1; $$->s2 = $3; } 
+	| StringOperator GTE StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
+								  $$->op_type = GWBBT_GTE; $$->s1 = $1; $$->s2 = $3; }
 
 LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); } 
 	| RelationalOperator AND RelationalOperator		{ printf("A AND B\n"); } 
