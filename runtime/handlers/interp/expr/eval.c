@@ -1,6 +1,7 @@
 /* GWBasic Evaluator */
 
 #include "inc/eval.h"
+#include "../../../inc/output.h"	/* gwbo_DisplayMessage */
 #include "inc/arithm.h" 		/* ArithmeticOperations */
 #include "inc/relational.h" 		/* RelationalOperations */
 #include <string.h>			/* strcat() */
@@ -28,7 +29,6 @@ GWBR_ExpressionResult gwbr_EvaluateNumericExpression(GWBE_Environment* env, GWBN
 	GWBR_ExpressionResult result;
 	
 	assert(node != NULL);
-
 	switch (node->type)
 	{
 		case GWBNT_ARITHMETICOPERATOR:
@@ -85,8 +85,12 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 			break;
 		}
 		case GWBNT_NUMERICTERM:
+		{
+			printf("eval term\n");
 			result = gwbr_EvaluateNumericTerm(env, node->term);
+			printf("r = %d\n", result.val.int_val);
 			break;
+		}
 	}
 
 	return result;
@@ -211,33 +215,43 @@ GWBR_ExpressionResult gwbr_EvaluateRelationalOperator(GWBE_Environment *env, GWB
 		{
 			a = gwbr_EvaluateArithmeticOperator(env, node->a);
 			b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			break;
 		}
 		case GWBNT_STRINGOPERATOR:
 		{
 			a = gwbr_EvaluateStringOperator(env, node->s1);
 			b = gwbr_EvaluateStringOperator(env, node->s2);
+			break;
 		}
 	}
 	
 	/*
 		Выполнение операций сравнения
 	*/
+	printf("va = %d\n", a.val.int_val);
+	printf("vb = %d\n", b.val.int_val);
 	switch (node->op_type)
 	{
 		case GWBBT_EQUAL:
 			/* equal */
+			gwbo_DisplayMessage(env, "equal\n");
+			result = gwbr_EvaluateEqual(a, b);
 			break;
 		case GWBBT_INEQUAL:
 			/* inequal */
+			result = gwbr_EvaluateInequal(a, b);
 			break;
 		case GWBBT_LT:
 			/* lt */
+			result = gwbr_EvaluateLT(a, b);
 			break;
 		case GWBBT_GT:
 			/* gt */
+			result = gwbr_EvaluateGT(a, b);
 			break;
 		case GWBBT_GTE:
 			/* gte */
+			result = gwbr_EvaluateGTE(a, b);
 			break;
 	}
 

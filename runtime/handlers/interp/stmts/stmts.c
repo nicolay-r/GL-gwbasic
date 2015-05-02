@@ -471,7 +471,7 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	{
 		if (node->prompt->str != NULL)
 		{
-			gwbo_DisplayMessage(env,"%s\n", node->prompt->str);
+			printf("%s\n", node->prompt->str);
 		}
 		prompt_exists = 1;
 	}
