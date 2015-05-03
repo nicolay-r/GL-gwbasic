@@ -32,8 +32,9 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	assert(node != NULL);
 	assert(env->ctx != NULL);
 
+	/* Сброс индекса строки программы */
+	env->ctx->current_line = 0;
 	int current_line = env->ctx->current_line;
- 
 	while (current_line < GWBE_PROGRAM_MAXLINES)
 	{
 		assert(env->program != NULL);
