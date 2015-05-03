@@ -5,6 +5,8 @@
 #include <string.h>
 #include <assert.h> /* assert() */
 #include "../expr/inc/eval.h"
+#include "../expr/inc/arithm.h"
+#include "../expr/inc/relational.h"
 #include "../../../inc/input.h"	/* GWBI_GetLine() */
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
@@ -263,115 +265,75 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 	if (node->var->type == GWBNT_NUMERICVARIABLE)
 	{
 		assert(env != NULL);
-		/* 
-			Входим в цикл 
-		*/
+		/* Входим в цикл */
 		env->ctx->level++;
-		/*
-			Проверяем условия	
-		*/
+		/* Проверяем условия */
 		GWBR_ExpressionResult from = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
 		GWBR_ExpressionResult to = gwbr_EvaluateNumericExpression(env, node->to_num_expr);
-		if (from.val_type == to.val_type)
+		GWBR_ExpressionResult cmp = gwbr_EvaluateLT(from, to);
+		
+		if (cmp.val_type == GWBCT_INTEGER && cmp.val.int_val != 0)
 		{
-			switch (from.val_type)
-			{
-				case GWBCT_INTEGER: 
-					if (to.val.int_val <= from.val.int_val)
-					{
-						/* Завершение выполнения цикла */
-					}
-					break;
-			}
-		}
-
-		GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->str->name);
-		if (var != NULL)
-		{	
-			/* 
-				Вычисляем шаг
-			*/
-			GWBR_ExpressionResult step;
-			if (node->step != NULL)
-			{
-				step = gwbr_EvaluateNumericExpression(env, node->step);
-			}
-			else 
-			{
-				step.val_type = GWBCT_INTEGER;
-				step.val.int_val = 1;
-			}
-
-			/*
-				Задаем новое значение
-			*/
-
-			if (var->val->type == step.val_type)
-			{
-				switch (var->val->type)
+			GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->str->name);
+			if (var != NULL)
+			{	
+				/* Вычисляем шаг */
+				GWBR_ExpressionResult step;
+				if (node->step != NULL)
+					step = gwbr_EvaluateNumericExpression(env, node->step);
+				else 
 				{
-					case GWBCT_INTEGER:
-					{
-						if (step.val_type == GWBCT_INTEGER)
-						{
-							var->val->int_val += step.val.int_val;
-						}
-						else 
-						{
-							/* Undefined types */
-						}
-					}
+					step.val_type = GWBCT_INTEGER;
+					step.val.int_val = 1;
 				}
+				/* Задаем новое значение */
+				GWBR_ExpressionResult curr_val;
+				curr_val.val_type = var->val->type;
+				curr_val.val = *(var->val);
+
+				curr_val = gwbr_EvaluateAdd(curr_val, step);
+
+				GWBC_Value *new_val = malloc(sizeof(GWBC_Value));
+				*new_val = curr_val.val;
+
+				gwbc_Variable_SetValue(var, new_val);
 			}
 			else 
-			{
-				/* Incompatible types */
-			}
-		}
-		else 
-		{	/* 
-				Создание новой переменной 
-			*/
-			switch (node->var->type)
-			{
-				case GWBNT_INTEGERVARIABLE:
-					var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name); 
-					var->val->type = GWBCT_INTEGER;
-					break;
-				case GWBNT_SINGLEPRECISIONVARIABLE:
-				case GWBNT_DOUBLEPRECISIONVARIABLE:
-					/* Undefined types */
-					break;
-			}
-			
-			GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
-			if (var->val->type == res.val_type)
-			{
-				switch (res.val_type)
+			{	/* 
+					Создание новой переменной 
+				*/
+				switch (node->var->type)
 				{
-					case GWBCT_INTEGER:
-						var->val->int_val = res.val.int_val;
+					case GWBNT_INTEGERVARIABLE:
+						var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name); 
+						var->val->type = GWBCT_INTEGER;
 						break;
-					case GWBCT_SINGLE:
-						var->val->single_val = res.val.single_val;
-						break;
-					case GWBCT_DOUBLE:
-						var->val->double_val = res.val.double_val;
+					case GWBNT_SINGLEPRECISIONVARIABLE:
+					case GWBNT_DOUBLEPRECISIONVARIABLE:
+						/* Undefined types */
 						break;
 				}
+				
+				GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
+				
+				GWBC_Value *new_val = malloc(sizeof(GWBC_Value));
+				*new_val = res.val;
+
+				gwbc_Variable_SetValue(var, new_val);
+				gwbe_Context_AddLocalVariable(env, var);
+				
+				/* 
+					Добавление адреса возврата 
+				*/
+				assert(env->ctx->callback_stack);
+				env->ctx->callback_stack->callback[env->ctx->callback_stack->top_index] = env->ctx->current_line;
+				env->ctx->callback_stack->top_index++;
 			}
-			else 
-			{
-				/* Incompatible types */
-			}
-			gwbe_Context_AddLocalVariable(env, var);
-			
-			/* 
-				Добавление адреса возврата 
-			*/
-			assert(env->ctx->callback_stack);
-			env->ctx->callback_stack->callback[env->ctx->callback_stack->top_index] = env->ctx->current_line;
-			env->ctx->callback_stack->top_index++;
+		}
+		else
+		{
+			/* from > to */
+			gwbo_DisplayMessage(env, "Out of Cycle");
 		}
 
 	}
