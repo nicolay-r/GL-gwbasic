@@ -74,6 +74,16 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 			}
 			break;
 		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) == 0 ? 1 : 0;
+					break;
+			}
+		}
 		default:
 			/* предусмотреть ошибки */
 			break;
@@ -150,6 +160,16 @@ switch (a.val_type)
 					break;
 			}
 			break;
+		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) != 0 ? 1 : 0;
+					break;
+			}
 		}
 		default:
 			/* предусмотреть ошибки */
@@ -229,6 +249,16 @@ GWBR_ExpressionResult gwbr_EvaluateGT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 			}
 			break;
 		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) > 0 ? 1 : 0;
+					break;
+			}
+		}
 		default:
 			/* предусмотреть ошибки */
 			break;
@@ -306,6 +336,16 @@ GWBR_ExpressionResult gwbr_EvaluateLT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 					break;
 			}
 			break;
+		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) < 0 ? 1 : 0;
+					break;
+			}
 		}
 		default:
 			/* предусмотреть ошибки */
@@ -386,6 +426,16 @@ GWBR_ExpressionResult gwbr_EvaluateGTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 			}
 			break;
 		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) >= 0 ? 1 : 0;
+					break;
+			}
+		}	
 		default:
 			/* предусмотреть ошибки */
 			break;
@@ -463,6 +513,16 @@ GWBR_ExpressionResult gwbr_EvaluateLTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 					break;
 			}
 			break;
+		}
+		case GWBCT_STRING:
+		{
+			switch (b.val_type)
+			{
+				case GWBCT_STRING:
+					result.val.type = GWBCT_INTEGER;
+					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) <= 0 ? 1 : 0;
+					break;
+			}
 		}
 		default:
 			/* предусмотреть ошибки */
