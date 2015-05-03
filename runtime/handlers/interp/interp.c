@@ -13,6 +13,9 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 	
 	gwbo_DisplayMessage(env, "In \"Interprer\" Handler\n");
 	
+	assert(env != NULL);
+	assert(node != NULL);
+
 	switch (node->type)
 	{
 		case GWBNT_DIRECT_MODE:
@@ -50,9 +53,10 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	result.type = GWBR_RESULT_OK;
 
 	gwbo_DisplayMessage(env, "In \"IndirectMode\" Handler\n"); 
-	
+		
 	assert(env->program != NULL);
 	assert(env->program->lines != NULL);
+	assert(node != NULL);
 
 	GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
 	line->number = node->line_number;
