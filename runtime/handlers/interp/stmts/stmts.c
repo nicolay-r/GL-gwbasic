@@ -33,25 +33,36 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 	/* "Statement" handler implementation */
 	gwbo_DisplayMessage(env, "In \"Statement\" Handler\n"); 
 	
+	assert(env != NULL);
+	assert(env->ctx != NULL);
 	assert(node != NULL);
-
+	
+	if (!env->ctx->skip_flag)
+	{
+		switch (node->type)
+		{
+			case GWBNT_LET:
+				result = gwbh_Let(env, node->let);
+				return result;
+			case GWBNT_PRINT:
+				result = gwbh_Print(env, node->print);
+				return result;
+			case GWBNT_GOTO:
+				result = gwbh_Goto(env, node->_goto);
+				return result;
+			case GWBNT_IFTHENELSE:
+				result = gwbh_IfThenElse(env, node->if_then_else);
+				return result;
+			case GWBNT_INPUT:
+				result = gwbh_Input(env, node->input);
+				return result;
+		}
+	}
+	/*
+		Операции, которые всегда выполняются
+	*/
 	switch (node->type)
 	{
-		case GWBNT_LET:
-			result = gwbh_Let(env, node->let);
-			return result;
-		case GWBNT_PRINT:
-			result = gwbh_Print(env, node->print);
-			return result;
-		case GWBNT_GOTO:
-			result = gwbh_Goto(env, node->_goto);
-			return result;
-		case GWBNT_IFTHENELSE:
-			result = gwbh_IfThenElse(env, node->if_then_else);
-			return result;
-		case GWBNT_INPUT:
-			result = gwbh_Input(env, node->input);
-			return result;
 		case GWBNT_FOR:
 			result = gwbh_For(env, node->_for);
 			return result;
@@ -263,15 +274,21 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 	
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	if (env->ctx->skip_flag)
+	{
+		/* учитываем, что это вложенный цикл */
+		env->ctx->skip_flag++;
+		return result;
+	}
+
 	gwbo_DisplayMessage(env, "In \"For\" Handler\n"); 
 	
 	assert(node->num_var != NULL);
 	assert(node->from_num_expr != NULL);
 	assert(node->to_num_expr != NULL);
 
-	assert(env != NULL);
-	/* Проверяем условия */
-	
 	GWBC_Variable* var = gwbe_Context_GetVariable(env, node->num_var->name);	
 	
 	if (var != NULL)
@@ -305,7 +322,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		{
 			/* from > to */
 			gwbo_DisplayMessage(env, "Out of Cycle");
-			exit(0);
+			env->ctx->skip_flag++;
 		}
 
 	}
@@ -350,8 +367,9 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		{
 			/* from > to */
 			gwbo_DisplayMessage(env, "Out of Cycle");
-			exit(0);
+			env->ctx->skip_flag++;		
 		}
+		
 	}
 
 	return result;	 
@@ -368,11 +386,18 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 	assert(env->ctx->callback_stack != NULL);
 	assert(env->ctx->callback_stack->callback != NULL);
 
-	int top_index = env->ctx->callback_stack->top_index;
-
-	/* Изменяем текущую строку */
-	env->ctx->current_line = env->ctx->callback_stack->callback[top_index] - 1;
-
+	if (env->ctx->skip_flag > 0)
+	{
+		env->ctx->skip_flag--;
+		/* Удаление контекста нужно реализовать */
+	}
+	else 
+	{
+		/* повторяем цикл */
+		int top_index = env->ctx->callback_stack->top_index;
+		/* Изменяем текущую строку */
+		env->ctx->current_line = env->ctx->callback_stack->callback[top_index] - 1;
+	}
 	return result;	 
 } 
 	
