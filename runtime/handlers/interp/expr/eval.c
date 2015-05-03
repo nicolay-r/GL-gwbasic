@@ -141,7 +141,7 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 		{
 			case GWBCT_VALUE:
 			{
-				result.val_type = var->val->type;
+				result.val.type = var->val->type;
 				switch(var->val->type)
 				{
 					case GWBCT_INTEGER:
@@ -184,11 +184,11 @@ GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_N
 	switch (node->type)
 	{
 		case GWBBT_INTEGER:
-			result.val_type = GWBCT_INTEGER;
+			result.val.type = GWBCT_INTEGER;
 			result.val.int_val = node->const_int;
 			break;
 		case GWBBT_SINGLE:
-			result.val_type = GWBCT_SINGLE;
+			result.val.type = GWBCT_SINGLE;
 			result.val.single_val = node->const_float;
 			break;
 		case GWBBT_DOUBLE:
@@ -282,7 +282,7 @@ GWBR_ExpressionResult gwbr_EvaluateStringOperator(GWBE_Environment* env, GWBN_St
 			/* Concatenate two strings */
 			GWBR_ExpressionResult a = gwbr_EvaluateStringTerm(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateStringOperator(env, node->b);
-			result.val_type = GWBCT_STRING;
+			result.val.type = GWBCT_STRING;
 			result.val.str_val = strcat(a.val.str_val, b.val.str_val);
 			break;
 		}
@@ -307,7 +307,7 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 			{
 				assert(var->val != NULL);
 
-				result.val_type = GWBCT_STRING;
+				result.val.type = GWBCT_STRING;
 				result.val.str_val = strdup(var->val->str_val);
 			}
 			else 
@@ -318,7 +318,7 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 		}
 		case GWBBT_STRING:
 		{
-			result.val_type = GWBCT_STRING; 
+			result.val.type = GWBCT_STRING; 
 			result.val.str_val = strdup(node->str);	
 			break;
 		}

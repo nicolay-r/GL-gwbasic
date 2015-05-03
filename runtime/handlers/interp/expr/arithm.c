@@ -6,17 +6,14 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 {
 	GWBR_ExpressionResult result;
 
-	switch (a.val_type)
+	switch (a.val.type)
 	{
 		case GWBCT_INTEGER:
 		{
-			switch (b.val_type)
+			switch (b.val.type)
 			{
-				case GWBCT_INTEGER:
-					printf("a + b\n");
-					printf("a val: %d\n", a.val.int_val);
-					printf("b val: %d\n", b.val.int_val);
-					result.val_type = GWBCT_INTEGER;
+				case GWBCT_INTEGER:	
+					result.val.type = GWBCT_INTEGER;
 					result.val.int_val = a.val.int_val + b.val.int_val;
 					break;
 				case GWBCT_SINGLE:
@@ -30,7 +27,7 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 		}
 		case GWBCT_SINGLE:
 		{
-			switch (b.val_type)
+			switch (b.val.type)
 			{
 				case GWBCT_INTEGER:
 					
@@ -46,7 +43,7 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 		}
 		case GWBCT_DOUBLE:
 		{
-			switch (b.val_type)
+			switch (b.val.type)
 			{
 				case GWBCT_INTEGER:
 					

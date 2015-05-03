@@ -107,7 +107,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		{
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
 			
-			if (expr_res.val_type == GWBCT_STRING)
+			if (expr_res.val.type == GWBCT_STRING)
 			{
 				printf("String Value: %s\n", expr_res.val.str_val);
 				new_var->val->type = GWBCT_STRING;
@@ -124,8 +124,8 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			
 			gwbo_DisplayMessage(env,"Numeric variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
-			new_var->val->type = expr_res.val_type;
-			switch (expr_res.val_type)
+			new_var->val->type = expr_res.val.type;
+			switch (expr_res.val.type)
 			{
 				case GWBCT_INTEGER:
 					printf("Integer value: %d\n", expr_res.val.int_val);
@@ -271,14 +271,16 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 
 	assert(env != NULL);
 	/* Проверяем условия */
-	GWBR_ExpressionResult from = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
-	GWBR_ExpressionResult to = gwbr_EvaluateNumericExpression(env, node->to_num_expr);
-	GWBR_ExpressionResult cmp = gwbr_EvaluateLT(from, to);
 	
-	if (cmp.val_type == GWBCT_INTEGER && cmp.val.int_val != 0)
-	{
-		GWBC_Variable* var = gwbe_Context_GetVariable(env, node->num_var->name);	
-		if (var != NULL)
+	GWBC_Variable* var = gwbe_Context_GetVariable(env, node->num_var->name);	
+	
+	if (var != NULL)
+	{	
+		GWBR_ExpressionResult from; from.val = *(var->val);
+		GWBR_ExpressionResult to = gwbr_EvaluateNumericExpression(env, node->to_num_expr);
+		GWBR_ExpressionResult cmp = gwbr_EvaluateLT(from, to);
+
+		if (cmp.val.type == GWBCT_INTEGER && cmp.val.int_val == 1)
 		{	
 			/* Вычисляем шаг */
 			GWBR_ExpressionResult step;
@@ -286,12 +288,12 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 				step = gwbr_EvaluateNumericExpression(env, node->step);
 			else 
 			{
-				step.val_type = GWBCT_INTEGER;
+				step.val.type = GWBCT_INTEGER;
 				step.val.int_val = 1;
 			}
 			/* Задаем новое значение */
 			GWBR_ExpressionResult curr_val;
-			curr_val.val_type = var->val->type;
+			curr_val.val.type = var->val->type;
 			curr_val.val = *(var->val);
 
 			curr_val = gwbr_EvaluateAdd(curr_val, step);
@@ -299,8 +301,22 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			*new_val = curr_val.val;
 			gwbc_Variable_SetValue(var, new_val);
 		}
-		else 
-		{	
+		else
+		{
+			/* from > to */
+			gwbo_DisplayMessage(env, "Out of Cycle");
+			exit(0);
+		}
+
+	}
+	else	// var == NULL
+	{
+		GWBR_ExpressionResult from = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
+		GWBR_ExpressionResult to = gwbr_EvaluateNumericExpression(env, node->to_num_expr);
+		GWBR_ExpressionResult cmp = gwbr_EvaluateLT(from, to);
+
+		if (cmp.val.type == GWBCT_INTEGER && cmp.val.int_val == 1)
+		{
 			/* Создание новой переменной */
 			switch (node->num_var->type)
 			{
@@ -330,12 +346,12 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			/* Входим в цикл */
 			env->ctx->level++;
 		}
-	}
-	else
-	{
-		/* from > to */
-		exit(0);
-		gwbo_DisplayMessage(env, "Out of Cycle");
+		else
+		{
+			/* from > to */
+			gwbo_DisplayMessage(env, "Out of Cycle");
+			exit(0);
+		}
 	}
 
 	return result;	 
@@ -399,7 +415,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	gwbo_DisplayMessage(env,"In \"IfThenElse\" Handler\n"); 
 	assert(node->expr != NULL);
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
-	if (expr_res.val_type == GWBCT_INTEGER)
+	if (expr_res.val.type == GWBCT_INTEGER)
 	{
 		if (expr_res.val.int_val != 0)
 		{	/* then */
@@ -497,14 +513,14 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 	{
 		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
 		
-		if (expr_res.val_type == GWBCT_STRING)
+		if (expr_res.val.type == GWBCT_STRING)
 		{	/* вывод строки */
 			printf("%s\n", expr_res.val.str_val);
 		}
 
-		else if (expr_res.val_type == GWBCT_INTEGER) { /* вывод целочисленных значений */ }
-		else if (expr_res.val_type == GWBCT_SINGLE) { /* вывод вещественных чисел одинарной точности */}
-		else if (expr_res.val_type == GWBCT_DOUBLE) { /* вывод вещественных чисел двойной точности */}
+		else if (expr_res.val.type == GWBCT_INTEGER) { /* вывод целочисленных значений */ }
+		else if (expr_res.val.type == GWBCT_SINGLE) { /* вывод вещественных чисел одинарной точности */}
+		else if (expr_res.val.type == GWBCT_DOUBLE) { /* вывод вещественных чисел двойной точности */}
 	}
 	while (print_exprs->next != NULL);
 	

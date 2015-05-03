@@ -14,7 +14,7 @@ typedef struct GWBR_ExpressionResult GWBR_ExpressionResult;
 	Structures
 */
 struct GWBR_ExpressionResult {
-	int val_type;	/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
+	/* int val_type;	*//* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
 	GWBC_Value val;
 };
 
