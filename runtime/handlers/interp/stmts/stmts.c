@@ -431,11 +431,13 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	gwbo_DisplayMessage(env,"In \"IfThenElse\" Handler\n"); 
 	assert(node->expr != NULL);
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
-	if (expr_res.val_type == GWBNT_INTEGERVARIABLE)
+	if (expr_res.val_type == GWBCT_INTEGER)
 	{
 		if (expr_res.val.int_val != 0)
 		{	/* then */
+			
 			assert(node->then != NULL);
+			
 			switch (node->then->type)
 			{
 				case GWBNT_STATEMENTS:
@@ -446,7 +448,9 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 		}
 		else
 		{	/* else */
+
 			assert(node->_else != NULL);
+		
 			if (node->_else->stmts != NULL)
 			{
 				return gwbh_Statements(env, node->_else->stmts);
@@ -455,6 +459,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	}
 	else 
 	{
+		/* error! */
 		gwbo_DisplayMessage(env,"Result has another type. Expected Numeric (Integer)\n This message should be represented as error \n");
 	}
 	return result;	 
