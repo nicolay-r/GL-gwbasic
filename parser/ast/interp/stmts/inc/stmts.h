@@ -71,6 +71,8 @@ struct GWBN_Statement {
 		GWBN_Input* input;
 		GWBN_Goto* _goto;
 		GWBN_IfThenElse* if_then_else;		
+		GWBN_For* _for;
+		GWBN_Next* next;
 	};
 }; 
 

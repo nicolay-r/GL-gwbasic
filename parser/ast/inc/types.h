@@ -22,7 +22,8 @@
 #define GWBNT_INPUT			1104
 #define GWBNT_LINENUMBER		1105
 #define GWBNT_RETURN			1106
-
+#define GWBNT_FOR			1107
+#define GWBNT_NEXT			1108
 
 /*
 	Variables

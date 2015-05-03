@@ -286,8 +286,8 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Pset					{ printf("PSET %s\n", ne); }
 	| Preset				{ printf("PRESET %s\n", ne); }
 	| Cls					{ printf("CLS %s\n", ne); }
-	| For					{ printf("FOR %s\n", ne); }
-	| Next					{ printf("NEXT %s\n", ne); }
+	| For					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_FOR; $$->_for = $1; }
+	| Next					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_NEXT; $$->next = $1; }
 	| GoSub					{ printf("GOSUB %s\n", ne); }
 	| Return				{ printf("RETURN %s\n", ne); }
 	| Goto					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
@@ -398,8 +398,7 @@ ScreenCoord: VariableName
 
 Cls: CLS
 
-For: FOR Variable '=' NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
-	| FOR Variable '=' NumericExpression TO NumericExpression STEP NumericExpression{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = $8; }
+For: FOR Variable EQUAL NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
 Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							
 GoSub: GOSUB LineNumber									{ $$ = gwbn_NewGoSub(); $$->line = $2; }
 Return: RETURN										{ $$ = gwbn_NewReturn(); $$->type = GWBNT_RETURN;/* нужно в runtime реализовать стек возврата */}
