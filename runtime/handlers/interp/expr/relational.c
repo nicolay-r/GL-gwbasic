@@ -79,7 +79,7 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) == 0 ? 1 : 0;
 					break;
 				default:
@@ -169,7 +169,7 @@ switch (a.val_type)
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) != 0 ? 1 : 0;
 					break;
 				default:
@@ -260,7 +260,7 @@ GWBR_ExpressionResult gwbr_EvaluateGT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) > 0 ? 1 : 0;
 					break;
 				default:
@@ -351,7 +351,7 @@ GWBR_ExpressionResult gwbr_EvaluateLT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) < 0 ? 1 : 0;
 					break;
 				default:
@@ -443,7 +443,7 @@ GWBR_ExpressionResult gwbr_EvaluateGTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) >= 0 ? 1 : 0;
 					break;
 				default:
@@ -534,7 +534,7 @@ GWBR_ExpressionResult gwbr_EvaluateLTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 			switch (b.val_type)
 			{
 				case GWBCT_STRING:
-					result.val.type = GWBCT_INTEGER;
+					result.val_type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) <= 0 ? 1 : 0;
 					break;
 				default:
