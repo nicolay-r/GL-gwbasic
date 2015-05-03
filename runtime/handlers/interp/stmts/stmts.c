@@ -52,7 +52,14 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 		case GWBNT_INPUT:
 			result = gwbh_Input(env, node->input);
 			return result;
+		case GWBNT_FOR:
+			result = gwbh_For(env, node->_for);
+			return result;
+		case GWBNT_NEXT:
+			result = gwbh_Next(env, node->next);
+			return result;
 	}
+
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
@@ -258,11 +265,11 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 	
 	gwbo_DisplayMessage(env, "In \"For\" Handler\n"); 
 	
-	assert(node->var != NULL);
+	assert(node->num_var != NULL);
 	assert(node->from_num_expr != NULL);
 	assert(node->to_num_expr != NULL);
 
-	if (node->var->type == GWBNT_NUMERICVARIABLE)
+	if (node->num_var->type == GWBNT_NUMERICVARIABLE)
 	{
 		assert(env != NULL);
 		/* Входим в цикл */
@@ -274,7 +281,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		
 		if (cmp.val_type == GWBCT_INTEGER && cmp.val.int_val != 0)
 		{
-			GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->str->name);
+			GWBC_Variable* var = gwbe_Context_GetVariable(env, node->num_var->name);
 			if (var != NULL)
 			{	
 				/* Вычисляем шаг */
@@ -295,17 +302,16 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 
 				GWBC_Value *new_val = malloc(sizeof(GWBC_Value));
 				*new_val = curr_val.val;
-
 				gwbc_Variable_SetValue(var, new_val);
 			}
 			else 
 			{	/* 
 					Создание новой переменной 
 				*/
-				switch (node->var->type)
+				switch (node->num_var->type)
 				{
 					case GWBNT_INTEGERVARIABLE:
-						var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name); 
+						var = gwbc_NewVariable(GWBCT_VALUE, node->num_var->name); 
 						var->val->type = GWBCT_INTEGER;
 						break;
 					case GWBNT_SINGLEPRECISIONVARIABLE:
@@ -333,6 +339,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		else
 		{
 			/* from > to */
+			exit(0);
 			gwbo_DisplayMessage(env, "Out of Cycle");
 		}
 
@@ -346,11 +353,20 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 	
 GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 	GWBR_Result result;
-
-	/* "Next" handler implementatione examplen */
+	result.type = GWBR_RESULT_OK;
+	
 	gwbo_DisplayMessage(env,"In \"Next\" Handler\n"); 
 
-	result.type = GWBR_RESULT_OK;
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	assert(env->ctx->callback_stack != NULL);
+	assert(env->ctx->callback_stack->callback != NULL);
+
+	int top_index = env->ctx->callback_stack->top_index;
+
+	/* Изменяем текущую строку */
+	env->ctx->current_line = env->ctx->callback_stack->callback[top_index] - 1;
+
 	return result;	 
 } 
 	

@@ -398,7 +398,7 @@ ScreenCoord: VariableName
 
 Cls: CLS
 
-For: FOR Variable EQUAL NumericExpression TO NumericExpression 				{ $$ = gwbn_NewFor(); $$->var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
+For: FOR NumericVariable EQUAL NumericExpression TO NumericExpression 			{ $$ = gwbn_NewFor(); $$->num_var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
 Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							
 GoSub: GOSUB LineNumber									{ $$ = gwbn_NewGoSub(); $$->line = $2; }
 Return: RETURN										{ $$ = gwbn_NewReturn(); $$->type = GWBNT_RETURN;/* нужно в runtime реализовать стек возврата */}
