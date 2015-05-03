@@ -39,7 +39,8 @@ struct GWBE_Environment {
 
 struct GWBE_Context {
 	int level;							/* уровень вложенности */
-	int current_line;							/* текущая строка */
+	int skip_flag;							/* флаг, указывающий на то, следует ли пропускать инструкции в Indirect Mode */
+	int current_line;						/* текущая строка */
 	struct GWBC_VariableListNode* system_vars;			/* глобальные переменные GWBasic */
 	struct GWBC_VariableListNode* local_vars[GWBE_CTX_MAXLEVELS];	/* локальные переменные для каждого блока кода (в зависимости от вложенности) */
 	struct GWBE_CallbackStack* callback_stack;				
