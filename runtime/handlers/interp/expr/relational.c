@@ -82,6 +82,9 @@ GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_Expressio
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) == 0 ? 1 : 0;
 					break;
+				default:
+					/* error */
+					break;
 			}
 		}
 		default:
@@ -168,6 +171,9 @@ switch (a.val_type)
 				case GWBCT_STRING:
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) != 0 ? 1 : 0;
+					break;
+				default:
+					/* error */
 					break;
 			}
 		}
@@ -257,6 +263,9 @@ GWBR_ExpressionResult gwbr_EvaluateGT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) > 0 ? 1 : 0;
 					break;
+				default:
+					/* error */
+					break;
 			}
 		}
 		default:
@@ -344,6 +353,9 @@ GWBR_ExpressionResult gwbr_EvaluateLT(GWBR_ExpressionResult a, GWBR_ExpressionRe
 				case GWBCT_STRING:
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) < 0 ? 1 : 0;
+					break;
+				default:
+					/* error */
 					break;
 			}
 		}
@@ -434,6 +446,9 @@ GWBR_ExpressionResult gwbr_EvaluateGTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) >= 0 ? 1 : 0;
 					break;
+				default:
+					/* error */
+					break;
 			}
 		}	
 		default:
@@ -521,6 +536,9 @@ GWBR_ExpressionResult gwbr_EvaluateLTE(GWBR_ExpressionResult a, GWBR_ExpressionR
 				case GWBCT_STRING:
 					result.val.type = GWBCT_INTEGER;
 					result.val.double_val = strcmp(a.val.str_val, b.val.str_val) <= 0 ? 1 : 0;
+					break;
+				default:
+					/* error */
 					break;
 			}
 		}
