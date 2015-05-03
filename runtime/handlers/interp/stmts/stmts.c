@@ -333,7 +333,10 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		GWBR_ExpressionResult cmp = gwbr_EvaluateLT(from, to);
 
 		if (cmp.val.type == GWBCT_INTEGER && cmp.val.int_val == 1)
-		{
+		{	
+			/* Входим в цикл */
+			env->ctx->level++;
+
 			/* Создание новой переменной */
 			switch (node->num_var->type)
 			{
@@ -360,8 +363,6 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			env->ctx->callback_stack->callback[env->ctx->callback_stack->top_index] = env->ctx->current_line;
 			env->ctx->callback_stack->top_index++;
 			
-			/* Входим в цикл */
-			env->ctx->level++;
 		}
 		else
 		{
@@ -383,13 +384,14 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 
 	assert(env != NULL);
 	assert(env->ctx != NULL);
+	assert(env->ctx->local_vars != NULL);
 	assert(env->ctx->callback_stack != NULL);
 	assert(env->ctx->callback_stack->callback != NULL);
 
 	if (env->ctx->skip_flag > 0)
 	{
 		env->ctx->skip_flag--;
-		/* Удаление контекста нужно реализовать */
+		gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); /* Удаление контекста нужно реализовать */
 	}
 	else 
 	{

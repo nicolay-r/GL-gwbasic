@@ -35,6 +35,23 @@ GWBC_VariableListNode* gwbc_NewVariableListNode()
 	return result;
 }
 
+GWBC_VariableListNode* gwbc_VariableListNode_Clear(GWBC_VariableListNode** list)
+{
+	assert(list != NULL);
+	assert(*list != NULL);
+	GWBC_VariableListNode* node = *list;
+	while (node != NULL)
+	{
+		GWBC_VariableListNode* prev = node;
+		node = node->next;
+
+		gwbc_DeleteVariable(prev->var);
+		free(prev);
+	}
+	
+	/* Делаем список пустым */
+	*list = NULL;
+}
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes)
 {
 	/* Not Implemented */
