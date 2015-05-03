@@ -24,6 +24,8 @@ GWBE_Environment* gwbe_NewEnvironment()
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = GWBE_INPUT_BUFFERLENGTH;
 
+	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
+
 	return env;
 }
 

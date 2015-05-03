@@ -3,6 +3,7 @@
 */
 
 #include "inc/core.h"
+#include "inc/output.h"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -43,7 +44,7 @@ GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_V
 {
 	/* Not Implemented */
 }
-
+#include <stdio.h>
 GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value* val)
 {
 	GWBR_Result result;
@@ -59,6 +60,14 @@ GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value* val)
 			free(var->val);
 			var->val = val;
 			return result; 
+		}
+		else 
+		{
+			printf("var->val->type = %d\n", var->val->type);
+			printf("val->type = %d\n", val->type);
+			/* error! */
+			gwbo_DisplayMessage(NULL,  "type mismatch\n");
+			exit(0);
 		}
 	}
 	return result;
