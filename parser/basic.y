@@ -212,7 +212,7 @@
 %type <exp> Exp;
 %type <tan> Tan;
 %type <log> Log;
-%type <Fix> Fix;
+%type <fix> Fix;
 %type <_int> Int;
 %type <cint> CInt;
 %type <sgn> Sgn;
@@ -596,7 +596,7 @@ MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); }
 	| Cos				{ $$ = gwbn_NewMathFunction(); }
 	| Tan				{ $$ = gwbn_NewMathFunction(); }
 	| Log				{ $$ = gwbn_NewMathFunction(); }
-	/*| Fix				{ $$ = gwbn_NewMathFunction(); } */
+	| Fix				{ $$ = gwbn_NewMathFunction(); } 
 	| Int				{ $$ = gwbn_NewMathFunction(); }
 	| CInt				{ $$ = gwbn_NewMathFunction(); }
 	| Sgn				{ $$ = gwbn_NewMathFunction(); }
@@ -608,7 +608,7 @@ Sin: SIN '(' NumericExpression ')'	{ $$ = gwbn_NewSin(); }
 Cos: COS '(' NumericExpression ')'	{ $$ = gwbn_NewCos(); }			
 Tan: TAN '(' NumericExpression ')'	{ $$ = gwbn_NewTan(); }
 Log: LOG '(' NumericExpression ')'	{ $$ = gwbn_NewLog(); }
-/*Fix: FIX '(' NumericExpression ')'	{ $$ = gwbn_NewFix(); }*/
+Fix: FIX '(' NumericExpression ')'	{ $$ = gwbn_NewFix(); }
 Int: INT '(' NumericExpression ')'	{ $$ = gwbn_NewInt(); }
 CInt: CINT'(' NumericExpression ')'	{ $$ = gwbn_NewCInt(); }
 Sgn: SGN '(' NumericExpression ')'	{ $$ = gwbn_NewSgn(); }
