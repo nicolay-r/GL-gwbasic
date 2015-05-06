@@ -65,6 +65,10 @@ PRINT			{ return PRINT; }
 LOCATE			{ return LOCATE; }
 MID			{ return MID; }
 
+LEFT$			{ return LEFT_STR; }
+MID$			{ return MID_STR; }
+RIGHT$			{ return RIGHT_STR; }
+
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
 \<			{ return LT; }

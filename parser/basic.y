@@ -21,6 +21,7 @@
 
 %token ABS ASC 
 %token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN 
+%token LEFT_STR MID_STR RIGHT_STR
 
 %token TO STEP AS ON ERROR
 
@@ -548,6 +549,9 @@ Functions: StringFunctions
 
 StringFunctions: ASC '(' StringExpression ')'
 	| LEN '(' StringExpression ')'
+	| LEFT_STR '(' StringExpression ',' NumericExpression ')'
+	| MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
+	| RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
 MathFunctions: ABS '(' NumericExpression ')'
 	| EXP '(' NumericExpression ')'
