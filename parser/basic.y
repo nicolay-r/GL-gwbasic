@@ -563,6 +563,8 @@ MathFunctions: ABS '(' NumericExpression ')'
 	| INT '(' NumericExpression ')'
 	| CINT	'(' NumericExpression ')'
 	| SGN '(' NumericExpression ')'
+	| RND 
+
 
 SystemFunctions: EXTERR '(' CONST_INTEGER ')'
 
