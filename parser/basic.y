@@ -59,7 +59,9 @@
 		AST Node Types 
 	*/
 	#include "ast/inc/types.h"
-	#include "ast/interp/inc/interp.h"	
+	#include "ast/interp/inc/interp.h"
+	#include "ast/interp/funcs/inc/funcs.h"
+	#include "ast/interp/funcs/inc/math.h"	
 	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
@@ -122,6 +124,8 @@
 	GWBN_StringVariable*		str_var;
 	GWBN_ArrayVariable*		arr_var;
 
+	/* Functions */
+	GWBN_MathFunction*		math_func;
 	/* Constants */
 	GWBN_NumericConstant*		num_const;
 	int 				int_num;
@@ -188,6 +192,10 @@
 %type <arr_var> ArrayVariable;
 
 /*
+	Functions
+*/
+%type <math_func> MathFunction;
+/*
 	Constants
 */
 %type <str> DECLARATION CONST_STRING;
@@ -229,7 +237,7 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$->type = GWBNT_STATEMENT;
 							$$->statements = $1;
 						}
-	| Functions				{	
+	| Function				{	
 							$$ = gwbn_NewDirectMode();
 						}
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
@@ -540,14 +548,14 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
 	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
-FunctionalOperator: MathFunctions
-	| StringFunctions
+FunctionalOperator: MathFunction
+	| StringFunction
 
-Functions: StringFunctions
-	| MathFunctions
-	| SystemFunctions
+Function: StringFunction
+	| MathFunction
+	| SystemFunction
 
-StringFunctions:  Asc
+StringFunction:  Asc
 	| Len
 	| Left_Str
 	| Mid_Str
@@ -559,8 +567,8 @@ Left_Str: LEFT_STR '(' StringExpression ',' NumericExpression ')'
 Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
 Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
-MathFunctions: Abs
-	| Exp
+MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); }					
+	| Exp				{ /*$$ = gwbn_NewExp();*/ }
 	| Sin
 	| Cos
 	| Tan
@@ -583,7 +591,7 @@ CInt: CINT'(' NumericExpression ')'
 Sgn: SGN '(' NumericExpression ')'
 Rnd: RND 
 
-SystemFunctions: EXTERR '(' CONST_INTEGER ')'
+SystemFunction: EXTERR '(' CONST_INTEGER ')'
 
 Dash: '-';
 VariableName: DECLARATION;

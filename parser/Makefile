@@ -4,6 +4,7 @@ AST_NODES=\
 	ast/interp/cmds/*.c \
 	ast/interp/stmts/*.c \
 	ast/interp/expr/*.c \
+	ast/interp/funcs/*.c \
 	ast/interp/vars/*.c 
 all:
 	flex basic.lex
