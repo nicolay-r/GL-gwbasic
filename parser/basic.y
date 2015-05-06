@@ -568,16 +568,16 @@ Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpressio
 Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
 MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); }					
-	| Exp				{ /*$$ = gwbn_NewExp();*/ }
-	| Sin
-	| Cos
-	| Tan
-	| Log
-	| Fix
-	| Int
-	| CInt
-	| Sgn
-	| Rnd
+	| Exp				{ $$ = gwbn_NewMathFunction(); }
+	| Sin				{ $$ = gwbn_NewMathFunction(); }
+	| Cos				{ $$ = gwbn_NewMathFunction(); }
+	| Tan				{ $$ = gwbn_NewMathFunction(); }
+	| Log				{ $$ = gwbn_NewMathFunction(); }
+	| Fix				{ $$ = gwbn_NewMathFunction(); }
+	| Int				{ $$ = gwbn_NewMathFunction(); }
+	| CInt				{ $$ = gwbn_NewMathFunction(); }
+	| Sgn				{ $$ = gwbn_NewMathFunction(); }
+	| Rnd				{ $$ = gwbn_NewMathFunction(); }
 
 Abs: ABS '(' NumericExpression ')'
 Exp: EXP '(' NumericExpression ')'
