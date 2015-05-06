@@ -21,7 +21,7 @@
 
 %token ABS ASC 
 %token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN 
-%token LEFT_STR MID_STR RIGHT_STR
+%token LEFT_STR MID_STR RIGHT_STR RND
 
 %token TO STEP AS ON ERROR
 
@@ -547,24 +547,41 @@ Functions: StringFunctions
 	| MathFunctions
 	| SystemFunctions
 
-StringFunctions: ASC '(' StringExpression ')'
-	| LEN '(' StringExpression ')'
-	| LEFT_STR '(' StringExpression ',' NumericExpression ')'
-	| MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
-	| RIGHT_STR '(' StringExpression ',' NumericExpression ')'
+StringFunctions:  Asc
+	| Len
+	| Left_Str
+	| Mid_Str
+	| Right_Str
 
-MathFunctions: ABS '(' NumericExpression ')'
-	| EXP '(' NumericExpression ')'
-	| SIN '(' NumericExpression ')'
-	| COS '(' NumericExpression ')'				
-	| TAN '(' NumericExpression ')'
-	| LOG '(' NumericExpression ')'
-	| FIX '(' NumericExpression ')'
-	| INT '(' NumericExpression ')'
-	| CINT	'(' NumericExpression ')'
-	| SGN '(' NumericExpression ')'
-	| RND 
+Asc: ASC '(' StringExpression ')'
+Len: LEN '(' StringExpression ')'
+Left_Str: LEFT_STR '(' StringExpression ',' NumericExpression ')'
+Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
+Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
+MathFunctions: Abs
+	| Exp
+	| Sin
+	| Cos
+	| Tan
+	| Log
+	| Fix
+	| Int
+	| CInt
+	| Sgn
+	| Rnd
+
+Abs: ABS '(' NumericExpression ')'
+Exp: EXP '(' NumericExpression ')'
+Sin: SIN '(' NumericExpression ')'
+Cos: COS '(' NumericExpression ')'				
+Tan: TAN '(' NumericExpression ')'
+Log: LOG '(' NumericExpression ')'
+Fix: FIX '(' NumericExpression ')'
+Int: INT '(' NumericExpression ')'
+CInt: CINT'(' NumericExpression ')'
+Sgn: SGN '(' NumericExpression ')'
+Rnd: RND 
 
 SystemFunctions: EXTERR '(' CONST_INTEGER ')'
 
