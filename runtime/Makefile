@@ -9,6 +9,7 @@ PARSER_SRCS= \
 	$(AST_FOLDER)interp/*.c \
 	$(AST_FOLDER)interp/cmds/*.c \
 	$(AST_FOLDER)interp/stmts/*.c \
+	$(AST_FOLDER)interp/funcs/*.c \
 	$(AST_FOLDER)interp/expr/*.c \
 	$(AST_FOLDER)interp/vars/*.c
 
