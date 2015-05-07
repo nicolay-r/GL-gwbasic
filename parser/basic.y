@@ -607,16 +607,16 @@ MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); $$->abs = $1; }
 	| Sgn				{ $$ = gwbn_NewMathFunction(); $$->sgn = $1; }
 	| Rnd				{ $$ = gwbn_NewMathFunction(); $$->rnd = $1; }
 
-Abs: ABS '(' NumericExpression ')'	{ $$ = gwbn_NewAbs(); }
-Exp: EXP '(' NumericExpression ')'	{ $$ = gwbn_NewExp(); }
-Sin: SIN '(' NumericExpression ')'	{ $$ = gwbn_NewSin(); }
-Cos: COS '(' NumericExpression ')'	{ $$ = gwbn_NewCos(); }			
-Tan: TAN '(' NumericExpression ')'	{ $$ = gwbn_NewTan(); }
-Log: LOG '(' NumericExpression ')'	{ $$ = gwbn_NewLog(); }
-Fix: FIX '(' NumericExpression ')'	{ $$ = gwbn_NewFix(); }
-Int: INT '(' NumericExpression ')'	{ $$ = gwbn_NewInt(); }
-CInt: CINT'(' NumericExpression ')'	{ $$ = gwbn_NewCInt(); }
-Sgn: SGN '(' NumericExpression ')'	{ $$ = gwbn_NewSgn(); }
+Abs: ABS '(' NumericExpression ')'	{ $$ = gwbn_NewAbs(); $$->expr = $3; }
+Exp: EXP '(' NumericExpression ')'	{ $$ = gwbn_NewExp(); $$->expr = $3; }
+Sin: SIN '(' NumericExpression ')'	{ $$ = gwbn_NewSin(); $$->expr = $3; }
+Cos: COS '(' NumericExpression ')'	{ $$ = gwbn_NewCos(); $$->expr = $3; }			
+Tan: TAN '(' NumericExpression ')'	{ $$ = gwbn_NewTan(); $$->expr = $3; }
+Log: LOG '(' NumericExpression ')'	{ $$ = gwbn_NewLog(); $$->expr = $3; }
+Fix: FIX '(' NumericExpression ')'	{ $$ = gwbn_NewFix(); $$->expr = $3; }
+Int: INT '(' NumericExpression ')'	{ $$ = gwbn_NewInt(); $$->expr = $3; }
+CInt: CINT'(' NumericExpression ')'	{ $$ = gwbn_NewCInt(); $$->expr = $3; }
+Sgn: SGN '(' NumericExpression ')'	{ $$ = gwbn_NewSgn(); $$->expr = $3; }
 Rnd: RND 				{ $$ = gwbn_NewRnd(); }
 
 SystemFunction: EXTERR '(' CONST_INTEGER ')'

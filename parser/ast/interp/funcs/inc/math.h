@@ -4,6 +4,7 @@
 #define _GWBN_MATH_H_
 
 #include <stdlib.h>
+#include "../../expr/inc/expr.h"
 
 typedef struct GWBN_MathFunction GWBN_MathFunction; 
 typedef struct GWBN_Abs GWBN_Abs;
@@ -18,6 +19,62 @@ typedef struct GWBN_CInt GWBN_CInt;
 typedef struct GWBN_Sgn GWBN_Sgn;
 typedef struct GWBN_Rnd GWBN_Rnd;
 
+/*
+	Structures
+*/
+struct GWBN_MathFunction {
+	int type;
+	union {
+		GWBN_Abs *abs;
+		GWBN_Exp *exp;
+		GWBN_Sin *sin;
+		GWBN_Cos *cos;
+		GWBN_Tan *tan;
+		GWBN_Log *log;
+		GWBN_Fix *fix;
+		GWBN_Int *_int;
+		GWBN_CInt *cint;
+		GWBN_Sgn *sgn;
+		GWBN_Rnd *rnd;
+	};
+};
+
+struct GWBN_Abs {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Exp {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Sin {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Cos {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Tan {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Log {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Fix {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Int {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_CInt {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Sgn {
+	GWBN_NumericExpression* expr;
+};
+struct GWBN_Rnd {
+};
+
+/*
+	Prototypes
+*/
 GWBN_MathFunction* gwbn_NewMathFunction();
 void gwbn_DeleteMathFunction(GWBN_MathFunction* ptr);
 GWBN_Abs* gwbn_NewAbs();
@@ -43,54 +100,5 @@ void gwbn_DeleteSgn(GWBN_Sgn* ptr);
 GWBN_Rnd* gwbn_NewRnd();
 void gwbn_DeleteRnd(GWBN_Rnd* ptr);
 
-struct GWBN_MathFunction {
-	int type;
-	union {
-		GWBN_Abs *abs;
-		GWBN_Exp *exp;
-		GWBN_Sin *sin;
-		GWBN_Cos *cos;
-		GWBN_Tan *tan;
-		GWBN_Log *log;
-		GWBN_Fix *fix;
-		GWBN_Int *_int;
-		GWBN_CInt *cint;
-		GWBN_Sgn *sgn;
-		GWBN_Rnd *rnd;
-	};
-};
-struct GWBN_Abs {
-	/* Not Implemented */
-};
-struct GWBN_Exp {
-	/* Not Implemented */
-};
-struct GWBN_Sin {
-	/* Not Implemented */
-};
-struct GWBN_Cos {
-	/* Not Implemented */
-};
-struct GWBN_Tan {
-	/* Not Implemented */
-};
-struct GWBN_Log {
-	/* Not Implemented */
-};
-struct GWBN_Fix {
-	/* Not Implemented */
-};
-struct GWBN_Int {
-	/* Not Implemented */
-};
-struct GWBN_CInt {
-	/* Not Implemented */
-};
-struct GWBN_Sgn {
-	/* Not Implemented */
-};
-struct GWBN_Rnd {
-	/* Not Implemented */
-};
 
 #endif
