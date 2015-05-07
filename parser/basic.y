@@ -125,6 +125,8 @@
 	GWBN_ArrayVariable*		arr_var;
 
 	/* Functions */
+	GWBN_Function*			func;
+
 	GWBN_MathFunction*		math_func;
 	GWBN_Abs*			abs;
 	GWBN_Sin*			sin;
@@ -205,6 +207,8 @@
 /*
 	Functions
 */
+%type <func> Function;
+
 %type <math_func> MathFunction;
 %type <abs> Abs;
 %type <sin> Sin;
@@ -260,8 +264,9 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$->type = GWBNT_STATEMENT;
 							$$->statements = $1;
 						}
-	| Function				{	
-							$$ = gwbn_NewDirectMode();
+	| Function				{ 
+							$$ = gwbn_NewDirectMode(); 
+						
 						}
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{
@@ -574,9 +579,9 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 FunctionalOperator: MathFunction
 	| StringFunction
 
-Function: StringFunction
-	| MathFunction
-	| SystemFunction
+Function: StringFunction					{ $$ = gwbn_NewFunction(); }
+	| MathFunction						{ $$ = gwbn_NewFunction(); } 
+	| SystemFunction					{ $$ = gwbn_NewFunction(); }
 
 StringFunction:  Asc
 	| Len
