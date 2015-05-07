@@ -1,5 +1,8 @@
 /* GWBasic Math Functions header */
 
+#ifndef _GWBN_MATH_H_
+#define _GWBN_MATH_H_
+
 #include <stdlib.h>
 
 typedef struct GWBN_MathFunction GWBN_MathFunction; 
@@ -41,7 +44,20 @@ GWBN_Rnd* gwbn_NewRnd();
 void gwbn_DeleteRnd(GWBN_Rnd* ptr);
 
 struct GWBN_MathFunction {
-	/* Not Implemented */
+	int type;
+	union {
+		GWBN_Abs *abs;
+		GWBN_Exp *exp;
+		GWBN_Sin *sin;
+		GWBN_Cos *cos;
+		GWBN_Tan *tan;
+		GWBN_Log *log;
+		GWBN_Fix *fix;
+		GWBN_Int *_int;
+		GWBN_CInt *cint;
+		GWBN_Sgn *sgn;
+		GWBN_Rnd *rnd;
+	};
 };
 struct GWBN_Abs {
 	/* Not Implemented */
@@ -77,3 +93,4 @@ struct GWBN_Rnd {
 	/* Not Implemented */
 };
 
+#endif

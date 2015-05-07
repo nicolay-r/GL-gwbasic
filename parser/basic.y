@@ -595,17 +595,17 @@ Left_Str: LEFT_STR '(' StringExpression ',' NumericExpression ')'
 Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
 Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
-MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); }					
-	| Exp				{ $$ = gwbn_NewMathFunction(); }
-	| Sin				{ $$ = gwbn_NewMathFunction(); }
-	| Cos				{ $$ = gwbn_NewMathFunction(); }
-	| Tan				{ $$ = gwbn_NewMathFunction(); }
-	| Log				{ $$ = gwbn_NewMathFunction(); }
-	| Fix				{ $$ = gwbn_NewMathFunction(); } 
-	| Int				{ $$ = gwbn_NewMathFunction(); }
-	| CInt				{ $$ = gwbn_NewMathFunction(); }
-	| Sgn				{ $$ = gwbn_NewMathFunction(); }
-	| Rnd				{ $$ = gwbn_NewMathFunction(); }
+MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); $$->abs = $1; }					
+	| Exp				{ $$ = gwbn_NewMathFunction(); $$->exp = $1; }
+	| Sin				{ $$ = gwbn_NewMathFunction(); $$->sin = $1; }
+	| Cos				{ $$ = gwbn_NewMathFunction(); $$->cos = $1; }
+	| Tan				{ $$ = gwbn_NewMathFunction(); $$->tan = $1; }
+	| Log				{ $$ = gwbn_NewMathFunction(); $$->log = $1; }
+	| Fix				{ $$ = gwbn_NewMathFunction(); $$->fix = $1; } 
+	| Int				{ $$ = gwbn_NewMathFunction(); $$->_int = $1; }
+	| CInt				{ $$ = gwbn_NewMathFunction(); $$->cint = $1; }
+	| Sgn				{ $$ = gwbn_NewMathFunction(); $$->sgn = $1; }
+	| Rnd				{ $$ = gwbn_NewMathFunction(); $$->rnd = $1; }
 
 Abs: ABS '(' NumericExpression ')'	{ $$ = gwbn_NewAbs(); }
 Exp: EXP '(' NumericExpression ')'	{ $$ = gwbn_NewExp(); }
