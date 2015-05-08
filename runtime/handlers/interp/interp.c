@@ -40,9 +40,13 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	{
 		result = gwbh_Command(env, node->command);
 	}
-	else 
+	else if (node->type == GWBNT_STATEMENTS) 
 	{
 		result = gwbh_Statements(env, node->statements);
+	}
+	else
+	{
+		printf("Undefined type");	
 	}
 
 	return result;
