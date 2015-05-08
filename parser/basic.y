@@ -266,6 +266,8 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 						}
 	| Function				{ 
 							$$ = gwbn_NewDirectMode();
+							$$->type = GWBNT_FUNCTION;
+							$$->function = $1;
 						}
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{

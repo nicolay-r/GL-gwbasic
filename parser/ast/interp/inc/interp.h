@@ -18,10 +18,11 @@ typedef struct GWBN_IndirectMode GWBN_IndirectMode;
 typedef struct GWBN_Interpreter GWBN_Interpreter;
 
 struct GWBN_DirectMode {
-	int type;
+	int type;	/* GWBN_COMMAND, GWBN_STATEMENTS, GWBN_FUNCTION */
 	union {
 		struct GWBN_Command* command;
 		struct GWBN_Statements* statements;
+		struct GWBN_Function* function;
 	};
 };
 
