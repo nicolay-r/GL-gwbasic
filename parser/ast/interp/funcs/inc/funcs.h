@@ -7,7 +7,10 @@
 typedef struct GWBN_Function GWBN_Function;
 
 struct GWBN_Function {	
-	/* Not Implemented */
+	int type;	/* GWBNT_STRINGFUNCTION, GWBNT_MATHFUNCTION, GWBNT_SYSTEMFUNCTION */
+	union {
+		GWBN_MathFunction* math_func;
+	};
 };
 
 

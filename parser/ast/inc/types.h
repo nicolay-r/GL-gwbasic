@@ -62,4 +62,23 @@
 #define GWBNT_RUN				1703
 #define GWBNT_BLOAD				1704
 
+/*
+	Functions
+*/
+#define GWBNT_ABS				1801
+#define GWBNT_EXP				1802
+#define GWBNT_SIN				1803
+#define GWBNT_COS				1804
+#define GWBNT_TAN				1805
+#define GWBNT_LOG				1806
+#define GWBNT_FIX				1807
+#define GWBNT_INT				1808
+#define GWBNT_CINT				1809
+#define GWBNT_SGN				1810
+#define GWBNT_RND				1811
+
+#define GWBNT_MATHFUNCTION			1850
+#define GWBNT_STRINGFUNCTION			1851
+#define GWBNT_SYSTEMFUNCTION			1852
+#define GWBNT_FUNCTION				1853
 #endif

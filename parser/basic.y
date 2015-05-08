@@ -265,8 +265,7 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 							$$->statements = $1;
 						}
 	| Function				{ 
-							$$ = gwbn_NewDirectMode(); 
-						
+							$$ = gwbn_NewDirectMode();
 						}
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{
@@ -579,11 +578,11 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 FunctionalOperator: MathFunction
 	| StringFunction
 
-Function: StringFunction					{ $$ = gwbn_NewFunction(); }
-	| MathFunction						{ $$ = gwbn_NewFunction(); } 
-	| SystemFunction					{ $$ = gwbn_NewFunction(); }
+Function: StringFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_STRINGFUNCTION; }
+	| MathFunction						{ $$ = gwbn_NewFunction(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; } 
+	| SystemFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_SYSTEMFUNCTION; }
 
-StringFunction:  Asc
+StringFunction: Asc
 	| Len
 	| Left_Str
 	| Mid_Str
@@ -595,29 +594,29 @@ Left_Str: LEFT_STR '(' StringExpression ',' NumericExpression ')'
 Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
 Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
-MathFunction: Abs			{ $$ = gwbn_NewMathFunction(); $$->abs = $1; }					
-	| Exp				{ $$ = gwbn_NewMathFunction(); $$->exp = $1; }
-	| Sin				{ $$ = gwbn_NewMathFunction(); $$->sin = $1; }
-	| Cos				{ $$ = gwbn_NewMathFunction(); $$->cos = $1; }
-	| Tan				{ $$ = gwbn_NewMathFunction(); $$->tan = $1; }
-	| Log				{ $$ = gwbn_NewMathFunction(); $$->log = $1; }
-	| Fix				{ $$ = gwbn_NewMathFunction(); $$->fix = $1; } 
-	| Int				{ $$ = gwbn_NewMathFunction(); $$->_int = $1; }
-	| CInt				{ $$ = gwbn_NewMathFunction(); $$->cint = $1; }
-	| Sgn				{ $$ = gwbn_NewMathFunction(); $$->sgn = $1; }
-	| Rnd				{ $$ = gwbn_NewMathFunction(); $$->rnd = $1; }
+MathFunction: Abs						{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_ABS; $$->abs = $1; }					
+	| Exp							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_EXP; $$->exp = $1; }
+	| Sin							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SIN; $$->sin = $1; }
+	| Cos							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_COS; $$->cos = $1; }
+	| Tan							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_TAN; $$->tan = $1; }
+	| Log							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_LOG; $$->log = $1; }
+	| Fix							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_FIX; $$->fix = $1; } 
+	| Int							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_INT; $$->_int = $1; }
+	| CInt							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_CINT; $$->cint = $1; }
+	| Sgn							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SGN; $$->sgn = $1; }
+	| Rnd							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_RND; $$->rnd = $1; }
 
-Abs: ABS '(' NumericExpression ')'	{ $$ = gwbn_NewAbs(); $$->expr = $3; }
-Exp: EXP '(' NumericExpression ')'	{ $$ = gwbn_NewExp(); $$->expr = $3; }
-Sin: SIN '(' NumericExpression ')'	{ $$ = gwbn_NewSin(); $$->expr = $3; }
-Cos: COS '(' NumericExpression ')'	{ $$ = gwbn_NewCos(); $$->expr = $3; }			
-Tan: TAN '(' NumericExpression ')'	{ $$ = gwbn_NewTan(); $$->expr = $3; }
-Log: LOG '(' NumericExpression ')'	{ $$ = gwbn_NewLog(); $$->expr = $3; }
-Fix: FIX '(' NumericExpression ')'	{ $$ = gwbn_NewFix(); $$->expr = $3; }
-Int: INT '(' NumericExpression ')'	{ $$ = gwbn_NewInt(); $$->expr = $3; }
-CInt: CINT'(' NumericExpression ')'	{ $$ = gwbn_NewCInt(); $$->expr = $3; }
-Sgn: SGN '(' NumericExpression ')'	{ $$ = gwbn_NewSgn(); $$->expr = $3; }
-Rnd: RND 				{ $$ = gwbn_NewRnd(); }
+Abs: ABS '(' NumericExpression ')'				{ $$ = gwbn_NewAbs(); $$->expr = $3; }
+Exp: EXP '(' NumericExpression ')'				{ $$ = gwbn_NewExp(); $$->expr = $3; }
+Sin: SIN '(' NumericExpression ')'				{ $$ = gwbn_NewSin(); $$->expr = $3; }
+Cos: COS '(' NumericExpression ')'				{ $$ = gwbn_NewCos(); $$->expr = $3; }			
+Tan: TAN '(' NumericExpression ')'				{ $$ = gwbn_NewTan(); $$->expr = $3; }
+Log: LOG '(' NumericExpression ')'				{ $$ = gwbn_NewLog(); $$->expr = $3; }
+Fix: FIX '(' NumericExpression ')'				{ $$ = gwbn_NewFix(); $$->expr = $3; }
+Int: INT '(' NumericExpression ')'				{ $$ = gwbn_NewInt(); $$->expr = $3; }
+CInt: CINT'(' NumericExpression ')'				{ $$ = gwbn_NewCInt(); $$->expr = $3; }
+Sgn: SGN '(' NumericExpression ')'				{ $$ = gwbn_NewSgn(); $$->expr = $3; }
+Rnd: RND 							{ $$ = gwbn_NewRnd(); }
 
 SystemFunction: EXTERR '(' CONST_INTEGER ')'
 
