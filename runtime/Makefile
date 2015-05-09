@@ -17,7 +17,8 @@ RUNTIME_SRCS= runtime.c env.c core.c input.c output.c \
 	handlers/interp/*.c \
 	handlers/interp/stmts/*.c \
 	handlers/interp/cmds/*.c \
-	handlers/interp/expr/*.c
+	handlers/interp/expr/*.c \
+	handlers/interp/funcs/*.c
 all:
 	# Build GWBasic lexical and syntax parsers
 	make -C $(PARSER_FOLDER)

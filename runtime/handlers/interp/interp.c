@@ -2,8 +2,11 @@
 
 #include <stdio.h> 		/* printf */
 #include "inc/interp.h"	
+
 #include "stmts/inc/stmts.h"	/* GWBasic Statements AST Node Handlers */
 #include "cmds/inc/cmds.h"	/* GWBasic Commands AST Node Handlers */
+#include "funcs/inc/funcs.h"	/* GWBasic Functions AST Node Handlers */
+
 #include <assert.h>		/* assert() */
 
 GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
@@ -36,19 +39,21 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	
 	assert(node != NULL);
 
-	if (node->type == GWBNT_COMMAND)
+	switch(node->type)
 	{
-		result = gwbh_Command(env, node->command);
+		case GWBNT_COMMAND:
+			result = gwbh_Command(env, node->command);
+			break;
+		case GWBNT_STATEMENTS:
+			result = gwbh_Statements(env, node->statements);
+			break;
+		case  GWBNT_FUNCTION:
+			result = gwbh_Function(env, node->function);
+			break;
+		default:
+			printf("Undefined type\n");	
+			break;
 	}
-	else if (node->type == GWBNT_STATEMENTS) 
-	{
-		result = gwbh_Statements(env, node->statements);
-	}
-	else
-	{
-		printf("Undefined type");	
-	}
-
 	return result;
 } 
 	

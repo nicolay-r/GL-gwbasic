@@ -12,6 +12,8 @@
 #include "../../parser/ast/interp/stmts/inc/stmts.h"
 #include "../../parser/ast/interp/stmts/inc/print.h"
 #include "../../parser/ast/interp/vars/inc/vars.h"
+#include "../../parser/ast/interp/funcs/inc/funcs.h"
+#include "../../parser/ast/interp/funcs/inc/math.h"
 
 #endif
 

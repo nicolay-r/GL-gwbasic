@@ -11,7 +11,7 @@ def generateHandler(nterm):
 	GWBR_Result result;
 
 	/* \"%s\" handler implementation */
-	printf(\"In \\"%s\\" Handler\\n\"); 
+	gwbo_DisplayMessage(\"In \\"%s\\" Handler\\n\"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
