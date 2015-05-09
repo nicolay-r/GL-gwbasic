@@ -355,6 +355,7 @@ GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_Math
 		case GWBNT_CINT:
 		case GWBNT_SGN:
 		case GWBNT_RND:
+			gwbo_DisplayMessage(env, "math op not implemented\n");
 			break;
 	}
 	return result;
