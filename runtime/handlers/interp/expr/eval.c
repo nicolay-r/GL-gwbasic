@@ -1,9 +1,13 @@
 /* GWBasic Evaluator */
 
 #include "inc/eval.h"
+
 #include "../../../inc/output.h"	/* gwbo_DisplayMessage */
+
 #include "inc/arithm.h" 		/* ArithmeticOperations */
 #include "inc/relational.h" 		/* RelationalOperations */
+#include "inc/math.h"			/* MathFunctions */
+
 #include <string.h>			/* strcat() */
 #include <assert.h>
 #include <stdio.h>
@@ -324,4 +328,9 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 		}
 	}
 	return result;
+}
+
+GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_MathFunction* node)
+{
+
 }

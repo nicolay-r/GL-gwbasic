@@ -36,4 +36,5 @@ GWBR_ExpressionResult gwbr_EvaluateStringExpression(GWBE_Environment* env, GWBN_
 GWBR_ExpressionResult gwbr_EvaluateStringOperator(GWBE_Environment* env, GWBN_StringOperator* node);
 GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_StringTerm* node);
 
+GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_MathFunction* node);
 #endif
