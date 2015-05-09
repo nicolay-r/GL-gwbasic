@@ -332,5 +332,30 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 
 GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_MathFunction* node)
 {
+	GWBR_ExpressionResult result;
 
+	assert(env != NULL);
+	assert(node != NULL);
+	
+	switch (node->type)
+	{
+		case GWBNT_ABS:
+		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->abs->expr);
+			result = gwbr_EvaluateMathAbs(expr_result);
+			break;
+		}
+		case GWBNT_EXP:
+		case GWBNT_SIN:
+		case GWBNT_COS:
+		case GWBNT_TAN:
+		case GWBNT_LOG:
+		case GWBNT_FIX:
+		case GWBNT_INT:
+		case GWBNT_CINT:
+		case GWBNT_SGN:
+		case GWBNT_RND:
+			break;
+	}
+	return result;
 }
