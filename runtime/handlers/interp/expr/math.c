@@ -168,7 +168,7 @@ GWBR_ExpressionResult gwbr_EvaluateMathLog(GWBR_ExpressionResult a)
 	{		
 		case GWBCT_INTEGER:	
 			result.val.type = GWBCT_SINGLE;
-			result.val.single_val = log(a.val.int_val*((float)(1.0))); 
+			result.val.single_val = logf(a.val.int_val*((float)(1.0))); 
 			break;
 		case GWBCT_SINGLE:
 			result.val.type = GWBCT_SINGLE;
@@ -177,6 +177,28 @@ GWBR_ExpressionResult gwbr_EvaluateMathLog(GWBR_ExpressionResult a)
 		case GWBCT_DOUBLE:
 			result.val.type = GWBCT_DOUBLE;
 			result.val.double_val = log(a.val.double_val);
+			break;
+	}
+
+	return result;
+}
+GWBR_ExpressionResult gwbr_EvaluateMathSqr(GWBR_ExpressionResult a)
+{
+	GWBR_ExpressionResult result;
+	
+	switch (a.val.type)
+	{		
+		case GWBCT_INTEGER:	
+			result.val.type = GWBCT_SINGLE;
+			result.val.single_val = sqrtf(a.val.int_val*((float)(1.0))); 
+			break;
+		case GWBCT_SINGLE:
+			result.val.type = GWBCT_SINGLE;
+			result.val.single_val = sqrtf(a.val.single_val); 
+			break;
+		case GWBCT_DOUBLE:
+			result.val.type = GWBCT_DOUBLE;
+			result.val.double_val = sqrt(a.val.double_val);
 			break;
 	}
 

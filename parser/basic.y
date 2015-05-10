@@ -20,8 +20,8 @@
 %token LOCATE MID
 
 %token ABS ASC 
-%token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN
-%token LEFT_STR MID_STR RIGHT_STR RND
+%token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN RND SQR
+%token LEFT_STR MID_STR RIGHT_STR
 
 %token TO STEP AS ON ERROR
 
@@ -138,7 +138,9 @@
 	GWBN_Int*			_int;
 	GWBN_CInt*			cint;
 	GWBN_Sgn*			sgn;	
+	GWBN_Sqr*			sqr;
 	GWBN_Rnd*			rnd;
+	
 	/* Constants */
 	GWBN_NumericConstant*		num_const;
 	int 				int_num;
@@ -220,6 +222,7 @@
 %type <_int> Int;
 %type <cint> CInt;
 %type <sgn> Sgn;
+%type <sqr> Sqr;
 %type <rnd> Rnd;
 
 /*
@@ -606,8 +609,9 @@ MathFunction: Abs						{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_ABS; $$->
 	| Int							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_INT; $$->_int = $1; }
 	| CInt							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_CINT; $$->cint = $1; }
 	| Sgn							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SGN; $$->sgn = $1; }
+	| Sqr							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SQR; $$->sqr = $1; }
 	| Rnd							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_RND; $$->rnd = $1; }
-
+	
 Abs: ABS '(' NumericExpression ')'				{ $$ = gwbn_NewAbs(); $$->expr = $3; }
 Exp: EXP '(' NumericExpression ')'				{ $$ = gwbn_NewExp(); $$->expr = $3; }
 Sin: SIN '(' NumericExpression ')'				{ $$ = gwbn_NewSin(); $$->expr = $3; }
@@ -618,6 +622,7 @@ Fix: FIX '(' NumericExpression ')'				{ $$ = gwbn_NewFix(); $$->expr = $3; }
 Int: INT '(' NumericExpression ')'				{ $$ = gwbn_NewInt(); $$->expr = $3; }
 CInt: CINT'(' NumericExpression ')'				{ $$ = gwbn_NewCInt(); $$->expr = $3; }
 Sgn: SGN '(' NumericExpression ')'				{ $$ = gwbn_NewSgn(); $$->expr = $3; }
+Sqr: SQR '(' NumericExpression ')'				{ $$ = gwbn_NewSqr(); $$->expr = $3; }
 Rnd: RND 							{ $$ = gwbn_NewRnd(); }
 
 SystemFunction: EXTERR '(' CONST_INTEGER ')'

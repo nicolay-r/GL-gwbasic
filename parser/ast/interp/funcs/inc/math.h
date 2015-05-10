@@ -17,6 +17,7 @@ typedef struct GWBN_Fix GWBN_Fix;
 typedef struct GWBN_Int GWBN_Int;
 typedef struct GWBN_CInt GWBN_CInt;
 typedef struct GWBN_Sgn GWBN_Sgn;
+typedef struct GWBN_Sqr GWBN_Sqr;
 typedef struct GWBN_Rnd GWBN_Rnd;
 
 /*
@@ -35,6 +36,7 @@ struct GWBN_MathFunction {
 		GWBN_Int *_int;
 		GWBN_CInt *cint;
 		GWBN_Sgn *sgn;
+		GWBN_Sqr *sqr;
 		GWBN_Rnd *rnd;
 	};
 };
@@ -69,6 +71,9 @@ struct GWBN_CInt {
 struct GWBN_Sgn {
 	GWBN_NumericExpression* expr;
 };
+struct GWBN_Sqr {
+	GWBN_NumericExpression* expr;
+};
 struct GWBN_Rnd {
 };
 
@@ -97,6 +102,8 @@ GWBN_CInt* gwbn_NewCInt();
 void gwbn_DeleteCInt(GWBN_CInt* ptr);
 GWBN_Sgn* gwbn_NewSgn();
 void gwbn_DeleteSgn(GWBN_Sgn* ptr);
+GWBN_Sqr* gwbn_NewSqr();
+void gwbn_DeleteSqr(GWBN_Sqr* ptr);
 GWBN_Rnd* gwbn_NewRnd();
 void gwbn_DeleteRnd(GWBN_Rnd* ptr);
 

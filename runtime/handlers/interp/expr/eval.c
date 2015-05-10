@@ -390,6 +390,11 @@ GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_Math
 			result = gwbr_EvaluateMathSgn(expr_result);
 			break;
 		}
+		case GWBNT_SQR:
+		{
+			result = gwbr_EvaluateMathSqr(expr_result);
+			break;
+		}
 		case GWBNT_RND:
 			result = gwbr_EvaluateMathRnd();
 			break;

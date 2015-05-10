@@ -15,6 +15,7 @@ GWBR_ExpressionResult gwbr_EvaluateMathLog(GWBR_ExpressionResult a);
 GWBR_ExpressionResult gwbr_EvaluateMathFix(GWBR_ExpressionResult a);
 GWBR_ExpressionResult gwbr_EvaluateMathSgn(GWBR_ExpressionResult a);
 GWBR_ExpressionResult gwbr_EvaluateMathInt(GWBR_ExpressionResult a);
+GWBR_ExpressionResult gwbr_EvaluateMathSqr(GWBR_ExpressionResult a);
 GWBR_ExpressionResult gwbr_EvaluateMathCInt(GWBR_ExpressionResult a);
 GWBR_ExpressionResult gwbr_EvaluateMathRnd();
 

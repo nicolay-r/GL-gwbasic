@@ -93,6 +93,7 @@ INT			{ return INT; }
 CINT			{ return CINT; }
 SGN			{ return SGN; }
 FIX			{ return FIX; }
+SQR			{ return SQR; }
 
 ASC			{ return ASC; }
 LEN			{ return LEN; }

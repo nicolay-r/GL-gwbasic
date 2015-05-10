@@ -75,7 +75,8 @@
 #define GWBNT_INT				1808
 #define GWBNT_CINT				1809
 #define GWBNT_SGN				1810
-#define GWBNT_RND				1811
+#define GWBNT_SQR				1811
+#define GWBNT_RND				1812
 
 #define GWBNT_MATHFUNCTION			1850
 #define GWBNT_STRINGFUNCTION			1851

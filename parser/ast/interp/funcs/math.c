@@ -100,7 +100,15 @@ GWBN_Rnd* gwbn_NewRnd() {
 	GWBN_Rnd* result = (GWBN_Rnd*) malloc (sizeof(GWBN_Rnd));
 	return result;
 } 
-	
+
+GWBN_Sqr* gwbn_NewSqr() {
+	GWBN_Sqr* result = (GWBN_Sqr*) malloc (sizeof(GWBN_Sqr));
+	return result;
+}
+void gwbn_DeleteSqr(GWBN_Sqr* ptr) {
+	free(ptr);
+}
+
 void gwbn_DeleteRnd(GWBN_Rnd* ptr) {
 	free(ptr);
 }
