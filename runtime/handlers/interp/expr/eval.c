@@ -337,25 +337,61 @@ GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_Math
 	assert(env != NULL);
 	assert(node != NULL);
 	
+	GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->abs->expr);
 	switch (node->type)
 	{
 		case GWBNT_ABS:
 		{
-			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->abs->expr);
 			result = gwbr_EvaluateMathAbs(expr_result);
 			break;
 		}
 		case GWBNT_EXP:
+		{
+			result = gwbr_EvaluateMathExp(expr_result);
+			break;			
+		}
 		case GWBNT_SIN:
+		{
+			result = gwbr_EvaluateMathSin(expr_result);
+			break;
+		}
 		case GWBNT_COS:
+		{
+			result = gwbr_EvaluateMathCos(expr_result);
+			break;
+		}
 		case GWBNT_TAN:
+		{
+			result = gwbr_EvaluateMathTan(expr_result);
+			break;
+		}
 		case GWBNT_LOG:
+		{
+			result = gwbr_EvaluateMathLog(expr_result);
+			break;
+		}
 		case GWBNT_FIX:
+		{
+			result = gwbr_EvaluateMathFix(expr_result);
+			break;
+		}
 		case GWBNT_INT:
+		{
+			result = gwbr_EvaluateMathInt(expr_result);
+			break;
+		}
 		case GWBNT_CINT:
+		{
+			result = gwbr_EvaluateMathCInt(expr_result);
+			break;
+		}
 		case GWBNT_SGN:
+		{
+			result = gwbr_EvaluateMathSgn(expr_result);
+			break;
+		}
 		case GWBNT_RND:
-			gwbo_DisplayMessage(env, "math op not implemented\n");
+			result = gwbr_EvaluateMathRnd();
 			break;
 	}
 	return result;
