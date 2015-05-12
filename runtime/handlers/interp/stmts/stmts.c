@@ -7,7 +7,8 @@
 #include "../expr/inc/eval.h"
 #include "../expr/inc/arithm.h"
 #include "../expr/inc/relational.h"
-#include "../../../inc/input.h"	/* GWBI_GetLine() */
+#include "../../../inc/input.h"		/* GWBI_GetLine() */
+#include "../../../inc/output.h"	/* gwbo_DisplayCoreValue() */
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;
@@ -144,14 +145,16 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 					break;
 				case GWBCT_SINGLE:
 					printf("single value: %f\n", expr_res.val.single_val);
-					new_var->val->int_val = expr_res.val.int_val;	
+					new_var->val->single_val = expr_res.val.single_val;	
 					break;
 				case GWBCT_DOUBLE:
-					/* Not Implemented */
+					printf("double value: %lf\n", expr_res.val.double_val);
+					new_var->val->double_val = expr_res.val.double_val;
 					break;
 			}
 			
-			
+			gwbo_DisplayCoreValue(env, new_var->val);
+
 			break;
 		case GWBNT_ARRAYVARIABLE:
 			/* Not Implemented */

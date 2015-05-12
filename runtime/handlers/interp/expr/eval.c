@@ -71,21 +71,21 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateNumericExpression(env, node->b);
-			/* выполнить вычитание */
+			result = gwbr_EvaluateSub(a, b);
 			break;
 		}
 		case GWBBT_MUL:
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->term_b);
-			/* выполнить умножение */
+			result = gwbr_EvaluateMul(a, b);
 			break;
 		}
 		case GWBBT_DIV:
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->term_b);
-			/* выполнить деление */
+			result = gwbr_EvaluateDiv(a, b);
 			break;
 		}
 		case GWBNT_NUMERICTERM:
