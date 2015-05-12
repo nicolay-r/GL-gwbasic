@@ -17,10 +17,12 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 					result.val.int_val = a.val.int_val + b.val.int_val;
 					break;
 				case GWBCT_SINGLE:
-
+					result.val.type = GWBCT_SINGLE;
+					result.val.single_val = a.val.int_val + b.val.single_val;
 					break;
 				case GWBCT_DOUBLE:
-
+					result.val.type = GWBCT_DOUBLE;
+					result.val.double_val = a.val.int_val + b.val.double_val;
 					break;
 			}
 			break;
@@ -30,13 +32,16 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 			switch (b.val.type)
 			{
 				case GWBCT_INTEGER:
-					
+					result.val.type = GWBCT_SINGLE;
+					result.val.single_val = a.val.single_val + b.val.int_val;
 					break;
 				case GWBCT_SINGLE:
-
+					result.val.type = GWBCT_SINGLE;
+					result.val.single_val = a.val.single_val + b.val.single_val;
 					break;
 				case GWBCT_DOUBLE:
-
+					result.val.type = GWBCT_DOUBLE;
+					result.val.double_val = a.val.single_val + b.val.double_val;
 					break;
 			}
 			break;		
@@ -46,13 +51,16 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 			switch (b.val.type)
 			{
 				case GWBCT_INTEGER:
-					
+					result.val.type = GWBCT_DOUBLE;
+					result.val.double_val = a.val.double_val + b.val.int_val;
 					break;
 				case GWBCT_SINGLE:
-
+					result.val.type = GWBCT_DOUBLE;
+					result.val.double_val = a.val.double_val + b.val.single_val;
 					break;
 				case GWBCT_DOUBLE:
-
+					result.val.type = GWBCT_DOUBLE;
+					result.val.double_val = a.val.double_val + b.val.double_val;
 					break;
 			}
 			break;

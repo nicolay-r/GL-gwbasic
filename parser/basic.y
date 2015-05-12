@@ -264,7 +264,7 @@ DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
 						}
 	| Statements EOLN			{	printf("-Statements\n");
 							$$ = gwbn_NewDirectMode();
-							$$->type = GWBNT_STATEMENT;
+							$$->type = GWBNT_STATEMENTS;
 							$$->statements = $1;
 						}
 	| Function				{ 

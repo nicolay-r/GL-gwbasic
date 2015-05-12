@@ -143,7 +143,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 					new_var->val->int_val = expr_res.val.int_val;	
 					break;
 				case GWBCT_SINGLE:
-					printf("single value: %d\n", expr_res.val.int_val);
+					printf("single value: %f\n", expr_res.val.single_val);
 					new_var->val->int_val = expr_res.val.int_val;	
 					break;
 				case GWBCT_DOUBLE:
