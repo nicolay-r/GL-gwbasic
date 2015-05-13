@@ -340,15 +340,17 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			gwbe_Context_PushLocalVariableLevel(env);
 
 			/* Создание новой переменной */
+			var = gwbc_NewVariable(GWBCT_VALUE, node->num_var->name); 
 			switch (node->num_var->type)
 			{
 				case GWBNT_INTEGERVARIABLE:
-					var = gwbc_NewVariable(GWBCT_VALUE, node->num_var->name); 
 					var->val->type = GWBCT_INTEGER;
 					break;
 				case GWBNT_SINGLEPRECISIONVARIABLE:
+					var->val->type = GWBCT_SINGLE;
+					break;
 				case GWBNT_DOUBLEPRECISIONVARIABLE:
-					/* Undefined types */
+					var->val->type = GWBCT_DOUBLE;
 					break;
 			}
 			
