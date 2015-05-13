@@ -64,6 +64,7 @@ struct GWBN_NumericTerm {
 			struct GWBN_NumericTerm *a, *b;
 		};
 		struct GWBN_NumericTerm* term;
+		GWBN_FunctionalOperator* func_op;
 		GWBN_NumericVariable* var;
 		GWBN_NumericConstant* num_const;
 	};

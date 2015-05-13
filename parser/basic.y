@@ -537,6 +537,7 @@ ArithmeticOperator: NumericExpression '+' NumericExpression	{ $$ = gwbn_NewArith
 NumericTerm: '(' NumericExpression ')'				{ $$ = gwbn_NewNumericTerm(); $$->num_expr = $2; $$->type = GWBNT_NUMERICEXPRESSION; } 
 	| '-' NumericTerm %prec UMINUS				{ $$ = gwbn_NewNumericTerm(); $$->term = $2; $$->type = GWBBT_UNARY_MINUS; }	
 	| NumericTerm '^' NumericTerm				{ $$ = gwbn_NewNumericTerm(); $$->a = $1; $$->b = $3; $$->type = GWBBT_POW; }
+	| FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = $1; $$->type = GWBNT_FUNCTIONALOPERATOR; }
 	| NumericVariable					{ $$ = gwbn_NewNumericTerm(); $$->var = $1; $$->type = GWBNT_NUMERICVARIABLE; }
 	| NumericConstant 					{ $$ = gwbn_NewNumericTerm(); $$->num_const = $1; $$->type = GWBNT_NUMERICCONSTANT; }
 
