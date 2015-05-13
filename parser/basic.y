@@ -60,8 +60,6 @@
 	*/
 	#include "ast/inc/types.h"
 	#include "ast/interp/inc/interp.h"
-	#include "ast/interp/funcs/inc/funcs.h"
-	#include "ast/interp/funcs/inc/math.h"	
 	#include "ast/interp/vars/inc/vars.h"
 	#include "ast/interp/expr/inc/expr.h"
 	#include "ast/interp/stmts/inc/stmts.h"
@@ -194,6 +192,7 @@
 %type <str_term> StringTerm
 %type <rel_op> RelationalOperator
 %type <log_op> LogicalOperator
+%type <func_op> FunctionalOperator
 /*
 	%type <func_op> FunctionalOperator
 */
@@ -527,7 +526,7 @@ Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_
 NumericExpression : ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;}
 	| RelationalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_RELATIONALOPERATOR; $$->rel = $1; }
 	| LogicalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_LOGICALOPERATOR; $$->log = $1; }
-	| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_FUNCTIONALOPERATOR; /*$$->func = $1;*/ }
+	| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_FUNCTIONALOPERATOR; $$->func = $1; }
 
 ArithmeticOperator: NumericExpression '+' NumericExpression	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_ADD; $$->a = $1;  $$->b = $3; }
 	| NumericExpression '-' NumericExpression		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_SUB; $$->a = $1;  $$->b = $3; }
@@ -580,10 +579,10 @@ LogicalOperator: NOT RelationalOperator				{ $$ = gwbn_NewLogicalOperator(); }
 	| RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
 	| RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
-FunctionalOperator: MathFunction
-	| StringFunction
+FunctionalOperator: MathFunction				{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; }
+	| StringFunction					{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_STRINGFUNCTION; /*$$->str_func = $1;*/ }
 
-Function: StringFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_STRINGFUNCTION; }
+Function: StringFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_STRINGFUNCTION; /*str->func = $1*/ }
 	| MathFunction						{ $$ = gwbn_NewFunction(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; } 
 	| SystemFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_SYSTEMFUNCTION; }
 

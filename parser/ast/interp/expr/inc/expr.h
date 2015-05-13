@@ -4,8 +4,8 @@
 #include "../../vars/inc/vars.h"
 #include "../../../inc/base.h"		/* GWBB_Integer, GWBB_Single, GWBB_Double, GWBB_String */
 
-typedef struct GWBN_NumericExpression GWBN_NumericExpression;  
 typedef struct GWBN_ArithmeticOperator GWBN_ArithmeticOperator;
+typedef struct GWBN_NumericExpression GWBN_NumericExpression;  
 typedef struct GWBN_Expression GWBN_Expression;
 typedef struct GWBN_NumericTerm GWBN_NumericTerm;
 typedef struct GWBN_StringExpression GWBN_StringExpression;
@@ -17,6 +17,11 @@ typedef struct GWBN_FunctionalOperator GWBN_FunctionalOperator;
 typedef struct GWBN_NumericConstant GWBN_NumericConstant; 
 
 /*
+	Recursively dependent
+*/
+#include "../../funcs/inc/funcs.h"
+
+/*
 	Expression
 */
 struct GWBN_Expression{
@@ -26,7 +31,6 @@ struct GWBN_Expression{
 		GWBN_StringExpression* str_expr;
 	};
 };
-
 struct GWBN_NumericExpression{
 	int type;
 	union {
@@ -36,6 +40,7 @@ struct GWBN_NumericExpression{
 		GWBN_FunctionalOperator* func;
 	};
 };
+
 
 struct GWBN_ArithmeticOperator{
 	int type; /* GWBB_ADD, GWBB_SUB, GWBB_MUL, GWBB_DIV, GWBN_NUMERICTERM */
@@ -115,7 +120,11 @@ struct GWBN_LogicalOperator {
 };
 
 struct GWBN_FunctionalOperator {
-	
+	int type;	/* GWBNT_MATHFUNCTION, GWBNT_STRINGFUNCTION */	
+	union {
+		GWBN_MathFunction* math_func;
+		/*GWBN_StringFunction* str_func;*/	
+	};
 };
 
 /*

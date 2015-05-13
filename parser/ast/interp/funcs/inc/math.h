@@ -4,7 +4,6 @@
 #define _GWBN_MATH_H_
 
 #include <stdlib.h>
-#include "../../expr/inc/expr.h"
 
 typedef struct GWBN_MathFunction GWBN_MathFunction; 
 typedef struct GWBN_Abs GWBN_Abs;

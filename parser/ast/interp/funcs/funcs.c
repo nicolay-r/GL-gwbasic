@@ -1,6 +1,6 @@
 /* GWBasic Functions implementation */
 
-#include "inc/funcs.h"
+#include "../expr/inc/expr.h"
 
 GWBN_Function* gwbn_NewFunction() {
 	GWBN_Function* result = (GWBN_Function*) malloc (sizeof(GWBN_Function));

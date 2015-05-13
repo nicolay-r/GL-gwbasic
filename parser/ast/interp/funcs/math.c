@@ -1,5 +1,5 @@
 /* GWBasic Math Functions declaration */
-#include "inc/math.h"
+#include "../expr/inc/expr.h"
 
 GWBN_MathFunction* gwbn_NewMathFunction() {
 	GWBN_MathFunction* result = (GWBN_MathFunction*) malloc (sizeof(GWBN_MathFunction));

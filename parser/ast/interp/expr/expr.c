@@ -11,7 +11,7 @@ GWBN_Expression* gwbn_NewExpression() {
 void gwbn_DeleteExpression(GWBN_Expression* ptr) {
 	free(ptr);
 }
-	
+
 GWBN_NumericExpression* gwbn_NewNumericExpression() {
 	GWBN_NumericExpression* result = (GWBN_NumericExpression*) malloc (sizeof(GWBN_NumericExpression));
 	return result;
@@ -19,8 +19,8 @@ GWBN_NumericExpression* gwbn_NewNumericExpression() {
 	
 void gwbn_DeleteNumericExpression(GWBN_NumericExpression* ptr) {
 	free(ptr);
-}
-	
+}	
+
 GWBN_StringExpression* gwbn_NewStringExpression() {
 	GWBN_StringExpression* result = (GWBN_StringExpression*) malloc (sizeof(GWBN_StringExpression));
 	return result;
