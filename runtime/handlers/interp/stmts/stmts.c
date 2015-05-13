@@ -129,9 +129,21 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		{	
 			gwbo_DisplayMessage(env,"Numeric variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
-			new_var->val->type = expr_res.val.type;
-			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			
+			switch (node->var->num->type)
+			{
+				case GWBNT_INTEGERVARIABLE:
+					new_var->val->type = GWBCT_INTEGER;
+					break;
+				case GWBNT_SINGLEPRECISIONVARIABLE:
+					new_var->val->type = GWBCT_SINGLE;
+					break;
+				case GWBNT_DOUBLEPRECISIONVARIABLE:
+					new_var->val->type = GWBCT_DOUBLE;
+					break;
+			}
+
+			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			break;
 		}
 		case GWBNT_ARRAYVARIABLE:
