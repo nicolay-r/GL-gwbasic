@@ -325,7 +325,6 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			/* from > to */
 			gwbo_DisplayMessage(env, "Out of Cycle");
 			gwbe_Context_IncSkipFlag(env);
-			//env->ctx->skip_flag++; /*gwbe_Context_IncSkipFlag*/
 		}
 
 	}
@@ -339,7 +338,6 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		{	
 			/* Входим в цикл */
 			gwbe_Context_PushLocalVariableLevel(env);
-			//env->ctx->level++; // gwbe_Context_Push()
 
 			/* Создание новой переменной */
 			switch (node->num_var->type)
@@ -388,29 +386,17 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 
 	if (env->ctx->skip_flag == 1) 	/* Next для завершаемого цикла */
 	{
-		printf("env_ctx_level=%d\n", env->ctx->level);
-		/* Удаляем локальный контекст */
-		
-		/* gwbe_Context_Pop() */
 		gwbe_Context_PopLocalVariableLevel(env);
-		//gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); /* Удаление контекста нужно реализовать */
-		//env->ctx->level--;
-		/* удаляем адрес из стека возврата */
 		gwbe_CallbackStack_Pop(env);
 	}
 	if (env->ctx->skip_flag > 0)	/* Next для вложенного цикла */
 	{
 		gwbe_Context_DecSkipFlag(env);
-		//env->ctx->skip_flag--;
 	}
 	else	/* повторяем цикл */
 	{
-		//int top_index = env->ctx->callback_stack->top_index;
-		//printf("top_index = %d\n", top_index); 
-		//printf("next_line = %d\n",  env->ctx->callback_stack->callback[top_index] - 1);
 		/* Изменяем текущую строку */
 		env->ctx->current_line = gwbe_CallbackStack_Top(env) - 1;
-		//printf("cur_line = %d\n", env->ctx->current_line);
 	}
 	return result;	 
 } 
