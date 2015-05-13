@@ -113,6 +113,9 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 			result = gwbr_EvaluateNumericTerm(env, node->term);
 			/* домножить на унарный минус */
 			break;
+		case GWBNT_FUNCTIONALOPERATOR:
+			result = gwbr_EvaluateFunctionalOperator(env, node->func_op);
+			break;
 		case GWBBT_POW:
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericTerm(env, node->a);
