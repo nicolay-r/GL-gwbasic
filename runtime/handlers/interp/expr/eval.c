@@ -264,6 +264,21 @@ GWBR_ExpressionResult gwbr_EvaluateLogicalOperator(GWBE_Environment *env, GWBN_L
 GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment *env, GWBN_FunctionalOperator *node)
 {
 	GWBR_ExpressionResult result;
+	
+	assert(env != NULL);
+	assert(node != NULL);
+
+	switch (node->type)
+	{
+		case GWBNT_MATHFUNCTION:
+			result = gwbr_EvaluateMathFunction(env, node->math_func);
+			break;
+		case GWBNT_STRINGFUNCTION:
+			/* Not Implemented */
+			gwbo_DisplayMessage(env, "String functional Operator not implemented\n");
+			break;
+	}
+
 	return result;
 }
 
