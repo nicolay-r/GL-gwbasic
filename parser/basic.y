@@ -374,67 +374,49 @@ Beep:	BEEP
 Call:	CALL '('  Variables ')'
 Dim:	DIM ArrayVariables
 OptionBase: OPTION BASE NumericConstant
-Let: 	LET Variable EQUAL Expression			{ $$ = gwbn_NewLet(); $$->var = $2; $$->expr = $4; }
-	| Variable EQUAL Expression			{ $$ = gwbn_NewLet(); $$->var = $1; $$->expr = $3; }
+Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$->expr = $4; }
+	| Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $1; $$->expr = $3; }
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
-Circle:	CIRCLE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' CircleRadius CircleOptions 
+
+Circle:	CIRCLE ScreenCoordinate '-' ScreenCoordinate NumericExpression CircleOptions /* Radius */ 
 CircleOptions: 
-	| ',' CircleColor
-	| ',' CircleColor ',' CircleStart
-	| ',' ',' CircleStart
-	| ',' CircleColor ',' CircleStart ',' CircleEnd
-	| ',' ',' CircleStart ',' CircleEnd
-	| ',' ',' ',' CircleEnd 
-	| ',' CircleColor ',' CircleStart ',' CircleEnd ',' CircleAspect
-	| ',' ',' CircleStart ',' CircleEnd ',' CircleAspect
-	| ',' ',' ',' CircleEnd ',' CircleAspect
-	| ',' ',' ',' ',' CircleAspect
-CircleRadius: VariableName
-	| NumericConstant
-CircleColor: VariableName
-	| NumericConstant
-CircleStart: VariableName
-	| NumericConstant
-CircleEnd: VariableName
-	| NumericConstant
-CircleAspect: VariableName
-	| NumericConstant
+	| ',' NumericExpression /* Color */
+	| ',' NumericExpression ',' NumericExpression /* Color, Start */
+	| ',' ',' NumericExpression /* Start */
+	| ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End */
+	| ',' ',' NumericExpression ',' NumericExpression /* Start, End */
+	| ',' ',' ',' NumericExpression /* End */
+	| ',' NumericExpression ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End, Aspect */
+	| ',' ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Start, End, Aspect */
+	| ',' ',' ',' NumericExpression ',' NumericExpression /* End, Aspect */
+	| ',' ',' ',' ',' NumericExpression /* Aspect */
 
 Screen: SCREEN ScreenMode
 ScreenMode: CONST_INTEGER
 
-Line: LINE '(' ScreenCoord ',' ScreenCoord ')' '-' '(' ScreenCoord ',' ScreenCoord ')' LineOptions
-	| LINE '-' '(' ScreenCoord ',' ScreenCoord ')' LineOptions
+Line: LINE ScreenCoordinate '-' ScreenCoordinate LineOptions
+	| LINE '-' ScreenCoordinate LineOptions
 LineOptions: 
-	| ',' LineColor
-	| ',' LineColor ',' FillingFormat 
-	| ',' ',' FillingFormat
-FillingFormat: DECLARATION 
-LineColor: Expression
-Paint: PAINT '(' ScreenCoord ',' ScreenCoord ')' PaintOptions
+	| ',' NumericExpression	/* LineColor */
+	| ',' NumericExpression ',' DECLARATION /* + FillingFormat */
+	| ',' ',' DECLARATION /* FillingFormat */
+
+Paint: PAINT ScreenCoordinate PaintOptions
 PaintOptions:
-	| ',' PaintAttribute
-	| ',' PaintAttribute ',' BorderAttribute
-	| ',' PaintAttribute ',' BorderAttribute ',' BckgrndAttribute
-PaintAttribute: NumericConstant
-BorderAttribute: NumericConstant
-BckgrndAttribute: NumericConstant
+	| ',' NumericExpression	/* PaintAttr */
+	| ',' NumericExpression ',' NumericExpression /* +  BorderAttr */
+	| ',' NumericExpression ',' NumericExpression ',' NumericExpression /* + BckgrndAttr */
 
-
-Preset: PRESET '(' ScreenCoord ',' ScreenCoord ')' PresetOption
+Preset: PRESET ScreenCoordinate PresetOption
 PresetOption:
-	| ',' PresetColor
-PresetColor: VariableName
-	| NumericConstant
-Pset: PSET '(' ScreenCoord ',' ScreenCoord ')' PsetOption
-PsetOption:
-	| ',' PsetColor
-PsetColor: VariableName
-	| NumericConstant
+	| ',' NumericExpression	/* presetColor */
 
-ScreenCoord: VariableName
-	| NumericConstant
+Pset: PSET ScreenCoordinate PsetOption
+PsetOption:
+	| ',' NumericExpression	/* psetColor */
+
+ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'
 
 Cls: CLS
 
