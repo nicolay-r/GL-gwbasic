@@ -126,13 +126,14 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
-			
+		{	
 			gwbo_DisplayMessage(env,"Numeric variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
 			new_var->val->type = expr_res.val.type;
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			
 			break;
+		}
 		case GWBNT_ARRAYVARIABLE:
 			/* Not Implemented */
 			break;
@@ -525,15 +526,7 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 	do
 	{
 		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
-		
-		if (expr_res.val.type == GWBCT_STRING)
-		{	/* вывод строки */
-			printf("%s\n", expr_res.val.str_val);
-		}
-
-		else if (expr_res.val.type == GWBCT_INTEGER) { /* вывод целочисленных значений */ }
-		else if (expr_res.val.type == GWBCT_SINGLE) { /* вывод вещественных чисел одинарной точности */}
-		else if (expr_res.val.type == GWBCT_DOUBLE) { /* вывод вещественных чисел двойной точности */}
+		gwbo_DisplayCoreValue(env, &expr_res.val);	
 	}
 	while (print_exprs->next != NULL);
 	
