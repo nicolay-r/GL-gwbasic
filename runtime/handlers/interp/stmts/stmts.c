@@ -144,6 +144,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			}
 
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
+			gwbo_DisplayCoreValue(env, new_var->val);
 			break;
 		}
 		case GWBNT_ARRAYVARIABLE:

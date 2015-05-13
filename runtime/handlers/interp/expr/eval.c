@@ -162,7 +162,7 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 
 					case GWBCT_DOUBLE:
 					{
-						result.val.double_val = var->val->single_val;
+						result.val.double_val = var->val->double_val;
 						break;
 					}
 				}

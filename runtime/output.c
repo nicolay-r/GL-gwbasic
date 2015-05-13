@@ -19,13 +19,13 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 	switch (result->type)
 	{
 		case GWBCT_INTEGER:
-			printf("%d\n", result->int_val);		
+			printf("integer %d\n", result->int_val);		
 			break;
 		case GWBCT_SINGLE:
-			printf("%f\n", result->single_val);
+			printf("single %f\n", result->single_val);
 			break;
 		case GWBCT_DOUBLE:
-			printf("%lf\n", result->double_val);
+			printf("double %lf\n", result->double_val);
 			break;
 		case GWBCT_STRING:
 			assert(result->str_val != NULL);

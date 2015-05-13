@@ -98,17 +98,17 @@ GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val)
 				{
 					case GWBCT_INTEGER:
 						/* приведение типов */
-						*(var->val) = val;
 						val.type = GWBCT_SINGLE;
-						val.single_val = val.int_val;
+						val.single_val =  val.int_val;
+						*(var->val) = val;
 						break;
 					case GWBCT_SINGLE:
 						*(var->val) = val;
 						break;
 					case GWBCT_DOUBLE:
+						val.type = GWBCT_SINGLE;
+						val.single_val = val.double_val;
 						*(var->val) = val;
-						val.type = GWBCT_DOUBLE;
-						val.double_val = val.single_val;
 						break;
 					case GWBCT_STRING:
 						result.type = GWBR_ERROR_TYPEMISMATCH;
@@ -122,15 +122,15 @@ GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val)
 				{
 					case GWBCT_INTEGER:
 						/* приведение типов */
-						*(var->val) = val;
 						val.type = GWBCT_DOUBLE;
 						val.double_val = val.int_val;
+						*(var->val) = val;
 						break;
 					case GWBCT_SINGLE:
 						/* приведение типов */
-						*(var->val) = val;
 						val.type = GWBCT_DOUBLE;
 						val.double_val = val.single_val;
+						*(var->val) = val;
 						break;
 					case GWBCT_DOUBLE:
 						*(var->val) = val;
