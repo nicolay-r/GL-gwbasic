@@ -379,7 +379,7 @@ Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$-
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 
-Circle:	CIRCLE ScreenCoordinate '-' ScreenCoordinate NumericExpression CircleOptions /* Radius */ 
+Circle:	CIRCLE ScreenCoordinate NumericExpression CircleOptions /* Radius */ 
 CircleOptions: 
 	| ',' NumericExpression /* Color */
 	| ',' NumericExpression ',' NumericExpression /* Color, Start */
