@@ -4,6 +4,7 @@
 
 #include "inc/env.h"
 #include "inc/runtime.h"
+#include "inc/core.h"
 #include <assert.h>	/* assert() */
 
 /*
@@ -171,3 +172,31 @@ int gwbe_CallbackStack_Top(GWBE_Environment* env)
 	return env->ctx->callback_stack->callback[top_index];
 }
 
+void gwbe_Context_IncSkipFlag(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	env->ctx->skip_flag++;
+}
+
+void gwbe_Context_DecSkipFlag(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	env->ctx->skip_flag--;
+}
+
+void gwbe_Context_PushLocalVariableLevel(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	env->ctx->level++;
+}
+
+void gwbe_Context_PopLocalVariableLevel(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); 
+	env->ctx->level--;
+}

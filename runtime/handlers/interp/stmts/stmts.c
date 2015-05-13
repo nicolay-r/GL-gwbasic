@@ -314,7 +314,6 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			}
 			/* Задаем новое значение */
 			GWBR_ExpressionResult curr_val;
-			curr_val.val.type = var->val->type;
 			curr_val.val = *(var->val);
 
 			curr_val = gwbr_EvaluateAdd(curr_val, step);
@@ -325,7 +324,8 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		{
 			/* from > to */
 			gwbo_DisplayMessage(env, "Out of Cycle");
-			env->ctx->skip_flag++;
+			gwbe_Context_IncSkipFlag(env);
+			//env->ctx->skip_flag++; /*gwbe_Context_IncSkipFlag*/
 		}
 
 	}
@@ -338,7 +338,8 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		if (cmp.val.type == GWBCT_INTEGER && cmp.val.int_val == 1)
 		{	
 			/* Входим в цикл */
-			env->ctx->level++;
+			gwbe_Context_PushLocalVariableLevel(env);
+			//env->ctx->level++; // gwbe_Context_Push()
 
 			/* Создание новой переменной */
 			switch (node->num_var->type)
@@ -391,23 +392,25 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 		/* Удаляем локальный контекст */
 		
 		/* gwbe_Context_Pop() */
-		gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); /* Удаление контекста нужно реализовать */
-		env->ctx->level--;
+		gwbe_Context_PopLocalVariableLevel(env);
+		//gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); /* Удаление контекста нужно реализовать */
+		//env->ctx->level--;
 		/* удаляем адрес из стека возврата */
 		gwbe_CallbackStack_Pop(env);
 	}
 	if (env->ctx->skip_flag > 0)	/* Next для вложенного цикла */
 	{
-		env->ctx->skip_flag--;
+		gwbe_Context_DecSkipFlag(env);
+		//env->ctx->skip_flag--;
 	}
 	else	/* повторяем цикл */
 	{
-		int top_index = env->ctx->callback_stack->top_index;
-		printf("top_index = %d\n", top_index); 
-		printf("next_line = %d\n",  env->ctx->callback_stack->callback[top_index] - 1);
+		//int top_index = env->ctx->callback_stack->top_index;
+		//printf("top_index = %d\n", top_index); 
+		//printf("next_line = %d\n",  env->ctx->callback_stack->callback[top_index] - 1);
 		/* Изменяем текущую строку */
 		env->ctx->current_line = gwbe_CallbackStack_Top(env) - 1;
-		printf("cur_line = %d\n", env->ctx->current_line);
+		//printf("cur_line = %d\n", env->ctx->current_line);
 	}
 	return result;	 
 } 
