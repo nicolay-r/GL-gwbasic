@@ -62,30 +62,99 @@ GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_V
 	/* Not Implemented */
 }
 #include <stdio.h>
-GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value* val)
+GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val)
 {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
 	assert(var != NULL);
-	assert(val != NULL);
 
 	if (var->type == GWBCT_VALUE)
 	{
-		if (var->val->type == val->type)
+		switch (var->val->type)
 		{
-			free(var->val);
-			var->val = val;
-			return result; 
-		}
-		else 
-		{
-			printf("var->val->type = %d\n", var->val->type);
-			printf("val->type = %d\n", val->type);
-			/* error! */
-			gwbo_DisplayMessage(NULL,  "type mismatch\n");
-			exit(0);
-		}
+			case GWBCT_INTEGER:
+			{
+				switch (val.type)
+				{
+					case GWBCT_INTEGER:
+						*(var->val) = val;
+						break;
+					case GWBCT_SINGLE:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+					case GWBCT_DOUBLE:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+					case GWBCT_STRING:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+				}
+				break;
+			}
+			case GWBCT_SINGLE:
+			{
+				switch (val.type)
+				{
+					case GWBCT_INTEGER:
+						/* приведение типов */
+						*(var->val) = val;
+						val.type = GWBCT_SINGLE;
+						val.single_val = val.int_val;
+						break;
+					case GWBCT_SINGLE:
+						*(var->val) = val;
+						break;
+					case GWBCT_DOUBLE:
+						*(var->val) = val;
+						val.type = GWBCT_DOUBLE;
+						val.double_val = val.single_val;
+						break;
+					case GWBCT_STRING:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+				}
+				break;
+			}
+			case GWBCT_DOUBLE:
+			{
+				switch (val.type)
+				{
+					case GWBCT_INTEGER:
+						/* приведение типов */
+						*(var->val) = val;
+						val.type = GWBCT_DOUBLE;
+						val.double_val = val.int_val;
+						break;
+					case GWBCT_SINGLE:
+						/* приведение типов */
+						*(var->val) = val;
+						val.type = GWBCT_DOUBLE;
+						val.double_val = val.single_val;
+						break;
+					case GWBCT_DOUBLE:
+						*(var->val) = val;
+						break;
+					case GWBCT_STRING:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+				}
+				break;
+			}
+			case GWBCT_STRING:
+			{
+				switch (val.type)
+				{
+					case GWBCT_STRING:
+						*(var->val) = val;
+						break;
+					default:
+						result.type = GWBR_ERROR_TYPEMISMATCH;
+						break;
+				}
+				break;
+			}
+		}	
 	}
 	return result;
-}
+}	

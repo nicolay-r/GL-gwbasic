@@ -108,7 +108,8 @@ GWBR_Result gwbh_Dim(GWBE_Environment *env, GWBN_Dim* node) {
 	
 GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	GWBR_Result result;
-
+	result.type = GWBR_RESULT_OK;
+	
 	/* "Let" handler implementation */
 	gwbo_DisplayMessage(env, "In \"Let\" Handler\n"); 
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
@@ -117,8 +118,11 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	{
 		case GWBNT_STRINGVARIABLE:
 		{
+			gwbo_DisplayMessage(env, "String Variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
-			
+			new_var->val->type = GWBCT_STRING;
+			result = gwbc_Variable_SetValue(new_var, expr_res.val);
+			/*
 			if (expr_res.val.type == GWBCT_STRING)
 			{
 				printf("String Value: %s\n", expr_res.val.str_val);
@@ -127,9 +131,9 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			}
 			else 
 			{
-				/* выдать ошибку */
+				// выдать ошибку
 			}
-			
+			*/
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
@@ -137,7 +141,9 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			gwbo_DisplayMessage(env,"Numeric variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
 			new_var->val->type = expr_res.val.type;
-			switch (expr_res.val.type)
+			result = gwbc_Variable_SetValue(new_var, expr_res.val);
+			
+			/*switch (expr_res.val.type)
 			{
 				case GWBCT_INTEGER:
 					printf("Integer value: %d\n", expr_res.val.int_val);
@@ -151,7 +157,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 					printf("double value: %lf\n", expr_res.val.double_val);
 					new_var->val->double_val = expr_res.val.double_val;
 					break;
-			}
+			}*/
 			
 			gwbo_DisplayCoreValue(env, new_var->val);
 
@@ -161,25 +167,35 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			break;
 	}
 	
-	/*
-		Сохранение значения 
-	*/
-	if (!gwbe_Context_ExistsVariable(env, new_var))
-		gwbe_Context_AddLocalVariable(env, new_var);
-	else
-	{
-		GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
-		if (var->type == GWBCT_VALUE)
+	switch (result.type)
+	{	
+		case GWBR_ERROR_TYPEMISMATCH:
+			gwbo_DisplayMessage(env, "Type mismatch\n");
+			break;
+		case GWBR_RESULT_OK:
 		{
-			gwbc_Variable_SetValue(var, new_var->val);
-		}
-		else if (var->type == GWBCT_ARRAY)
-		{
-			/* присовение значения элементу массива */	
+			gwbo_DisplayMessage(env, "Ok\n");
+			/*
+				Сохранение значения 
+			*/
+			if (!gwbe_Context_ExistsVariable(env, new_var))
+				gwbe_Context_AddLocalVariable(env, new_var);
+			else
+			{
+				printf("var exists\n");
+				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
+				if (var->type == GWBCT_VALUE)
+				{
+					gwbc_Variable_SetValue(var, *(new_var->val));
+				
+				}
+				else if (var->type == GWBCT_ARRAY)
+				{
+					/* присовение значения элементу массива */	
+				}
+			}
 		}
 	}
-				
-	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
 	
@@ -317,9 +333,8 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			curr_val.val = *(var->val);
 
 			curr_val = gwbr_EvaluateAdd(curr_val, step);
-			GWBC_Value *new_val = malloc(sizeof(GWBC_Value));
-			*new_val = curr_val.val;
-			gwbc_Variable_SetValue(var, new_val);
+			
+			gwbc_Variable_SetValue(var, curr_val.val);
 		}
 		else
 		{
@@ -355,10 +370,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			
 			GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
 			
-			GWBC_Value *new_val = malloc(sizeof(GWBC_Value));
-			*new_val = res.val;
-
-			gwbc_Variable_SetValue(var, new_val);
+			gwbc_Variable_SetValue(var, res.val);
 			gwbe_Context_AddLocalVariable(env, var);
 			
 			/* Добавление адреса возврата */

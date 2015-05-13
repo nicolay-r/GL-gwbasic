@@ -9,7 +9,7 @@
 
 #define GWBR_RESULT_OK			0
 #define GWBR_RESULT_NULLPTR		1
-
+#define GWBR_ERROR_TYPEMISMATCH		2		/* Несовместимость типов */
 /*
 	Result Of Interpretation
 */

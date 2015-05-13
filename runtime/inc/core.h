@@ -87,6 +87,6 @@ GWBC_Variable* gwbc_NewVariable(int type, char* name);
 void gwbc_DeleteVariable(GWBC_Variable* var);
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes);
 GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_Value val);
-GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value* val);
+GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val);
 
 #endif
