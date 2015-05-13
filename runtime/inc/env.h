@@ -114,6 +114,12 @@ GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* nam
 /* Context Prototypes */
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name);
 GWBR_Result gwbe_Context_AddVariable(GWBE_Environment* env, GWBC_Variable* var);
+
 char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var);
+
+/* CallbackStack Prototypes */
+void gwbe_CallbackStack_PushCurrentLine(GWBE_Environment* env);
+void gwbe_CallbackStack_Pop(GWBE_Environment* env);
+int gwbe_CallbackStack_Top(GWBE_Environment* env);
 
 #endif

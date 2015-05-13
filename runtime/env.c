@@ -25,7 +25,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 	env->input->buffer_len = GWBE_INPUT_BUFFERLENGTH;
 
 	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
-
+	env->ctx->callback_stack->top_index = -1;
 	return env;
 }
 
@@ -135,3 +135,39 @@ char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var)
 
 	return 0;
 }
+
+void gwbe_CallbackStack_PushCurrentLine(GWBE_Environment* env)
+{	
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	assert(env->ctx->local_vars != NULL);
+	assert(env->ctx->callback_stack != NULL);
+	assert(env->ctx->callback_stack->callback != NULL);
+
+	env->ctx->callback_stack->top_index++;
+	env->ctx->callback_stack->callback[env->ctx->callback_stack->top_index] = env->ctx->current_line;
+}
+
+void gwbe_CallbackStack_Pop(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	assert(env->ctx->local_vars != NULL);
+	assert(env->ctx->callback_stack != NULL);
+	assert(env->ctx->callback_stack->callback != NULL);
+	
+	env->ctx->callback_stack->top_index--;
+}
+
+int gwbe_CallbackStack_Top(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	assert(env->ctx->local_vars != NULL);
+	assert(env->ctx->callback_stack != NULL);
+	assert(env->ctx->callback_stack->callback != NULL);
+
+	int top_index = env->ctx->callback_stack->top_index;
+	return env->ctx->callback_stack->callback[top_index];
+}
+

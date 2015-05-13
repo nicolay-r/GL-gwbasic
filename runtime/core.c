@@ -35,7 +35,7 @@ GWBC_VariableListNode* gwbc_NewVariableListNode()
 	return result;
 }
 
-GWBC_VariableListNode* gwbc_VariableListNode_Clear(GWBC_VariableListNode** list)
+void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list)
 {
 	assert(list != NULL);
 	assert(*list != NULL);

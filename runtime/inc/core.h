@@ -80,7 +80,7 @@ struct GWBC_Value{
 
 /* VariableListNode Prototypes */
 GWBC_VariableListNode* gwbc_NewVariableListNode();
-GWBC_VariableListNode* gwbc_VariableListNode_Clear(GWBC_VariableListNode** list);
+void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list);
 
 /* Variable Prototypes */
 GWBC_Variable* gwbc_NewVariable(int type, char* name);
