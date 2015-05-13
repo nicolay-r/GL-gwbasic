@@ -120,20 +120,9 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		{
 			gwbo_DisplayMessage(env, "String Variable\n");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
-			new_var->val->type = GWBCT_STRING;
+			new_var->val->type = GWBCT_STRING; // gwbc_Variable_SetValueType
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
-			/*
-			if (expr_res.val.type == GWBCT_STRING)
-			{
-				printf("String Value: %s\n", expr_res.val.str_val);
-				new_var->val->type = GWBCT_STRING;
-				new_var->val->str_val = expr_res.val.str_val;
-			}
-			else 
-			{
-				// выдать ошибку
-			}
-			*/
+			
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
@@ -143,30 +132,12 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			new_var->val->type = expr_res.val.type;
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			
-			/*switch (expr_res.val.type)
-			{
-				case GWBCT_INTEGER:
-					printf("Integer value: %d\n", expr_res.val.int_val);
-					new_var->val->int_val = expr_res.val.int_val;	
-					break;
-				case GWBCT_SINGLE:
-					printf("single value: %f\n", expr_res.val.single_val);
-					new_var->val->single_val = expr_res.val.single_val;	
-					break;
-				case GWBCT_DOUBLE:
-					printf("double value: %lf\n", expr_res.val.double_val);
-					new_var->val->double_val = expr_res.val.double_val;
-					break;
-			}*/
-			
-			gwbo_DisplayCoreValue(env, new_var->val);
-
 			break;
 		case GWBNT_ARRAYVARIABLE:
 			/* Not Implemented */
 			break;
 	}
-	
+		
 	switch (result.type)
 	{	
 		case GWBR_ERROR_TYPEMISMATCH:
