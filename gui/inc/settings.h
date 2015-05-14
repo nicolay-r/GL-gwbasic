@@ -1,0 +1,7 @@
+/* GWBasic Graphical settings */
+
+/* LATER IT WILL BE MOVED INTO CONFIG FILE */
+
+#define GWBG_SETTINGS_SCREEN_9_WIDTH		320
+#define GWBG_SETTINGS_SCREEN_9_HEIGHT 		240
+
