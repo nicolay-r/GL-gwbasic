@@ -25,7 +25,10 @@ void gwbr_RunShell(GWBE_Environment* env)
 		/* Parse user request */
 		interpreter = gwbr_Parse(env->line_buffer); 
 		/* Handle the received "GWBN_Interpreter*" (Part 3) */
-		gwbh_Interpreter(env, interpreter);
+		if (interpreter != NULL)
+		{
+			gwbh_Interpreter(env, interpreter);
+		}
 	}	
 }
 

@@ -628,7 +628,7 @@ Length: CONST_INTEGER;
 */
 yyerror(char *s)
 {
-	fprintf(stderr, "error %s\n", s);
+	fprintf(stderr, "Syntax Error %s\n", s);
 }
 
 /*
