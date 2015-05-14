@@ -5,6 +5,9 @@
 #define WIN_WIDTH 	320
 #define WIN_HEIGHT 	240
 
+int text_index = 0; 
+char text[255];
+
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -27,7 +30,6 @@ void renderScene(void) {
 	
 	glRasterPos2i(10, 10); // Text position
 	
-	char* text = "hello, world!";
 	void* font = GLUT_BITMAP_9_BY_15;
 	
 	int i;
@@ -72,6 +74,12 @@ void fixedSize(int w, int h)
 	// we ignore the params and do:
 	glutReshapeWindow(WIN_WIDTH, WIN_HEIGHT);
 }
+
+void processNormalKeys(unsigned char key, int x, int y)
+{
+	text[text_index] = key;
+	text_index++;
+}
 int main(int argc, char **argv) {
 
 	// init GLUT and create Window
@@ -79,10 +87,11 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
-	glutCreateWindow("Lighthouse3D- GLUT Tutorial");
+	glutCreateWindow("GWBasic interpreter");
 	// register callbacks
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(fixedSize);
+	glutKeyboardFunc(processNormalKeys);
 	// enter GLUT event processing cycle
 	glutMainLoop();
 	return 1;
