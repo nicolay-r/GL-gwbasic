@@ -2,9 +2,8 @@
 #include <GL/glut.h>
 #include <string.h>
 
-#define WIN_WIDTH 	320
-#define WIN_HEIGHT 	240
-
+#include "inc/settings.h"
+#include "inc/display.h"
 int text_index = 0; 
 char text[255];
 

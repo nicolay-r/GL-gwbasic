@@ -1,8 +1,13 @@
 /* GWBasic Header, which describes Core structures */
 
-typedef struct GWBC_DispayPoint GWBC_DisplayPoint;
+#ifndef _GWBG_CORE_H_
+#define _GWBG_CORE_H_
 
-struct GWBC_DiplayPoint
+typedef struct GWBC_DisplayPoint GWBC_DisplayPoint;
+
+struct GWBC_DisplayPoint
 {
 	int x, y;
 };
+
+#endif

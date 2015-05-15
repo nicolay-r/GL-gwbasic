@@ -1,2 +1,2 @@
 all:
-	gcc main.c -lGL -lGLU -lglut -o run
+	gcc *.c -lGL -lGLU -lglut -o run
