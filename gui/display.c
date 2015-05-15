@@ -1,8 +1,19 @@
 /* GWBasic display functions implementation */
 
 #include "inc/display.h"
+#include "inc/settings.h"
 #include <assert.h>
 #include <stdlib.h>
+
+GWBG_Display* gwbg_NewDisplay()
+{
+	GWBG_Display* display = malloc(sizeof(GWBG_Display));
+	
+	display->width = GWBGS_DISPLAY_WIDTH;
+	display->height = GWBGS_DISPLAY_HEIGHT;
+
+	return display;
+}
 
 void gwbg_Display_CreateTextBuffer(GWBG_Display* display, int height, int width)
 {
@@ -27,4 +38,14 @@ void gwbg_Display_DeleteTextBuffer(GWBG_Display* display)
 	free(display->text_buffer->text_field);
 	free(display->text_buffer->cursor);
 	free(display->text_buffer);
+}
+
+/* TextBuffer */
+void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)
+{
+	/* Push char */
+}
+void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
+{
+	/* Pop char at cursor */
 }
