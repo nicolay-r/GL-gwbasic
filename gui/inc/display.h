@@ -4,17 +4,20 @@
 #define _GWBG_DISPLAY_H_
 
 #include "core.h"
+#include "runtime.h"
 
-typedef struct GWBG_Display GWBG_Display;
+typedef struct GWBG_Ide GWBG_Ide;
 typedef struct GWBG_TextBuffer GWBG_TextBuffer;
 
 /*
 	Structures
 */
-struct GWBG_Display
+struct GWBG_Ide
 {
 	GWBG_TextBuffer* text_buffer;
-	int height, width;
+	GWBE_Environment* env;
+
+	int height, width;		/* размер экрана */
 	char* input_buffer;		/* буфер введенной пользователем строки */
 };
 
@@ -30,9 +33,9 @@ struct GWBG_TextBuffer
 */
 
 /* Display */
-GWBG_Display* gwbg_NewDisplay();
-void gwbg_Display_CreateTextBuffer(GWBG_Display* display, int height, int width);
-void gwbg_Display_DeleteTextBuffer(GWBG_Display* display);
+GWBG_Ide* gwbg_NewDisplay();
+void gwbg_Display_CreateTextBuffer(GWBG_Ide* ide, int height, int width);
+void gwbg_Display_DeleteTextBuffer(GWBG_Ide* ide);
 
 /* TextBuffer */
 void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string);

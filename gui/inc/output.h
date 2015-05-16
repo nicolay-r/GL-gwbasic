@@ -9,7 +9,7 @@
 /*
 	Global variable dependencies
 */
-extern GWBG_Display* display;
+extern GWBG_Ide* ide;
 
 /*
 	Prototypes

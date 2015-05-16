@@ -7,7 +7,7 @@
 #include "inc/display.h"
 #include "inc/runtime.h"
 
-GWBG_Display* display;
+GWBG_Ide* ide;
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -19,7 +19,7 @@ void renderScene(void) {
 		glVertex2i(100,100);
 	glEnd();
 	*/
-	gwbg_Display_Render(display);
+	gwbg_Display_Render(ide);
 
         glutSwapBuffers();
 }
@@ -49,35 +49,37 @@ void changeSize(int w, int h) {
 void fixedSize(int w, int h)
 {
 	// we ignore the params and do:
-	glutReshapeWindow(display->width, display->height);
+	glutReshapeWindow(ide->width, ide->height);
 }
-
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
 		case 8: /* Backspace */
-			gwbg_TextBuffer_PopChar(display->text_buffer);
+			gwbg_TextBuffer_PopChar(ide->text_buffer);
 			break;
 		case 13: /* Enter */
-			gwbg_TextBuffer_CursorNextLine(display->text_buffer);
+			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
+			
 			break;
 		default:
-			gwbg_TextBuffer_PushChar(display->text_buffer, key);
+			gwbg_TextBuffer_PushChar(ide->text_buffer, key);
 			break;
 	}
 	//printf("%d\n", key);
 }
 
-GWBG_Display* GWBG_CreateIde()
+GWBG_Ide* GWBG_CreateIde()
 {
-	GWBG_Display* display = gwbg_NewDisplay();
-	gwbg_Display_CreateTextBuffer(display, 20, 40);
+	GWBG_Ide* ide = gwbg_NewDisplay();
+	gwbg_Display_CreateTextBuffer(ide, 20, 40);
+
+	GWBE_Environment* env = gwbe_NewEnvironment();
 
 	// setup graphics window
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(100,100);
-	glutInitWindowSize(display->width, display->height);
+	glutInitWindowSize(ide->width, ide->height);
 	glutCreateWindow("GWBasic interpreter");
 	
 	// register callbacks
@@ -85,7 +87,7 @@ GWBG_Display* GWBG_CreateIde()
 	glutReshapeFunc(fixedSize);
 	glutKeyboardFunc(processNormalKeys);
 	
-	return display;	
+	return ide;	
 }
 void GWBG_RunIde()
 {
@@ -100,7 +102,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 
 	// Create Ide
-	display = GWBG_CreateIde();
+	ide = GWBG_CreateIde();
 	
 	// Run Ide
 	GWBG_RunIde();

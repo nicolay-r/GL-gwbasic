@@ -15,14 +15,14 @@ void gwbg_RenderTextLine(char c)
 	glutBitmapCharacter(font, c);
 }
 
-void gwbg_Display_Render(GWBG_Display* display)
+void gwbg_Display_Render(GWBG_Ide* ide)
 {
-	assert(display != NULL);
+	assert(ide != NULL);
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D(0.0, display->width, 0.0, display->height);
+	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -34,10 +34,10 @@ void gwbg_Display_Render(GWBG_Display* display)
 	/* Используется инвертированная система координат */
 	GWBC_DisplayPoint lu_offset;
 	lu_offset.x = 10;
-	lu_offset.y = display->height - 20;	
-	gwbg_TextBuffer_Render(display->text_buffer, lu_offset); 
+	lu_offset.y = ide->height - 20;	
+	gwbg_TextBuffer_Render(ide->text_buffer, lu_offset); 
 
-	gwbg_TextBuffer_MarkCursorPosition(display->text_buffer);
+	gwbg_TextBuffer_MarkCursorPosition(ide->text_buffer);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

@@ -8,19 +8,19 @@
 #include <stdlib.h>
 
 /* Display */
-GWBG_Display* gwbg_NewDisplay()
+GWBG_Ide* gwbg_NewDisplay()
 {
-	GWBG_Display* display = malloc(sizeof(GWBG_Display));
+	GWBG_Ide* ide = malloc(sizeof(GWBG_Ide));
 	
-	display->width = GWBGS_DISPLAYWIDTH;
-	display->height = GWBGS_DISPLAYHEIGHT;
+	ide->width = GWBGS_DISPLAYWIDTH;
+	ide->height = GWBGS_DISPLAYHEIGHT;
 
-	return display;
+	return ide;
 }
 
-void gwbg_Display_CreateTextBuffer(GWBG_Display* display, int height, int width)
+void gwbg_Display_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
 {
-	assert(display != NULL);
+	assert(ide != NULL);
 	
 	GWBG_TextBuffer *text_buffer = malloc(sizeof(GWBG_TextBuffer));
 	
@@ -41,14 +41,14 @@ void gwbg_Display_CreateTextBuffer(GWBG_Display* display, int height, int width)
 	cursor->y = 0;
 	
 	text_buffer->cursor = cursor;	
-	display->text_buffer = text_buffer;
+	ide->text_buffer = text_buffer;
 }
 
-void gwbg_Display_DeleteTextBuffer(GWBG_Display* display)
+void gwbg_Display_DeleteTextBuffer(GWBG_Ide* ide)
 {
-	free(display->text_buffer->text_field);
-	free(display->text_buffer->cursor);
-	free(display->text_buffer);
+	free(ide->text_buffer->text_field);
+	free(ide->text_buffer->cursor);
+	free(ide->text_buffer);
 }
 
 /* TextBuffer */
