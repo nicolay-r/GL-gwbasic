@@ -19,7 +19,7 @@ void renderScene(void) {
 		glVertex2i(100,100);
 	glEnd();
 	*/
-	gwbg_Display_Render(ide);
+	gwbg_Ide_Render(ide);
 
         glutSwapBuffers();
 }
@@ -71,8 +71,8 @@ void processNormalKeys(unsigned char key, int x, int y)
 
 GWBG_Ide* GWBG_CreateIde()
 {
-	GWBG_Ide* ide = gwbg_NewDisplay();
-	gwbg_Display_CreateTextBuffer(ide, 20, 40);
+	GWBG_Ide* ide = gwbg_NewIde();
+	gwbg_Ide_CreateTextBuffer(ide, 20, 40);
 
 	GWBE_Environment* env = gwbe_NewEnvironment();
 

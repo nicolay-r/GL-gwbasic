@@ -15,7 +15,7 @@ void gwbg_RenderTextLine(char c)
 	glutBitmapCharacter(font, c);
 }
 
-void gwbg_Display_Render(GWBG_Ide* ide)
+void gwbg_Ide_Render(GWBG_Ide* ide)
 {
 	assert(ide != NULL);
 

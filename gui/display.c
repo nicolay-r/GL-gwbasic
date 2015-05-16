@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 /* Display */
-GWBG_Ide* gwbg_NewDisplay()
+GWBG_Ide* gwbg_NewIde()
 {
 	GWBG_Ide* ide = malloc(sizeof(GWBG_Ide));
 	
@@ -18,7 +18,7 @@ GWBG_Ide* gwbg_NewDisplay()
 	return ide;
 }
 
-void gwbg_Display_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
+void gwbg_Ide_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
 {
 	assert(ide != NULL);
 	
@@ -44,7 +44,7 @@ void gwbg_Display_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
 	ide->text_buffer = text_buffer;
 }
 
-void gwbg_Display_DeleteTextBuffer(GWBG_Ide* ide)
+void gwbg_Ide_DeleteTextBuffer(GWBG_Ide* ide)
 {
 	free(ide->text_buffer->text_field);
 	free(ide->text_buffer->cursor);
