@@ -59,7 +59,6 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_TextBuffer_PopChar(display->text_buffer);
 			break;
 		case 13: /* Enter */
-			printf("hitted enter\n");
 			gwbg_TextBuffer_CursorNextLine(display->text_buffer);	
 			break;
 		default:

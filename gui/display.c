@@ -66,12 +66,7 @@ void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)
 		/* смещение по строке вправо */
 		text_buffer->cursor->y++;
 	}
-	else if (x < text_buffer->height - 1)
-	{
-		/* переход на новую строку */	
-		text_buffer->cursor->x++;
-		text_buffer->cursor->y = 0;
-	}
+	else gwbg_TextBuffer_CursorNextLine(text_buffer); 
 }
 void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
 {
@@ -84,19 +79,38 @@ void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
 	{
 		text_buffer->cursor->y--;
 	}
+
+	/*
+	// переход на предыдущую строку 
 	else if (x > 0)
 	{
 		text_buffer->cursor->x--;
 		text_buffer->cursor->y = text_buffer->width - 1;
-	}
+	}*/
 }
 
 void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 {
-	int x = text_buffer->cursor->x;
+	int x = text_buffer->cursor->x, y = text_buffer->cursor->y;
+	
+	text_buffer->text_field[x][y] = 0;
+
 	if (x < text_buffer->height - 1)
 	{
 		text_buffer->cursor->x++;
+		text_buffer->cursor->y = 0;
+	}
+	else
+	{
+		/* Выполняем сдвиг текста */
+		int i, j;
+		free(text_buffer->text_field[0]);
+		for (i = 0; i < text_buffer->height - 1; i++)
+		{
+			text_buffer->text_field[i] = text_buffer->text_field[i+1];
+		}
+
+		text_buffer->text_field[x] = calloc(text_buffer->width, sizeof(char));		
 		text_buffer->cursor->y = 0;
 	}
 }

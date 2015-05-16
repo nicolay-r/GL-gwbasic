@@ -26,6 +26,8 @@ void gwbg_Display_Render(GWBG_Display* display)
 	lu_offset.y = display->height - 20;	
 	gwbg_TextBuffer_Render(display->text_buffer, lu_offset); 
 
+	gwbg_TextBuffer_MarkCursorPosition(display->text_buffer);
+
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
@@ -56,4 +58,12 @@ void gwbg_TextBuffer_Render(
 		
 		lu_corner.y -= 10;
 	}
+}
+
+void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
+{
+	int x = text_buffer->cursor->x;
+	int y = text_buffer->cursor->y;
+
+	text_buffer->text_field[x][y] = GWBGS_CURSORMARKER;
 }
