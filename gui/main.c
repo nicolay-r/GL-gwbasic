@@ -1,10 +1,10 @@
 
 #include <GL/glut.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "inc/settings.h"
 #include "inc/display.h"
-
 
 GWBG_Display* display;
 
@@ -53,7 +53,20 @@ void fixedSize(int w, int h)
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
-	gwbg_TextBuffer_PushChar(display->text_buffer, key);
+	switch (key)
+	{
+		case 8: /* Backspace */
+			gwbg_TextBuffer_PopChar(display->text_buffer);
+			break;
+		case 13: /* Enter */
+			printf("hitted enter\n");
+			gwbg_TextBuffer_CursorNextLine(display->text_buffer);	
+			break;
+		default:
+			gwbg_TextBuffer_PushChar(display->text_buffer, key);
+			break;
+	}
+	//printf("%d\n", key);
 }
 
 GWBG_Display* GWBG_CreateIde()

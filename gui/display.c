@@ -91,3 +91,12 @@ void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
 	}
 }
 
+void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
+{
+	int x = text_buffer->cursor->x;
+	if (x < text_buffer->height - 1)
+	{
+		text_buffer->cursor->x++;
+		text_buffer->cursor->y = 0;
+	}
+}
