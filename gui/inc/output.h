@@ -3,7 +3,7 @@
 #ifndef _GWBR_OUTPUT_H_
 #define _GWBR_OUTPUT_H_
 
-#include "display.h"
+#include "ide.h"
 #include "../../runtime/inc/env.h"	/* Runtime environment */
 
 /*

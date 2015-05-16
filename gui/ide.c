@@ -1,6 +1,6 @@
 /* GWBasic display functions implementation */
 
-#include "inc/display.h"
+#include "inc/ide.h"
 #include "inc/settings.h"
 
 #include <string.h>

@@ -3,9 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "inc/settings.h"
-#include "inc/display.h"
-#include "inc/runtime.h"
+#include "inc/ide.h"
 
 GWBG_Ide* ide;
 

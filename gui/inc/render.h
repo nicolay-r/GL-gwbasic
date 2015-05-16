@@ -1,6 +1,6 @@
 /* GWBasic Header, contains rendering functions */
 
-#include "display.h"
+#include "ide.h"
 #include "core.h"
 
 #define GWBGS_CURSORMARKER	'_'
