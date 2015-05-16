@@ -4,6 +4,17 @@
 #include <GL/glut.h>
 #include <assert.h>
 #include <stdio.h>
+
+void gwbg_SetTextLinePosition(int x, int y)
+{
+	glRasterPos2i(x, y);
+}
+void gwbg_RenderTextLine(char c)
+{
+	void* font = GLUT_BITMAP_9_BY_15;
+	glutBitmapCharacter(font, c);
+}
+
 void gwbg_Display_Render(GWBG_Display* display)
 {
 	assert(display != NULL);
@@ -43,22 +54,21 @@ void gwbg_TextBuffer_Render(
 	assert(text_buffer != NULL);
 	assert(text_buffer->text_field != NULL);
 
-	void* font = GLUT_BITMAP_9_BY_15;
-
 	int i, j;
 	
 	for (i = 0; i < text_buffer->height; i++)
 	{
-		glRasterPos2i(lu_corner.x, lu_corner.y);
+		gwbg_SetTextLinePosition(lu_corner.x, lu_corner.y);
 	
 		for (j = 0; j < text_buffer->width; j++)
 		{
-			glutBitmapCharacter(font, text_buffer->text_field[i][j]);
+			gwbg_RenderTextLine(text_buffer->text_field[i][j]);
 		}
 		
 		lu_corner.y -= 10;
 	}
 }
+
 
 void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
 {
@@ -67,3 +77,4 @@ void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
 
 	text_buffer->text_field[x][y] = GWBGS_CURSORMARKER;
 }
+
