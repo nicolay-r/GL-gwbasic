@@ -15,6 +15,7 @@ struct GWBG_Display
 {
 	GWBG_TextBuffer* text_buffer;
 	int height, width;
+	char* input_buffer;		/* буфер введенной пользователем строки */
 };
 
 struct GWBG_TextBuffer

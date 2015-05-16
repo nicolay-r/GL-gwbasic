@@ -5,46 +5,20 @@
 #include "inc/settings.h"
 #include "inc/display.h"
 
-int text_index = 0; 
-char text[255];
 
 GWBG_Display* display;
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D(0.0, display->width, 0.0, display->height);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glColor3f(0.0, 1.0, 0.0); // Green
-	
 	//draw a line
-	glBegin(GL_LINES);
+	
+	/*glBegin(GL_LINES);
 		glVertex2i(10,10);
 		glVertex2i(100,100);
 	glEnd();
-	
-	glRasterPos2i(10, 10); // Text position
-	
-	void* font = GLUT_BITMAP_9_BY_15;
-	
-	int i;
-	for (i = 0; i < strlen(text); i++)
-	{
-		glutBitmapCharacter(font, text[i]);
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
+	*/
+	gwbg_Display_Render(display);
 
         glutSwapBuffers();
 }
@@ -79,14 +53,13 @@ void fixedSize(int w, int h)
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
-	text[text_index] = key;
-	text_index++;
+	gwbg_TextBuffer_PushChar(display->text_buffer, key);
 }
 
 GWBG_Display* GWBG_CreateIde()
 {
 	GWBG_Display* display = gwbg_NewDisplay();
-	gwbg_Display_CreateTextBuffer(display, 200, 80);
+	gwbg_Display_CreateTextBuffer(display, 20, 40);
 
 	// setup graphics window
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
