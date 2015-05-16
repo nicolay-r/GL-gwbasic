@@ -3,8 +3,8 @@
 #ifndef _GWBG_DISPLAY_H_
 #define _GWBG_DISPLAY_H_
 
-#include "core.h"
-#include "runtime.h"
+#include "core.h"			/* GWBC_DisplayPoint */
+#include "runtime.h"			/* GWBE_Environment */
 
 typedef struct GWBG_Ide GWBG_Ide;
 typedef struct GWBG_TextBuffer GWBG_TextBuffer;
@@ -14,8 +14,8 @@ typedef struct GWBG_TextBuffer GWBG_TextBuffer;
 */
 struct GWBG_Ide
 {
-	GWBG_TextBuffer* text_buffer;
-	GWBE_Environment* env;
+	GWBG_TextBuffer* text_buffer;	/* Текстовый буфер (строка пользователя) */
+	GWBE_Environment* env;		/* Окружение (Структура Runtime GWBasic) */
 
 	int height, width;		/* размер экрана */
 	char* input_buffer;		/* буфер введенной пользователем строки */
