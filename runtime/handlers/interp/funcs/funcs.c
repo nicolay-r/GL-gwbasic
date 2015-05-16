@@ -3,8 +3,8 @@
 #include "inc/funcs.h"
 #include <assert.h>
 
-#include "../expr/inc/eval.h" /* Expression Evaluator */
-#include "../../../inc/output.h"
+#include "../expr/inc/eval.h" 	/* Expression Evaluator */
+#include <output.h>		/* GWBO_* */
 
 #include <stdio.h>
 

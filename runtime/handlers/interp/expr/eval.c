@@ -2,7 +2,7 @@
 
 #include "inc/eval.h"
 
-#include "../../../inc/output.h"	/* gwbo_DisplayMessage */
+#include <output.h>			/* gwbo_DisplayMessage */
 
 #include "inc/arithm.h" 		/* ArithmeticOperations */
 #include "inc/relational.h" 		/* RelationalOperations */

@@ -8,7 +8,7 @@
 #include "../expr/inc/arithm.h"
 #include "../expr/inc/relational.h"
 #include "../../../inc/input.h"		/* GWBI_GetLine() */
-#include "../../../inc/output.h"	/* gwbo_DisplayCoreValue() */
+#include <output.h>			/* gwbo_DisplayCoreValue() */
 
 GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;

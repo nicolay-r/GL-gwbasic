@@ -1,6 +1,6 @@
 /* GWBasic Runtime Output implementation */
 
-#include "inc/output.h"
+#include <output.h>
 #include "inc/core.h"
 
 #include <assert.h>

@@ -6,7 +6,7 @@
 #include "../../../../inc/env.h"	/* GWBE_Environment */
 #include "../../../../inc/core.h"	/* GWBC_Value */
 #include "../../../../inc/parser.h"	/* GWBN_* */
-#include "../../../../inc/output.h"	/* GWB0_* */
+#include <output.h>			/* GWB0_* */
 
 typedef struct GWBR_ExpressionResult GWBR_ExpressionResult;
 

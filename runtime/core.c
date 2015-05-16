@@ -3,7 +3,8 @@
 */
 
 #include "inc/core.h"
-#include "inc/output.h"
+#include <output.h>
+
 #include <stdlib.h>
 #include <assert.h>
 

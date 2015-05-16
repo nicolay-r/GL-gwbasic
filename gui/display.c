@@ -3,6 +3,7 @@
 #include "inc/display.h"
 #include "inc/settings.h"
 
+#include <string.h>
 #include <assert.h>
 #include <stdlib.h>
 
@@ -51,6 +52,20 @@ void gwbg_Display_DeleteTextBuffer(GWBG_Display* display)
 }
 
 /* TextBuffer */
+void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string)
+{
+	assert(text_buffer != NULL);
+	assert(text_buffer->cursor != NULL);
+	
+	int i;
+	for (i = 0; i < strlen(string); i++)
+	{
+		gwbg_TextBuffer_PushChar(text_buffer, string[i]);
+	}
+
+	gwbg_TextBuffer_CursorNextLine(text_buffer);
+}
+
 void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)
 {
 	assert(text_buffer != NULL);
@@ -68,6 +83,7 @@ void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)
 	}
 	else gwbg_TextBuffer_CursorNextLine(text_buffer); 
 }
+
 void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
 {
 	int x = text_buffer->cursor->x;

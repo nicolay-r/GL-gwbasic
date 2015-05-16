@@ -35,6 +35,7 @@ void gwbg_Display_CreateTextBuffer(GWBG_Display* display, int height, int width)
 void gwbg_Display_DeleteTextBuffer(GWBG_Display* display);
 
 /* TextBuffer */
+void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string);
 void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c);
 void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer);
 void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer);
