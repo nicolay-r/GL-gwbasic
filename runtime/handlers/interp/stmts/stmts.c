@@ -266,10 +266,12 @@ GWBR_Result gwbh_Line(GWBE_Environment *env, GWBN_Line* node) {
 
 	line.color = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
 
-	gwbo_DisplayLine(env, line);
-	
-	if (type_mismatch)
+	if (!type_mismatch)
+		gwbo_DisplayLine(env, line);
+	else 
+	{
 		result.type = GWBR_ERROR_TYPEMISMATCH;
+	}
 	return result;	 
 } 
 	
