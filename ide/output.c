@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include <output.h>	/* GWBE_Display */ 
+#include "render.h"
 
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 {
@@ -12,6 +13,9 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	assert(ide->text_buffer != NULL);
 	
 	gwbg_TextBuffer_PushString(ide->text_buffer, msg);
+
+	// Force Render Ide
+	//gwbg_Ide_Render();
 }
 
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
@@ -23,6 +27,9 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 	{
 		gwbg_TextBuffer_PushString(ide->text_buffer, msg);
 	}
+
+	// Force Render Ide
+	//gwbg_Ide_Render();
 }
 
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
