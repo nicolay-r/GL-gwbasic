@@ -14,6 +14,17 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	gwbg_TextBuffer_PushString(ide->text_buffer, msg);
 }
 
+void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
+{
+	assert(ide != NULL);
+	assert(ide->text_buffer != NULL);
+	
+	if (env->trace_mode)
+	{
+		gwbg_TextBuffer_PushString(ide->text_buffer, msg);
+	}
+}
+
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 {
 	assert(env != NULL);

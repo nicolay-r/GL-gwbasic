@@ -15,6 +15,7 @@ extern GWBG_Ide* ide;
 	Prototypes
 */
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg);
+void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result);
 
 #endif

@@ -13,6 +13,8 @@
 GWBE_Environment* gwbe_NewEnvironment()
 {
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
+	
+	env->trace_mode = 1;	/* режим трассировки */
 
 	env->line_buffer = (char*) malloc(GWBR_LINE_LENGTH * sizeof(char));
 	env->line_buffer_len = 0;

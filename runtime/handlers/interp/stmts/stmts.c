@@ -14,7 +14,7 @@ GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
-	gwbo_DisplayMessage(env, "In \"Statements\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Statements\" Handler"); 
 	GWBN_Statements *stmts = node;
 	
 	assert(stmts != NULL);
@@ -32,7 +32,7 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 	GWBR_Result result;
 
 	/* "Statement" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Statement\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Statement\" Handler"); 
 	
 	assert(env != NULL);
 	assert(env->ctx != NULL);
@@ -80,7 +80,7 @@ GWBR_Result gwbh_Beep(GWBE_Environment *env, GWBN_Beep* node) {
 	GWBR_Result result;
 
 	/* "Beep" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Beep\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Beep\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -90,7 +90,7 @@ GWBR_Result gwbh_Call(GWBE_Environment *env, GWBN_Call* node) {
 	GWBR_Result result;
 
 	/* "Call" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Call\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Call\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -100,7 +100,7 @@ GWBR_Result gwbh_Dim(GWBE_Environment *env, GWBN_Dim* node) {
 	GWBR_Result result;
 
 	/* "Dim" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Dim\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Dim\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -111,14 +111,14 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	result.type = GWBR_RESULT_OK;
 	
 	/* "Let" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Let\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Let\" Handler"); 
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
 	GWBC_Variable* new_var; 
 	switch (node->var->type)
 	{
 		case GWBNT_STRINGVARIABLE:
 		{
-			gwbo_DisplayMessage(env, "String Variable");
+			gwbo_DisplayDebugMessage(env, "String Variable");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
 			new_var->val->type = GWBCT_STRING; // gwbc_Variable_SetValueType
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
@@ -127,7 +127,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		}
 		case GWBNT_NUMERICVARIABLE:
 		{	
-			gwbo_DisplayMessage(env,"Numeric variable");
+			gwbo_DisplayDebugMessage(env,"Numeric variable");
 			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
 			
 			switch (node->var->num->type)
@@ -188,7 +188,7 @@ GWBR_Result gwbh_OptionBase(GWBE_Environment *env, GWBN_OptionBase* node) {
 	GWBR_Result result;
 
 	/* "OptionBase" handler implementation */
-	gwbo_DisplayMessage(env,"In \"OptionBase\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"OptionBase\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -198,7 +198,7 @@ GWBR_Result gwbh_DefFn(GWBE_Environment *env, GWBN_DefFn* node) {
 	GWBR_Result result;
 
 	/* "DefFn" handler implementation */
-	gwbo_DisplayMessage(env,"In \"DefFn\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"DefFn\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -208,7 +208,7 @@ GWBR_Result gwbh_Circle(GWBE_Environment *env, GWBN_Circle* node) {
 	GWBR_Result result;
 
 	/* "Circle" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Circle\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Circle\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -218,7 +218,7 @@ GWBR_Result gwbh_Screen(GWBE_Environment *env, GWBN_Screen* node) {
 	GWBR_Result result;
 
 	/* "Screen" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Screen\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Screen\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -228,7 +228,7 @@ GWBR_Result gwbh_Line(GWBE_Environment *env, GWBN_Line* node) {
 	GWBR_Result result;
 
 	/* "Line" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Line\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Line\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -238,7 +238,7 @@ GWBR_Result gwbh_Paint(GWBE_Environment *env, GWBN_Paint* node) {
 	GWBR_Result result;
 
 	/* "Paint" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Paint\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Paint\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -248,7 +248,7 @@ GWBR_Result gwbh_Pset(GWBE_Environment *env, GWBN_Pset* node) {
 	GWBR_Result result;
 
 	/* "Pset" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Pset\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Pset\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -258,7 +258,7 @@ GWBR_Result gwbh_Preset(GWBE_Environment *env, GWBN_Preset* node) {
 	GWBR_Result result;
 
 	/* "Preset" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Preset\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Preset\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -268,7 +268,7 @@ GWBR_Result gwbh_Cls(GWBE_Environment *env, GWBN_Cls* node) {
 	GWBR_Result result;
 
 	/* "Cls" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Cls\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"Cls\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -287,7 +287,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		return result;
 	}
 
-	gwbo_DisplayMessage(env, "In \"For\" Handler"); 
+	gwbo_DisplayDebugMessage(env, "In \"For\" Handler"); 
 	
 	assert(node->num_var != NULL);
 	assert(node->from_num_expr != NULL);
@@ -323,7 +323,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		else
 		{
 			/* from > to */
-			gwbo_DisplayMessage(env, "Out of Cycle");
+			gwbo_DisplayDebugMessage(env, "Out of Cycle");
 			gwbe_Context_IncSkipFlag(env);
 		}
 
@@ -365,7 +365,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		else
 		{
 			/* from > to */
-			gwbo_DisplayMessage(env, "Out of Cycle");
+			gwbo_DisplayDebugMessage(env, "Out of Cycle");
 			env->ctx->skip_flag++;		
 		}
 		
@@ -378,7 +378,7 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 	
-	gwbo_DisplayMessage(env,"In \"Next\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Next\" Handler"); 
 
 	assert(env != NULL);
 	assert(env->ctx != NULL);
@@ -407,7 +407,7 @@ GWBR_Result gwbh_GoSub(GWBE_Environment *env, GWBN_GoSub* node) {
 	GWBR_Result result;
 
 	/* "GoSub" handler implementation */
-	gwbo_DisplayMessage(env,"In \"GoSub\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"GoSub\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -417,7 +417,7 @@ GWBR_Result gwbh_Return(GWBE_Environment *env, GWBN_Return* node) {
 	GWBR_Result result;
 
 	/* "Return" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Return\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Return\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -427,7 +427,7 @@ GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 	
-	gwbo_DisplayMessage(env,"In \"Goto\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Goto\" Handler"); 
 	assert(node != NULL);
 	assert(env->ctx != NULL);
 	env->ctx->current_line = node->line;	
@@ -439,7 +439,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 	
-	gwbo_DisplayMessage(env,"In \"IfThenElse\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"IfThenElse\" Handler"); 
 	assert(node->expr != NULL);
 	GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, node->expr);
 	if (expr_res.val.type == GWBCT_INTEGER)
@@ -471,7 +471,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	else 
 	{
 		/* error! */
-		gwbo_DisplayMessage(env,"Result has another type. Expected Numeric (Integer)\n This message should be represented as error ");
+		gwbo_DisplayDebugMessage(env,"Result has another type. Expected Numeric (Integer)\n This message should be represented as error ");
 	}
 	return result;	 
 } 
@@ -479,7 +479,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	GWBR_Result result;
 
-	gwbo_DisplayMessage(env,"In \"Input\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Input\" Handler"); 
 	
 	assert(env != NULL);
 	assert(node != NULL);	
@@ -511,11 +511,11 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 					break;
 				}
 				case GWBNT_NUMERICVARIABLE:
-					gwbo_DisplayMessage(env,"Numeric variables");
+					gwbo_DisplayDebugMessage(env,"Numeric variables");
 					break;
 				case GWBNT_ARRAYVARIABLE:
 					/* Not Implemented */
-					gwbo_DisplayMessage(env,"Array variables not supported");
+					gwbo_DisplayDebugMessage(env,"Array variables not supported");
 					break;
 			}
 			vars = vars->next;
@@ -547,7 +547,7 @@ GWBR_Result gwbh_LineInput(GWBE_Environment *env, GWBN_LineInput* node) {
 	GWBR_Result result;
 
 	/* "LineInput" handler implementation */
-	gwbo_DisplayMessage(env,"In \"LineInput\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"LineInput\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -557,7 +557,7 @@ GWBR_Result gwbh_Locate(GWBE_Environment *env, GWBN_Locate* node) {
 	GWBR_Result result;
 
 	/* "Locate" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Locate\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Locate\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -567,7 +567,7 @@ GWBR_Result gwbh_Mid(GWBE_Environment *env, GWBN_Mid* node) {
 	GWBR_Result result;
 
 	/* "Mid" handler implementation */
-	gwbo_DisplayMessage(env,"In \"Mid\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"Mid\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -577,7 +577,7 @@ GWBR_Result gwbh_OnErrorGoto(GWBE_Environment *env, GWBN_OnErrorGoto* node) {
 	GWBR_Result result;
 
 	/* "OnErrorGoto" handler implementation */
-	gwbo_DisplayMessage(env,"In \"OnErrorGoto\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"OnErrorGoto\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -587,7 +587,7 @@ GWBR_Result gwbh_OnGosub(GWBE_Environment *env, GWBN_OnGosub* node) {
 	GWBR_Result result;
 
 	/* "OnGosub" handler implementation */
-	gwbo_DisplayMessage(env,"In \"OnGosub\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"OnGosub\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -597,7 +597,7 @@ GWBR_Result gwbh_OnGoto(GWBE_Environment *env, GWBN_OnGoto* node) {
 	GWBR_Result result;
 
 	/* "OnGoto" handler implementation */
-	gwbo_DisplayMessage(env,"In \"OnGoto\" Handler"); 
+	gwbo_DisplayDebugMessage(env,"In \"OnGoto\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
