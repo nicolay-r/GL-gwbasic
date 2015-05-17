@@ -20,6 +20,12 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 		case GWBNT_RUN:
 			gwbh_Run(env, node->run);
 			break;
+		case GWBNT_TRON:
+			gwbh_TrOn(env, node->tron);
+			break;
+		case GWBNT_TROFF:
+			gwbh_TrOff(env, node->troff);
+			break;
 	}
 	return result;	 
 }

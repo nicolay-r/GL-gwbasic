@@ -84,6 +84,8 @@
 	GWBN_Command*			command;	
 	GWBN_Run*			run;
 	Auto*				_auto;
+	GWBN_TrOn*			tron;
+	GWBN_TrOff*			troff;
 
 	/* Statements */
 	GWBN_Statements*		statements;
@@ -158,6 +160,8 @@
 */
 %type <_auto> Auto
 %type <run> Run
+%type <tron> TrOn
+%type <troff> TrOff
 
 /*
 	Statements
@@ -297,8 +301,8 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| Load					{ printf("LOAD %s\n", ne); }
 	| MkDir					{ printf("MKDIR %s\n", ne); }
 	| Name					{ printf("NAME %s\n", ne); }
-	| TrOn					{ printf("TRON %s\n", ne); }
-	| TrOff					{ printf("TROFF %s\n", ne); }
+	| TrOn					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TRON; $$->tron = $1; }
+	| TrOff					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TROFF; $$->troff = $1; }
 
 Statements: Statement ':' Statements		{
 							$$ = gwbn_NewStatements();
@@ -367,8 +371,8 @@ Load:	LOAD FileName ',' LoadOption
 	| LOAD FileName
 MkDir: 	MKDIR PathName
 Name:	NAME OldFileName AS NewFileName
-TrOn:	TRON
-TrOff:	TROFF
+TrOn:	TRON									{ $$ = gwbn_NewTrOn(); }
+TrOff:	TROFF									{ $$ = gwbn_NewTrOff(); }
 
 Beep:	BEEP
 Call:	CALL '('  Variables ')'

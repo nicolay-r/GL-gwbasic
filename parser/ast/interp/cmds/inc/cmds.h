@@ -35,6 +35,8 @@ struct GWBN_Command {
 	union {
 		Auto* _auto;				
 		GWBN_Run* run;
+		GWBN_TrOn* tron;
+		GWBN_TrOff* troff;
 	};
 };
 struct GWBN_Run {
