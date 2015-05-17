@@ -13,7 +13,8 @@ typedef struct GWBC_Value GWBC_Value;
 typedef struct GWBC_ArrayDimension GWBC_ArrayDimension;    
 typedef struct GWBC_Array GWBC_Array;
 typedef struct GWBC_Variable GWBC_Variable;
-
+typedef struct GWBC_Line GWBC_Line;
+typedef struct GWBC_DisplayPoint GWBC_DisplayPoint;
 /*
 	Variable ListNode
 */
@@ -72,6 +73,21 @@ struct GWBC_Value{
 		double double_val;	/* double prec */	
 		char* str_val;		/* string */
 	};
+};
+
+/*
+	Display Point 
+*/
+struct GWBC_DisplayPoint{
+	int x, y;
+};
+
+/*
+	Line
+*/
+struct GWBC_Line{
+	GWBC_DisplayPoint a, b;
+	GWBC_Value color;
 };
 
 /*

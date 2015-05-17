@@ -226,14 +226,50 @@ GWBR_Result gwbh_Screen(GWBE_Environment *env, GWBN_Screen* node) {
 	
 GWBR_Result gwbh_Line(GWBE_Environment *env, GWBN_Line* node) {
 	GWBR_Result result;
-
+	result.type = GWBR_RESULT_OK;
+	
 	assert(env != NULL);
 	assert(node != NULL);
-
+	assert(node->coord_b != NULL);
+	assert(node->opts != NULL);
+	assert(node->opts->color != NULL);
 	gwbo_DisplayDebugMessage(env,"In \"Line\" Handler"); 
-	gwbo_DisplayLine(env, node);
+	
+	GWBC_Value val;
 
-	result.type = GWBR_RESULT_OK;
+	int type_mismatch = 0;
+
+	GWBC_Line line;
+	if (node->coord_a != NULL)
+	{
+		val = gwbr_EvaluateNumericExpression(env, node->coord_a->x).val;
+		if (val.type == GWBCT_INTEGER) line.a.x = val.int_val;
+		else type_mismatch = 1;
+
+		val = gwbr_EvaluateNumericExpression(env, node->coord_a->y).val;
+		if (val.type == GWBCT_INTEGER) line.a.y = val.int_val;
+		else type_mismatch = 1;
+	}
+	else 
+	{
+		line.a.x = 0;
+		line.b.y = 0;
+	}
+
+	val = gwbr_EvaluateNumericExpression(env, node->coord_b->x).val;
+	if (val.type == GWBCT_INTEGER) line.b.x = val.int_val;
+	else type_mismatch = 1;
+
+	val = gwbr_EvaluateNumericExpression(env, node->coord_b->y).val;
+	if (val.type == GWBCT_INTEGER) line.b.y = val.int_val;
+	else type_mismatch = 1;
+
+	line.color = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
+
+	gwbo_DisplayLine(env, line);
+	
+	if (type_mismatch)
+		result.type = GWBR_ERROR_TYPEMISMATCH;
 	return result;	 
 } 
 	
