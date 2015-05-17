@@ -76,15 +76,19 @@ void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)
 
 	int x = text_buffer->cursor->x;
 	int y = text_buffer->cursor->y;
-	text_buffer->text_field[x][y] = c;
 	
 	/* изменение координат каретки */
 	if (y < text_buffer->width - 1)
 	{
+		text_buffer->text_field[x][y] = c;
 		/* смещение по строке вправо */
 		text_buffer->cursor->y++;
 	}
-	else gwbg_TextBuffer_CursorNextLine(text_buffer); 
+	else 
+	{
+		gwbg_TextBuffer_CursorNextLine(text_buffer);
+		text_buffer->text_field[x][y] = c;
+	}
 }
 
 void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer)
