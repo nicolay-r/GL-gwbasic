@@ -30,9 +30,11 @@ void gwbg_Ide_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
 	for (i = 0; i < height; i++)
 	{
 		text_buffer->text_field[i] = calloc(width, sizeof(char));
+		/*
 		int j;
 		for (j = 0; j < width; j++)
 			text_buffer->text_field[i][j] = '*' + i ;
+		*/
 	}
 	text_buffer->width = width;
 	text_buffer->height = height;
