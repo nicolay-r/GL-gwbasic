@@ -483,17 +483,15 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	
 	assert(env != NULL);
 	assert(node != NULL);	
-	
-	int prompt_exists = 0;	
+
+	/* Вывод текстового сообщения */
 	if (node->prompt != NULL)
 	{
-		if (node->prompt->str != NULL)
-		{
-			printf("%s\n", node->prompt->str);
-		}
-		prompt_exists = 1;
+		if (node->prompt->str != NULL) printf("%s\n", node->prompt->str);
+		else printf("? \n");
 	}
-
+	else printf("? \n");
+	
 	if (node->vars != NULL)
 	{
 		assert(node->vars != NULL);
@@ -508,7 +506,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 				case GWBNT_STRINGVARIABLE:
 				{
 					runtime_var = gwbe_Context_GetVariable(env, vars->var->str->name);
-					if (!prompt_exists) gwbo_DisplayMessage(env,"? ");
 					gwbi_GetString(env);
 					runtime_var->val->str_val = strdup(env->input->buffer);
 					break;
