@@ -8,7 +8,7 @@
 
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 {
-	printf("%s", msg);	
+	printf("%s\n", msg);
 }
 
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)

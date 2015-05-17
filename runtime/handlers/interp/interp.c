@@ -14,7 +14,7 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 	GWBR_Result result;	
 	result.type = GWBR_RESULT_OK;
 	
-	gwbo_DisplayMessage(env, "In \"Interprer\" Handler\n");
+	gwbo_DisplayMessage(env, "In \"Interprer\" Handler");
 	
 	assert(env != NULL);
 	assert(node != NULL);
@@ -35,7 +35,7 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
-	gwbo_DisplayMessage(env, "In \"DirectMode\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"DirectMode\" Handler"); 
 	
 	assert(node != NULL);
 
@@ -61,7 +61,7 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
-	gwbo_DisplayMessage(env, "In \"IndirectMode\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"IndirectMode\" Handler"); 
 		
 	assert(env->program != NULL);
 	assert(env->program->lines != NULL);

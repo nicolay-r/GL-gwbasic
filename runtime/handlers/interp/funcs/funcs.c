@@ -16,7 +16,7 @@ GWBR_Result gwbh_Function(GWBE_Environment *env, GWBN_Function* node) {
 	assert(node != NULL);
 	assert(node->math_func != NULL);
 
-	gwbo_DisplayMessage(env, "In \"Function\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Function\" Handler"); 
 	
 	GWBR_ExpressionResult expr_result;
 	switch (node->type)

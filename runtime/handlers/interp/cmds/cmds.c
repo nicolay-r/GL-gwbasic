@@ -8,7 +8,7 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 	GWBR_Result result;	
 	result.type = GWBR_RESULT_OK;
 
-	gwbo_DisplayMessage(env, "In \"Command\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Command\" Handler"); 
 
 	assert(node != NULL);
 	
@@ -26,7 +26,7 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 
 GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	GWBR_Result result;
-	gwbo_DisplayMessage(env, "In \"Run\" Handler\n"); 	
+	gwbo_DisplayMessage(env, "In \"Run\" Handler"); 	
 	result.type = GWBR_RESULT_OK;
 	
 	assert(node != NULL);
@@ -57,7 +57,7 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node) {
 	GWBR_Result result;
-	gwbo_DisplayMessage(env, "In \"System\" Handler\n"); 	
+	gwbo_DisplayMessage(env, "In \"System\" Handler"); 	
 	result.type = GWBR_RESULT_OK;
 
 	gwbr_TerminateShell(env);
@@ -69,7 +69,7 @@ GWBR_Result gwbh_Auto(GWBE_Environment *env, GWBN_Auto* node) {
 	GWBR_Result result;
 
 	/* "Auto" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Auto\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Auto\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -79,7 +79,7 @@ GWBR_Result gwbh_BLoad(GWBE_Environment *env, GWBN_BLoad* node) {
 	GWBR_Result result;
 
 	/* "BLoad" handler implementation */
-	gwbo_DisplayMessage(env, "In \"BLoad\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"BLoad\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -89,7 +89,7 @@ GWBR_Result gwbh_BSave(GWBE_Environment *env, GWBN_BSave* node) {
 	GWBR_Result result;
 
 	/* "BSave" handler implementation */
-	gwbo_DisplayMessage(env, "In \"BSave\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"BSave\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -99,7 +99,7 @@ GWBR_Result gwbh_Merge(GWBE_Environment *env, GWBN_Merge* node) {
 	GWBR_Result result;
 
 	/* "Merge" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Merge\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Merge\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -109,7 +109,7 @@ GWBR_Result gwbh_ChDir(GWBE_Environment *env, GWBN_ChDir* node) {
 	GWBR_Result result;
 
 	/* "ChDir" handler implementation */
-	gwbo_DisplayMessage(env, "In \"ChDir\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"ChDir\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -119,7 +119,7 @@ GWBR_Result gwbh_Clear(GWBE_Environment *env, GWBN_Clear* node) {
 	GWBR_Result result;
 
 	/* "Clear" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Clear\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Clear\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -129,7 +129,7 @@ GWBR_Result gwbh_Cont(GWBE_Environment *env, GWBN_Cont* node) {
 	GWBR_Result result;
 
 	/* "Cont" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Cont\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Cont\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -139,7 +139,7 @@ GWBR_Result gwbh_Delete(GWBE_Environment *env, GWBN_Delete* node) {
 	GWBR_Result result;
 
 	/* "Delete" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Delete\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Delete\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -149,7 +149,7 @@ GWBR_Result gwbh_Edit(GWBE_Environment *env, GWBN_Edit* node) {
 	GWBR_Result result;
 
 	/* "Edit" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Edit\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Edit\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -159,7 +159,7 @@ GWBR_Result gwbh_Files(GWBE_Environment *env, GWBN_Files* node) {
 	GWBR_Result result;
 
 	/* "Files" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Files\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Files\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -169,7 +169,7 @@ GWBR_Result gwbh_Kill(GWBE_Environment *env, GWBN_Kill* node) {
 	GWBR_Result result;
 
 	/* "Kill" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Kill\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Kill\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -179,7 +179,7 @@ GWBR_Result gwbh_List(GWBE_Environment *env, GWBN_List* node) {
 	GWBR_Result result;
 
 	/* "List" handler implementation */
-	gwbo_DisplayMessage(env, "In \"List\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"List\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -189,7 +189,7 @@ GWBR_Result gwbh_LList(GWBE_Environment *env, GWBN_LList* node) {
 	GWBR_Result result;
 
 	/* "LList" handler implementation */
-	gwbo_DisplayMessage(env, "In \"LList\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"LList\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -199,7 +199,7 @@ GWBR_Result gwbh_Load(GWBE_Environment *env, GWBN_Load* node) {
 	GWBR_Result result;
 
 	/* "Load" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Load\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Load\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -209,7 +209,7 @@ GWBR_Result gwbh_MkDir(GWBE_Environment *env, GWBN_MkDir* node) {
 	GWBR_Result result;
 
 	/* "MkDir" handler implementation */
-	gwbo_DisplayMessage(env, "In \"MkDir\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"MkDir\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -219,7 +219,7 @@ GWBR_Result gwbh_Name(GWBE_Environment *env, GWBN_Name* node) {
 	GWBR_Result result;
 
 	/* "Name" handler implementation */
-	gwbo_DisplayMessage(env, "In \"Name\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"Name\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -229,7 +229,7 @@ GWBR_Result gwbh_TrOn(GWBE_Environment *env, GWBN_TrOn* node) {
 	GWBR_Result result;
 
 	/* "TrOn" handler implementation */
-	gwbo_DisplayMessage(env, "In \"TrOn\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"TrOn\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -239,7 +239,7 @@ GWBR_Result gwbh_TrOff(GWBE_Environment *env, GWBN_TrOff* node) {
 	GWBR_Result result;
 
 	/* "TrOff" handler implementation */
-	gwbo_DisplayMessage(env, "In \"TrOff\" Handler\n"); 
+	gwbo_DisplayMessage(env, "In \"TrOff\" Handler"); 
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 

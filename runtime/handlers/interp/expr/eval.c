@@ -283,7 +283,7 @@ GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment *env, GWB
 			break;
 		case GWBNT_STRINGFUNCTION:
 			/* Not Implemented */
-			gwbo_DisplayMessage(env, "String functional Operator not implemented\n");
+			gwbo_DisplayMessage(env, "String functional Operator not implemented");
 			break;
 	}
 
