@@ -531,14 +531,14 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 
 	assert (node != NULL);
 
-	GWBN_PrintExpressions* print_exprs = node->exprs;
-	
+	GWBN_PrintExpressions* print_exprs = node->exprs;	
 	do
 	{
 		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
-		gwbo_DisplayCoreValue(env, &expr_res.val);	
+		gwbo_DisplayCoreValue(env, &expr_res.val);
+		print_exprs = print_exprs->next;
 	}
-	while (print_exprs->next != NULL);
+	while (print_exprs != NULL);
 	
 	return result;	 
 } 
