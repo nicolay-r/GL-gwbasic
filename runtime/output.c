@@ -63,3 +63,10 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 			break;
 	}
 }
+
+
+void gwbo_DisplayLine(GWBE_Environment* env, GWBN_Line* line)
+{
+	/* Does not supported */
+	gwbo_DisplayMessage(env, "Terimal doesn't support graphics.");	
+}

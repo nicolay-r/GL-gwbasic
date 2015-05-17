@@ -8,8 +8,12 @@
 /*
 	Prototypes
 */
+/* Text */
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result);
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result);
+
+/* Graphical Object */
+void gwbo_DisplayLine(GWBE_Environment* env, GWBN_Line* line);
 
 #endif

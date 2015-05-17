@@ -57,6 +57,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_INPUT:
 				result = gwbh_Input(env, node->input);
 				return result;
+			case GWBNT_LINE:
+				result = gwbh_Line(env, node->line);
+				return result;
 		}
 	}
 	/*
@@ -224,8 +227,11 @@ GWBR_Result gwbh_Screen(GWBE_Environment *env, GWBN_Screen* node) {
 GWBR_Result gwbh_Line(GWBE_Environment *env, GWBN_Line* node) {
 	GWBR_Result result;
 
-	/* "Line" handler implementation */
+	assert(env != NULL);
+	assert(node != NULL);
+
 	gwbo_DisplayDebugMessage(env,"In \"Line\" Handler"); 
+	gwbo_DisplayLine(env, node);
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
