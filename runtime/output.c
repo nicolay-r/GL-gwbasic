@@ -11,6 +11,17 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	printf("%s\n", msg);
 }
 
+void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
+{
+	assert(env != NULL);
+	assert(msg != NULL);
+
+	if (env->trace_mode)
+	{
+		printf("%s\n", msg);
+	}
+}	
+
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 {
 	assert(env != NULL);

@@ -227,9 +227,10 @@ GWBR_Result gwbh_Name(GWBE_Environment *env, GWBN_Name* node) {
 	
 GWBR_Result gwbh_TrOn(GWBE_Environment *env, GWBN_TrOn* node) {
 	GWBR_Result result;
-
-	/* "TrOn" handler implementation */
+	
+	assert(env != NULL);
 	gwbo_DisplayMessage(env, "In \"TrOn\" Handler"); 
+	env->trace_mode = 1;
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
@@ -238,8 +239,9 @@ GWBR_Result gwbh_TrOn(GWBE_Environment *env, GWBN_TrOn* node) {
 GWBR_Result gwbh_TrOff(GWBE_Environment *env, GWBN_TrOff* node) {
 	GWBR_Result result;
 
-	/* "TrOff" handler implementation */
+	assert(env != NULL);
 	gwbo_DisplayMessage(env, "In \"TrOff\" Handler"); 
+	env->trace_mode = 0;
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
