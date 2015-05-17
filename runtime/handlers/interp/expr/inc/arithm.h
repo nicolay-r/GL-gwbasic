@@ -9,5 +9,6 @@ GWBR_ExpressionResult gwbr_EvaluateAdd(GWBR_ExpressionResult a, GWBR_ExpressionR
 GWBR_ExpressionResult gwbr_EvaluateSub(GWBR_ExpressionResult a, GWBR_ExpressionResult b);
 GWBR_ExpressionResult gwbr_EvaluateMul(GWBR_ExpressionResult a, GWBR_ExpressionResult b);
 GWBR_ExpressionResult gwbr_EvaluateDiv(GWBR_ExpressionResult a, GWBR_ExpressionResult b);
+GWBR_ExpressionResult gwbr_EvaluatePow(GWBR_ExpressionResult a, GWBR_ExpressionResult b);
 
 #endif

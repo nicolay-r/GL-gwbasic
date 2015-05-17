@@ -125,7 +125,7 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 		{
 			GWBR_ExpressionResult a = gwbr_EvaluateNumericTerm(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->b);
-			
+			result = gwbr_EvaluatePow(a, b);
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
