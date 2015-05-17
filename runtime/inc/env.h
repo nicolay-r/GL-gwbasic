@@ -26,6 +26,7 @@ typedef struct GWBE_Input GWBE_Input;
 */
 struct GWBE_Environment {
 	char* line_buffer;
+	int line_buffer_len;
 	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
 	struct GWBE_FunctionListNode* udef_funcs;
