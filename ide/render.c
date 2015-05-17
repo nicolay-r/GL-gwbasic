@@ -5,18 +5,19 @@
 #include <assert.h>
 #include <stdio.h>
 
-void gwbg_SetTextLinePosition(int x, int y)
+/*
+	Main Rendering Function
+*/
+void gwbg_Ide_Render(void)
 {
-	glRasterPos2i(x, y);
-}
-void gwbg_RenderTextLine(char c)
-{
-	void* font = GLUT_BITMAP_9_BY_15;
-	glutBitmapCharacter(font, c);
-}
-
-void gwbg_Ide_Render(GWBG_Ide* ide)
-{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//draw a line
+	
+	/*glBegin(GL_LINES);
+		glVertex2i(10,10);
+		glVertex2i(100,100);
+	glEnd();
+	*/
 	assert(ide != NULL);
 
 	glMatrixMode(GL_PROJECTION);
@@ -45,6 +46,18 @@ void gwbg_Ide_Render(GWBG_Ide* ide)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
+        glutSwapBuffers();
+}
+
+void gwbg_SetTextLinePosition(int x, int y)
+{
+	glRasterPos2i(x, y);
+}
+
+void gwbg_RenderTextLine(char c)
+{
+	void* font = GLUT_BITMAP_9_BY_15;
+	glutBitmapCharacter(font, c);
 }
 
 void gwbg_TextBuffer_Render(

@@ -10,6 +10,11 @@ typedef struct GWBG_Ide GWBG_Ide;
 typedef struct GWBG_TextBuffer GWBG_TextBuffer;
 
 /*
+	Global Variables
+*/
+GWBG_Ide* ide;
+
+/*
 	Structures
 */
 struct GWBG_Ide

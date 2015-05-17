@@ -4,23 +4,8 @@
 #include <stdio.h>
 
 #include "inc/ide.h"
+#include "inc/render.h"
 
-GWBG_Ide* ide;
-
-void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//draw a line
-	
-	/*glBegin(GL_LINES);
-		glVertex2i(10,10);
-		glVertex2i(100,100);
-	glEnd();
-	*/
-	gwbg_Ide_Render(ide);
-
-        glutSwapBuffers();
-}
 void changeSize(int w, int h) {
 
 	// Prevent a divide by zero, when window is too short
@@ -91,7 +76,7 @@ GWBG_Ide* GWBG_CreateIde()
 	glutCreateWindow("GWBasic interpreter");
 	
 	// register callbacks
-	glutDisplayFunc(renderScene);
+	glutDisplayFunc(gwbg_Ide_Render);
 	glutReshapeFunc(fixedSize);
 	glutKeyboardFunc(processNormalKeys);
 	
