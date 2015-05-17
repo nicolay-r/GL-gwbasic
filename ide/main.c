@@ -49,6 +49,7 @@ void fixedSize(int w, int h)
 	// we ignore the params and do:
 	glutReshapeWindow(ide->width, ide->height);
 }
+
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -59,7 +60,13 @@ void processNormalKeys(unsigned char key, int x, int y)
 			break;
 		case 13: /* Enter */
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
+			gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			/* Run user request */
+			GWBN_Interpreter* interpreter = gwbp_Parse(ide->env->line_buffer);
+			if (interpreter != NULL)
+			{
+				gwbh_Interpreter(ide->env, interpreter);
+			}
 			/* Clear user request*/
 			gwbg_Environment_ClearRequest(ide->env);
 			break;
@@ -68,7 +75,6 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_Environment_PushCharToRequest(ide->env, key);
 			break;
 	}
-	//printf("%d\n", key);
 }
 
 GWBG_Ide* GWBG_CreateIde()
@@ -76,7 +82,7 @@ GWBG_Ide* GWBG_CreateIde()
 	GWBG_Ide* ide = gwbg_NewIde();
 	gwbg_Ide_CreateTextBuffer(ide, 20, 40);
 
-	GWBE_Environment* env = gwbe_NewEnvironment();
+	ide->env = gwbe_NewEnvironment();
 
 	// setup graphics window
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);

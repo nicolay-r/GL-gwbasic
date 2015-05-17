@@ -6,8 +6,9 @@
 #include <string.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-/* Display */
+/* Ide */
 GWBG_Ide* gwbg_NewIde()
 {
 	GWBG_Ide* ide = malloc(sizeof(GWBG_Ide));
@@ -132,13 +133,26 @@ void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 }
 void gwbg_Environment_ClearRequest(GWBE_Environment* env)
 {
-	/* Удаление запроса */
+	assert(env != NULL);
+
+	env->line_buffer_len = 0;
+	env->line_buffer[0] = 0;
 }
 void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c)
 {
-	/* Добавление символа */
+	assert(env != NULL);
+
+	env->line_buffer[env->line_buffer_len] = c;
+	env->line_buffer_len++;
+	env->line_buffer[env->line_buffer_len] = 0;
 }
 void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env)
 {
-	/* Удаление символа */
+	assert(env != NULL);
+
+	if (env->line_buffer_len > 0)
+	{
+		env->line_buffer_len--;
+		env->line_buffer[env->line_buffer_len] = 0;
+	}
 }
