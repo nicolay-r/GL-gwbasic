@@ -130,3 +130,15 @@ void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 		text_buffer->cursor->y = 0;
 	}
 }
+void gwbg_Environment_ClearRequest(GWBE_Environment* env)
+{
+	/* Удаление запроса */
+}
+void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c)
+{
+	/* Добавление символа */
+}
+void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env)
+{
+	/* Удаление символа */
+}

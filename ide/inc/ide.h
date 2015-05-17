@@ -44,4 +44,9 @@ void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c);
 void gwbg_TextBuffer_PopChar(GWBG_TextBuffer* text_buffer);
 void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer);
 
+/* Environment */
+void gwbg_Environment_ClearRequest(GWBE_Environment* env);
+void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c);
+void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env);
+
 #endif

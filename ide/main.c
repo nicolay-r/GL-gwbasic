@@ -55,13 +55,17 @@ void processNormalKeys(unsigned char key, int x, int y)
 	{
 		case 8: /* Backspace */
 			gwbg_TextBuffer_PopChar(ide->text_buffer);
+			gwbg_Environment_PopCharFromRequest(ide->env);
 			break;
 		case 13: /* Enter */
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
-			
+			/* Run user request */
+			/* Clear user request*/
+			gwbg_Environment_ClearRequest(ide->env);
 			break;
 		default:
 			gwbg_TextBuffer_PushChar(ide->text_buffer, key);
+			gwbg_Environment_PushCharToRequest(ide->env, key);
 			break;
 	}
 	//printf("%d\n", key);
