@@ -144,7 +144,7 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			}
 
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
-			gwbo_DisplayCoreValue(env, new_var->val);
+			//gwbo_DisplayCoreValue(env, new_var->val);
 			break;
 		}
 		case GWBNT_ARRAYVARIABLE:
@@ -155,11 +155,9 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	switch (result.type)
 	{	
 		case GWBR_ERROR_TYPEMISMATCH:
-			gwbo_DisplayMessage(env, "Type mismatch");
 			break;
 		case GWBR_RESULT_OK:
 		{
-			gwbo_DisplayMessage(env, "Ok");
 			/*
 				Сохранение значения 
 			*/
@@ -167,7 +165,6 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 				gwbe_Context_AddLocalVariable(env, new_var);
 			else
 			{
-				printf("var exists\n");
 				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
 				if (var->type == GWBCT_VALUE)
 				{

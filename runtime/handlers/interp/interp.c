@@ -51,9 +51,12 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 			result = gwbh_Function(env, node->function);
 			break;
 		default:
-			printf("Undefined type\n");	
+			gwbo_DisplayMessage("Undefined type\n");	
 			break;
 	}
+	
+	gwbo_DisplayResult(env, result);
+
 	return result;
 } 
 	

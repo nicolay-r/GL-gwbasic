@@ -22,6 +22,25 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 	}
 }	
 
+void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
+{
+	assert(env != NULL);
+	
+	switch (result.type)
+	{
+		case GWBR_RESULT_OK:
+			gwbo_DisplayMessage(env, "Ok");
+			break;
+		case GWBR_ERROR_TYPEMISMATCH:
+			gwbo_DisplayMessage(env, "Type Mismatch");
+			break;
+		default:
+			gwbo_DisplayMessage(env, "Uknown Error");
+			break;
+	}
+
+}
+
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 {
 	assert(env != NULL);

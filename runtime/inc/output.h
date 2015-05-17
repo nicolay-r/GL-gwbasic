@@ -10,4 +10,6 @@
 */
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result);
+void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result);
+
 #endif
