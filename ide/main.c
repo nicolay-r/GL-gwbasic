@@ -43,7 +43,7 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_TextBuffer_PopChar(ide->text_buffer);
 			gwbg_Environment_PopCharFromRequest(ide->env);
 			break;
-		case 13: /* Enter */
+		case 13: /* Enter */	
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
 			gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			/* Run user request */

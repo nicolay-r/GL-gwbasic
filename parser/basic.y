@@ -102,6 +102,9 @@
 	GWBN_Else*			_else;	
 	GWBN_For*			_for;
 	GWBN_Next*			next;
+	GWBN_ScreenCoordinate*		scr_coord;
+	GWBN_Line*			line;
+	GWBN_LineOptions*		line_opts;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -184,6 +187,10 @@
 %type <next> Next
 %type <gosub> GoSub
 %type <_return> Return
+%type <scr_coord> ScreenCoordinate
+%type <line> Line
+%type <line_opts> LineOptions
+
 /*
 	Expressions
 */
@@ -325,7 +332,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
 	| Circle				{ printf("CIRCLE %s\n", ne); }
 	| Screen				{ printf("SCREEN %s\n", ne); }
-	| Line					{ printf("LINE %s\n", ne); }
+	| Line					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LINE; $$->line = $1; }
 	| Paint					{ printf("PAINT %s\n", ne); }
 	| Pset					{ printf("PSET %s\n", ne); }
 	| Preset				{ printf("PRESET %s\n", ne); }
@@ -399,12 +406,12 @@ CircleOptions:
 Screen: SCREEN ScreenMode
 ScreenMode: CONST_INTEGER
 
-Line: LINE ScreenCoordinate '-' ScreenCoordinate LineOptions
-	| LINE '-' ScreenCoordinate LineOptions
-LineOptions: 
-	| ',' NumericExpression	/* LineColor */
-	| ',' NumericExpression ',' DECLARATION /* + FillingFormat */
-	| ',' ',' DECLARATION /* FillingFormat */
+Line: LINE ScreenCoordinate '-' ScreenCoordinate LineOptions			{ $$ = gwbn_NewLine(); $$->coord_a = $2; $$->coord_b = $4; $$->opts = $5; }
+	| LINE '-' ScreenCoordinate LineOptions					{ $$ = gwbn_NewLine(); $$->coord_a = NULL; $$->coord_b = $3; $$->opts = $4; }
+LineOptions: 									{ $$ = gwbn_NewLineOptions(); $$->color = NULL; }
+	| ',' NumericExpression	/* LineColor */					{ $$ = gwbn_NewLineOptions(); $$->color = $2; }
+	| ',' NumericExpression ',' DECLARATION /* + FillingFormat */		{ /* Not Supported */ } 
+	| ',' ',' DECLARATION /* FillingFormat */				{ /* Not Supported */ }
 
 Paint: PAINT ScreenCoordinate PaintOptions
 PaintOptions:
@@ -420,7 +427,7 @@ Pset: PSET ScreenCoordinate PsetOption
 PsetOption:
 	| ',' NumericExpression	/* psetColor */
 
-ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'
+ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'		{ $$ = gwbn_NewScreenCoordinate(); $$->x = $2; $$->y = $2; }
 
 Cls: CLS
 

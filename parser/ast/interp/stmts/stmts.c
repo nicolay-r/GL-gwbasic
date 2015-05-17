@@ -95,12 +95,12 @@ void gwbn_DeleteScreen(GWBN_Screen* ptr) {
 	free(ptr);
 }
 	
-GWBN_Line* gwbn_NewLine() {
-	GWBN_Line* result = (GWBN_Line*) malloc (sizeof(GWBN_Line));
+GWBN_ScreenCoordinate* gwbn_NewScreenCoordinate() {
+	GWBN_ScreenCoordinate* result = (GWBN_ScreenCoordinate*) malloc (sizeof(GWBN_ScreenCoordinate));
 	return result;
 } 
 	
-void gwbn_DeleteLine(GWBN_Line* ptr) {
+void gwbn_DeleteScreenCoordinate(GWBN_ScreenCoordinate* ptr) {
 	free(ptr);
 }
 	
