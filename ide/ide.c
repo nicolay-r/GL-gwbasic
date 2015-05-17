@@ -122,14 +122,17 @@ void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 	else
 	{
 		/* Выполняем сдвиг текста */
-		int i, j;
-		free(text_buffer->text_field[0]);
+		int i;
+		char* unused_buffer = text_buffer->text_field[0];
 		for (i = 0; i < text_buffer->height - 1; i++)
 		{
 			text_buffer->text_field[i] = text_buffer->text_field[i+1];
 		}
 
-		text_buffer->text_field[x] = calloc(text_buffer->width, sizeof(char));		
+		text_buffer->text_field[x] = unused_buffer;
+		for (i = 0; i < text_buffer->width; i++)
+			text_buffer->text_field[x][i] = 0;
+
 		text_buffer->cursor->y = 0;
 	}
 }
