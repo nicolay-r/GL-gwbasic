@@ -96,8 +96,8 @@ struct GWBC_Line{
 */
 struct GWBC_Circle{
 	GWBC_DisplayPoint center;
-	GWBC_Value color;
 	GWBC_Value r;
+	GWBC_Value* color;
 };
 
 

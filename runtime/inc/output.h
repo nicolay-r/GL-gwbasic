@@ -15,5 +15,6 @@ void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result);
 
 /* Graphical Object */
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line);
+void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle);
 
 #endif

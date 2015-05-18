@@ -211,16 +211,43 @@ GWBR_Result gwbh_Circle(GWBE_Environment *env, GWBN_Circle* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
-	gwbo_DisplayDebugMessage(env,"In \"Circle\" Handler"); 
+	assert(env != NULL);
+	assert(node != NULL);
+	assert(node->opts != NULL);
 
-	GWBC_Value val;
+	gwbo_DisplayDebugMessage(env,"In \"Circle\" Handler"); 
+	
 	int type_mismatch = 0;
 
 	GWBC_Circle circle;
+	
+	GWBC_Value val;
+	val = gwbr_EvaluateNumericExpression(env, node->coord->x).val;
+	if (val.type == GWBCT_INTEGER) circle.center.x = val.int_val;
+	else type_mismatch = 1;
+	
+	val = gwbr_EvaluateNumericExpression(env, node->coord->y).val;
+	if (val.type == GWBCT_INTEGER) circle.center.y = val.int_val;
+	else type_mismatch = 1;
 
-	/* Circle Implementation*/
-	gwbo_DisplayMessage(env, "Circle is not implemented ");
+	if (node->opts->color != NULL)
+	{
+		circle.color = malloc(sizeof(int));
+		*(circle.color) = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
+	}
+	else circle.color = NULL;
 
+	circle.r = gwbr_EvaluateNumericExpression(env, node->r).val;
+
+	if (!type_mismatch)
+	{
+		gwbo_DisplayCircle(env, circle);
+	}
+	else
+	{
+		result.type = GWBR_ERROR_TYPEMISMATCH;
+		return result;
+	}
 	return result;	 
 } 
 	

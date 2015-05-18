@@ -70,3 +70,9 @@ void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 	/* Does not supported */
 	gwbo_DisplayMessage(env, "Terimal doesn't support graphics.");	
 }
+
+void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
+{
+	/* Circle */
+	gwbo_DisplayMessage(env, "Terminal doesn't support graphics.");
+}
