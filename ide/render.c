@@ -38,8 +38,6 @@ void gwbg_Ide_Render(void)
 	lu_offset.y = ide->height - 20;	
 	gwbg_TextBuffer_Render(ide->text_buffer, lu_offset); 
 
-	gwbg_TextBuffer_MarkCursorPosition(ide->text_buffer);
-
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 
@@ -80,6 +78,7 @@ void gwbg_TextBuffer_Render(
 		
 		lu_corner.y -= 10;
 	}
+	gwbg_TextBuffer_MarkCursorPosition(text_buffer);
 }
 
 
