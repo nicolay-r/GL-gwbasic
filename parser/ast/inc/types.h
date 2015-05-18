@@ -25,6 +25,7 @@
 #define GWBNT_FOR			1107
 #define GWBNT_NEXT			1108
 #define GWBNT_LINE			1109
+#define GWBNT_CIRCLE			1110
 
 /*
 	Variables

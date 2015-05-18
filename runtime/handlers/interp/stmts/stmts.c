@@ -60,6 +60,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_LINE:
 				result = gwbh_Line(env, node->line);
 				return result;
+			case GWBNT_CIRCLE:
+				result = gwbh_Circle(env, node->circle);
+				return result;
 		}
 	}
 	/*
@@ -206,11 +209,18 @@ GWBR_Result gwbh_DefFn(GWBE_Environment *env, GWBN_DefFn* node) {
 	
 GWBR_Result gwbh_Circle(GWBE_Environment *env, GWBN_Circle* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
 
-	/* "Circle" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"Circle\" Handler"); 
 
-	result.type = GWBR_RESULT_OK;
+	GWBC_Value val;
+	int type_mismatch = 0;
+
+	GWBC_Circle circle;
+
+	/* Circle Implementation*/
+	gwbo_DisplayMessage(env, "Circle is not implemented ");
+
 	return result;	 
 } 
 	

@@ -333,7 +333,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Let					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LET; $$->let = $1; }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
-	| Circle				{ printf("CIRCLE %s\n", ne); }
+	| Circle				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_CIRCLE; $$->circle = $1; }
 	| Screen				{ printf("SCREEN %s\n", ne); }
 	| Line					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LINE; $$->line = $1; }
 	| Paint					{ printf("PAINT %s\n", ne); }
@@ -394,8 +394,8 @@ DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 
 Circle:	CIRCLE ScreenCoordinate NumericExpression CircleOptions /* Radius */ 	{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $3; $$->opts = $4; } 
-CircleOptions: 															{ $$->color = NULL; }
-	| ',' NumericExpression /* Color */											{ $$->color = $2; }
+CircleOptions: 									{ $$ = gwbn_NewCircleOptions(); $$->color = NULL; }
+	| ',' NumericExpression /* Color */					{ $$ = gwbn_NewCircleOptions(); $$->color = $2; }
 	| ',' NumericExpression ',' NumericExpression /* Color, Start */							{ /* Not implemented */ }
 	| ',' ',' NumericExpression /* Start */											{ /* Not implemented */ }
 	| ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End */				{ /* Not implemented */ }

@@ -13,6 +13,7 @@ typedef struct GWBC_Value GWBC_Value;
 typedef struct GWBC_ArrayDimension GWBC_ArrayDimension;    
 typedef struct GWBC_Array GWBC_Array;
 typedef struct GWBC_Variable GWBC_Variable;
+typedef struct GWBC_Circle GWBC_Circle;
 typedef struct GWBC_Line GWBC_Line;
 typedef struct GWBC_DisplayPoint GWBC_DisplayPoint;
 /*
@@ -89,6 +90,16 @@ struct GWBC_Line{
 	GWBC_DisplayPoint a, b;
 	GWBC_Value color;
 };
+
+/*
+	Circle
+*/
+struct GWBC_Circle{
+	GWBC_DisplayPoint center;
+	GWBC_Value color;
+	GWBC_Value r;
+};
+
 
 /*
 	Functions
