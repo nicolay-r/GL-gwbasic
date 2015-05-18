@@ -6,6 +6,7 @@
 #include "inc/ide.h"
 #include "inc/render.h"
 
+GLubyte *data;
 void changeSize(int w, int h) {
 
 	// Prevent a divide by zero, when window is too short
@@ -34,7 +35,17 @@ void fixedSize(int w, int h)
 	// we ignore the params and do:
 	glutReshapeWindow(ide->width, ide->height);
 }
-
+void SetData(GLubyte *data)
+{
+	int i, j;
+	for (i = 0; i < ide->height; i++)
+	{
+		for (j = 0; j < ide->width*3; j++)
+		{
+			data[i*ide->width*3 + j] = 116;
+		}
+	}
+}
 void processNormalKeys(unsigned char key, int x, int y)
 {
 	switch (key)
@@ -44,6 +55,7 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_Environment_PopCharFromRequest(ide->env);
 			break;
 		case 13: /* Enter */	
+			//glReadPixels(0, 0, ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, data);
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
 			gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			/* Run user request */
@@ -56,6 +68,7 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_Environment_ClearRequest(ide->env);
 			break;
 		default:
+			//SetData(data);
 			gwbg_TextBuffer_PushChar(ide->text_buffer, key);
 			gwbg_Environment_PushCharToRequest(ide->env, key);
 			break;
@@ -80,6 +93,8 @@ GWBG_Ide* GWBG_CreateIde()
 	glutReshapeFunc(fixedSize);
 	glutKeyboardFunc(processNormalKeys);
 	
+	data = malloc(3 * ide->width * ide->height);
+
 	return ide;	
 }
 void GWBG_RunIde()
@@ -89,6 +104,7 @@ void GWBG_RunIde()
 }
 int main(int argc, char **argv) 
 {
+	
 	GWBE_Environment* env;
 	
 	// init GLUT and create Window

@@ -5,19 +5,13 @@
 #include <assert.h>
 #include <stdio.h>
 
+extern GLubyte *data;
 /*
 	Main Rendering Function
 */
 void gwbg_Ide_Render(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//draw a line
-	
-	/*glBegin(GL_LINES);
-		glVertex2i(10,10);
-		glVertex2i(100,100);
-	glEnd();
-	*/
 	assert(ide != NULL);
 
 	glMatrixMode(GL_PROJECTION);
@@ -25,10 +19,14 @@ void gwbg_Ide_Render(void)
 	glLoadIdentity();
 	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
+	glRasterPos2i(0, 0);
+	glDrawPixels(ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, data);
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 
+	
 	// Green color
 	glColor3f(0.0, 1.0, 0.0); 
 		
@@ -44,7 +42,8 @@ void gwbg_Ide_Render(void)
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
-        glutSwapBuffers();
+        
+	glutSwapBuffers();
 }
 
 void gwbg_SetTextLinePosition(int x, int y)
