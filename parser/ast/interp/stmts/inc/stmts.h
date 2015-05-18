@@ -18,7 +18,6 @@ typedef struct GWBN_Let GWBN_Let;
 typedef struct GWBN_OptionBase GWBN_OptionBase;
 typedef struct GWBN_DefFn GWBN_DefFn;
 typedef struct GWBN_ScreenCoordinate GWBN_ScreenCoordinate;
-typedef struct GWBN_Circle GWBN_Circle;
 typedef struct GWBN_Screen GWBN_Screen;
 typedef struct GWBN_Paint GWBN_Paint;
 typedef struct GWBN_Pset GWBN_Pset;
@@ -45,6 +44,7 @@ typedef struct GWBN_OnGoto GWBN_OnGoto;
 #include "input.h"
 #include "if_then_else.h"
 #include "line.h"
+#include "circle.h"
 
 /*
 	Statements
@@ -102,9 +102,7 @@ struct GWBN_DefFn {
 struct GWBN_ScreenCoordinate {
 	GWBN_NumericExpression *x, *y;	
 };
-struct GWBN_Circle {
-	/* Not Implemented */
-};
+
 struct GWBN_Screen {
 	/* Not Implemented */
 };
@@ -182,8 +180,6 @@ GWBN_OptionBase* gwbn_NewOptionBase();
 void gwbn_DeleteOptionBase(GWBN_OptionBase* ptr);
 GWBN_DefFn* gwbn_NewDefFn();
 void gwbn_DeleteDefFn(GWBN_DefFn* ptr);
-GWBN_Circle* gwbn_NewCircle();
-void gwbn_DeleteCircle(GWBN_Circle* ptr);
 GWBN_Screen* gwbn_NewScreen();
 void gwbn_DeleteScreen(GWBN_Screen* ptr);
 GWBN_ScreenCoordinate* gwbn_NewScreenCoordinate();

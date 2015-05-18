@@ -77,15 +77,6 @@ void gwbn_DeleteDefFn(GWBN_DefFn* ptr) {
 	free(ptr);
 }
 	
-GWBN_Circle* gwbn_NewCircle() {
-	GWBN_Circle* result = (GWBN_Circle*) malloc (sizeof(GWBN_Circle));
-	return result;
-} 
-	
-void gwbn_DeleteCircle(GWBN_Circle* ptr) {
-	free(ptr);
-}
-	
 GWBN_Screen* gwbn_NewScreen() {
 	GWBN_Screen* result = (GWBN_Screen*) malloc (sizeof(GWBN_Screen));
 	return result;

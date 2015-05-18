@@ -105,6 +105,8 @@
 	GWBN_ScreenCoordinate*		scr_coord;
 	GWBN_Line*			line;
 	GWBN_LineOptions*		line_opts;
+	GWBN_Circle*			circle;
+	GWBN_CircleOptions*		circle_opts;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -190,7 +192,8 @@
 %type <scr_coord> ScreenCoordinate
 %type <line> Line
 %type <line_opts> LineOptions
-
+%type <circle> Circle
+%type <circle_opts> CircleOptions
 /*
 	Expressions
 */
@@ -390,18 +393,18 @@ Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$-
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 
-Circle:	CIRCLE ScreenCoordinate NumericExpression CircleOptions /* Radius */ 
-CircleOptions: 
-	| ',' NumericExpression /* Color */
-	| ',' NumericExpression ',' NumericExpression /* Color, Start */
-	| ',' ',' NumericExpression /* Start */
-	| ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End */
-	| ',' ',' NumericExpression ',' NumericExpression /* Start, End */
-	| ',' ',' ',' NumericExpression /* End */
-	| ',' NumericExpression ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End, Aspect */
-	| ',' ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Start, End, Aspect */
-	| ',' ',' ',' NumericExpression ',' NumericExpression /* End, Aspect */
-	| ',' ',' ',' ',' NumericExpression /* Aspect */
+Circle:	CIRCLE ScreenCoordinate NumericExpression CircleOptions /* Radius */ 	{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $3; $$->opts = $4; } 
+CircleOptions: 															{ $$->color = NULL; }
+	| ',' NumericExpression /* Color */											{ $$->color = $2; }
+	| ',' NumericExpression ',' NumericExpression /* Color, Start */							{ /* Not implemented */ }
+	| ',' ',' NumericExpression /* Start */											{ /* Not implemented */ }
+	| ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End */				{ /* Not implemented */ }
+	| ',' ',' NumericExpression ',' NumericExpression /* Start, End */							{ /* Not implemented */ }
+	| ',' ',' ',' NumericExpression /* End */										{ /* Not implemented */ }
+	| ',' NumericExpression ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Color, Start, End, Aspect */	{ /* Not implemented */ }
+	| ',' ',' NumericExpression ',' NumericExpression ',' NumericExpression /* Start, End, Aspect */			{ /* Not implemented */ }
+	| ',' ',' ',' NumericExpression ',' NumericExpression /* End, Aspect */							{ /* Not implemented */}
+	| ',' ',' ',' ',' NumericExpression /* Aspect */									{ /* Not implemented */}
 
 Screen: SCREEN ScreenMode
 ScreenMode: CONST_INTEGER
