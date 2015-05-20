@@ -25,6 +25,8 @@ void gwbg_Ide_Render(void)
 
 	glRasterPos2i(0, 0);
 	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
+
+	gwbg_Canvas_RenderObjectsToDraw(ide->canvas);	
 	
 	if (x == 0)
 	{
@@ -109,3 +111,7 @@ void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
 	text_buffer->text_field[x][y] = GWBGS_CURSORMARKER;
 }
 
+void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
+{
+	/* Not implemented */	
+}
