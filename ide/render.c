@@ -8,6 +8,7 @@
 /*
 	Main Rendering Function
 */
+int x = 0;
 void gwbg_Ide_Render(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -24,6 +25,22 @@ void gwbg_Ide_Render(void)
 
 	glRasterPos2i(0, 0);
 	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
+	
+	if (x == 0)
+	{
+		glBegin(GL_LINES);
+			glColor3f(0.0,1.0,0.0);
+			glVertex3f(10.0, 10.0, 0.0);
+			glVertex3f(100.0, 100.0, 0.0);
+		glEnd();
+
+		// Force draw everything before
+		glFlush();
+
+		// save	
+		glReadPixels(0,0, ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
+		x = 1;
+	}
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
