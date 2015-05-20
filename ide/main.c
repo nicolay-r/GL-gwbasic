@@ -79,6 +79,7 @@ GWBG_Ide* GWBG_CreateIde()
 {
 	GWBG_Ide* ide = gwbg_NewIde();
 	gwbg_Ide_CreateTextBuffer(ide, 20, 40);
+	gwbg_Ide_SetCanvas(ide, GL_RGB);
 
 	ide->env = gwbe_NewEnvironment();
 
@@ -92,8 +93,6 @@ GWBG_Ide* GWBG_CreateIde()
 	glutDisplayFunc(gwbg_Ide_Render);
 	glutReshapeFunc(fixedSize);
 	glutKeyboardFunc(processNormalKeys);
-	
-	data = malloc(3 * ide->width * ide->height);
 
 	return ide;	
 }

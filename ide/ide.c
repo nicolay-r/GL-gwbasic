@@ -19,6 +19,34 @@ GWBG_Ide* gwbg_NewIde()
 	return ide;
 }
 
+void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type)
+{
+	int contents = 1;
+	switch(pixel_type) {
+		case GL_BGR:
+		case GL_RGB:
+		    contents = 3; break;
+		case GL_BGRA:
+		case GL_RGBA:
+		    contents = 4; break;
+		case GL_ALPHA:
+		case GL_LUMINANCE:
+		    contents = 1; break;
+	}
+
+	ide->canvas = malloc(sizeof(GWBG_Canvas));
+	ide->canvas->data = calloc(ide->height*ide->width*contents, sizeof(GLubyte));
+	
+	int i, j;
+	for (i = 0; i < ide->height; i++)
+		for (j = 0; j < ide->width*contents; j++)
+			ide->canvas->data[i*ide->width*3 + j] = 30;
+	
+	ide->canvas->pixel_type = pixel_type;
+	ide->canvas->to_draw_count = 0;			
+
+}
+
 void gwbg_Ide_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
 {
 	assert(ide != NULL);

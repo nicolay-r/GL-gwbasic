@@ -5,7 +5,6 @@
 #include <assert.h>
 #include <stdio.h>
 
-extern GLubyte *data;
 /*
 	Main Rendering Function
 */
@@ -20,7 +19,7 @@ void gwbg_Ide_Render(void)
 	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
 	glRasterPos2i(0, 0);
-	glDrawPixels(ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glDrawPixels(ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, ide->canvas->data);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

@@ -5,10 +5,12 @@
 
 #include "core.h"			/* GWBC_DisplayPoint */
 #include "runtime.h"			/* GWBE_Environment */
+#include <GL/glut.h>
 
 typedef struct GWBG_Ide GWBG_Ide;
 typedef struct GWBG_TextBuffer GWBG_TextBuffer;
-
+typedef struct GWBG_Canvas GWBG_Canvas;
+typedef struct GWBG_ObjectsToDraw GWBG_ObjectsToDraw;
 /*
 	Global Variables
 */
@@ -24,6 +26,8 @@ struct GWBG_Ide
 
 	int height, width;		/* размер экрана */
 	char* input_buffer;		/* буфер введенной пользователем строки */
+	
+	GWBG_Canvas* canvas;
 };
 
 struct GWBG_TextBuffer
@@ -33,15 +37,36 @@ struct GWBG_TextBuffer
 	GWBC_DisplayPoint* cursor;	/* координаты курсора */
 };
 
+struct GWBG_ObjectsToDraw
+{
+	int type; /* GWBCT_Line, GWBCT_Circle */
+	union {
+		GWBC_Line line;
+		GWBC_Circle circle;
+	};
+};
+
+struct GWBG_Canvas
+{
+	GWBG_ObjectsToDraw objects[10];
+	int to_draw_count;
+
+	GLubyte *data;			/* Для графики */
+	int pixel_type;			/* GL_RGB, GL_BGR, ... */
+};
+
 /*
 	Prototypes
 */
 
 /* Ide */
 GWBG_Ide* gwbg_NewIde();
+void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type);
 void gwbg_Ide_CreateTextBuffer(GWBG_Ide* ide, int height, int width);
 void gwbg_Ide_DeleteTextBuffer(GWBG_Ide* ide);
-/* Display */
+
+/* Canvas */
+void gwbg_NewCanvas(GWBG_Canvas* canvas);
 
 /* TextBuffer */
 void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string);
