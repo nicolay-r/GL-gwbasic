@@ -11,7 +11,11 @@
 void gwbg_Ide_Render(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	assert(ide != NULL);
+	assert(ide->canvas != NULL);
+	assert(ide->canvas->data != NULL);	
+
 
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -19,7 +23,7 @@ void gwbg_Ide_Render(void)
 	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
 	glRasterPos2i(0, 0);
-	glDrawPixels(ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, ide->canvas->data);
+	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_type, GL_UNSIGNED_BYTE, ide->canvas->data);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

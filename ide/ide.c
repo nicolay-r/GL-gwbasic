@@ -47,7 +47,7 @@ void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type)
 
 }
 
-void gwbg_Ide_CreateTextBuffer(GWBG_Ide* ide, int height, int width)
+void gwbg_Ide_SetTextBuffer(GWBG_Ide* ide, int height, int width)
 {
 	assert(ide != NULL);
 	

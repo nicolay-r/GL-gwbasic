@@ -78,7 +78,7 @@ void processNormalKeys(unsigned char key, int x, int y)
 GWBG_Ide* GWBG_CreateIde()
 {
 	GWBG_Ide* ide = gwbg_NewIde();
-	gwbg_Ide_CreateTextBuffer(ide, 20, 40);
+	gwbg_Ide_SetTextBuffer(ide, 20, 40);
 	gwbg_Ide_SetCanvas(ide, GL_RGB);
 
 	ide->env = gwbe_NewEnvironment();
