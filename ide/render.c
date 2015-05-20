@@ -23,7 +23,7 @@ void gwbg_Ide_Render(void)
 	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
 	glRasterPos2i(0, 0);
-	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_type, GL_UNSIGNED_BYTE, ide->canvas->data);
+	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

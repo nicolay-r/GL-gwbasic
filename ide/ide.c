@@ -19,10 +19,10 @@ GWBG_Ide* gwbg_NewIde()
 	return ide;
 }
 
-void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type)
+void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
 {
 	int contents = 1;
-	switch(pixel_type) {
+	switch(pixel_format) {
 		case GL_BGR:
 		case GL_RGB:
 		    contents = 3; break;
@@ -42,7 +42,8 @@ void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type)
 		for (j = 0; j < ide->width*contents; j++)
 			ide->canvas->data[i*ide->width*3 + j] = 30;
 	
-	ide->canvas->pixel_type = pixel_type;
+	ide->canvas->pixel_format = pixel_format;
+	ide->canvas->pixel_type = GL_UNSIGNED_BYTE;
 	ide->canvas->to_draw_count = 0;			
 
 }

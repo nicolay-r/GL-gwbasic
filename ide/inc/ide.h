@@ -52,7 +52,8 @@ struct GWBG_Canvas
 	int to_draw_count;
 
 	GLubyte *data;			/* Для графики */
-	int pixel_type;			/* GL_RGB, GL_BGR, ... */
+	int pixel_format;		/* GL_RGB, GL_BGR, ... */
+	int pixel_type;			/* GL_UNSIGNED_BYTE */
 };
 
 /*
