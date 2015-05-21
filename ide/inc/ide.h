@@ -63,7 +63,7 @@ struct GWBG_Canvas
 /* Ide */
 GWBG_Ide* gwbg_NewIde();
 void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_type);
-void gwbg_Ide_SetTextBuffer(GWBG_Ide* ide, int height, int width);
+void gwbg_Ide_SetTextBuffer(GWBG_Ide* ide, int rows, int columns);
 void gwbg_Ide_DeleteTextBuffer(GWBG_Ide* ide);
 
 /* TextBuffer */

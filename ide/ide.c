@@ -37,36 +37,38 @@ void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
 	ide->canvas = malloc(sizeof(GWBG_Canvas));
 	ide->canvas->data = calloc(ide->height*ide->width*contents, sizeof(GLubyte));
 	
+	/*
 	int i, j;
 	for (i = 0; i < ide->height; i++)
 		for (j = 0; j < ide->width*contents; j++)
 			ide->canvas->data[i*ide->width*3 + j] = 30;
-	
+	*/
+
 	ide->canvas->pixel_format = pixel_format;
 	ide->canvas->pixel_type = GL_UNSIGNED_BYTE;
 	ide->canvas->to_draw_count = 0;			
 
 }
 
-void gwbg_Ide_SetTextBuffer(GWBG_Ide* ide, int height, int width)
+void gwbg_Ide_SetTextBuffer(GWBG_Ide* ide, int rows, int columns)
 {
 	assert(ide != NULL);
 	
 	GWBG_TextBuffer *text_buffer = malloc(sizeof(GWBG_TextBuffer));
 	
-	text_buffer->text_field = malloc(sizeof(char)*height);
+	text_buffer->text_field = malloc(sizeof(char*)*rows);
 	int i;
-	for (i = 0; i < height; i++)
+	for (i = 0; i < rows; i++)
 	{
-		text_buffer->text_field[i] = calloc(width, sizeof(char));
+		text_buffer->text_field[i] = calloc(columns, sizeof(char));
 		/*
 		int j;
 		for (j = 0; j < width; j++)
 			text_buffer->text_field[i][j] = '*' + i ;
 		*/
 	}
-	text_buffer->width = width;
-	text_buffer->height = height;
+	text_buffer->width = columns;
+	text_buffer->height = rows;
 
 	GWBC_DisplayPoint *cursor = malloc(sizeof(GWBC_DisplayPoint));
 	cursor->x = 0;
