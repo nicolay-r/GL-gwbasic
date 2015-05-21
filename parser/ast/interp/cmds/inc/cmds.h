@@ -38,6 +38,7 @@ struct GWBN_Command {
 		GWBN_TrOn* tron;
 		GWBN_TrOff* troff;
 		GWBN_Load* load;
+		GWBN_List* list;
 	};
 };
 struct GWBN_Run {
@@ -79,7 +80,8 @@ struct GWBN_Kill {
 	/* Not Implemented */
 };
 struct GWBN_List {
-	/* Not Implemented */
+	char* file_name;
+	int line_from, line_to;
 };
 struct GWBN_LList {
 	/* Not Implemented */

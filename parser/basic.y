@@ -87,7 +87,7 @@
 	GWBN_TrOn*			tron;
 	GWBN_TrOff*			troff;
 	GWBN_Load*			load;
-
+	GWBN_List*			list;
 	/* Statements */
 	GWBN_Statements*		statements;
 	GWBN_Statement*			statement;
@@ -169,7 +169,7 @@
 %type <tron> TrOn
 %type <troff> TrOff
 %type <load> Load
-
+%type <list> List
 /*
 	Statements
 */
@@ -243,7 +243,7 @@
 /*
 	Constants
 */
-%type <str> DECLARATION CONST_STRING;
+%type <str> DECLARATION CONST_STRING FileName;
 %type <float_num> CONST_FLOAT;
 %type <num_const> NumericConstant;
 /*
@@ -308,7 +308,7 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| Edit					{ printf("EDIT %s\n", ne); }
 	| Files					{ printf("FILES %s\n", ne); }
 	| Kill					{ printf("KILL %s\n", ne); }
-	| List					{ printf("LIST %s\n", ne); }
+	| List					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LIST; $$->list = $1; } 
 	| LList					{ printf("LLIST %s\n", ne); }
 	| Load					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LOAD; $$->load = $1; } 
 	| MkDir					{ printf("MKDIR %s\n", ne); }
@@ -373,10 +373,10 @@ Edit: 	EDIT LineNumber
 Files:	FILES FilePath
 	| FILES					
 Kill: 	KILL FileName
-List:	LineNumber Dash LineNumber ',' FileName /*{ $$ = gwbn_NewLoad(); $$->line_from = $1; $$->line_to = $3; $$->file_name}*/
-	| LineNumber Dash ',' FileName
-	| LineNumber Dash LineNumber
-	| LineNumber Dash			
+List:	LineNumber Dash LineNumber ',' FileName { $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = $3; $$->file_name = $5; }
+	| LineNumber Dash ',' FileName		{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = -1; $$->file_name = $4; }
+	| LineNumber Dash LineNumber		{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = $3; $$->file_name = NULL; }
+	| LineNumber Dash			{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = -1; $$->file_name = NULL; }
 LList:	LLIST LineNumber Dash LineNumber
 	| LLIST LineNumber Dash
 Load:	LOAD FileName ',' LoadOption		{ $$ = gwbn_NewLoad(); $$->file_path = $2; /* $$->load_options Not Implemented */}
@@ -630,10 +630,10 @@ VariableName: DECLARATION;
 LoadOption: DECLARATION;
 FilePath: CONST_STRING;
 PathName: CONST_STRING;
-FileName: CONST_STRING;
+FileName: CONST_STRING						{ $$ = $1; }
 OldFileName: CONST_STRING;
 NewFileName: CONST_STRING;
-LineNumber: CONST_INTEGER;
+LineNumber: CONST_INTEGER					{ $$ = $1; }
 Increment: CONST_INTEGER;
 Offset: CONST_INTEGER;
 Length: CONST_INTEGER;
