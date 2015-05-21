@@ -373,10 +373,10 @@ Edit: 	EDIT LineNumber
 Files:	FILES FilePath
 	| FILES					
 Kill: 	KILL FileName
-List:	LIST LineNumber Dash LineNumber ',' FileName { $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = $3; $$->file_name = $5; }
-	| LIST LineNumber Dash ',' FileName		{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = -1; $$->file_name = $4; }
-	| LIST LineNumber Dash LineNumber		{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = $3; $$->file_name = NULL; }
-	| LIST LineNumber Dash			{ $$ = gwbn_NewList(); $$->line_from = $1; $$->line_to = -1; $$->file_name = NULL; }
+List:	LIST LineNumber Dash LineNumber ',' FileName { $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = $4; $$->file_name = $6; }
+	| LIST LineNumber Dash ',' FileName		{ $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = -1; $$->file_name = $5; }
+	| LIST LineNumber Dash LineNumber		{ $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = $4; $$->file_name = NULL; }
+	| LIST LineNumber Dash			{ $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = -1; $$->file_name = NULL; }
 LList:	LLIST LineNumber Dash LineNumber
 	| LLIST LineNumber Dash
 Load:	LOAD FileName ',' LoadOption		{ $$ = gwbn_NewLoad(); $$->file_path = $2; /* $$->load_options Not Implemented */}
