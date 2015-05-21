@@ -310,7 +310,10 @@ GWBR_ExpressionResult gwbr_EvaluateStringOperator(GWBE_Environment* env, GWBN_St
 			GWBR_ExpressionResult a = gwbr_EvaluateStringTerm(env, node->a);
 			GWBR_ExpressionResult b = gwbr_EvaluateStringOperator(env, node->b);
 			result.val.type = GWBCT_STRING;
-			result.val.str_val = strcat(a.val.str_val, b.val.str_val);
+
+			result.val.str_val = malloc(sizeof(char)*(strlen(a.val.str_val) + strlen(b.val.str_val)));
+			strcat(result.val.str_val, a.val.str_val);
+			strcat(result.val.str_val, b.val.str_val);
 			break;
 		}
 		case GWBNT_STRINGTERM:
