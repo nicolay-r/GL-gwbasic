@@ -84,7 +84,7 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 {
 	/* Draw line */	
-	gwbo_DisplayMessage(env, "DisplayLine is not implemented");
+	gwbg_Canvas_AddLine(ide->canvas, line);	
 }
 
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)

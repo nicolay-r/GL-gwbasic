@@ -77,4 +77,6 @@ void gwbg_Environment_ClearRequest(GWBE_Environment* env);
 void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c);
 void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env);
 
+/* Canvas */
+void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line);
 #endif

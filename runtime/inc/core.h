@@ -77,6 +77,12 @@ struct GWBC_Value{
 };
 
 /*
+	Graphics and Display Objects
+*/
+#define GWBCT_LINE		101
+#define GWBCT_CIRCLE		102
+
+/*
 	Display Point 
 */
 struct GWBC_DisplayPoint{

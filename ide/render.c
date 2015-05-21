@@ -1,6 +1,8 @@
 /* GWBasic Rendering implementation */
 
 #include "inc/render.h"
+#include "inc/runtime.h"		/* GWBCT_CIRCLE, GWBCT_LINE */
+
 #include <GL/glut.h>
 #include <assert.h>
 #include <stdio.h>
@@ -23,33 +25,21 @@ void gwbg_Ide_Render(void)
 	glLoadIdentity();
 	gluOrtho2D(0.0, ide->width, 0.0, ide->height);
 
+	/* Display current canvas */
 	glRasterPos2i(0, 0);
 	glDrawPixels(ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
-
-	gwbg_Canvas_RenderObjectsToDraw(ide->canvas);	
 	
-	if (x == 0)
-	{
-		glBegin(GL_LINES);
-			glColor3f(0.0,1.0,0.0);
-			glVertex3f(10.0, 10.0, 0.0);
-			glVertex3f(100.0, 100.0, 0.0);
-		glEnd();
-
-		// Force draw everything before
-		glFlush();
-
-		// save	
-		glReadPixels(0,0, ide->width, ide->height, ide->canvas->pixel_format, ide->canvas->pixel_type, ide->canvas->data);
-		x = 1;
-	}
+	/* Green color */
+	glColor3f(0.0, 1.0, 0.0); 
+	
+	/* Draw new objects on canvas */
+	gwbg_Canvas_RenderObjectsToDraw(ide->canvas);	
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-
 	
-	// Green color
+	/* Green color */
 	glColor3f(0.0, 1.0, 0.0); 
 		
 	/* Используется инвертированная система координат */
@@ -113,5 +103,41 @@ void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
 
 void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 {
-	/* Not implemented */	
+	assert(canvas != NULL);	
+	assert(canvas->objects != NULL);
+
+	int i = 0;
+	for (i = 0; i < canvas->to_draw_count; i++)
+	{
+		switch (canvas->objects[i].type)
+		{
+			case GWBCT_LINE:
+			{
+				GWBC_Line line = canvas->objects[i].line; 	
+			
+				printf("coord_a: %d %d\n", line.a.x, line.a.y);
+				printf("coord_b: %d %d\n", line.b.x, line.b.y);
+
+				glBegin(GL_LINES);
+					/* нужно задать цвет! */
+					glVertex2i(line.a.x, line.a.y);
+					glVertex2i(line.b.x, line.b.y);
+				glEnd();
+				break;
+			}
+			case GWBCT_CIRCLE:
+				/* draw circle */
+				break;
+		}
+	}
+
+	/* clears array */
+	canvas->to_draw_count = 0;
+
+	/* Force draw everything before */
+	glFlush();
+
+	/* save	*/
+	glReadPixels(0,0, ide->width, ide->height, ide->canvas->pixel_format, 
+		ide->canvas->pixel_type, ide->canvas->data);
 }

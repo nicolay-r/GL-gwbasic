@@ -194,3 +194,16 @@ void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env)
 		env->line_buffer[env->line_buffer_len] = 0;
 	}
 }
+
+/* Canvas */
+void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line)
+{
+	assert(canvas != NULL);
+
+	int index = canvas->to_draw_count;
+	
+	canvas->objects[index].type = GWBCT_LINE;
+	canvas->objects[index].line = line;
+
+	canvas->to_draw_count++;
+}
