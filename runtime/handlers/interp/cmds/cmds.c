@@ -45,21 +45,20 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	/* Сброс индекса строки программы */
 	env->ctx->current_line = 0;
 	int current_line = env->ctx->current_line;
-	while (current_line < GWBE_PROGRAM_MAXLINES)
+	while (current_line < GWBE_PROGRAM_MAXLINES && result.type == GWBR_RESULT_OK)
 	{
 		assert(env->program != NULL);
 		assert(env->program->lines != NULL);
 		
 		if (env->program->lines[current_line] != NULL)
 		{	/* строка присутствует, поэтому ее нужно обработать */
-			printf("Line %d presented\n", current_line);
-			gwbh_Statements(env, env->program->lines[current_line]->stmts);
+			result = gwbh_Statements(env, env->program->lines[current_line]->stmts);
 		}
 		
-		assert(env->ctx != NULL);
-		
+		/* Переход на следующую строку */	
 		env->ctx->current_line++;
 		current_line = env->ctx->current_line;	
+		gwbo_DisplayResult(env, result);
 	}	
 	
 	return result;	 
