@@ -267,37 +267,16 @@ Interpreter: DirectMode				{
 							*interpreter = $$;								
 							return 0; 
 						}
-IndirectMode: LineNumber Statements		{	printf("-IndirectMode\n");
-							$$ = gwbn_NewIndirectMode();	
-							$$->line_number = $1;
-							$$->statements = $2;
-						}
-DirectMode: Command EOLN			{ 	printf("-DirectMode\n");
-							$$ = gwbn_NewDirectMode();
-							$$->type = GWBNT_COMMAND;
-							$$->command = $1;
-						}
-	| Statements EOLN			{	printf("-Statements\n");
-							$$ = gwbn_NewDirectMode();
-							$$->type = GWBNT_STATEMENTS;
-							$$->statements = $1;
-						}
-	| Function				{ 
-							$$ = gwbn_NewDirectMode();
-							$$->type = GWBNT_FUNCTION;
-							$$->function = $1;
-						}
+
+IndirectMode: LineNumber Statements		{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = $2; }
+
+DirectMode: Command EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_COMMAND; $$->command = $1; }
+	| Statements EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_STATEMENTS; $$->statements = $1; }
+	| Function				{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_FUNCTION; $$->function = $1; }
+
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
-	| System				{
-							$$ = gwbn_NewCommand();
-							$$->type = GWBNT_SYSTEM;
-							/* NULL AST subnode */
-						}
-	| Auto					{ 
-							$$ = gwbn_NewCommand();
-							$$->type = GWBNT_AUTO;
-							$$->_auto = $1;
-						}
+	| System				{ $$ = gwbn_NewCommand(); $$->type = GWBNT_SYSTEM; /* NULL AST subnode */ }
+	| Auto					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_AUTO; $$->_auto = $1; }
 	| BLoad					{ printf("BLOAD %s\n", ne); }
 	| BSave					{ printf("BSAVE %s\n", ne); }
 	| Merge					{ printf("MERGE %s\n", ne); }
@@ -316,22 +295,12 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| TrOn					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TRON; $$->tron = $1; }
 	| TrOff					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TROFF; $$->troff = $1; }
 
-Statements: Statement ':' Statements		{
-							$$ = gwbn_NewStatements();
-							$$->stmt = $1;
-							$$->next = $3;
-						}
-	| Statement				{
-							$$ = gwbn_NewStatements();
-							$$->stmt = $1;
-							$$->next = NULL;
-						}
+Statements: Statement ':' Statements		{ $$ = gwbn_NewStatements(); $$->stmt = $1; $$->next = $3; }
+	| Statement				{ $$ = gwbn_NewStatements(); $$->stmt = $1; $$->next = NULL; }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
-	| Dim					{ 
-							printf("DIM %s\n", ne); 
-						}
+	| Dim					{ printf("DIM %s\n", ne); }
 	| Let					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LET; $$->let = $1; }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
@@ -356,6 +325,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| OnErrorGoto				{ printf("ON ERROR GOTO %s\n", ne); }
 	| OnGosub				{ printf("ON .. GOSUB ..%s\n", ne); }
 	| OnGoto				{ printf("ON .. GOTO .. %s\n", ne); }
+
 Run:	RUN					{ $$ = gwbn_NewRun(); }
 System:	SYSTEM
 Auto:	AUTO LineNumber ',' Increment		{ $$ = gwbn_Auto($2, $4); }
