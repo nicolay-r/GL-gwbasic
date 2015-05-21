@@ -430,7 +430,7 @@ Pset: PSET ScreenCoordinate PsetOption
 PsetOption:
 	| ',' NumericExpression	/* psetColor */
 
-ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'		{ $$ = gwbn_NewScreenCoordinate(); $$->x = $2; $$->y = $2; }
+ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'		{ $$ = gwbn_NewScreenCoordinate(); $$->x = $2; $$->y = $4; }
 
 Cls: CLS
 
