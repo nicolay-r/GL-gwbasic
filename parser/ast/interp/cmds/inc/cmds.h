@@ -37,6 +37,7 @@ struct GWBN_Command {
 		GWBN_Run* run;
 		GWBN_TrOn* tron;
 		GWBN_TrOff* troff;
+		GWBN_Load* load;
 	};
 };
 struct GWBN_Run {
@@ -84,7 +85,7 @@ struct GWBN_LList {
 	/* Not Implemented */
 };
 struct GWBN_Load {
-	/* Not Implemented */
+	char* file_path;
 };
 struct GWBN_MkDir {
 	/* Not Implemented */

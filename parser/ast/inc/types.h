@@ -65,6 +65,7 @@
 #define GWBNT_BLOAD				1704
 #define GWBNT_TRON				1705
 #define GWBNT_TROFF				1706
+#define GWBNT_LOAD				1707
 
 /*
 	Functions

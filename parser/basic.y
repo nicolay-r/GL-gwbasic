@@ -86,6 +86,7 @@
 	Auto*				_auto;
 	GWBN_TrOn*			tron;
 	GWBN_TrOff*			troff;
+	GWBN_Load*			load;
 
 	/* Statements */
 	GWBN_Statements*		statements;
@@ -167,6 +168,7 @@
 %type <run> Run
 %type <tron> TrOn
 %type <troff> TrOff
+%type <load> Load
 
 /*
 	Statements
@@ -308,7 +310,7 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| Kill					{ printf("KILL %s\n", ne); }
 	| List					{ printf("LIST %s\n", ne); }
 	| LList					{ printf("LLIST %s\n", ne); }
-	| Load					{ printf("LOAD %s\n", ne); }
+	| Load					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LOAD; $$->load = $1; } 
 	| MkDir					{ printf("MKDIR %s\n", ne); }
 	| Name					{ printf("NAME %s\n", ne); }
 	| TrOn					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TRON; $$->tron = $1; }
@@ -377,8 +379,8 @@ List:	LineNumber Dash LineNumber ',' FileName
 	| LineNumber Dash			
 LList:	LLIST LineNumber Dash LineNumber
 	| LLIST LineNumber Dash
-Load:	LOAD FileName ',' LoadOption
-	| LOAD FileName
+Load:	LOAD FileName ',' LoadOption		{ /* Not Implemented */}
+	| LOAD CONST_STRING			{ $$ = gwbn_NewLoad(); $$->file_path = $2; }
 MkDir: 	MKDIR PathName
 Name:	NAME OldFileName AS NewFileName
 TrOn:	TRON									{ $$ = gwbn_NewTrOn(); }
