@@ -3,6 +3,7 @@
 #include "../stmts/inc/stmts.h"
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 	GWBR_Result result;	
@@ -25,6 +26,9 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 			break;
 		case GWBNT_TROFF:
 			gwbh_TrOff(env, node->troff);
+			break;
+		case GWBNT_LIST:
+			gwbh_List(env, node->list);
 			break;
 	}
 	return result;	 
@@ -183,11 +187,28 @@ GWBR_Result gwbh_Kill(GWBE_Environment *env, GWBN_Kill* node) {
 	
 GWBR_Result gwbh_List(GWBE_Environment *env, GWBN_List* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
 
-	/* "List" handler implementation */
+	assert(env != NULL);
+	assert(env->program != NULL);
+	assert(env->program->lines != NULL);
+
 	gwbo_DisplayDebugMessage(env, "In \"List\" Handler"); 
 
-	result.type = GWBR_RESULT_OK;
+	int i;
+	int from = node->line_from;
+	int to = node->line_to == -1 ? GWBE_PROGRAM_MAXLINES : node->line_to; 
+	for (i = from; i < to; i++)
+	{
+		if (env->program->lines[i] != NULL)
+		{	
+			char* str = malloc(sizeof(char)*(20 + strlen(env->program->lines[i]->source)));
+			sprintf(str, "[%d] %s", i, env->program->lines[i]->source);
+			gwbo_DisplayMessage(env, str);
+			free(str);
+		}
+	}
+		
 	return result;	 
 } 
 	
