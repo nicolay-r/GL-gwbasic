@@ -29,6 +29,9 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 			result = gwbh_IndirectMode(env, node->indirect);
 			break;
 	}
+	
+	gwbo_DisplayResult(env, result);
+	
 	return result;	
 }
 
@@ -55,9 +58,6 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 			gwbo_DisplayMessage("Undefined type\n");	
 			break;
 	}
-	
-	gwbo_DisplayResult(env, result);
-
 	return result;
 } 
 	
