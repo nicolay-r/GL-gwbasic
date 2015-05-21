@@ -6,7 +6,7 @@
 #include <GL/glut.h>
 #include <assert.h>
 #include <stdio.h>
-
+#include <math.h>			/* M_PI */
 /*
 	Main Rendering Function
 */
@@ -126,8 +126,22 @@ void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 				break;
 			}
 			case GWBCT_CIRCLE:
+			{
 				/* draw circle */
+				GWBC_Circle circle = canvas->objects[i].circle;
+
+				glBegin(GL_LINE_LOOP);	
+					/* нужно задать цвет! */
+					double alpha;
+					for (alpha = 0; alpha < 2*M_PI; alpha += 2*M_PI/50)
+					{	
+						int x = circle.center.x + round(60*sin(alpha));
+						int y = circle.center.y + round(60*cos(alpha));	
+						glVertex2i(x, y);
+					}
+				glEnd();
 				break;
+			}
 		}
 	}
 

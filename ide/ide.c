@@ -207,3 +207,15 @@ void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line)
 
 	canvas->to_draw_count++;
 }
+
+void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle)
+{
+	assert(canvas != NULL);
+
+	int index = canvas->to_draw_count;
+	
+	canvas->objects[index].type = GWBCT_CIRCLE;
+	canvas->objects[index].circle = circle;
+
+	canvas->to_draw_count++;
+}

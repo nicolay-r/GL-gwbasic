@@ -79,4 +79,6 @@ void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env);
 
 /* Canvas */
 void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line);
+void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle);
+
 #endif
