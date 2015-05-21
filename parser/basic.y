@@ -373,13 +373,13 @@ Edit: 	EDIT LineNumber
 Files:	FILES FilePath
 	| FILES					
 Kill: 	KILL FileName
-List:	LineNumber Dash LineNumber ',' FileName
+List:	LineNumber Dash LineNumber ',' FileName /*{ $$ = gwbn_NewLoad(); $$->line_from = $1; $$->line_to = $3; $$->file_name}*/
 	| LineNumber Dash ',' FileName
 	| LineNumber Dash LineNumber
 	| LineNumber Dash			
 LList:	LLIST LineNumber Dash LineNumber
 	| LLIST LineNumber Dash
-Load:	LOAD FileName ',' LoadOption		{ /* Not Implemented */}
+Load:	LOAD FileName ',' LoadOption		{ $$ = gwbn_NewLoad(); $$->file_path = $2; /* $$->load_options Not Implemented */}
 	| LOAD CONST_STRING			{ $$ = gwbn_NewLoad(); $$->file_path = $2; }
 MkDir: 	MKDIR PathName
 Name:	NAME OldFileName AS NewFileName
