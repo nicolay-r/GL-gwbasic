@@ -58,7 +58,6 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 		/* Переход на следующую строку */	
 		env->ctx->current_line++;
 		current_line = env->ctx->current_line;	
-		gwbo_DisplayResult(env, result);
 	}	
 	
 	return result;	 
