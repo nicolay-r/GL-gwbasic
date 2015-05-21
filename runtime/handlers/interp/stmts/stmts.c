@@ -237,7 +237,23 @@ GWBR_Result gwbh_Circle(GWBE_Environment *env, GWBN_Circle* node) {
 	}
 	else circle.color = NULL;
 
-	circle.r = gwbr_EvaluateNumericExpression(env, node->r).val;
+	val = gwbr_EvaluateNumericExpression(env, node->r).val;
+	
+	switch (val.type)
+	{
+		case GWBCT_INTEGER:
+			circle.r = (double) val.int_val;
+			break;
+		case GWBCT_SINGLE:
+			circle.r = (double) val.single_val;
+			break;
+		case GWBCT_DOUBLE:
+			circle.r = val.double_val;
+			break;
+		default:
+			type_mismatch = 1;
+			break;
+	}
 
 	if (!type_mismatch)
 	{

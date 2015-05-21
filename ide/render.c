@@ -135,8 +135,8 @@ void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 					double alpha;
 					for (alpha = 0; alpha < 2*M_PI; alpha += 2*M_PI/50)
 					{	
-						int x = circle.center.x + round(60*sin(alpha));
-						int y = circle.center.y + round(60*cos(alpha));	
+						int x = circle.center.x + round(circle.r*sin(alpha));
+						int y = circle.center.y + round(circle.r*cos(alpha));	
 						glVertex2i(x, y);
 					}
 				glEnd();

@@ -102,7 +102,7 @@ struct GWBC_Line{
 */
 struct GWBC_Circle{
 	GWBC_DisplayPoint center;
-	GWBC_Value r;
+	double r;
 	GWBC_Value* color;
 };
 
