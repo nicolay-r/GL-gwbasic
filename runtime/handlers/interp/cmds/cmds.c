@@ -202,10 +202,7 @@ GWBR_Result gwbh_List(GWBE_Environment *env, GWBN_List* node) {
 	{
 		if (env->program->lines[i] != NULL)
 		{	
-			char* str = malloc(sizeof(char)*(20 + strlen(env->program->lines[i]->source)));
-			sprintf(str, "[%d] %s", i, env->program->lines[i]->source);
-			gwbo_DisplayMessage(env, str);
-			free(str);
+			gwbo_DisplayMessage(env, env->program->lines[i]->source);
 		}
 	}
 		

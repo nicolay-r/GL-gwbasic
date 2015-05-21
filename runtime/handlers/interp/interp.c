@@ -7,6 +7,7 @@
 #include "cmds/inc/cmds.h"	/* GWBasic Commands AST Node Handlers */
 #include "funcs/inc/funcs.h"	/* GWBasic Functions AST Node Handlers */
 
+#include <string.h>		/* strdup */
 #include <assert.h>		/* assert() */
 
 GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
@@ -72,7 +73,7 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 
 	GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
 	line->number = node->line_number;
-	line->source = env->line_buffer;
+	line->source = strdup((const char*) env->line_buffer);
 	line->stmts = node->statements;
 	
 	env->program->lines[line->number] = line;
