@@ -616,6 +616,12 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 							runtime_var->val->int_val = gwbi_GetInteger(env);
 							break;
 						}
+						case GWBNT_SINGLEPRECISIONVARIABLE:
+						{
+							runtime_var->val->type = GWBCT_SINGLE;
+							runtime_var->val->single_val = gwbi_GetFloat(env);
+							break;
+						}
 						case GWBNT_DOUBLEPRECISIONVARIABLE:
 						{
 							runtime_var->val->type = GWBCT_DOUBLE;

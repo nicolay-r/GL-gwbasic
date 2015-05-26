@@ -55,6 +55,22 @@ int gwbi_GetInteger(GWBE_Environment* env)
 	return atoi(*ptr);  
 }
 
+float gwbi_GetFloat(GWBE_Environment* env)
+{
+	assert(env->input != NULL);
+
+	char** ptr = &env->input->buffer;
+	size_t* size = &env->input->buffer_len;
+
+	/*
+		Read string from console
+	*/
+	getline(ptr, size, stdin);
+	
+	return atof(*ptr);
+
+}
+
 double gwbi_GetDouble(GWBE_Environment* env)
 {
 	assert(env->input != NULL);
