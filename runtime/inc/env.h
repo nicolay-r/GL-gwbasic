@@ -26,7 +26,7 @@ typedef struct GWBE_Input GWBE_Input;
 */
 struct GWBE_Environment {
 	char* line_buffer;
-	int line_buffer_len;
+	size_t line_buffer_len;
 	
 	int trace_mode;							/* Режим трассировки (0 - выключен, 1 - включен) */ 
 	

@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 	GWBR_Result result;	
@@ -29,6 +30,9 @@ GWBR_Result gwbh_Command(GWBE_Environment *env, GWBN_Command* node) {
 			break;
 		case GWBNT_LIST:
 			gwbh_List(env, node->list);
+			break;
+		case GWBNT_LOAD:
+			gwbh_Load(env, node->load);
 			break;
 	}
 	return result;	 
@@ -220,8 +224,42 @@ GWBR_Result gwbh_LList(GWBE_Environment *env, GWBN_LList* node) {
 GWBR_Result gwbh_Load(GWBE_Environment *env, GWBN_Load* node) {
 	GWBR_Result result;
 
-	/* "Load" handler implementation */
+	assert(env != NULL);
 	gwbo_DisplayDebugMessage(env, "In \"Load\" Handler"); 
+	
+	assert(node != NULL);
+	assert(node->file_path != NULL);
+
+	/* Open file */
+	FILE *file = fopen(node->file_path, "r");
+	if (file != NULL)
+	{
+		while (!feof(file))
+		{
+			/* Вообще, все что здесь написано можно вынести в runtime
+			   с объявлением отдельной ф-ции для разбора выражений из 
+			   любого источника (файл, терминал, и т.д.)  */
+
+			/* Read line */
+			getline(&env->line_buffer, &env->line_buffer_len, file);
+			/* Parse string */
+			GWBN_Interpreter* interpreter = gwbp_Parse(env->line_buffer);
+			/* Handle parsed string */
+			if (interpreter != NULL)
+			{
+				gwbh_Interpreter(env, interpreter);
+			}
+
+		}
+		
+		/* Close file */
+		fclose(file);
+	}
+	else 
+	{
+		/* Show error */
+		gwbo_DisplayMessage(env, strerror(errno));
+	}
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
