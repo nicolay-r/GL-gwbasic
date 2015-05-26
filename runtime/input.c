@@ -2,9 +2,25 @@
 
 #include "inc/env.h"
 #include "inc/input.h"
+#include <string.h>	/* strlen() */
 #include <stdio.h>	/* getline() */
 #include <assert.h>	/* assert() */
 
+void trimwhitespace(char *str)
+{
+	char *end;
+	// Trim leading space
+	while(isspace(*str)) str++;
+        	if(*str == 0)  // All spaces?
+	    		return;
+	
+	// Trim trailing space
+	end = str + strlen(str) - 1;
+	while(end > str && isspace(*end)) end--;
+	
+	// Write new null terminator
+	*(end+1) = 0;
+}
 void gwbi_GetString(GWBE_Environment* env)
 {
 	assert(env->input != NULL);
@@ -18,4 +34,9 @@ void gwbi_GetString(GWBE_Environment* env)
 		Read string from console
 	*/
 	getline(ptr, size, stdin);
+	
+	/* trim whitespaces */
+	trimwhitespace(*ptr);
+	*size = strlen(*ptr);
 }
+
