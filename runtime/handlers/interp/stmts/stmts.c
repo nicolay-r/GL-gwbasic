@@ -594,7 +594,8 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 		while (vars != NULL)
 		{
 			assert(vars->var != NULL);
-			GWBC_Variable* runtime_var; 
+			
+			GWBC_Variable* runtime_var;
 			switch(vars->var->type)
 			{		
 				case GWBNT_STRINGVARIABLE:
@@ -605,8 +606,22 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 					break;
 				}
 				case GWBNT_NUMERICVARIABLE:
-					gwbo_DisplayDebugMessage(env,"Numeric variables");
+				{
+					switch (vars->var->num->type)
+					{
+						case GWBNT_INTEGERVARIABLE:
+						{
+							runtime_var = gwbe_Context_GetVariable(env, vars->var->num->name);
+							runtime_var->val->type = GWBCT_INTEGER;
+							runtime_var->val->int_val = gwbi_GetInteger(env);
+							break;
+						}
+						default:
+							gwbo_DisplayDebugMessage(env,"Numeric variables");
+							break;
+					}
 					break;
+				}
 				case GWBNT_ARRAYVARIABLE:
 					/* Not Implemented */
 					gwbo_DisplayDebugMessage(env,"Array variables not supported");

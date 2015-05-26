@@ -6,5 +6,6 @@
 #include "env.h"
 
 void gwbi_GetString(GWBE_Environment* env);
+int gwbi_GetInteger(GWBE_Environment* env);
 
 #endif
