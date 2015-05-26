@@ -607,13 +607,19 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 				}
 				case GWBNT_NUMERICVARIABLE:
 				{
+					runtime_var = gwbe_Context_GetVariable(env, vars->var->num->name);
 					switch (vars->var->num->type)
 					{
 						case GWBNT_INTEGERVARIABLE:
 						{
-							runtime_var = gwbe_Context_GetVariable(env, vars->var->num->name);
 							runtime_var->val->type = GWBCT_INTEGER;
 							runtime_var->val->int_val = gwbi_GetInteger(env);
+							break;
+						}
+						case GWBNT_DOUBLEPRECISIONVARIABLE:
+						{
+							runtime_var->val->type = GWBCT_DOUBLE;
+							runtime_var->val->double_val = gwbi_GetDouble(env);
 							break;
 						}
 						default:

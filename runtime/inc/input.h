@@ -7,5 +7,6 @@
 
 void gwbi_GetString(GWBE_Environment* env);
 int gwbi_GetInteger(GWBE_Environment* env);
+double gwbi_GetDouble(GWBE_Environment* env);
 
 #endif
