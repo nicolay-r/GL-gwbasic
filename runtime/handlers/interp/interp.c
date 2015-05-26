@@ -24,13 +24,12 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 	{
 		case GWBNT_DIRECT_MODE:
 			result = gwbh_DirectMode(env, node->direct);
+			gwbo_DisplayResult(env, result);
 			break;
 		case GWBNT_INDIRECT_MODE:
 			result = gwbh_IndirectMode(env, node->indirect);
 			break;
 	}
-	
-	gwbo_DisplayResult(env, result);
 	
 	return result;	
 }
