@@ -363,61 +363,71 @@ GWBR_ExpressionResult gwbr_EvaluateMathFunction(GWBE_Environment* env, GWBN_Math
 	assert(env != NULL);
 	assert(node != NULL);
 	
-	GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->abs->expr);
 	switch (node->type)
 	{
 		case GWBNT_ABS:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->abs->expr);
 			result = gwbr_EvaluateMathAbs(expr_result);
 			break;
 		}
 		case GWBNT_EXP:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->exp->expr);
 			result = gwbr_EvaluateMathExp(expr_result);
 			break;			
 		}
 		case GWBNT_SIN:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->sin->expr);
 			result = gwbr_EvaluateMathSin(expr_result);
 			break;
 		}
 		case GWBNT_COS:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->cos->expr);
 			result = gwbr_EvaluateMathCos(expr_result);
 			break;
 		}
 		case GWBNT_TAN:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->tan->expr);
 			result = gwbr_EvaluateMathTan(expr_result);
 			break;
 		}
 		case GWBNT_LOG:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->log->expr);
 			result = gwbr_EvaluateMathLog(expr_result);
 			break;
 		}
 		case GWBNT_FIX:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->fix->expr);
 			result = gwbr_EvaluateMathFix(expr_result);
 			break;
 		}
 		case GWBNT_INT:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->_int->expr);
 			result = gwbr_EvaluateMathInt(expr_result);
 			break;
 		}
 		case GWBNT_CINT:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->cint->expr);
 			result = gwbr_EvaluateMathCInt(expr_result);
 			break;
 		}
 		case GWBNT_SGN:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->sgn->expr);
 			result = gwbr_EvaluateMathSgn(expr_result);
 			break;
 		}
 		case GWBNT_SQR:
 		{
+			GWBR_ExpressionResult expr_result = gwbr_EvaluateNumericExpression(env, node->sqr->expr);
 			result = gwbr_EvaluateMathSqr(expr_result);
 			break;
 		}
