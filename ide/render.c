@@ -2,6 +2,7 @@
 
 #include "inc/render.h"
 #include "inc/runtime.h"		/* GWBCT_CIRCLE, GWBCT_LINE */
+#include "inc/settings.h"		/* GWBGS_TEXTBUFFER_LINEDISTANCE */
 
 #include <GL/glut.h>
 #include <assert.h>
@@ -87,7 +88,7 @@ void gwbg_TextBuffer_Render(
 			gwbg_RenderTextLine(text_buffer->text_field[i][j]);
 		}
 		
-		lu_corner.y -= 10;
+		lu_corner.y -= GWBGS_TEXTBUFFER_LINEDISTANCE;
 	}
 	gwbg_TextBuffer_MarkCursorPosition(text_buffer);
 }
