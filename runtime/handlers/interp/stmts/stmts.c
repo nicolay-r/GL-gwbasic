@@ -530,7 +530,10 @@ GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node) {
 	gwbo_DisplayDebugMessage(env,"In \"Goto\" Handler"); 
 	assert(node != NULL);
 	assert(env->ctx != NULL);
-	env->ctx->current_line = node->line;	
+	/* Здесь делается поправка на систему исполнения, которая 
+	   Автоматически инкрементирует это значение после выполнения
+	   оператора (Statement) */
+	env->ctx->current_line = node->line - 1;	
 
 	return result;	 
 } 
