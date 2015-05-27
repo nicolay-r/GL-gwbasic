@@ -21,4 +21,7 @@ void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result);
 
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line);
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle);
+
+/* Others */
+void gwbo_Cls(GWBE_Environment* env);
 #endif

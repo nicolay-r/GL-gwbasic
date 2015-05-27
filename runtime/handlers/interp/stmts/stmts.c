@@ -63,6 +63,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_CIRCLE:
 				result = gwbh_Circle(env, node->circle);
 				return result;
+			case GWBNT_CLS:
+				result = gwbh_Cls(env, node->cls);
+				return result;
 		}
 	}
 	/*
@@ -364,8 +367,8 @@ GWBR_Result gwbh_Preset(GWBE_Environment *env, GWBN_Preset* node) {
 GWBR_Result gwbh_Cls(GWBE_Environment *env, GWBN_Cls* node) {
 	GWBR_Result result;
 
-	/* "Cls" handler implementation */
 	gwbo_DisplayDebugMessage(env, "In \"Cls\" Handler"); 
+	gwbo_Cls(env);
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 

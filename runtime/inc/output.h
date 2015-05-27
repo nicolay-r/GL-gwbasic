@@ -8,6 +8,9 @@
 /*
 	Prototypes
 */
+/* Others */
+void gwbo_Cls(GWBE_Environment* env);
+
 /* Text */
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result);

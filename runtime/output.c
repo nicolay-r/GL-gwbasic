@@ -76,3 +76,8 @@ void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 	/* Circle */
 	gwbo_DisplayMessage(env, "Terminal doesn't support graphics.");
 }
+
+void gwbo_Cls(GWBE_Environment* env)
+{
+	gwbo_DisplayMessage(env, "Terminal doesn't support Cls command.");
+}

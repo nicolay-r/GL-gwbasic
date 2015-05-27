@@ -103,3 +103,8 @@ void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 	/* Force Render */
 	gwbg_Ide_Render();
 }
+
+void gwbo_Cls(GWBE_Environment* env)
+{
+
+}
