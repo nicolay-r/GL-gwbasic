@@ -180,9 +180,10 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 				break;
 		}
 	}
-	else 
+	else /* var == NULL */
 	{
-		/* Variable wasn't founded */
+		gwbo_DisplayMessage(env, "Undeclared variable: ");
+		gwbo_DisplayMessage(env, node->name);
 	}
 
 	return result;

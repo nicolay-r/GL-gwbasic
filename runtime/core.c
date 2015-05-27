@@ -5,6 +5,7 @@
 #include "inc/core.h"
 #include <output.h>
 
+#include <string.h>	/* strdup() */
 #include <stdlib.h>
 #include <assert.h>
 
@@ -12,7 +13,7 @@ GWBC_Variable* gwbc_NewVariable(int type, char* name)
 {
 	GWBC_Variable* var = (GWBC_Variable*) malloc(sizeof(GWBC_Variable));
 	var->type = type;
-	var->name = name;
+	var->name = strdup(name);
 	
 	if (type == GWBCT_VALUE)
 	{

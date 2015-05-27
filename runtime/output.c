@@ -61,6 +61,9 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 			assert(result->str_val != NULL);
 			printf("%s\n", result->str_val);
 			break;
+		default:
+			gwbo_DisplayMessage("Unknown Value Type");
+			break;
 	}
 }
 
