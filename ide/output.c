@@ -14,8 +14,8 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	
 	gwbg_TextBuffer_PushString(ide->text_buffer, msg);
 
-	// Force Render Ide
-	//gwbg_Ide_Render();
+	/* Force Render Ide */
+	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
@@ -28,8 +28,8 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 		gwbg_TextBuffer_PushString(ide->text_buffer, msg);
 	}
 
-	// Force Render Ide
-	//gwbg_Ide_Render();
+	/* Force Render Ide */
+	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
@@ -49,7 +49,9 @@ void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
 			break;
 	}
 
-}
+	/* Force Render Ide */
+	gwbg_Ide_Render();
+}	
 
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 {
@@ -79,16 +81,25 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 			gwbg_TextBuffer_PushString(ide->text_buffer, result->str_val);
 			break;
 	}
+
+	/* Force Render */
+	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 {
 	/* Draw line */	
-	gwbg_Canvas_AddLine(ide->canvas, line);	
+	gwbg_Canvas_AddLine(ide->canvas, line);
+
+	/* Force Render */
+	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 {
 	/* Draw Circle */
 	gwbg_Canvas_AddCircle(ide->canvas, circle);
+
+	/* Force Render */
+	gwbg_Ide_Render();
 }
