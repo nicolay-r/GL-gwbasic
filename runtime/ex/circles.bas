@@ -1,6 +1,6 @@
-1	LET score% = 0: LET shoots% = 10
+1	LET score% = 0: LET shoots% = 10: LET thickness% = 60
 4	CLS
-5  	LET circles% = 6: LET thickness% = 60
+5  	LET circles% = 6
 10 	LET x# = RND: LET y# = RND
 20 	LET screenX% = INT(x#*640): LET screenY% = INT(y#*480)
 25 	LET radius% = INT(RND*50)
@@ -20,5 +20,5 @@
 110		LINE (uX% - 30, uY% + 30) - (uX% + 30, uY% - 30), 10
 120		IF dist# < radius% THEN PRINT "You hit!": isHit% = 1 : shoots% = shoots% - (i% + 1): i% = shoots% + 1 
 130	NEXT i%
-135	IF isHit% THEN GOTO 4
+135	IF isHit% THEN LET thickness% = thickness% - 10: GOTO 4
 140	PRINT "Game over. Your Score: ", score%
