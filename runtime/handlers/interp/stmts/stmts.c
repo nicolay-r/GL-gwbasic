@@ -172,6 +172,9 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			else
 			{
 				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
+				
+				assert(var != NULL);
+
 				if (var->type == GWBCT_VALUE)
 				{
 					gwbc_Variable_SetValue(var, *(new_var->val));
@@ -595,12 +598,15 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 		{
 			assert(vars->var != NULL);
 			
-			GWBC_Variable* runtime_var;
+			GWBC_Variable* runtime_var = NULL;
 			switch(vars->var->type)
 			{		
 				case GWBNT_STRINGVARIABLE:
 				{
 					runtime_var = gwbe_Context_GetVariable(env, vars->var->str->name);
+					
+					assert (runtime_var != NULL);
+
 					gwbi_GetString(env);
 					runtime_var->val->str_val = strdup(env->input->buffer);
 					break;
@@ -608,6 +614,9 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 				case GWBNT_NUMERICVARIABLE:
 				{
 					runtime_var = gwbe_Context_GetVariable(env, vars->var->num->name);
+					
+					assert (runtime_var != NULL);
+					
 					switch (vars->var->num->type)
 					{
 						case GWBNT_INTEGERVARIABLE:

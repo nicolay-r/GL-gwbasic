@@ -146,7 +146,7 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 	assert(node != NULL);
 
 	GWBC_Variable* var = gwbe_Context_GetVariable(env, node->name);
-	
+
 	if (var != NULL)
 	{
 		switch (var->type)
@@ -333,6 +333,8 @@ GWBR_ExpressionResult gwbr_EvaluateStringTerm(GWBE_Environment* env, GWBN_String
 		case GWBNT_STRINGVARIABLE:
 		{	
 			GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->name);
+			assert(var != NULL);
+			
 			if (var->type == GWBCT_VALUE)
 			{
 				assert(var->val != NULL);
