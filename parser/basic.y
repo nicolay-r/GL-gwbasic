@@ -108,6 +108,7 @@
 	GWBN_LineOptions*		line_opts;
 	GWBN_Circle*			circle;
 	GWBN_CircleOptions*		circle_opts;
+	GWBN_Cls*			cls;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -196,6 +197,7 @@
 %type <line_opts> LineOptions
 %type <circle> Circle
 %type <circle_opts> CircleOptions
+%type <cls> Cls
 /*
 	Expressions
 */
@@ -310,7 +312,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Paint					{ printf("PAINT %s\n", ne); }
 	| Pset					{ printf("PSET %s\n", ne); }
 	| Preset				{ printf("PRESET %s\n", ne); }
-	| Cls					{ printf("CLS %s\n", ne); }
+	| Cls					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_CLS; $$->cls = $1; }
 	| For					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_FOR; $$->_for = $1; }
 	| Next					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_NEXT; $$->next = $1; }
 	| GoSub					{ printf("GOSUB %s\n", ne); }
@@ -404,7 +406,7 @@ PsetOption:
 
 ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'		{ $$ = gwbn_NewScreenCoordinate(); $$->x = $2; $$->y = $4; }
 
-Cls: CLS
+Cls: CLS									{ $$ = gwbn_NewCls(); }
 
 For: FOR NumericVariable EQUAL NumericExpression TO NumericExpression 			{ $$ = gwbn_NewFor(); $$->num_var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
 Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							

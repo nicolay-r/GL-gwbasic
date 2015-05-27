@@ -74,6 +74,7 @@ struct GWBN_Statement {
 		GWBN_IfThenElse* if_then_else;		
 		GWBN_For* _for;
 		GWBN_Next* next;
+		GWBN_Cls* cls;
 	};
 }; 
 
@@ -117,7 +118,6 @@ struct GWBN_Preset {
 	/* Not Implemented */
 };
 struct GWBN_Cls {
-	/* Not Implemented */
 };
 struct GWBN_For {
 	GWBN_NumericVariable* num_var;
