@@ -19,7 +19,7 @@ GWBG_Ide* gwbg_NewIde()
 	return ide;
 }
 
-void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
+int contents_by_pixelformat(int pixel_format)
 {
 	int contents = 1;
 	switch(pixel_format) {
@@ -33,6 +33,12 @@ void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
 		case GL_LUMINANCE:
 		    contents = 1; break;
 	}
+	return contents;
+}
+
+void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
+{
+	int contents = contents_by_pixelformat(pixel_format);
 
 	ide->canvas = malloc(sizeof(GWBG_Canvas));
 	ide->canvas->data = calloc(ide->height*ide->width*contents, sizeof(GLubyte));
@@ -239,3 +245,20 @@ void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle)
 		gwbo_DisplayMessage(ide->env, "Error: Can't add more circles in canvas buffer");
 	}
 }
+
+void gwbg_Canvas_Clear(GWBG_Canvas* canvas)
+{
+	assert(ide != NULL);
+	assert(canvas != NULL);
+	assert(canvas->data != NULL);
+
+	int contents = contents_by_pixelformat(canvas->pixel_format);
+	
+	/* очистка холста */	
+	int i, j;
+	for (i = 0; i < ide->height; i++)
+		for (j = 0; j < ide->width*contents; j++)
+			canvas->data[i*ide->width*contents + j] = 0;
+}
+
+
