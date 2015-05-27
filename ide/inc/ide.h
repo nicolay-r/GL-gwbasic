@@ -46,9 +46,11 @@ struct GWBG_ObjectsToDraw
 	};
 };
 
+#define GWBG_CANVAS_MAXOBJECTS		10
+
 struct GWBG_Canvas
 {
-	GWBG_ObjectsToDraw objects[10];
+	GWBG_ObjectsToDraw objects[GWBG_CANVAS_MAXOBJECTS];
 	int to_draw_count;
 
 	GLubyte *data;			/* Для графики */

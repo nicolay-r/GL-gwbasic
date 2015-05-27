@@ -114,10 +114,7 @@ void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 			case GWBCT_LINE:
 			{
 				GWBC_Line line = canvas->objects[i].line; 	
-			
-				printf("coord_a: %d %d\n", line.a.x, line.a.y);
-				printf("coord_b: %d %d\n", line.b.x, line.b.y);
-
+				
 				glBegin(GL_LINES);
 					/* нужно задать цвет! */
 					glVertex2i(line.a.x, line.a.y);

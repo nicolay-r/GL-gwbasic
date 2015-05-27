@@ -203,11 +203,20 @@ void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line)
 	assert(canvas != NULL);
 
 	int index = canvas->to_draw_count;
-	
-	canvas->objects[index].type = GWBCT_LINE;
-	canvas->objects[index].line = line;
 
-	canvas->to_draw_count++;
+	if (index < GWBG_CANVAS_MAXOBJECTS)
+	{	
+		canvas->objects[index].type = GWBCT_LINE;
+		canvas->objects[index].line = line;
+		
+		canvas->to_draw_count++;
+	}
+	else
+	{
+		assert(ide != NULL);
+		assert(ide->env != NULL);
+		gwbo_DisplayMessage(ide->env, "Error: Can't add more lines in canvas buffer");	
+	}
 }
 
 void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle)
@@ -215,9 +224,18 @@ void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle)
 	assert(canvas != NULL);
 
 	int index = canvas->to_draw_count;
-	
-	canvas->objects[index].type = GWBCT_CIRCLE;
-	canvas->objects[index].circle = circle;
 
-	canvas->to_draw_count++;
+	if (index < GWBG_CANVAS_MAXOBJECTS)
+	{	
+		canvas->objects[index].type = GWBCT_CIRCLE;
+		canvas->objects[index].circle = circle;
+
+		canvas->to_draw_count++;
+	}
+	else 
+	{
+		assert(ide != NULL);
+		assert(ide->env != NULL);
+		gwbo_DisplayMessage(ide->env, "Error: Can't add more circles in canvas buffer");
+	}
 }
