@@ -423,6 +423,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 		else
 		{
 			/* from > to */
+			gwbe_Context_PopLocalVariableLevel(env);
 			gwbo_DisplayDebugMessage(env, "Out of Cycle");
 			gwbe_Context_IncSkipFlag(env);
 		}
@@ -488,7 +489,6 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 
 	if (env->ctx->skip_flag == 1) 	/* Next для завершаемого цикла */
 	{
-		gwbe_Context_PopLocalVariableLevel(env);
 		gwbe_CallbackStack_Pop(env);
 	}
 	if (env->ctx->skip_flag > 0)	/* Next для вложенного цикла */

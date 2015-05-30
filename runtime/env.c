@@ -47,6 +47,7 @@ GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Functio
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name)
 {
 	assert(env->ctx != NULL);
+	assert(env->ctx->level >= 0);
 
 	GWBE_Context* ctx = env->ctx;
 	
@@ -117,6 +118,7 @@ GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* 
 char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var)
 {
 	assert(env->ctx != NULL);
+	assert(env->ctx->level >= 0);
 	
 	GWBE_Context* ctx = env->ctx;
 	
