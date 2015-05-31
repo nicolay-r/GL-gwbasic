@@ -1,2 +1,2 @@
-latexmk -pdf gwbman.tex
+latexmk -bibtex -pdf gwbman.tex
 evince gwbman.pdf
