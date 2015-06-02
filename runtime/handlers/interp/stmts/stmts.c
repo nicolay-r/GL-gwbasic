@@ -672,7 +672,16 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 	{
 		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
 		gwbo_DisplayCoreValue(env, &expr_res.val);
-		gwbo_NextLine(env);
+
+		switch (print_exprs->sep_type)
+		{
+			case GWBBT_COMMA:
+				break;
+			case GWBBT_SEMICOLON:
+				gwbo_NextLine(env);
+				break;
+		};
+
 		print_exprs = print_exprs->next;
 	}
 	while (print_exprs != NULL);
