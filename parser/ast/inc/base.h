@@ -26,6 +26,7 @@
 
 #define GWBBT_COMMA			200
 #define GWBBT_SEMICOLON			201
+#define GWBBT_NONE			202
 /*
 	Typedefs
 */

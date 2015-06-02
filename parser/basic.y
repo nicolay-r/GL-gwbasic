@@ -434,7 +434,7 @@ Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2
 PrintOperator: PRINT	
 	| '?'
 PrintExpressions: Expression PrintSeparator PrintExpressions		{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = $2; $$->next = $3; }
-	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->next = NULL; }
+	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_NONE; $$->next = NULL; }
 	| PrintSeparator						{ $$ = gwbn_NewPrintExpressions(); $$->sep_type = $1; $$->next = NULL; }
 PrintSeparator:								{ /* дополнить */ }
 	| ','								{ $$ = GWBBT_COMMA; }

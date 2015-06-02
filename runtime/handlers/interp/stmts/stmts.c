@@ -680,6 +680,9 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 			case GWBBT_SEMICOLON:
 				gwbo_NextLine(env);
 				break;
+			case GWBBT_NONE:
+				gwbo_NextLine(env);
+				break;
 		};
 
 		print_exprs = print_exprs->next;
