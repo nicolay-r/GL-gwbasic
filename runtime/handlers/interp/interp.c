@@ -25,6 +25,7 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 		case GWBNT_DIRECT_MODE:
 			result = gwbh_DirectMode(env, node->direct);
 			gwbo_DisplayResult(env, result);
+			gwbo_NextLine(env);
 			break;
 		case GWBNT_INDIRECT_MODE:
 			result = gwbh_IndirectMode(env, node->indirect);

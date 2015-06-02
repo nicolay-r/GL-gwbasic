@@ -18,10 +18,10 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg);
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result);
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result);
-
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line);
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle);
 
 /* Others */
 void gwbo_Cls(GWBE_Environment* env);
+void gwbo_NextLine(GWBE_Environment* env);
 #endif

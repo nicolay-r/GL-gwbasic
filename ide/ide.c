@@ -102,8 +102,6 @@ void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string)
 	{
 		gwbg_TextBuffer_PushChar(text_buffer, string[i]);
 	}
-
-	gwbg_TextBuffer_CursorNextLine(text_buffer);	
 }
 
 void gwbg_TextBuffer_PushChar(GWBG_TextBuffer* text_buffer, char c)

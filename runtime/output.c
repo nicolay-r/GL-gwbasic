@@ -8,7 +8,7 @@
 
 void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 {
-	printf("%s\n", msg);
+	printf("%s", msg);
 }
 
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
@@ -21,6 +21,11 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 		printf("%s\n", msg);
 	}
 }	
+void gwbo_NextLine(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	printf("\n");
+}
 
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
 {
@@ -38,7 +43,6 @@ void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
 			gwbo_DisplayMessage(env, "Uknown Error");
 			break;
 	}
-
 }
 
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
@@ -49,17 +53,17 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 	switch (result->type)
 	{
 		case GWBCT_INTEGER:
-			printf("integer %d\n", result->int_val);		
+			printf("integer %d", result->int_val);		
 			break;
 		case GWBCT_SINGLE:
-			printf("single %f\n", result->single_val);
+			printf("single %f", result->single_val);
 			break;
 		case GWBCT_DOUBLE:
-			printf("double %lf\n", result->double_val);
+			printf("double %lf", result->double_val);
 			break;
 		case GWBCT_STRING:
 			assert(result->str_val != NULL);
-			printf("%s\n", result->str_val);
+			printf("%s", result->str_val);
 			break;
 		default:
 			gwbo_DisplayMessage(env, "Unknown Value Type");
@@ -72,15 +76,18 @@ void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 {
 	/* Does not supported */
 	gwbo_DisplayMessage(env, "Terimal doesn't support graphics.");	
+	gwbo_NextLine(env);
 }
 
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 {
 	/* Circle */
 	gwbo_DisplayMessage(env, "Terminal doesn't support graphics.");
+	gwbo_NextLine(env);
 }
 
 void gwbo_Cls(GWBE_Environment* env)
 {
 	gwbo_DisplayMessage(env, "Terminal doesn't support Cls command.");
+	gwbo_NextLine(env);
 }

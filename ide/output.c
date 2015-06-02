@@ -17,7 +17,6 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	/* Force Render Ide */
 	gwbg_Ide_Render();
 }
-
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 {
 	assert(ide != NULL);
@@ -26,8 +25,9 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 	if (env->trace_mode)
 	{
 		gwbg_TextBuffer_PushString(ide->text_buffer, msg);
+		gwbo_NextLine(env);
 	}
-
+	
 	/* Force Render Ide */
 	gwbg_Ide_Render();
 }
@@ -111,4 +111,12 @@ void gwbo_Cls(GWBE_Environment* env)
 
 	/* Force Render */
 	gwbg_Ide_Render();
+}
+
+void gwbo_NextLine(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(ide != NULL);
+
+	gwbg_TextBuffer_CursorNextLine(ide->text_buffer); 	
 }
