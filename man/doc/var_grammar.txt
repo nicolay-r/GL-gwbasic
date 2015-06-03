@@ -1,0 +1,5 @@
+<Variable> ::= <StringVariable>	| <NumericVariable> 
+<StringVariable> ::= DECLARATION '$'	// Строковый тип
+<NumericVariable> ::= DECLARATION '%' |	// Целочисленный тип
+                      DECLARATION '!' | // Вещественный тип, одинарная точность
+		      DECLARATION '#'	// Вещественный тип, двойная точность

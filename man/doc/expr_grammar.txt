@@ -1,0 +1,11 @@
+<Expression> ::= <NumericExpression> | <StringExpression>
+<NumericExpression> ::= <ArithmeticalOperator>
+		      | <LogicalOperator>
+		      | <FunctionalOperator>
+		      | <RelationalOperator>
+
+<StringExpression> ::= <StringOperator>
+<StringOperator> ::= <StringTerm> '+' <StringOperator>
+		   | <StringTerm>
+<StringTerm> ::= <StringVariable>
+	       | STRING_CONSTANT
