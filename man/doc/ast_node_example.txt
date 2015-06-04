@@ -1,0 +1,14 @@
+struct GWBN_Interpreter{
+	int type;	/* GWBNT_DIRECTMODE, GWBNT_INDIRECTMODE */
+	union {
+		struct GWBN_DirectMode* direct;
+		struct GWBN_IndirectMode* indirect;
+	};
+};
+struct GWBN_IndirectMode{
+	int line_number;
+	GWBN_Statements* statements;
+};
+struct GWBN_DirectMode {
+	/* Struct Fields*/
+};
