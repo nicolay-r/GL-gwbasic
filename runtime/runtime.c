@@ -8,11 +8,12 @@
 /* 
 	Read user request
 */
-void gwbr_ReadRequest(char* buffer)
+void gwbr_ReadRequest(GWBE_Input* input)
 {
-	char** bufferPtr = &buffer;
-	size_t nbytes = GWBR_LINE_LENGTH - 1;
-	getline(&buffer, &nbytes, stdin);
+	assert(input != NULL);
+	assert(input->buffer != NULL);
+
+	getline(&input->buffer, &input->buffer_len, stdin);
 }
 
 /*
@@ -20,12 +21,16 @@ void gwbr_ReadRequest(char* buffer)
 */
 void gwbr_RunShell(GWBE_Environment* env)
 {
+	assert(env != NULL);
+
 	GWBN_Interpreter* interpreter; 
 	while (1)
 	{
-		gwbr_ReadRequest(env->line_buffer);
+		assert(env->input != NULL);
+		gwbr_ReadRequest(env->input);
 		/* Parse user request */
-		interpreter = gwbr_Parse(env->line_buffer); 
+		assert(env->input->buffer != NULL);
+		interpreter = gwbr_Parse(env->input->buffer); 
 		/* Handle the received "GWBN_Interpreter*" (Part 3) */
 		if (interpreter != NULL)
 		{

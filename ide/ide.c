@@ -178,26 +178,32 @@ void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 void gwbg_Environment_ClearRequest(GWBE_Environment* env)
 {
 	assert(env != NULL);
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
 
-	env->line_buffer_len = 0;
-	env->line_buffer[0] = 0;
+	env->input->buffer_len = 0;
+	env->input->buffer[0] = 0;
 }
 void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c)
 {
 	assert(env != NULL);
-
-	env->line_buffer[env->line_buffer_len] = c;
-	env->line_buffer_len++;
-	env->line_buffer[env->line_buffer_len] = 0;
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
+	
+	env->input->buffer[env->input->buffer_len] = c;
+	env->input->buffer_len++;
+	env->input->buffer[env->input->buffer_len] = 0;
 }
 void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env)
 {
 	assert(env != NULL);
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
 
-	if (env->line_buffer_len > 0)
+	if (env->input->buffer_len > 0)
 	{
-		env->line_buffer_len--;
-		env->line_buffer[env->line_buffer_len] = 0;
+		env->input->buffer_len--;
+		env->input->buffer[env->input->buffer_len] = 0;
 	}
 }
 

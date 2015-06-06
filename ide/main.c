@@ -60,7 +60,7 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
 			gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			/* Run user request */
-			GWBN_Interpreter* interpreter = gwbp_Parse(ide->env->line_buffer);
+			GWBN_Interpreter* interpreter = gwbp_Parse(ide->env->input->buffer);
 			if (interpreter != NULL)
 			{
 				gwbh_Interpreter(ide->env, interpreter);

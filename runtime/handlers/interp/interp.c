@@ -73,7 +73,7 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 
 	GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
 	line->number = node->line_number;
-	line->source = strdup((const char*) env->line_buffer);
+	line->source = strdup((const char*) env->input->buffer);
 	line->stmts = node->statements;
 	
 	env->program->lines[line->number] = line;

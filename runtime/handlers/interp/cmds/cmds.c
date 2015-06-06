@@ -227,9 +227,11 @@ GWBR_Result gwbh_Load(GWBE_Environment *env, GWBN_Load* node) {
 			   любого источника (файл, терминал, и т.д.)  */
 
 			/* Read line */
-			getline(&env->line_buffer, &env->line_buffer_len, file);
+			getline(&env->input->buffer, &env->input->buffer_len, file);
 			/* Parse string */
-			GWBN_Interpreter* interpreter = gwbp_Parse(env->line_buffer);
+			assert(env->input != NULL);
+			assert(env->input->buffer != NULL);
+			GWBN_Interpreter* interpreter = gwbp_Parse(env->input->buffer);
 			/* Handle parsed string */
 			if (interpreter != NULL)
 			{

@@ -6,8 +6,6 @@
 #include "parser.h"
 #include "env.h"
 
-#define GWBR_LINE_LENGTH	255
-
 /*
 	Runtime Functions
 */

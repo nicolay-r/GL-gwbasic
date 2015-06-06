@@ -15,16 +15,17 @@ GWBE_Environment* gwbe_NewEnvironment()
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
 	
 	env->trace_mode = 1;	/* режим трассировки */
-
+	/*
 	env->line_buffer = (char*) malloc(GWBR_LINE_LENGTH * sizeof(char));
 	env->line_buffer_len = 0;
-
+	*/
 	env->program = (GWBE_Program*) malloc(sizeof(GWBE_Program));
 	env->ctx = (GWBE_Context*) malloc(sizeof(GWBE_Context));
 	
 	env->ctx->level = 0;
 	env->ctx->local_vars[0] = NULL;
-	
+
+	/* Инициализация Input буфера */	
 	env->input = (GWBE_Input*) malloc(sizeof(GWBE_Input));
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = GWBE_INPUT_BUFFERLENGTH;
