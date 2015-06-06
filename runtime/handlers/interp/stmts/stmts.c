@@ -30,6 +30,7 @@ GWBR_Result gwbh_Statements(GWBE_Environment *env, GWBN_Statements* node) {
 
 GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
 
 	/* "Statement" handler implementation */
 	gwbo_DisplayDebugMessage(env, "In \"Statement\" Handler"); 
@@ -81,7 +82,6 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			return result;
 	}
 
-	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
 	
@@ -636,39 +636,92 @@ GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
 
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	GWBR_Result result;
-
+	result.type = GWBR_RESULT_OK;
+	
 	gwbo_DisplayDebugMessage(env,"In \"Input\" Handler"); 
 
 	assert(env != NULL);
 	assert(node != NULL);	
+
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{
+		gwbo_DisplayMessage(env, "This statement can't be run in \"Interpter Mode\". Use \"Let\" statement instead.");
+		gwbo_NextLine(env);
+		return result;
+	}
+	/* Переводим модуль Input в состояние ожидания чтения значения переменной */
+	assert(env->input != NULL);
+	if (env->input->type != GWBIT_INPUTREQUEST)
+	{
+		/* инициализируем вспомогательную структуру */
+		env->input->input_request.var_index = 0;
+		
+		/* переходим в состояние ожидания ввода результата */
+		env->input->type = GWBIT_INPUTREQUEST;
+	}
+
 	/* Вывод текстового сообщения */
 	if (node->prompt != NULL)
 	{
-		if (node->prompt->str != NULL) printf("%s\n", node->prompt->str);
-		else gwbo_DisplayMessage(env, "? \n");
+		if (node->prompt->str != NULL) 
+		{
+			gwbo_DisplayMessage(env, node->prompt->str);
+			gwbo_NextLine(env);
+		}
+		else {
+			gwbo_DisplayMessage(env, "?");
+			gwbo_NextLine(env);
+		}
 	}
-	else printf("? \n");
 	
+	int var_index = 0;
+	GWBN_Variables* vars = node->vars;
 	if (node->vars != NULL)
 	{
 		assert(node->vars != NULL);
 
-		//int var_index = 0;
-		GWBN_Variables* vars = node->vars;
 		while (vars != NULL)
 		{
+			if (var_index == env->input->input_request.var_index)
+			{
+				/* leave statement. Wait for value. */
+				gwbo_DisplayDebugMessage(env, "Waiting for new variable value");
+				gwbo_NextLine(env);
+				var_index++;
+				break;
+			}
+			else if (var_index == env->input->input_request.var_index - 1)
+			{
+				/* set new value to variable */
+				assert(vars->var != NULL);
+				gwbi_SetValue(env, vars->var);
+			}
 
-			/* set new value to variable */
-			assert(vars->var != NULL);
-			gwbi_SetValue(env, vars->var);
-		
-			/* Got to next variable */
+			/* Got to the next variable */
+			gwbo_DisplayDebugMessage(env, "Go to Next variable in list");
+
 			vars = vars->next;
+			var_index++;
 		}	
 	}	
 
-
-	result.type = GWBR_RESULT_OK;
+	if (vars == NULL) /* Если все переменные проинициализированы */   
+	{
+		gwbo_DisplayDebugMessage(env, "All variables inited");
+		/* Сбрасываем индекс для оператора Input */
+		env->input->input_request.var_index = 0;
+		
+		/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
+		env->input->type = GWBIT_USERREQUEST;
+		result.type = GWBR_RESULT_OK;
+	}
+	else	/* Если необходимо проинициализировать значение переменной */ 
+	{
+		/* сохраняем новый индекс */
+		env->input->input_request.var_index = var_index;
+		gwbo_DisplayDebugMessage(env, "Sending Notification about new variable value");
+		result.type = GWBR_NOTIFICATION_WAITFORVALUE;
+	}
 	return result;	 
 } 
 	

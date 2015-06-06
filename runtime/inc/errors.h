@@ -7,9 +7,16 @@
 	Possible Results in GWBasic Runtime
 */
 
+/* Results */
 #define GWBR_RESULT_OK			0
 #define GWBR_RESULT_NULLPTR		1
-#define GWBR_ERROR_TYPEMISMATCH		2		/* Несовместимость типов */
+
+/* Errors */
+#define GWBR_ERROR_TYPEMISMATCH		100		/* Несовместимость типов */
+
+/* Notifications */
+#define GWBR_NOTIFICATION_WAITFORVALUE  200		/* Ожидание ввода результата пользователем */		
+
 /*
 	Result Of Interpretation
 */

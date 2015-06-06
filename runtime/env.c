@@ -13,15 +13,15 @@
 GWBE_Environment* gwbe_NewEnvironment()
 {
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
-	
+	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
 	env->trace_mode = 1;	/* режим трассировки */
-	/*
-	env->line_buffer = (char*) malloc(GWBR_LINE_LENGTH * sizeof(char));
-	env->line_buffer_len = 0;
-	*/
+
+	/* Инициализация программы */
 	env->program = (GWBE_Program*) malloc(sizeof(GWBE_Program));
+
+	/* Инициализация контекста */
 	env->ctx = (GWBE_Context*) malloc(sizeof(GWBE_Context));
-	
+	env->ctx->current_line = 0;
 	env->ctx->level = 0;
 	env->ctx->local_vars[0] = NULL;
 
@@ -32,7 +32,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = 0;
 	env->input->buffer[0] = 0;		
-
+	/* Инициализация стека возврата */
 	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
 	env->ctx->callback_stack->top_index = -1;
 	return env;

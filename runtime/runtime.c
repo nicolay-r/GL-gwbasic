@@ -42,20 +42,31 @@ void gwbr_Run(GWBE_Environment *env)
 	{
 		case GWBIT_USERREQUEST:
 		{
-			GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
-			/* Handle the received "GWBN_Interpreter*" */
-			if (interpreter != NULL)
+			switch (env->runtime_mode)
 			{
-				gwbh_Interpreter(env, interpreter);
+				case GWBE_RUNTIMEMODE_INTERPRETER:
+				{
+					/* Обрабатываем запрос пользователя */
+					GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
+					/* Handle the received "GWBN_Interpreter*" */
+					if (interpreter != NULL)
+					{
+						gwbh_Interpreter(env, interpreter);
+					}
+					break;
+				}
+				case GWBE_RUNTIMEMODE_PROGRAM:
+				{
+					/* Продолжаем выполнение программы */
+					gwbr_RunProgram(env);
+					break;
+				}
 			}
 			break;
 		}
 		case GWBIT_INPUTREQUEST:
 		{
-			/*
-				Input Request (Value for a GWBasic variable)
-				Продолжаем выполнение программы
-			*/
+			/* Продолжаем выполнение программы */
 			gwbr_RunProgram(env);
 			break;
 		}
@@ -74,13 +85,15 @@ void gwbr_Run(GWBE_Environment *env)
 GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
 {
 	assert(env != NULL);
-
-	gwbo_DisplayDebugMessage(env, "In \"RunProgram\" Handler"); 	
 	
+	gwbo_DisplayDebugMessage(env, "In \"RunProgram\" Handler"); 	
+		
+	/* переключаем режим среды на выполнениеп программы */
+	env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
+
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
-	/* Сброс индекса строки программы */
-	env->ctx->current_line = 0;
+	
 	int current_line = env->ctx->current_line;
 	while (current_line < GWBE_PROGRAM_MAXLINES && result.type == GWBR_RESULT_OK)
 	{
@@ -93,10 +106,25 @@ GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
 			result = gwbh_Statements(env, env->program->lines[current_line]->stmts);
 		}
 		
-		/* Переход на следующую строку */	
-		env->ctx->current_line++;
-		current_line = env->ctx->current_line;	
+		if (result.type == GWBR_RESULT_OK)	/* Критично для оператора Input, чтобы он выполнился повторно */
+		{
+			/* Переход на следующую строку */	
+			env->ctx->current_line++;
+			current_line = env->ctx->current_line;
+		}
 	}	
 	
+	if (result.type == GWBR_RESULT_OK)	/* Если программа успешна завершена */
+	{
+		/* Сброс индекса строки программы */
+		env->ctx->current_line = 0;
+	}
+
+	if (result.type != GWBR_NOTIFICATION_WAITFORVALUE)
+	{
+		/* Переключаем режим среды на "интерпретируемый" */
+		env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
+	}		
+
 	return result;	 
 }

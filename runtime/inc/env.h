@@ -28,10 +28,12 @@ typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 /*
 	Environment
 */
-struct GWBE_Environment {
+#define GWBE_RUNTIMEMODE_INTERPRETER	1
+#define GWBE_RUNTIMEMODE_PROGRAM	2
 
+struct GWBE_Environment {
 	int trace_mode;							/* Режим трассировки (0 - выключен, 1 - включен) */ 
-	
+	int runtime_mode;						/* GWBE_RUNTIMEMODE_INTERPRETER, GWBE_RUNTIMEMODE_PROGRAM */
 	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
 	struct GWBE_FunctionListNode* udef_funcs;

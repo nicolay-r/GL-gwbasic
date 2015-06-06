@@ -26,47 +26,32 @@ void gwbi_GetString(GWBE_Environment* env)
 	assert(env->input->buffer != NULL);
 	assert(env->input->buffer_len > 0);
 	
-	char** ptr = &env->input->buffer;
-	size_t* size = &env->input->buffer_len;
+	char* ptr = env->input->buffer;
+	size_t *size = &env->input->buffer_len;
 
-	/*
-		Read string from console
-	*/
-	getline(ptr, size, stdin);
-	
 	/* trim whitespaces */
-	trimwhitespace(*ptr);
-	*size = strlen(*ptr);
+	trimwhitespace(ptr);
+	*size = strlen(ptr);
 }
 
 int gwbi_GetInteger(GWBE_Environment* env)
 {
 	assert(env->input != NULL);
 
-	char** ptr = &env->input->buffer;
+	char* ptr = env->input->buffer;
 	size_t* size = &env->input->buffer_len;
 
-	/*
-		Read string from console
-	*/
-	getline(ptr, size, stdin);
-	
-	return atoi(*ptr);  
+	return atoi(ptr);  
 }
 
 float gwbi_GetFloat(GWBE_Environment* env)
 {
 	assert(env->input != NULL);
 
-	char** ptr = &env->input->buffer;
+	char* ptr = env->input->buffer;
 	size_t* size = &env->input->buffer_len;
 
-	/*
-		Read string from console
-	*/
-	getline(ptr, size, stdin);
-	
-	return atof(*ptr);
+	return atof(ptr);
 
 }
 
@@ -74,13 +59,8 @@ double gwbi_GetDouble(GWBE_Environment* env)
 {
 	assert(env->input != NULL);
 
-	char** ptr = &env->input->buffer;
+	char* ptr = env->input->buffer;
 	size_t* size = &env->input->buffer_len;
 
-	/*
-		Read string from console
-	*/
-	getline(ptr, size, stdin);
-	
-	return atof(*ptr);
+	return atof(ptr);
 }
