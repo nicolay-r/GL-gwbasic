@@ -4,3 +4,4 @@
 	Dependencies
 */
 #include "../../runtime/inc/env.h"	/* Environment */
+#include "../../runtime/inc/runtime.h" 	/* Runtime */

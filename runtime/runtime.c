@@ -5,40 +5,6 @@
 #include "inc/runtime.h"
 #include "inc/env.h"
 #include "handlers/interp/stmts/inc/stmts.h" 	/* To gwbr_RunProgram for statements handling */
-/* 
-	Read user request
-*/
-void gwbr_ReadRequest(GWBE_Input* input)
-{
-	assert(input != NULL);
-	assert(input->buffer != NULL);
-
-	getline(&input->buffer, &input->buffer_len, stdin);
-}
-
-/*
-	Run GWBasic Shell
-*/
-void gwbr_RunShell(GWBE_Environment* env)
-{
-	assert(env != NULL);
-
-	GWBN_Interpreter* interpreter; 
-	while (1)
-	{
-		assert(env->input != NULL);
-		gwbr_ReadRequest(env->input);
-		/* Parse user request */
-		assert(env->input->buffer != NULL);
-		interpreter = gwbr_Parse(env->input->buffer); 
-		/* Handle the received "GWBN_Interpreter*" (Part 3) */
-		if (interpreter != NULL)
-		{
-			gwbh_Interpreter(env, interpreter);
-		}
-	}	
-}
-
 /*
 	Terminate GWBasic Shell
 */
@@ -53,6 +19,33 @@ void gwbr_TerminateShell(GWBE_Environment* env)
 GWBN_Interpreter* gwbr_Parse(char* sourceCode)
 {
 	return (GWBN_Interpreter*) gwbp_Parse(sourceCode);		
+}
+
+/*
+	Main Function that runs interpreter
+*/
+void gwbr_Run(GWBE_Environment *env)
+{
+	assert(env != NULL);
+	assert(env->input != NULL);
+
+	/* Parse user request */
+	assert(env->input->buffer != NULL);
+	
+	/*
+		Нужно проверить тип запроса. 
+		Пока проверка не осуществляется,
+		и запрос всегда разбирается как
+		пользовательский запрос к IDE.
+	*/
+
+	GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
+	
+	/* Handle the received "GWBN_Interpreter*" */
+	if (interpreter != NULL)
+	{
+		gwbh_Interpreter(env, interpreter);
+	}
 }
 
 /*

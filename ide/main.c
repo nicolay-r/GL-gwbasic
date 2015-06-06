@@ -59,12 +59,10 @@ void processNormalKeys(unsigned char key, int x, int y)
 			//glReadPixels(0, 0, ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, data);
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
 			gwbg_Environment_PushCharToRequest(ide->env, '\n');
+			
 			/* Run user request */
-			GWBN_Interpreter* interpreter = gwbp_Parse(ide->env->input->buffer);
-			if (interpreter != NULL)
-			{
-				gwbh_Interpreter(ide->env, interpreter);
-			}
+			gwbr_Run(ide->env);
+			
 			/* Clear user request*/
 			gwbg_Environment_ClearRequest(ide->env);
 			break;
