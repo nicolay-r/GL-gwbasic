@@ -38,13 +38,33 @@ void gwbr_Run(GWBE_Environment *env)
 		и запрос всегда разбирается как
 		пользовательский запрос к IDE.
 	*/
-
-	GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
-	
-	/* Handle the received "GWBN_Interpreter*" */
-	if (interpreter != NULL)
+	switch (env->input->type)
 	{
-		gwbh_Interpreter(env, interpreter);
+		case GWBIT_USERREQUEST:
+		{
+			GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
+			/* Handle the received "GWBN_Interpreter*" */
+			if (interpreter != NULL)
+			{
+				gwbh_Interpreter(env, interpreter);
+			}
+			break;
+		}
+		case GWBIT_INPUTREQUEST:
+		{
+			/*
+				Input Request (Value for a GWBasic variable)
+				Продолжаем выполнение программы
+			*/
+			gwbr_RunProgram(env);
+			break;
+		}
+		default:
+		{
+			gwbo_DisplayDebugMessage(env, "Unknown input type");
+			gwbo_NextLine(env);
+			break;
+		}
 	}
 }
 
