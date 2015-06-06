@@ -20,7 +20,7 @@ struct GWBI_UserRequest{
 };
 
 struct GWBI_InputRequest{
-	char* var_name;				/* имя переменной, значение которой необходимо присвоить */
+	int var_index;				/* номер переменной, к которой нужно присвоить введенное значение*/
 };
 
 struct GWBI_Input {
