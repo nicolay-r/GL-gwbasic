@@ -16,4 +16,5 @@ void gwbr_ReadRequest();
 void gwbr_RunShell(GWBE_Environment* env);
 void gwbr_TerminateShell(GWBE_Environment* env);
 
+GWBR_Result gwbr_RunProgram(GWBE_Environment* env);
 #endif

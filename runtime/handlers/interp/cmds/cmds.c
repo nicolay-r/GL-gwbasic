@@ -1,6 +1,7 @@
 
 #include "inc/cmds.h"
 #include "../stmts/inc/stmts.h"
+#include "../../../inc/runtime.h"		/* GWBR_RunProgram */
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -46,25 +47,9 @@ GWBR_Result gwbh_Run(GWBE_Environment *env, GWBN_Run* node) {
 	assert(node != NULL);
 	assert(env->ctx != NULL);
 
-	/* Сброс индекса строки программы */
-	env->ctx->current_line = 0;
-	int current_line = env->ctx->current_line;
-	while (current_line < GWBE_PROGRAM_MAXLINES && result.type == GWBR_RESULT_OK)
-	{
-		assert(env->program != NULL);
-		assert(env->program->lines != NULL);
-		
-		if (env->program->lines[current_line] != NULL)
-		{	/* строка присутствует, поэтому ее нужно обработать */
-			result = gwbh_Statements(env, env->program->lines[current_line]->stmts);
-		}
-		
-		/* Переход на следующую строку */	
-		env->ctx->current_line++;
-		current_line = env->ctx->current_line;	
-	}	
-	
-	return result;	 
+	result = gwbr_RunProgram(env);
+
+	return result;
 } 
 
 GWBR_Result gwbh_System(GWBE_Environment *env, GWBN_System* node) {
