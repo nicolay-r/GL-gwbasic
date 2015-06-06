@@ -578,20 +578,74 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 	}
 	return result;	 
 } 
-	
+
+/* Set variable Vaulue from Input */
+GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
+{
+	GWBC_Variable* runtime_var;
+	switch(node_var->type)
+	{		
+		case GWBNT_STRINGVARIABLE:
+		{
+			runtime_var = gwbe_Context_GetVariable(env, node_var->str->name);
+			
+			assert (runtime_var != NULL);
+
+			gwbi_GetString(env);
+			runtime_var->val->str_val = strdup(env->input->buffer);
+			break;
+		}
+		case GWBNT_NUMERICVARIABLE:
+		{
+			runtime_var = gwbe_Context_GetVariable(env, node_var->num->name);
+			
+			assert (runtime_var != NULL);
+			
+			switch (node_var->num->type)
+			{
+				case GWBNT_INTEGERVARIABLE:
+				{
+					runtime_var->val->type = GWBCT_INTEGER;
+					runtime_var->val->int_val = gwbi_GetInteger(env);
+					break;
+				}
+				case GWBNT_SINGLEPRECISIONVARIABLE:
+				{
+					runtime_var->val->type = GWBCT_SINGLE;
+					runtime_var->val->single_val = gwbi_GetFloat(env);
+					break;
+				}
+				case GWBNT_DOUBLEPRECISIONVARIABLE:
+				{
+					runtime_var->val->type = GWBCT_DOUBLE;
+					runtime_var->val->double_val = gwbi_GetDouble(env);
+					break;
+				}
+				default:
+					gwbo_DisplayDebugMessage(env,"Numeric variables");
+					break;
+			}
+			break;
+		}
+		case GWBNT_ARRAYVARIABLE:
+			/* Not Implemented */
+			gwbo_DisplayDebugMessage(env,"Array variables not supported");
+			break;
+	}
+}
+
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	GWBR_Result result;
 
 	gwbo_DisplayDebugMessage(env,"In \"Input\" Handler"); 
-	
+
 	assert(env != NULL);
 	assert(node != NULL);	
-
 	/* Вывод текстового сообщения */
 	if (node->prompt != NULL)
 	{
 		if (node->prompt->str != NULL) printf("%s\n", node->prompt->str);
-		else printf("? \n");
+		else gwbo_DisplayMessage(env, "? \n");
 	}
 	else printf("? \n");
 	
@@ -599,64 +653,21 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	{
 		assert(node->vars != NULL);
 
+		//int var_index = 0;
 		GWBN_Variables* vars = node->vars;
 		while (vars != NULL)
 		{
-			assert(vars->var != NULL);
-			
-			GWBC_Variable* runtime_var = NULL;
-			switch(vars->var->type)
-			{		
-				case GWBNT_STRINGVARIABLE:
-				{
-					runtime_var = gwbe_Context_GetVariable(env, vars->var->str->name);
-					
-					assert (runtime_var != NULL);
 
-					gwbi_GetString(env);
-					runtime_var->val->str_val = strdup(env->input->buffer);
-					break;
-				}
-				case GWBNT_NUMERICVARIABLE:
-				{
-					runtime_var = gwbe_Context_GetVariable(env, vars->var->num->name);
-					
-					assert (runtime_var != NULL);
-					
-					switch (vars->var->num->type)
-					{
-						case GWBNT_INTEGERVARIABLE:
-						{
-							runtime_var->val->type = GWBCT_INTEGER;
-							runtime_var->val->int_val = gwbi_GetInteger(env);
-							break;
-						}
-						case GWBNT_SINGLEPRECISIONVARIABLE:
-						{
-							runtime_var->val->type = GWBCT_SINGLE;
-							runtime_var->val->single_val = gwbi_GetFloat(env);
-							break;
-						}
-						case GWBNT_DOUBLEPRECISIONVARIABLE:
-						{
-							runtime_var->val->type = GWBCT_DOUBLE;
-							runtime_var->val->double_val = gwbi_GetDouble(env);
-							break;
-						}
-						default:
-							gwbo_DisplayDebugMessage(env,"Numeric variables");
-							break;
-					}
-					break;
-				}
-				case GWBNT_ARRAYVARIABLE:
-					/* Not Implemented */
-					gwbo_DisplayDebugMessage(env,"Array variables not supported");
-					break;
-			}
+			/* set new value to variable */
+			assert(vars->var != NULL);
+			gwbi_SetValue(env, vars->var);
+		
+			/* Got to next variable */
 			vars = vars->next;
 		}	
 	}	
+
+
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
