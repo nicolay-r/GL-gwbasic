@@ -658,19 +658,19 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 		
 		/* переходим в состояние ожидания ввода результата */
 		env->input->type = GWBIT_INPUTREQUEST;
-	}
-
-	/* Вывод текстового сообщения */
-	if (node->prompt != NULL)
-	{
-		if (node->prompt->str != NULL) 
+		
+		/* Вывод текстового сообщения */
+		if (node->prompt != NULL)
 		{
-			gwbo_DisplayMessage(env, node->prompt->str);
-			gwbo_NextLine(env);
-		}
-		else {
-			gwbo_DisplayMessage(env, "?");
-			gwbo_NextLine(env);
+			if (node->prompt->str != NULL) 
+			{
+				gwbo_DisplayMessage(env, node->prompt->str);
+				gwbo_NextLine(env);
+			}
+			else {
+				gwbo_DisplayMessage(env, "?");
+				gwbo_NextLine(env);
+			}
 		}
 	}
 	
@@ -686,7 +686,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 			{
 				/* leave statement. Wait for value. */
 				gwbo_DisplayDebugMessage(env, "Waiting for new variable value");
-				gwbo_NextLine(env);
 				var_index++;
 				break;
 			}
@@ -699,7 +698,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 
 			/* Got to the next variable */
 			gwbo_DisplayDebugMessage(env, "Go to Next variable in list");
-
 			vars = vars->next;
 			var_index++;
 		}	
