@@ -19,7 +19,11 @@ typedef struct GWBE_Function GWBE_Function;
 typedef struct GWBE_FunctionListNode GWBE_FunctionListNode;
 typedef struct GWBE_ProgramLine GWBE_ProgramLine;
 typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
-typedef struct GWBE_Input GWBE_Input;
+
+/*
+	Environment Dependencies
+*/
+#include "input.h"
 
 /*
 	Environment
@@ -31,7 +35,7 @@ struct GWBE_Environment {
 	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
 	struct GWBE_FunctionListNode* udef_funcs;
-	struct GWBE_Input* input;
+	struct GWBI_Input* input;
 };
 
 /*
@@ -86,15 +90,6 @@ struct GWBE_Function {
 
 struct GWBE_FunctionListNode {
 	struct GWBE_Function *val, *next;
-};
-
-/*
-	Input
-*/
-#define GWBE_INPUT_BUFFERLENGTH			2048
-struct GWBE_Input {
-	char* buffer;				/* буфер прочитанной строки */
-	size_t buffer_len;			/* длина буфера (задается при инициализации Environment структуры */
 };
 
 /*

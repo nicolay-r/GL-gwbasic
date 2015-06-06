@@ -7,7 +7,7 @@
 /* 
 	Read user request
 */
-void ReadRequest(GWBE_Input* input)
+void ReadRequest(GWBI_Input* input)
 {
 	assert(input != NULL);
 	assert(input->buffer != NULL);

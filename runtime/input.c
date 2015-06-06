@@ -1,7 +1,6 @@
 /* GWBasic Runtime input module */
 
 #include "inc/env.h"
-#include "inc/input.h"
 #include <string.h>	/* strlen() */
 #include <stdio.h>	/* getline() */
 #include <assert.h>	/* assert() */

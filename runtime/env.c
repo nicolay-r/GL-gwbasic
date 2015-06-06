@@ -27,7 +27,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 
 	/* Инициализация и очистка Input буфера */	
 	assert(GWBE_INPUT_BUFFERLENGTH > 0);
-	env->input = (GWBE_Input*) malloc(sizeof(GWBE_Input));
+	env->input = (GWBI_Input*) malloc(sizeof(GWBI_Input));
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = 0;
 	env->input->buffer[0] = 0;			
