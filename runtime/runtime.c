@@ -54,7 +54,7 @@ void gwbr_Run(GWBE_Environment *env)
 		case GWBE_RUNTIMEMODE_PROGRAM:
 		{
 			/* Продолжаем выполнение программы */
-			gwbr_RunProgram(env);
+			gwbr_ContinueProgram(env);
 			break;
 		}
 		default:
@@ -64,6 +64,16 @@ void gwbr_Run(GWBE_Environment *env)
 			break;
 		}
 	}
+}
+
+/*
+	Continue GWBasic Program
+*/
+GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
+{
+	assert(env != NULL);
+
+	return gwbr_RunProgram(env);
 }
 
 /*
