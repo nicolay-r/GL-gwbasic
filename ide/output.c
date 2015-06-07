@@ -106,9 +106,11 @@ void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 
 void gwbo_Cls(GWBE_Environment* env)
 {
+	assert(ide != NULL);
+
 	/* Clean canvas */
 	gwbg_Canvas_Clear(ide->canvas);
-
+	gwbg_TextBuffer_Clear(ide->text_buffer);
 	/* Force Render */
 	gwbg_Ide_Render();
 }

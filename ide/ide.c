@@ -43,13 +43,6 @@ void gwbg_Ide_SetCanvas(GWBG_Ide* ide, int pixel_format)
 	ide->canvas = malloc(sizeof(GWBG_Canvas));
 	ide->canvas->data = calloc(ide->height*ide->width*contents, sizeof(GLubyte));
 	
-	/*
-	int i, j;
-	for (i = 0; i < ide->height; i++)
-		for (j = 0; j < ide->width*contents; j++)
-			ide->canvas->data[i*ide->width*3 + j] = 30;
-	*/
-
 	ide->canvas->pixel_format = pixel_format;
 	ide->canvas->pixel_type = GL_UNSIGNED_BYTE;
 	ide->canvas->to_draw_count = 0;			
@@ -174,6 +167,21 @@ void gwbg_TextBuffer_CursorNextLine(GWBG_TextBuffer* text_buffer)
 
 		text_buffer->cursor->y = 0;
 	}
+}
+void gwbg_TextBuffer_Clear(GWBG_TextBuffer* text_buffer)
+{
+	assert(text_buffer != NULL);
+	assert(text_buffer->text_field != NULL);
+
+	/* Очистка текстовой матрицы */
+	int i, j;
+	for (i = 0; i < text_buffer->height; i++)
+		for (j = 0; j < text_buffer->width; j++)
+			text_buffer->text_field[i][j] = 0;
+	
+	/* Устанавливаем начальное положение курсора */
+	text_buffer->cursor->x = 0;
+	text_buffer->cursor->y = 0;
 }
 void gwbg_Environment_ClearRequest(GWBE_Environment* env)
 {
