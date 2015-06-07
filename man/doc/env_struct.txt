@@ -1,0 +1,14 @@
+struct GWBE_Environment {
+	int runtime_type; 	/* GWBE_MODE_INTERPRETER, GWBE_MODE_PROGRAM */
+	struct GWBE_Context* ctx;
+	struct GWBE_Input* input;
+};
+struct GWBE_Input {
+	char* buffer;		
+	size_t buffer_len;	
+};
+struct GWBE_Context {
+	GWBE_Program* program;
+	GWBC_VariableListNode* system_vars, local_vars[];
+	GWBE_CallbackStack* callback_stack;
+};

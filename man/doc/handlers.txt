@@ -1,0 +1,4 @@
+GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
+{
+	/* Implementation */
+}

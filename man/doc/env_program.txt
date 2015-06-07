@@ -1,0 +1,5 @@
+struct GWBE_ProgramLine {
+	int number;
+	char* source;
+	struct GWBN_Statements* stmts;
+};
