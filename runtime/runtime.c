@@ -38,33 +38,20 @@ void gwbr_Run(GWBE_Environment *env)
 		и запрос всегда разбирается как
 		пользовательский запрос к IDE.
 	*/
-	switch (env->input->type)
+	switch (env->runtime_mode)
 	{
-		case GWBIT_USERREQUEST:
+		case GWBE_RUNTIMEMODE_INTERPRETER:
 		{
-			switch (env->runtime_mode)
+			/* Обрабатываем запрос пользователя */
+			GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
+			/* Handle the received "GWBN_Interpreter*" */
+			if (interpreter != NULL)
 			{
-				case GWBE_RUNTIMEMODE_INTERPRETER:
-				{
-					/* Обрабатываем запрос пользователя */
-					GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
-					/* Handle the received "GWBN_Interpreter*" */
-					if (interpreter != NULL)
-					{
-						gwbh_Interpreter(env, interpreter);
-					}
-					break;
-				}
-				case GWBE_RUNTIMEMODE_PROGRAM:
-				{
-					/* Продолжаем выполнение программы */
-					gwbr_RunProgram(env);
-					break;
-				}
+				gwbh_Interpreter(env, interpreter);
 			}
 			break;
 		}
-		case GWBIT_INPUTREQUEST:
+		case GWBE_RUNTIMEMODE_PROGRAM:
 		{
 			/* Продолжаем выполнение программы */
 			gwbr_RunProgram(env);
@@ -72,7 +59,7 @@ void gwbr_Run(GWBE_Environment *env)
 		}
 		default:
 		{
-			gwbo_DisplayDebugMessage(env, "Unknown input type");
+			gwbo_DisplayDebugMessage(env, "Unimplemented runtime mode");
 			gwbo_NextLine(env);
 			break;
 		}
