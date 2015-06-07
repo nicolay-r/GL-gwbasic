@@ -93,7 +93,8 @@ void gwbg_TextBuffer_PushString(GWBG_TextBuffer* text_buffer, char* string)
 	int i;
 	for (i = 0; i < strlen(string); i++)
 	{
-		gwbg_TextBuffer_PushChar(text_buffer, string[i]);
+		char c = isspace(string[i]) ? ' ' : string[i];
+		gwbg_TextBuffer_PushChar(text_buffer, c);
 	}
 }
 
