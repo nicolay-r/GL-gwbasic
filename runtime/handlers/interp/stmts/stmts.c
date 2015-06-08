@@ -238,7 +238,7 @@ GWBR_Result gwbh_Circle(GWBE_Environment *env, GWBN_Circle* node) {
 
 	if (node->opts->color != NULL)
 	{
-		circle.color = malloc(sizeof(int));
+		circle.color = malloc(sizeof(GWBC_Value));
 		*(circle.color) = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
 	}
 	else circle.color = NULL;
@@ -323,7 +323,12 @@ GWBR_Result gwbh_Line(GWBE_Environment *env, GWBN_Line* node) {
 	if (val.type == GWBCT_INTEGER) line.b.y = val.int_val;
 	else type_mismatch = 1;
 
-	line.color = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
+	if (node->opts->color != NULL)
+	{
+		line.color = malloc(sizeof(GWBC_Line));
+		*(line.color) = gwbr_EvaluateNumericExpression(env, node->opts->color).val;
+	}
+	else line.color = NULL;
 
 	if (!type_mismatch)
 		gwbo_DisplayLine(env, line);

@@ -94,7 +94,7 @@ struct GWBC_DisplayPoint{
 */
 struct GWBC_Line{
 	GWBC_DisplayPoint a, b;
-	GWBC_Value color;
+	GWBC_Value* color;
 };
 
 /*
