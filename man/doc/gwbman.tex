@@ -326,10 +326,14 @@
 	\newpage
 	\nocite{*}
 	\bibliographystyle{plain}		
-	\bibliography{biblio}
-	
+	\bibliography{biblio}	
 	\newpage
-	\tableofcontents %Содержание
 
+	\tableofcontents %Содержание
+	\newpage
+
+	\part*{Приложение A. Тестовая программа на GW-Basic}
+	%\addcontentsline{toc}{part}{Приложение A. Тестовая программа на GW-Basic}
+	\lstinputlisting[basicstyle=\footnotesize]{circles.bas}
 	% приложение
 \end{document}
