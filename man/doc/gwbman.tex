@@ -49,7 +49,9 @@
 \DeclareGraphicsExtensions{{.jpg}}
 
 \begin{document}
-	\section{Введение}
+	\part*{\centering Введение}
+	\addcontentsline{toc}{part}{Введение} % добавление раздела в оглавление
+	
 	\newpage
 	\section{Обзор используемых технологий}	
 		\subsection{Среда разработки GW-Basic}
@@ -314,7 +316,9 @@
 		\end{figure}
 		% Программа со стрельбой по мишени	
 	\newpage	
-	\section{Заключение}
+	
+	\part*{\centering Заключение}
+	\addcontentsline{toc}{part}{Заключение}
 	\newpage
 	\nocite{*}
 	\bibliographystyle{plain}		
