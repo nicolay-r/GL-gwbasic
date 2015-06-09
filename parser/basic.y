@@ -622,13 +622,15 @@ yyerror(char *s)
 /*
 	GWBasic program parser from char* buffer
 */
-GWBN_Interpreter* gwbp_Parse(char* sourceCode)
+GWBN_Interpreter* gwbp_Parse(char* source_code)
 {
 	GWBN_Interpreter** interpreter = (GWBN_Interpreter**) malloc (sizeof(GWBN_Interpreter*));
 
-	YY_BUFFER_STATE buffer = yy_scan_string(sourceCode);
+	YY_BUFFER_STATE buffer = yy_scan_string(source_code);
 	yyparse(interpreter);
 	yy_delete_buffer(buffer);
 	
-	return *interpreter; 
+	GWBN_Interpreter* result = *interpreter;
+	free(interpreter);
+	return result; 
 }	
