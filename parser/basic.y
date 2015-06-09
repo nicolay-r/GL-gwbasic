@@ -630,7 +630,5 @@ GWBN_Interpreter* gwbp_Parse(char* sourceCode)
 	yyparse(interpreter);
 	yy_delete_buffer(buffer);
 	
-	GWBN_Interpreter* result = *interpreter;
-	free(interpreter);
-	return result; 
+	return *interpreter; 
 }	
