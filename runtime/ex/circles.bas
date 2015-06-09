@@ -7,18 +7,18 @@
 25 	LET radius% = thickness%
 30 	CIRCLE (screenX%, screenY%) radius%
 40 	FOR i% = 0 TO circles%
-50		CIRCLE (screenX%, screenY%) radius% + i%*thickness%
+50		CIRCLE (screenX%, screenY%) radius% + i%*thickness%, 14
 60 	NEXT i%
-70 	LINE (screenX% - circles%*thickness% - radius%, screenY%) - (screenX% + circles%*thickness% + radius%, screenY%), 10
-71 	LINE (screenX%, screenY% - circles%*thickness% - radius%) - (screenX%, screenY% + circles%*thickness% + radius%), 10
+70 	LINE (screenX% - circles%*thickness% - radius%, screenY%) - (screenX% + circles%*thickness% + radius%, screenY%), 13
+71 	LINE (screenX%, screenY% - circles%*thickness% - radius%) - (screenX%, screenY% + circles%*thickness% + radius%), 13
 80 	LET uX% = 0: LET uY% = 0 : LET isHit% = 0
 90 	FOR i% = 0 TO shoots%
 92		PRINT "You got ", shoots% - i% , " shoots."
 95 		INPUT "Shoot at coordinate: ", uX%, uY%
 100		dist# = SQR((uX%-screenX%)*(uX%-screenX%) + (uY%-screenY%)*(uY%-screenY%))
 105		PRINT "Distance: ", dist#
-106		LINE (uX% - 30, uY% - 30) - (uX% + 30, uY% + 30), 10
-110		LINE (uX% - 30, uY% + 30) - (uX% + 30, uY% - 30), 10
+106		LINE (uX% - 30, uY% - 30) - (uX% + 30, uY% + 30), 4
+110		LINE (uX% - 30, uY% + 30) - (uX% + 30, uY% - 30), 4
 115		score% = score% + (circles% - INT(dist#/thickness%)) 
 120		IF dist# < radius% THEN isHit% = 1 : shoots% = shoots% - (i% + 1): i% = shoots% + 1 
 130	NEXT i%
