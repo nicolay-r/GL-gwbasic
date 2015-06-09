@@ -102,6 +102,33 @@ void gwbg_TextBuffer_MarkCursorPosition(GWBG_TextBuffer* text_buffer)
 	text_buffer->text_field[x][y] = GWBGS_CURSORMARKER;
 }
 
+void set_CGA_Color(GWBC_Value* optional_color)
+{
+	if (optional_color != NULL)
+	{
+		assert(optional_color->type == GWBCT_INTEGER);
+		int paint = optional_color->int_val;		
+	
+		/* CGA Palette */
+		int channel_val = 0xAA;
+		int background = 0x00;
+		if (paint & 0x08)
+		{
+			channel_val = 0xFF;
+			background = 0x55;
+		}
+	
+		glColor3ub(paint & 0x04 ? channel_val : background,
+			paint & 0x02 ? channel_val : background,
+			paint & 0x01 ? channel_val : background);
+	}
+	else
+	{
+		/* Default Color */
+		glColor3ub(0xFF, 0xFF, 0xFF);
+	}
+}
+
 void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 {
 	assert(canvas != NULL);	
@@ -117,7 +144,7 @@ void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 				GWBC_Line line = canvas->objects[i].line; 	
 				
 				glBegin(GL_LINES);
-					/* нужно задать цвет! */
+					set_CGA_Color(line.color);
 					glVertex2i(line.a.x, line.a.y);
 					glVertex2i(line.b.x, line.b.y);
 				glEnd();
@@ -129,7 +156,7 @@ void gwbg_Canvas_RenderObjectsToDraw(GWBG_Canvas* canvas)
 				GWBC_Circle circle = canvas->objects[i].circle;
 
 				glBegin(GL_LINE_LOOP);	
-					/* нужно задать цвет! */
+					set_CGA_Color(circle.color);
 					double alpha;
 					for (alpha = 0; alpha < 2*M_PI; alpha += 2*M_PI/50)
 					{	
