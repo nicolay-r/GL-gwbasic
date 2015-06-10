@@ -5,9 +5,9 @@
 10 	LET x# = RND: LET y# = RND
 20 	LET screenX% = INT(x#*640): LET screenY% = INT(y#*480)
 25 	LET radius% = thickness%
-30 	CIRCLE (screenX%, screenY%) radius%
+30 	CIRCLE (screenX%, screenY%), radius%
 40 	FOR i% = 0 TO circles%
-50		CIRCLE (screenX%, screenY%) radius% + i%*thickness%, 14
+50		CIRCLE (screenX%, screenY%), radius% + i%*thickness%, 14
 60 	NEXT i%
 70 	LINE (screenX% - circles%*thickness% - radius%, screenY%) - (screenX% + circles%*thickness% + radius%, screenY%), 13
 71 	LINE (screenX%, screenY% - circles%*thickness% - radius%) - (screenX%, screenY% + circles%*thickness% + radius%), 13
