@@ -67,6 +67,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_CLS:
 				result = gwbh_Cls(env, node->cls);
 				return result;
+			case GWBNT_SCREEN:
+				result = gwbh_Screen(env, node->screen);
+				return result;
 		}
 	}
 	/*
@@ -278,6 +281,8 @@ GWBR_Result gwbh_Screen(GWBE_Environment *env, GWBN_Screen* node) {
 
 	/* "Screen" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"Screen\" Handler"); 
+	gwbo_DisplayMessage(env, "\"Screen\" statement is not implemented");
+	gwbo_NextLine(env);
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 
