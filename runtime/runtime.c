@@ -65,6 +65,26 @@ void gwbr_Run(GWBE_Environment *env)
 		}
 	}
 }
+/*
+	Finish GWBasic Program
+*/
+void gwbr_FinishProgram(GWBE_Environment* env, GWBR_Result result)
+{
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+	
+	gwbo_DisplayDebugMessage(env, "In \"FinishProgram\" Handler"); 	
+
+	/* Сброс индекса строки программы */
+	env->ctx->current_line = 0;
+
+	/* Вывод результата выполнения программы */
+	gwbo_DisplayResult(env, result);
+	gwbo_NextLine(env);
+
+	/* Переключаем режим среды на "интерпретируемый" */
+	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
+}
 
 /*
 	Continue GWBasic Program
@@ -72,21 +92,7 @@ void gwbr_Run(GWBE_Environment *env)
 GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 {
 	assert(env != NULL);
-
-	return gwbr_RunProgram(env);
-}
-
-/*
-	Run GWBasic Program
-*/
-GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
-{
-	assert(env != NULL);
-	
-	gwbo_DisplayDebugMessage(env, "In \"RunProgram\" Handler"); 	
-		
-	/* переключаем режим среды на выполнениеп программы */
-	env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
+	assert(env->ctx != NULL);
 
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
@@ -110,22 +116,41 @@ GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
 			current_line = env->ctx->current_line;
 		}
 	}	
-	
-	if (result.type == GWBR_RESULT_OK)	/* Если программа успешна завершена */
-	{
-		/* Сброс индекса строки программы */
-		env->ctx->current_line = 0;
 
-		/* Вывод результата выполнения программы */
-		gwbo_DisplayResult(env, result);
-		gwbo_NextLine(env); 	
-	}
-
+	/* Если не ожидается ввод с клавиатуры */
 	if (result.type != GWBR_NOTIFICATION_WAITFORVALUE)
-	{
-		/* Переключаем режим среды на "интерпретируемый" */
-		env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
-	}		
+		gwbr_FinishProgram(env, result);
 
-	return result;	 
+	return result;
+}
+
+/*
+	Start GWBasic Program
+*/
+void gwbr_StartProgram(GWBE_Environment* env)
+{		
+	assert(env != NULL);
+	assert(env->ctx != NULL);
+
+	gwbo_DisplayDebugMessage(env, "In \"StartProgram\" Handler"); 	
+	
+	/* переключаем режим среды на выполнениеп программы */
+	env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
+
+}
+
+/*
+	Run GWBasic Program
+*/
+GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	
+	gwbo_DisplayDebugMessage(env, "In \"RunProgram\" Handler"); 	
+		
+	/* Начинаем выполнение программы */
+	gwbr_StartProgram(env);
+
+	/* Продолжаем выполенение программы */
+	return gwbr_ContinueProgram(env);	 
 }
