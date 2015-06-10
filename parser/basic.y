@@ -367,7 +367,7 @@ Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$-
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 
-Circle:	CIRCLE ScreenCoordinate NumericExpression CircleOptions /* Radius */ 	{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $3; $$->opts = $4; } 
+Circle:	CIRCLE ScreenCoordinate ',' NumericExpression CircleOptions /* Radius */{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $4; $$->opts = $5; } 
 CircleOptions: 									{ $$ = gwbn_NewCircleOptions(); $$->color = NULL; }
 	| ',' NumericExpression /* Color */					{ $$ = gwbn_NewCircleOptions(); $$->color = $2; }
 	| ',' NumericExpression ',' NumericExpression /* Color, Start */							{ /* Not implemented */ }
