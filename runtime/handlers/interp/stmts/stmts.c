@@ -587,6 +587,7 @@ GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node) {
 /* Set variable Vaulue from Input */
 GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
 {
+	GWBR_Result result;
 	GWBC_Variable* runtime_var;
 	switch(node_var->type)
 	{		
@@ -597,7 +598,13 @@ GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
 			assert (runtime_var != NULL);
 
 			gwbi_GetString(env);
-			runtime_var->val->str_val = strdup(env->input->buffer);
+			
+			GWBC_Value value;
+			value.type = GWBCT_STRING;
+			value.str_val = strdup(env->input->buffer);
+
+			result = gwbc_Variable_SetValue(runtime_var, value);
+
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
@@ -606,30 +613,31 @@ GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
 			
 			assert (runtime_var != NULL);
 			
+			GWBC_Value value;
 			switch (node_var->num->type)
 			{
 				case GWBNT_INTEGERVARIABLE:
 				{
-					runtime_var->val->type = GWBCT_INTEGER;
-					runtime_var->val->int_val = gwbi_GetInteger(env);
+					value.type = GWBCT_INTEGER;
+					value.int_val = gwbi_GetInteger(env);
 					break;
 				}
 				case GWBNT_SINGLEPRECISIONVARIABLE:
 				{
-					runtime_var->val->type = GWBCT_SINGLE;
-					runtime_var->val->single_val = gwbi_GetFloat(env);
+					value.type = GWBCT_SINGLE;
+					value.single_val = gwbi_GetFloat(env);
 					break;
 				}
 				case GWBNT_DOUBLEPRECISIONVARIABLE:
 				{
-					runtime_var->val->type = GWBCT_DOUBLE;
-					runtime_var->val->double_val = gwbi_GetDouble(env);
+					value.type = GWBCT_DOUBLE;
+					value.double_val = gwbi_GetDouble(env);
 					break;
 				}
-				default:
-					gwbo_DisplayDebugMessage(env,"Numeric variables");
-					break;
 			}
+
+			result = gwbc_Variable_SetValue(runtime_var, value);
+
 			break;
 		}
 		case GWBNT_ARRAYVARIABLE:
@@ -637,6 +645,7 @@ GWBR_Result gwbi_SetValue(GWBE_Environment *env, GWBN_Variable* node_var)
 			gwbo_DisplayDebugMessage(env,"Array variables not supported");
 			break;
 	}
+	return result;
 }
 
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
@@ -685,45 +694,57 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	{
 		assert(node->vars != NULL);
 
-		while (vars != NULL)
+		while (vars != NULL && result.type == GWBR_RESULT_OK)
 		{
 			if (var_index == env->input->input_request.var_index)
 			{
-				/* leave statement. Wait for value. */
-				gwbo_DisplayDebugMessage(env, "Waiting for new variable value");
-				var_index++;
-				break;
+				/* leave cycle on next iteration. Wait for value. */
+				gwbo_DisplayDebugMessage(env, "Waiting for new value for variable");
+				result.type = GWBR_NOTIFICATION_WAITFORVALUE;
 			}
 			else if (var_index == env->input->input_request.var_index - 1)
 			{
 				/* set new value to variable */
 				assert(vars->var != NULL);
-				gwbi_SetValue(env, vars->var);
+				result = gwbi_SetValue(env, vars->var);
 			}
 
 			/* Got to the next variable */
-			gwbo_DisplayDebugMessage(env, "Go to Next variable in list");
 			vars = vars->next;
 			var_index++;
 		}	
 	}	
-
-	if (vars == NULL) /* Если все переменные проинициализированы */   
+	
+	switch (result.type)
 	{
-		gwbo_DisplayDebugMessage(env, "All variables inited");
-		/* Сбрасываем индекс для оператора Input */
-		env->input->input_request.var_index = 0;
-		
-		/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
-		env->input->type = GWBIT_USERREQUEST;
-		result.type = GWBR_RESULT_OK;
-	}
-	else	/* Если необходимо проинициализировать значение переменной */ 
-	{
-		/* сохраняем новый индекс */
-		env->input->input_request.var_index = var_index;
-		gwbo_DisplayDebugMessage(env, "Sending Notification about new variable value");
-		result.type = GWBR_NOTIFICATION_WAITFORVALUE;
+		case GWBR_RESULT_OK:
+		{
+			gwbo_DisplayDebugMessage(env, "All variables inited");
+			
+			/* Сбрасываем индекс для оператора Input */
+			env->input->input_request.var_index = 0;
+			
+			/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
+			env->input->type = GWBIT_USERREQUEST;
+			break;
+		}
+		case GWBR_ERROR_TYPEMISMATCH:
+		{
+			gwbo_DisplayDebugMessage(env, "Type mismatch occured");
+			
+			/* Сбрасываем индекс для оператора Input */
+			env->input->input_request.var_index = 0;
+			
+			/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
+			env->input->type = GWBIT_USERREQUEST;
+		}
+		case GWBR_NOTIFICATION_WAITFORVALUE:
+		{
+			gwbo_DisplayDebugMessage(env, "Waiting for value");
+			
+			/* сохраняем новый индекс */
+			env->input->input_request.var_index = var_index;
+		}
 	}
 	return result;	 
 } 
