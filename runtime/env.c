@@ -31,7 +31,8 @@ GWBE_Environment* gwbe_NewEnvironment()
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = 0;
 	env->input->buffer[0] = 0;		
-	
+	env->input->input_request.var_index = 0;
+
 	/* Инициализация стека возврата */
 	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
 	env->ctx->callback_stack->top_index = -1;
