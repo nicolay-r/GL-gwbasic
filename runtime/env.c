@@ -28,10 +28,10 @@ GWBE_Environment* gwbe_NewEnvironment()
 	/* Инициализация и очистка Input буфера */	
 	assert(GWBE_INPUT_BUFFERLENGTH > 0);
 	env->input = (GWBI_Input*) malloc(sizeof(GWBI_Input));
-	env->input->type = GWBIT_USERREQUEST;	
 	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
 	env->input->buffer_len = 0;
 	env->input->buffer[0] = 0;		
+	
 	/* Инициализация стека возврата */
 	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
 	env->ctx->callback_stack->top_index = -1;

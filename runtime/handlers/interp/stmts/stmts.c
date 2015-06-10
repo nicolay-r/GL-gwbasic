@@ -663,16 +663,11 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 		gwbo_NextLine(env);
 		return result;
 	}
-	/* Переводим модуль Input в состояние ожидания чтения значения переменной */
+	
 	assert(env->input != NULL);
-	if (env->input->type != GWBIT_INPUTREQUEST)
+	
+	if (env->input->input_request.var_index == 0)
 	{
-		/* инициализируем вспомогательную структуру */
-		env->input->input_request.var_index = 0;
-		
-		/* переходим в состояние ожидания ввода результата */
-		env->input->type = GWBIT_INPUTREQUEST;
-		
 		/* Вывод текстового сообщения */
 		if (node->prompt != NULL)
 		{
@@ -723,9 +718,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 			
 			/* Сбрасываем индекс для оператора Input */
 			env->input->input_request.var_index = 0;
-			
-			/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
-			env->input->type = GWBIT_USERREQUEST;
 			break;
 		}
 		case GWBR_ERROR_TYPEMISMATCH:
@@ -734,9 +726,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 			
 			/* Сбрасываем индекс для оператора Input */
 			env->input->input_request.var_index = 0;
-			
-			/* Возвращаем модуль Input в состояние ожидания запроса пользователя */
-			env->input->type = GWBIT_USERREQUEST;
 		}
 		case GWBR_NOTIFICATION_WAITFORVALUE:
 		{
