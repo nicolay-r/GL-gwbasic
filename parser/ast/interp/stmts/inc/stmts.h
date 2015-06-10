@@ -105,7 +105,7 @@ struct GWBN_ScreenCoordinate {
 };
 
 struct GWBN_Screen {
-	/* Not Implemented */
+	int mode;
 };
 
 struct GWBN_Paint {

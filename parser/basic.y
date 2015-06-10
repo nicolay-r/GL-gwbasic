@@ -88,6 +88,7 @@
 	GWBN_TrOff*			troff;
 	GWBN_Load*			load;
 	GWBN_List*			list;
+	
 	/* Statements */
 	GWBN_Statements*		statements;
 	GWBN_Statement*			statement;
@@ -109,6 +110,7 @@
 	GWBN_Circle*			circle;
 	GWBN_CircleOptions*		circle_opts;
 	GWBN_Cls*			cls;
+	GWBN_Screen*			screen;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -198,6 +200,8 @@
 %type <circle> Circle
 %type <circle_opts> CircleOptions
 %type <cls> Cls
+%type <screen> Screen
+
 /*
 	Expressions
 */
@@ -252,7 +256,7 @@
 %type <num_expr> NumericExpression
 %type <str_op> StringOperator
 */
-%type <int_num> LineNumber Increment CONST_INTEGER
+%type <int_num> ScreenMode LineNumber Increment CONST_INTEGER
 %%
 
 Interpreter: DirectMode				{
@@ -307,7 +311,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
 	| Circle				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_CIRCLE; $$->circle = $1; }
-	| Screen				{ printf("SCREEN %s\n", ne); }
+	| Screen				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_SCREEN; $$->screen = $1; }
 	| Line					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LINE; $$->line = $1; }
 	| Paint					{ printf("PAINT %s\n", ne); }
 	| Pset					{ printf("PSET %s\n", ne); }
@@ -380,8 +384,8 @@ CircleOptions: 									{ $$ = gwbn_NewCircleOptions(); $$->color = NULL; }
 	| ',' ',' ',' NumericExpression ',' NumericExpression /* End, Aspect */							{ /* Not implemented */}
 	| ',' ',' ',' ',' NumericExpression /* Aspect */									{ /* Not implemented */}
 
-Screen: SCREEN ScreenMode
-ScreenMode: CONST_INTEGER
+Screen: SCREEN ScreenMode							{ $$ = gwbn_NewScreen(); $$->mode = $2; }
+ScreenMode: CONST_INTEGER							{ $$ = $1; }
 
 Line: LINE ScreenCoordinate '-' ScreenCoordinate LineOptions			{ $$ = gwbn_NewLine(); $$->coord_a = $2; $$->coord_b = $4; $$->opts = $5; }
 	| LINE '-' ScreenCoordinate LineOptions					{ $$ = gwbn_NewLine(); $$->coord_a = NULL; $$->coord_b = $3; $$->opts = $4; }

@@ -27,6 +27,7 @@
 #define GWBNT_LINE			1109
 #define GWBNT_CIRCLE			1110
 #define GWBNT_CLS			1111
+#define GWBNT_SCREEN			1112
 
 /*
 	Variables
