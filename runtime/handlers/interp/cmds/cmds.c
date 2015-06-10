@@ -185,7 +185,7 @@ GWBR_Result gwbh_List(GWBE_Environment *env, GWBN_List* node) {
 	int i;
 	int from = node->line_from;
 	int to = node->line_to == -1 ? GWBE_PROGRAM_MAXLINES : node->line_to; 
-	for (i = from; i < to; i++)
+	for (i = from; i <= to; i++)
 	{
 		if (env->program->lines[i] != NULL)
 		{	
