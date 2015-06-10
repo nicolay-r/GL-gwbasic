@@ -669,18 +669,14 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	if (env->input->input_request.var_index == 0)
 	{
 		/* Вывод текстового сообщения */
-		if (node->prompt != NULL)
-		{
-			if (node->prompt->str != NULL) 
-			{
-				gwbo_DisplayMessage(env, node->prompt->str);
-				gwbo_NextLine(env);
-			}
-			else {
-				gwbo_DisplayMessage(env, "?");
-				gwbo_NextLine(env);
-			}
-		}
+		assert(node->prompt != NULL);
+		
+		char* prompt = "?";
+		if (node->prompt != NULL && node->prompt->str != NULL) 
+			prompt = node->prompt->str;
+
+		gwbo_DisplayMessage(env, prompt);
+		gwbo_NextLine(env);
 	}
 	
 	int var_index = 0;
