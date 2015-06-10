@@ -115,6 +115,10 @@ GWBR_Result gwbr_RunProgram(GWBE_Environment* env)
 	{
 		/* Сброс индекса строки программы */
 		env->ctx->current_line = 0;
+
+		/* Вывод результата выполнения программы */
+		gwbo_DisplayResult(env, result);
+		gwbo_NextLine(env); 	
 	}
 
 	if (result.type != GWBR_NOTIFICATION_WAITFORVALUE)

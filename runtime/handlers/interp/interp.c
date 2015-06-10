@@ -20,18 +20,24 @@ GWBR_Result gwbh_Interpreter(GWBE_Environment *env, GWBN_Interpreter* node)
 	assert(env != NULL);
 	assert(node != NULL);
 
+	/* Defines thr type of subnode */
 	switch (node->type)
 	{
 		case GWBNT_DIRECT_MODE:
 			result = gwbh_DirectMode(env, node->direct);
-			gwbo_DisplayResult(env, result);
-			gwbo_NextLine(env);
 			break;
 		case GWBNT_INDIRECT_MODE:
 			result = gwbh_IndirectMode(env, node->indirect);
 			break;
 	}
 	
+	/* Display Result */
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{ 
+		gwbo_DisplayResult(env, result);
+		gwbo_NextLine(env);
+	}
+
 	return result;	
 }
 
