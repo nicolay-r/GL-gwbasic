@@ -274,7 +274,8 @@ Interpreter: DirectMode				{
 							return 0; 
 						}
 
-IndirectMode: LineNumber Statements		{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = $2; }
+IndirectMode: LineNumber			{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = NULL; }
+	| LineNumber Statements			{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = $2; }
 
 DirectMode: Command EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_COMMAND; $$->command = $1; }
 	| Statements EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_STATEMENTS; $$->statements = $1; }

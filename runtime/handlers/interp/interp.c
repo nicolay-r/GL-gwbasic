@@ -77,12 +77,20 @@ GWBR_Result gwbh_IndirectMode(GWBE_Environment *env, GWBN_IndirectMode* node) {
 	assert(env->program->lines != NULL);
 	assert(node != NULL);
 
-	GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
-	line->number = node->line_number;
-	line->source = strdup((const char*) env->input->buffer);
-	line->stmts = node->statements;
-	
-	env->program->lines[line->number] = line;
-	
+	if (node->statements != NULL)
+	{ /* Add New Line */
+		/* Build Line Struct */
+		GWBE_ProgramLine *line = malloc(sizeof(GWBE_ProgramLine));
+		line->number = node->line_number;
+		line->source = strdup((const char*) env->input->buffer);
+		line->stmts = node->statements;
+		/* Add Line */	
+		env->program->lines[line->number] = line;
+	}
+	else 
+	{ /* Remove Existed Line */
+		/* Remove Line*/
+		env->program->lines[node->line_number] = NULL;
+	}
 	return result;	 
 } 	
