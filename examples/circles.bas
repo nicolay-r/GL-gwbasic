@@ -17,8 +17,8 @@
 95 		INPUT "Shoot at coordinate: ", uX%, uY%
 100		dist# = SQR((uX%-screenX%)*(uX%-screenX%) + (uY%-screenY%)*(uY%-screenY%))
 105		PRINT "Distance: ", dist#
-106		LINE (uX% - 30, uY% - 30) - (uX% + 30, uY% + 30), 4
-110		LINE (uX% - 30, uY% + 30) - (uX% + 30, uY% - 30), 4
+106		LINE (uX% - 30, uY% - 30) - (uX% + 30, uY% + 30), 12
+110		LINE (uX% - 30, uY% + 30) - (uX% + 30, uY% - 30), 12
 115		score% = score% + (circles% - INT(dist#/thickness%)) 
 120		IF dist# < radius% THEN isHit% = 1 : shoots% = shoots% - (i% + 1): i% = shoots% + 1 
 130	NEXT i%

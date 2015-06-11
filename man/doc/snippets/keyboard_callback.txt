@@ -1,4 +1,4 @@
-case 8: /* Backspace */
+case '\b': /* Backspace */
 	gwbg_TextBuffer_PopChar(ide->text_buffer);
 	gwbg_Environment_PopCharFromRequest(ide->env);
 	break;
