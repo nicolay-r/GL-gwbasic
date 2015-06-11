@@ -673,9 +673,6 @@ GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node) {
 	
 	if (env->input->input_request.var_index == 0)
 	{
-		/* Вывод текстового сообщения */
-		assert(node->prompt != NULL);
-		
 		char* prompt = "?";
 		if (node->prompt != NULL && node->prompt->str != NULL) 
 			prompt = node->prompt->str;
