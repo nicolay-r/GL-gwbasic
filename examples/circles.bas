@@ -22,5 +22,5 @@
 115		score% = score% + (circles% - INT(dist#/thickness%)) 
 120		IF dist# < radius% THEN isHit% = 1 : shoots% = shoots% - (i% + 1): i% = shoots% + 1 
 130	NEXT i%
-135	IF isHit% THEN CLS: PRINT "You Hit!": LET thickness% = thickness% - 10: GOTO 4
+135	IF isHit% THEN CLS: PRINT "You Hit!": LET thickness% = thickness% - 5: GOTO 4
 140	PRINT "Game over. Your Score: ", score%

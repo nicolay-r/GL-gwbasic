@@ -56,15 +56,19 @@ void processNormalKeys(unsigned char key, int x, int y)
 			gwbg_Environment_PopCharFromRequest(ide->env);
 			break;
 		case 13: /* Enter */	
-			//glReadPixels(0, 0, ide->width, ide->height, GL_RGB, GL_UNSIGNED_BYTE, data);
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
-			gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			
-			/* Run user request */
-			gwbr_Run(ide->env);
+			if (ide->env->input->buffer_len)
+			{
+				/* Append Enter */
+				gwbg_Environment_PushCharToRequest(ide->env, '\n');
 			
-			/* Clear user request*/
-			gwbg_Environment_ClearRequest(ide->env);
+				/* Run user request */
+				gwbr_Run(ide->env);
+				
+				/* Clear user request*/
+				gwbg_Environment_ClearRequest(ide->env);
+			}
 			break;
 		default:
 			//SetData(data);
