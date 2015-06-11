@@ -3,7 +3,7 @@
 4	PRINT "Your score:", score%
 5  	LET circles% = 6
 10 	LET x# = RND: LET y# = RND
-20 	LET screenX% = INT(x#*640): LET screenY% = INT(y#*480)
+20 	LET screenX% = INT(x#*320): LET screenY% = INT(y#*240)
 25 	LET radius% = thickness%
 30 	CIRCLE (screenX%, screenY%), radius%
 40 	FOR i% = 0 TO circles%
