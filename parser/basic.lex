@@ -145,7 +145,7 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 				yylval.str = strdup(yytext);
 				return DECLARATION; 	/* ref. 6.2.1 */ 
 			}	
-
+<<EOF>>			{ return _EOF; }
 %%
 
 /*

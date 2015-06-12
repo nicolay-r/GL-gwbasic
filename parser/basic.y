@@ -35,7 +35,7 @@
 /* Math functions*/
 %token SIN
 /* Specific Symbols */
-%token EOLN
+%token EOLN _EOF
 
 /* constants */
 %token CONST_INTEGER CONST_FLOAT CONST_STRING
@@ -176,7 +176,7 @@
 /*
 	Statements
 */
-%type <statements> Statements
+%type <statements> Statements NextStatements
 %type <statement> Statement
 %type <let> Let
 %type <print> Print
@@ -278,8 +278,8 @@ IndirectMode: LineNumber			{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; 
 	| LineNumber Statements			{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = $2; }
 
 DirectMode: Command EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_COMMAND; $$->command = $1; }
-	| Statements EOLN			{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_STATEMENTS; $$->statements = $1; }
-	| Function				{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_FUNCTION; $$->function = $1; }
+	| Statements				{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_STATEMENTS; $$->statements = $1; }
+	| Function EOLN				{ $$ = gwbn_NewDirectMode(); $$->type = GWBNT_FUNCTION; $$->function = $1; }
 
 Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| System				{ $$ = gwbn_NewCommand(); $$->type = GWBNT_SYSTEM; /* NULL AST subnode */ }
@@ -302,8 +302,10 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| TrOn					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TRON; $$->tron = $1; }
 	| TrOff					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TROFF; $$->troff = $1; }
 
-Statements: Statement ':' Statements		{ $$ = gwbn_NewStatements(); $$->stmt = $1; $$->next = $3; }
-	| Statement				{ $$ = gwbn_NewStatements(); $$->stmt = $1; $$->next = NULL; }
+Statements: Statement NextStatements		{ $$ = gwbn_NewStatements(); $$->stmt = $1; $$->next = $2; }
+NextStatements: EOLN				{ $$ = NULL; }
+	| _EOF					{ $$ = NULL; }
+	| ':' Statements			{ $$ = $2; }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
