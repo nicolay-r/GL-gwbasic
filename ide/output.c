@@ -88,22 +88,37 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 {
-	/* Draw line */	
-	gwbg_Canvas_AddLine(ide->canvas, line);
+	if (env->graphics_mode == 1)
+	{
+		/* Draw line */	
+		gwbg_Canvas_AddLine(ide->canvas, line);
 
-	/* Force Render */
-	gwbg_Ide_Render();
+		/* Force Render */
+		gwbg_Ide_Render();
+	}
+	else
+	{
+		gwbo_DisplayMessage(env, "Graphics mode disabled. Use \"Screen\" command to enable. ");
+		gwbo_NextLine(env);
+	}
 }
 
 void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 {
-	/* Draw Circle */
-	gwbg_Canvas_AddCircle(ide->canvas, circle);
+	if (env->graphics_mode == 1)
+	{
+		/* Draw Circle */
+		gwbg_Canvas_AddCircle(ide->canvas, circle);
 
-	/* Force Render */
-	gwbg_Ide_Render();
+		/* Force Render */
+		gwbg_Ide_Render();
+	}
+	else
+	{
+		gwbo_DisplayMessage(env, "Graphics mode disabled. Use \"Screen\" command to enable. ");
+		gwbo_NextLine(env);
+	}
 }
-
 void gwbo_Cls(GWBE_Environment* env)
 {
 	assert(ide != NULL);

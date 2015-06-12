@@ -281,8 +281,18 @@ GWBR_Result gwbh_Screen(GWBE_Environment *env, GWBN_Screen* node) {
 
 	/* "Screen" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"Screen\" Handler"); 
-	gwbo_DisplayMessage(env, "\"Screen\" statement is not implemented");
-	gwbo_NextLine(env);
+		if (env->graphics_mode == 0)
+	{
+		env->graphics_mode = 1;
+		gwbo_DisplayMessage(env, "Graphics mode: ENABLED.");
+		gwbo_NextLine(env);
+	}
+	else
+	{
+		env->graphics_mode = 0;
+		gwbo_DisplayMessage(env, "Graphics mode: DISABLED.");
+		gwbo_NextLine(env);
+	}
 
 	result.type = GWBR_RESULT_OK;
 	return result;	 

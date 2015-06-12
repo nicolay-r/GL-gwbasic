@@ -34,6 +34,7 @@ typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 struct GWBE_Environment {
 	int trace_mode;							/* Режим трассировки (0 - выключен, 1 - включен) */ 
 	int runtime_mode;						/* GWBE_RUNTIMEMODE_INTERPRETER, GWBE_RUNTIMEMODE_PROGRAM */
+	int graphics_mode;						/* 0 - DISABLED GRAPHIX, 1 - ENABLED GRAPHIX */
 	struct GWBE_Context* ctx;
 	struct GWBE_Program* program;		
 	struct GWBE_FunctionListNode* udef_funcs;

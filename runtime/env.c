@@ -36,6 +36,9 @@ GWBE_Environment* gwbe_NewEnvironment()
 	/* Инициализация стека возврата */
 	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
 	env->ctx->callback_stack->top_index = -1;
+
+	/* Disable graphix default */
+	env->graphics_mode = 0;
 	return env;
 }
 
