@@ -7,6 +7,8 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>		/* isspace() */
+#include <output.h>		/* gwbo_* */
 
 /* Ide */
 GWBG_Ide* gwbg_NewIde()

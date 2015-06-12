@@ -619,9 +619,10 @@ Length: CONST_INTEGER;
 /*
 	GWBasic syntax Analyzer
 */
-yyerror(char *s)
+int yyerror(char *s)
 {
 	fprintf(stderr, "Syntax Error %s\n", s);
+	return 0;
 }
 
 /*

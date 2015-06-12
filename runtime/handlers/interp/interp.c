@@ -7,6 +7,8 @@
 #include "cmds/inc/cmds.h"	/* GWBasic Commands AST Node Handlers */
 #include "funcs/inc/funcs.h"	/* GWBasic Functions AST Node Handlers */
 
+#include <output.h>		/* gwbo_* */
+
 #include <string.h>		/* strdup */
 #include <assert.h>		/* assert() */
 
@@ -61,7 +63,7 @@ GWBR_Result gwbh_DirectMode(GWBE_Environment *env, GWBN_DirectMode* node) {
 			result = gwbh_Function(env, node->function);
 			break;
 		default:
-			gwbo_DisplayMessage("Undefined type\n");	
+			gwbo_DisplayMessage(env, "Undefined type\n");	
 			break;
 	}
 	return result;

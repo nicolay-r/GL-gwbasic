@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <assert.h>
 
+#include <output.h>				/* gwbo_* */
+
 #include "inc/parser.h"
 #include "inc/runtime.h"
 #include "inc/env.h"
+
+#include "handlers/interp/inc/interp.h"		/* gwbh_Interpreter() */
 #include "handlers/interp/stmts/inc/stmts.h" 	/* To gwbr_RunProgram for statements handling */
 /*
 	Terminate GWBasic Shell
@@ -37,7 +41,7 @@ void gwbr_Run(GWBE_Environment *env)
 		Пока проверка не осуществляется,
 		и запрос всегда разбирается как
 		пользовательский запрос к IDE.
-	*/
+z	*/
 	switch (env->runtime_mode)
 	{
 		case GWBE_RUNTIMEMODE_INTERPRETER:

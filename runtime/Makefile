@@ -23,4 +23,4 @@ all:
 	# Build GWBasic lexical and syntax parsers
 	make -C $(PARSER_FOLDER)
 	# Build GWBasic Runtime Module
-	gcc main.c -Iinc/ $(RUNTIME_SRCS) $(AST_SRCS) $(PARSER_SRCS) -lfl -lm -o run 
+	gcc main.c -Iinc/ $(RUNTIME_SRCS) $(AST_SRCS) $(PARSER_SRCS) -Wall -lfl -lm -o run 

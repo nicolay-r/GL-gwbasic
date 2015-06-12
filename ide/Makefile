@@ -22,4 +22,4 @@ PARSER_SRCS= \
 
 all:
 	make -C $(PARSER_FOLDER)	
-	gcc $(IDE_SRCS) $(RUNTIME_SRCS) $(PARSER_SRCS) -lGL -Iinc/ -lGLU -lglut -lm -o run
+	gcc $(IDE_SRCS) $(RUNTIME_SRCS) $(PARSER_SRCS) -Wall -lGL -Iinc/ -lGLU -lglut -lm -o run

@@ -5,8 +5,11 @@
 #include "inc/env.h"
 #include "inc/runtime.h"
 #include "inc/core.h"
-#include <assert.h>	/* assert() */
 
+#include <output.h>	/* gwbo_* */
+
+#include <assert.h>	/* assert() */
+#include <string.h>	/* strcmp() */
 /*
 	Init Environment
 */
@@ -49,7 +52,11 @@ void gwbe_DeleteEnvironment(GWBE_Environment* env)
 
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func)
 {
+	GWBR_Result result;
 
+	assert(0 && "Unimpelemented funtion");
+
+	return result;
 }
 
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name)

@@ -2,6 +2,7 @@
 
 #include "inc/relational.h"
 #include <stdio.h>
+#include <string.h>		/* strcmp() */
 
 GWBR_ExpressionResult gwbr_EvaluateEqual(GWBR_ExpressionResult a, GWBR_ExpressionResult b)
 {

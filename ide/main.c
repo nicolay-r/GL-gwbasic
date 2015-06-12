@@ -106,9 +106,6 @@ void GWBG_RunIde()
 }
 int main(int argc, char **argv) 
 {
-	
-	GWBE_Environment* env;
-	
 	// init GLUT and create Window
 	glutInit(&argc, argv);
 

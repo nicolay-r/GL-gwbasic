@@ -114,6 +114,7 @@ GWBR_Result gwbe_FunctionListNode_Remove(GWBE_FunctionListNode** list, char* nam
 /* Context Prototypes */
 GWBC_Variable* gwbe_Context_GetVariable(GWBE_Environment* env, char* var_name);
 GWBR_Result gwbe_Context_AddVariable(GWBE_Environment* env, GWBC_Variable* var);
+GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* var);
 
 /* Context */
 char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var);

@@ -23,7 +23,6 @@ void RunShell(GWBE_Environment* env)
 {
 	assert(env != NULL);
 
-	GWBN_Interpreter* interpreter; 
 	while (1)
 	{
 		ReadRequest(env->input);

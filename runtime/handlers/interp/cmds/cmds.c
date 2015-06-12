@@ -1,7 +1,13 @@
 
 #include "inc/cmds.h"
-#include "../stmts/inc/stmts.h"
+
+#include <output.h>				/* gwbo_* */
+
+#include "../stmts/inc/stmts.h"			/* GWBasic Statements handlers */
 #include "../../../inc/runtime.h"		/* GWBR_RunProgram */
+#include "../../../inc/env.h"			/* gwbe_* */
+#include "../inc/interp.h"			/* gwbh_Interpreter */
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>

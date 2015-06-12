@@ -4,6 +4,7 @@
 #include <string.h>	/* strlen() */
 #include <stdio.h>	/* getline() */
 #include <assert.h>	/* assert() */
+#include <ctype.h>	/* isspace() */
 
 void trimwhitespace(char *str)
 {
@@ -39,7 +40,6 @@ int gwbi_GetInteger(GWBE_Environment* env)
 	assert(env->input != NULL);
 
 	char* ptr = env->input->buffer;
-	size_t* size = &env->input->buffer_len;
 
 	return atoi(ptr);  
 }
@@ -49,7 +49,6 @@ float gwbi_GetFloat(GWBE_Environment* env)
 	assert(env->input != NULL);
 
 	char* ptr = env->input->buffer;
-	size_t* size = &env->input->buffer_len;
 
 	return atof(ptr);
 
@@ -60,7 +59,6 @@ double gwbi_GetDouble(GWBE_Environment* env)
 	assert(env->input != NULL);
 
 	char* ptr = env->input->buffer;
-	size_t* size = &env->input->buffer_len;
 
 	return atof(ptr);
 }
