@@ -8,5 +8,5 @@ AST_NODES=\
 	ast/interp/vars/*.c 
 all:
 	flex basic.lex
-	bison -d basic.y
+	bison -d -v basic.y
 	gcc lex.yy.c basic.tab.c $(AST_NODES) -lfl -o basic.out
