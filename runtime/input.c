@@ -6,6 +6,20 @@
 #include <assert.h>	/* assert() */
 #include <ctype.h>	/* isspace() */
 
+GWBI_Input* gwbi_NewInput()
+{	
+	assert(GWBE_INPUT_BUFFERLENGTH > 0);
+
+	GWBI_Input* input = (GWBI_Input*) malloc(sizeof(GWBI_Input));
+
+	input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
+	input->buffer_len = 0;
+	input->buffer[0] = 0;		
+	input->input_request.var_index = 0;
+
+	return input;	
+}
+
 void trimwhitespace(char *str)
 {
 	char *end;

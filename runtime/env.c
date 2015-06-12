@@ -15,39 +15,58 @@
 */
 GWBE_Environment* gwbe_NewEnvironment()
 {
+	/* Инициализация окружения */
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
 	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
-	env->trace_mode = 1;	/* режим трассировки */
+	env->trace_mode = 1;		/* Trace mode ENABLED. */
+	env->graphics_mode = 0;		/* Graphics mode DISABLED. */
 
 	/* Инициализация программы */
-	env->program = (GWBE_Program*) malloc(sizeof(GWBE_Program));
+	env->program = gwbe_NewProgram();
 
 	/* Инициализация контекста */
-	env->ctx = (GWBE_Context*) malloc(sizeof(GWBE_Context));
-	env->ctx->current_line = 0;
-	env->ctx->level = 0;
-	env->ctx->local_vars[0] = NULL;
+	env->ctx = gwbe_NewContext();
 
 	/* Инициализация и очистка Input буфера */	
-	assert(GWBE_INPUT_BUFFERLENGTH > 0);
-	env->input = (GWBI_Input*) malloc(sizeof(GWBI_Input));
-	env->input->buffer = (char*) malloc(sizeof(char)*GWBE_INPUT_BUFFERLENGTH);
-	env->input->buffer_len = 0;
-	env->input->buffer[0] = 0;		
-	env->input->input_request.var_index = 0;
+	env->input = gwbi_NewInput();
 
-	/* Инициализация стека возврата */
-	env->ctx->callback_stack = malloc(sizeof(GWBE_CallbackStack));
-	env->ctx->callback_stack->top_index = -1;
-
-	/* Disable graphix default */
-	env->graphics_mode = 0;
 	return env;
 }
 
 void gwbe_DeleteEnvironment(GWBE_Environment* env)
 {
 	free(env);
+}
+
+GWBE_Program* gwbe_NewProgram()
+{
+	/* Инициализация программы */
+	GWBE_Program* program = (GWBE_Program*) malloc(sizeof(GWBE_Program));
+	return program;
+}
+
+GWBE_Context* gwbe_NewContext()
+{
+	/* Инициализация контекста */
+	GWBE_Context* ctx = (GWBE_Context*) malloc(sizeof(GWBE_Context));
+	ctx->current_line = 0;
+	ctx->level = 0;
+	ctx->local_vars[0] = NULL;
+	
+	/* Инициализация стека возврата */
+	ctx->callback_stack = gwbe_NewCallbackStack();
+	
+	return ctx;
+}
+
+GWBE_CallbackStack* gwbe_NewCallbackStack()
+{	
+	GWBE_CallbackStack* callback_stack;
+		
+	callback_stack = malloc(sizeof(GWBE_CallbackStack));
+	callback_stack->top_index = -1;
+	
+	return callback_stack;
 }
 
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func)

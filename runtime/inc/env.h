@@ -98,7 +98,14 @@ struct GWBE_FunctionListNode {
 /*
 	Prototypes
 */
+
+/* Ctors */
 GWBE_Environment* gwbe_NewEnvironment();
+GWBE_Program* gwbe_NewProgram();
+GWBE_Context* gwbe_NewContext(); 
+GWBE_CallbackStack* gwbe_NewCallbackStack();
+
+/* Dtors */
 void gwbe_DeleteEnvironment(GWBE_Environment* env);
 
 GWBE_ProgramLine* gwbe_NewProgramLine();

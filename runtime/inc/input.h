@@ -36,6 +36,7 @@ struct GWBI_Input {
 	};
 };
 
+GWBI_Input* gwbi_NewInput();
 void gwbi_GetString(GWBE_Environment* env);
 int gwbi_GetInteger(GWBE_Environment* env);
 float gwbi_GetFloat(GWBE_Environment* env);
