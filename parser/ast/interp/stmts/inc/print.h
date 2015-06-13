@@ -13,7 +13,7 @@ typedef int GWBN_PrintSeparator; /* GWBBT_COMMA, GWBBT_SEMICOLON */
 */
 struct GWBN_PrintExpressions {
 	GWBN_Expression* expr;
-	GWBN_PrintSeparator sep_type;	 /* GWBBT_COMMA, GWBBT_SEMICOLON */
+	GWBN_PrintSeparator sep_type;	 /* GWBBT_NONE, GWBBT_COMMA, GWBBT_SEMICOLON */
 	struct GWBN_PrintExpressions* next;
 };
 

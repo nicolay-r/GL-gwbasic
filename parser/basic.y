@@ -181,7 +181,6 @@
 %type <let> Let
 %type <print> Print
 %type <print_exprs> PrintExpressions
-%type <term_type> PrintSeparator
 %type <input> Input
 %type <input_prompt> InputPrompt
 %type <str> InputPromptString
@@ -440,12 +439,11 @@ InputPromptEndType: ','							{ $$ = GWBBT_COMMA; }
 Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }		
 PrintOperator: PRINT	
 	| '?'
-PrintExpressions: Expression PrintSeparator PrintExpressions		{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = $2; $$->next = $3; }
+PrintExpressions: Expression ',' PrintExpressions			{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_COMMA; $$->next = $3; }
+	| Expression ';' PrintExpressions				{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_SEMICOLON; $$->next = $3; }
 	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_NONE; $$->next = NULL; }
-	| PrintSeparator						{ $$ = gwbn_NewPrintExpressions(); $$->sep_type = $1; $$->next = NULL; }
-PrintSeparator:								{ /* дополнить */ }
-	| ','								{ $$ = GWBBT_COMMA; }
-	| ';'								{ $$ = GWBBT_SEMICOLON; }
+	| ','								{ $$ = gwbn_NewPrintExpressions(); $$->expr = NULL; $$->sep_type = GWBBT_COMMA; $$->next = NULL; }
+	| ';'								{ $$ = gwbn_NewPrintExpressions(); $$->expr = NULL; $$->sep_type = GWBBT_SEMICOLON; $$->next = NULL; }
 
 LineInput: LINE INPUT InputPromptString StringVariable
 
