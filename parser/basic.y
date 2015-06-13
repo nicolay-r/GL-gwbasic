@@ -548,12 +548,12 @@ RelationalOperator: ArithmeticOperator EQUAL ArithmeticOperator	{ $$ = gwbn_NewR
 	| StringOperator GTE StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
 								  $$->op_type = GWBBT_GTE; $$->s1 = $1; $$->s2 = $3; }
 
-LogicalOperator: NOT '(' RelationalOperator ')'				{ $$ = gwbn_NewLogicalOperator(); } 
-	| '(' RelationalOperator ')' AND '(' RelationalOperator ')'		{ printf("A AND B\n"); } 
-	| '(' RelationalOperator ')' OR '(' RelationalOperator')'	{ printf("A OR B\n"); } 
-	| '(' RelationalOperator ')' XOR '(' RelationalOperator')'	{ printf("A XOR B\n"); } 
-	| '(' RelationalOperator ')' EQV '(' RelationalOperator')'	{ printf("A EQV B\n"); } 
-	| '(' RelationalOperator ')' IMP '(' RelationalOperator ')'	{ printf("A IMP B\n"); } 
+LogicalOperator: NOT RelationalOperator 			{ $$ = gwbn_NewLogicalOperator(); } 
+	|  RelationalOperator AND RelationalOperator 		{ printf("A AND B\n"); } 
+	|  RelationalOperator OR RelationalOperator		{ printf("A OR B\n"); } 
+	|  RelationalOperator XOR RelationalOperator		{ printf("A XOR B\n"); } 
+	|  RelationalOperator EQV RelationalOperator		{ printf("A EQV B\n"); } 
+	|  RelationalOperator IMP RelationalOperator		{ printf("A IMP B\n"); } 
 
 FunctionalOperator: MathFunction				{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; }
 	| StringFunction					{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_STRINGFUNCTION; /*$$->str_func = $1;*/ }
