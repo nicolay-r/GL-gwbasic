@@ -44,15 +44,17 @@
 %nonassoc NORELATION
 %left GT LT GTE LTE EQUAL INEQUAL
 %nonassoc NOLOGIC
+
+%left '+' '-'
+%left '*' '/'
+%left '^'
+%nonassoc UMINUS
+
 %left IMP EQV
 %left XOR
 %left OR
 %left AND
 %nonassoc NOT
-%left '+' '-'
-%left '*' '/'
-%left '^'
-%nonassoc UMINUS
 
 /* Type declaration */
 %code requires {
@@ -122,8 +124,6 @@
 	GWBN_StringExpression*		str_expr;
 	GWBN_StringOperator*		str_op;
 	GWBN_StringTerm*		str_term;
-	GWBN_RelationalOperator*	rel_op;
-	GWBN_LogicalOperator*		log_op;
 	GWBN_FunctionalOperator*	func_op;
 	GWBN_GoSub*			gosub;
 	GWBN_Return*			_return;
@@ -213,8 +213,6 @@
 %type <str_expr> StringExpression
 %type <str_op> StringOperator
 %type <str_term> StringTerm
-%type <rel_op> RelationalOperator
-%type <log_op> LogicalOperator
 %type <func_op> FunctionalOperator
 /*
 	%type <func_op> FunctionalOperator
@@ -500,16 +498,29 @@ ConstIntegers: CONST_INTEGER ',' ConstIntegers
 Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_NUMERICEXPRESSION; $$->num_expr = $1; }
 	| StringExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_STRINGEXPRESSION; $$->str_expr = $1; }
 
-NumericExpression: RelationalOperator 				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_RELATIONALOPERATOR; $$->rel = $1; }
-	/*| ArithmeticOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;} */
-	/*| LogicalOperator 					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_LOGICALOPERATOR; $$->log = $1; } */
-	/*| FunctionalOperator					{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_FUNCTIONALOPERATOR; $$->func = $1; }*/
+NumericExpression: ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;}
 
 ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ printf("+\n"); $$ = NULL; } 
 	| ArithmeticOperator '-' ArithmeticOperator		{ printf("-\n"); $$ = NULL; } 
 	| ArithmeticOperator '*' ArithmeticOperator		{ printf("*\n"); $$ = NULL; } 
 	| ArithmeticOperator '/' ArithmeticOperator		{ printf("/\n"); $$ = NULL; } 
 	| ArithmeticOperator '^' ArithmeticOperator		{ printf("^\n"); $$ = NULL; } 
+	
+	/* logical operators */
+	|  NOT ArithmeticOperator				{ printf("NOT\n"); $$ = NULL;} 
+	|  ArithmeticOperator AND ArithmeticOperator 		{ printf("AND\n"); $$ = NULL;} 
+	|  ArithmeticOperator OR ArithmeticOperator		{ printf("OR\n"); $$ = NULL; } 
+	|  ArithmeticOperator XOR ArithmeticOperator		{ printf("XOR\n"); $$ = NULL; } 
+	|  ArithmeticOperator EQV ArithmeticOperator		{ printf("EQV\n"); $$ = NULL;} 
+	|  ArithmeticOperator IMP ArithmeticOperator		{ printf("IMP\n"); $$ = NULL; } 
+	
+	/* Relatinals operations */
+	| ArithmeticOperator EQUAL ArithmeticOperator		{ printf("EQ\n"); $$ = NULL; } 
+	| ArithmeticOperator INEQUAL ArithmeticOperator		{ printf("INEQ\n"); $$ = NULL; } 
+	| ArithmeticOperator LT	ArithmeticOperator		{ printf("LT\n"); $$ = NULL; } 
+	| ArithmeticOperator GT ArithmeticOperator 		{ printf("GT\n"); $$ = NULL; }
+	| ArithmeticOperator LTE ArithmeticOperator		{ printf("LTE\n"); $$ = NULL; }
+
 	/* bitwise operators can be implemented here */
 	| '-' NumericTerm %prec UMINUS				{ printf("- unary\n"); $$ = NULL; }
 	| NumericTerm						{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_NUMERICTERM; $$->term = $1; }
@@ -527,33 +538,6 @@ StringTerm: StringVariable					{ $$ = gwbn_NewStringTerm(); $$->type = GWBNT_STR
 
 NumericConstant: CONST_INTEGER					{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_INTEGER; $$->const_int = $1; }
 	| CONST_FLOAT						{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_SINGLE; $$->const_float = $1; }	
-
-RelationalOperator: RelationalOperator EQUAL RelationalOperator	{ printf("EQ\n"); $$ = NULL; } 
-	| RelationalOperator INEQUAL RelationalOperator		{ printf("INEQ\n"); $$ = NULL; } 
-	| RelationalOperator LT	RelationalOperator		{ printf("LT\n"); $$ = NULL; } 
-	| RelationalOperator GT RelationalOperator 		{ printf("GT\n"); $$ = NULL; }
-	| RelationalOperator LTE RelationalOperator		{ printf("LTE\n"); $$ = NULL; } 
-	| StringOperator EQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_EQUAL; $$->s1 = $1; $$->s2 = $3; }
-	| StringOperator INEQUAL StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_INEQUAL; $$->s1 = $1; $$->s2 = $3; }
-	| StringOperator LT StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_LT; $$->s1 = $1; $$->s2 = $3; }
-	| StringOperator GT StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_GT; $$->s1 = $1; $$->s2 = $3; }
-	| StringOperator LTE StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_LTE; $$->s1 = $1; $$->s2 = $3; } 
-	| StringOperator GTE StringOperator			{ $$ = gwbn_NewRelationalOperator(); $$->args_type = GWBNT_STRINGOPERATOR; 
-								  $$->op_type = GWBBT_GTE; $$->s1 = $1; $$->s2 = $3; }
-	| LogicalOperator %prec NORELATION			{ printf("Logical\n"); $$ = NULL; }
-
-LogicalOperator: NOT LogicalOperator				{ printf("NOT\n"); $$ = gwbn_NewLogicalOperator(); } 
-	|  LogicalOperator AND LogicalOperator 			{ printf("AND\n"); } 
-	|  LogicalOperator OR LogicalOperator			{ printf("OR\n"); } 
-	|  LogicalOperator XOR LogicalOperator			{ printf("XOR\n"); } 
-	|  LogicalOperator EQV LogicalOperator			{ printf("EQV\n"); } 
-	|  LogicalOperator IMP LogicalOperator			{ printf("IMP\n"); } 
-	|  ArithmeticOperator %prec NOLOGIC			{ $$ = NULL; }
 
 FunctionalOperator: MathFunction				{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; }
 	| StringFunction					{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_STRINGFUNCTION; /*$$->str_func = $1;*/ }
