@@ -500,33 +500,35 @@ Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_
 
 NumericExpression: ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;}
 
-ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ printf("+\n"); $$ = NULL; } 
-	| ArithmeticOperator '-' ArithmeticOperator		{ printf("-\n"); $$ = NULL; } 
-	| ArithmeticOperator '*' ArithmeticOperator		{ printf("*\n"); $$ = NULL; } 
-	| ArithmeticOperator '/' ArithmeticOperator		{ printf("/\n"); $$ = NULL; } 
-	| ArithmeticOperator '^' ArithmeticOperator		{ printf("^\n"); $$ = NULL; } 
+ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_ADD; $$->a = $1; $$->b = $3; } 
+	| ArithmeticOperator '-' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_SUB; $$->a = $1; $$->b = $3; } 
+	| ArithmeticOperator '*' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_MUL; $$->a = $1; $$->b = $3; } 
+	| ArithmeticOperator '/' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_DIV; $$->a = $1; $$->b = $3; } 
+	| ArithmeticOperator '^' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_POW; $$->a = $1; $$->b = $3; } 
 	
 	/* logical operators */
-	|  NOT ArithmeticOperator				{ printf("NOT\n"); $$ = NULL;} 
-	|  ArithmeticOperator AND ArithmeticOperator 		{ printf("AND\n"); $$ = NULL;} 
-	|  ArithmeticOperator OR ArithmeticOperator		{ printf("OR\n"); $$ = NULL; } 
-	|  ArithmeticOperator XOR ArithmeticOperator		{ printf("XOR\n"); $$ = NULL; } 
-	|  ArithmeticOperator EQV ArithmeticOperator		{ printf("EQV\n"); $$ = NULL;} 
-	|  ArithmeticOperator IMP ArithmeticOperator		{ printf("IMP\n"); $$ = NULL; } 
+	|  NOT ArithmeticOperator				{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_NOT; $$->a = $2; }
+	|  ArithmeticOperator AND ArithmeticOperator 		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_AND; $$->a = $1; $$->b = $3; }
+	|  ArithmeticOperator OR ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_OR; $$->a = $1; $$->b = $3; }
+	|  ArithmeticOperator XOR ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_XOR; $$->a = $1; $$->b = $3; }
+	|  ArithmeticOperator EQV ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_EQV; $$->a = $1; $$->b = $3; }
+	|  ArithmeticOperator IMP ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_IMP; $$->a = $1; $$->b = $3; }
 	
 	/* Relatinals operations */
-	| ArithmeticOperator EQUAL ArithmeticOperator		{ printf("EQ\n"); $$ = NULL; } 
-	| ArithmeticOperator INEQUAL ArithmeticOperator		{ printf("INEQ\n"); $$ = NULL; } 
-	| ArithmeticOperator LT	ArithmeticOperator		{ printf("LT\n"); $$ = NULL; } 
-	| ArithmeticOperator GT ArithmeticOperator 		{ printf("GT\n"); $$ = NULL; }
-	| ArithmeticOperator LTE ArithmeticOperator		{ printf("LTE\n"); $$ = NULL; }
+	| ArithmeticOperator EQUAL ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_EQUAL; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator INEQUAL ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_INEQUAL; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator LT	ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_LT; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator GT ArithmeticOperator 		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_GT; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator LTE ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_LTE; $$->a = $1; $$->b = $3; }
 
 	/* bitwise operators can be implemented here */
-	| '-' NumericTerm %prec UMINUS				{ printf("- unary\n"); $$ = NULL; }
+	
+	/* Unary operators */
+	| '(' ArithmeticOperator ')'				{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->a = $2; } 
+	| '-' ArithmeticOperator %prec UMINUS			{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_UNARY_MINUS; $$->a = $2; } 
 	| NumericTerm						{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_NUMERICTERM; $$->term = $1; }
 
-NumericTerm: '(' ArithmeticOperator ')'				{ $$ = NULL; }
-	| FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = $1; $$->type = GWBNT_FUNCTIONALOPERATOR; }
+NumericTerm: FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = $1; $$->type = GWBNT_FUNCTIONALOPERATOR; }
 	| NumericVariable					{ $$ = gwbn_NewNumericTerm(); $$->var = $1; $$->type = GWBNT_NUMERICVARIABLE; }
 	| NumericConstant 					{ $$ = gwbn_NewNumericTerm(); $$->num_const = $1; $$->type = GWBNT_NUMERICCONSTANT; }
 

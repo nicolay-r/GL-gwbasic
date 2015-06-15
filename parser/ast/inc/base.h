@@ -27,6 +27,14 @@
 #define GWBBT_COMMA			200
 #define GWBBT_SEMICOLON			201
 #define GWBBT_NONE			202
+
+#define GWBBT_NOT			300
+#define GWBBT_AND			301
+#define GWBBT_OR			302
+#define GWBBT_XOR			303
+#define GWBBT_EQV			304
+#define GWBBT_IMP			305
+
 /*
 	Typedefs
 */

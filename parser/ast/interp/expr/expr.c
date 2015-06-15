@@ -75,30 +75,12 @@ void gwbn_DeleteNumericConstant(GWBN_NumericConstant* ptr) {
 	free(ptr);
 }
 	
-GWBN_RelationalOperator* gwbn_NewRelationalOperator() {
-	GWBN_RelationalOperator* result = (GWBN_RelationalOperator*) malloc (sizeof(GWBN_RelationalOperator));
-	return result;
-} 
-	
-void gwbn_DeleteRelationalOperator(GWBN_RelationalOperator* ptr) {
-	free(ptr);
-}
-	
-GWBN_LogicalOperator* gwbn_NewLogicalOperator() {
-	GWBN_LogicalOperator* result = (GWBN_LogicalOperator*) malloc (sizeof(GWBN_LogicalOperator));
-	return result;
-} 
-	
-void gwbn_DeleteLogicalOperator(GWBN_LogicalOperator* ptr) {
-	free(ptr);
-}
-	
 GWBN_FunctionalOperator* gwbn_NewFunctionalOperator() {
 	GWBN_FunctionalOperator* result = (GWBN_FunctionalOperator*) malloc (sizeof(GWBN_FunctionalOperator));
 	return result;
 } 
 	
-void gwbn_DeleteRunctionalOperator(GWBN_FunctionalOperator* ptr) {
+void gwbn_DeleteFunctionalOperator(GWBN_FunctionalOperator* ptr) {
 	free(ptr);
 }
 	

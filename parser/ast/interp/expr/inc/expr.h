@@ -43,14 +43,11 @@ struct GWBN_NumericExpression{
 
 
 struct GWBN_ArithmeticOperator{
-	int type; /* GWBB_ADD, GWBB_SUB, GWBB_MUL, GWBB_DIV, GWBN_NUMERICTERM */
+	int type; /* GWBBT_ADD, GWBBT_SUB, GWBBT_MUL, GWBBT_DIV, GWBNT_NUMERICTERM */
 	union {
 		struct {
-			GWBN_NumericExpression *a;
-			union {
-				GWBN_NumericExpression *b;
-				GWBN_NumericTerm *term_b;
-			};
+			GWBN_ArithmeticOperator *a;
+			GWBN_ArithmeticOperator *b;
 		};
 		GWBN_NumericTerm *term;	
 	};
@@ -59,11 +56,6 @@ struct GWBN_ArithmeticOperator{
 struct GWBN_NumericTerm {
 	int type;
 	union {
-		GWBN_NumericExpression* num_expr;
-		struct {
-			struct GWBN_NumericTerm *a, *b;
-		};
-		struct GWBN_NumericTerm* term;
 		GWBN_FunctionalOperator* func_op;
 		GWBN_NumericVariable* var;
 		GWBN_NumericConstant* num_const;
@@ -102,24 +94,6 @@ struct GWBN_NumericConstant {
 	};
 };
 
-struct GWBN_RelationalOperator {
-	int op_type;	/*GWBB_EQUAL, GWBB_INEQUAL, ... */
-	int args_type;	/*GWBN_ARITHMETICOPERATOR, GWBN_STRINGOPERATOR */
-	union {
-		struct {
-			GWBN_ArithmeticOperator *a, *b;	
-		};
-		struct {
-			GWBN_StringOperator *s1, *s2;
-		};
-	};
-};
-
-struct GWBN_LogicalOperator {
-	int type;	/* GWBB_NOT, GWBB_AND, GWBB_OR, GWBB_XOR */
-	GWBN_RelationalOperator* rop;
-};
-
 struct GWBN_FunctionalOperator {
 	int type;	/* GWBNT_MATHFUNCTION, GWBNT_STRINGFUNCTION */	
 	union {
@@ -149,10 +123,6 @@ GWBN_StringTerm* gwbn_NewStringTerm();
 void gwbn_DeleteStringTerm(GWBN_StringTerm* ptr);
 GWBN_NumericConstant* gwbn_NewNumericConstant();
 void gwbn_DeleteNumericConstant(GWBN_NumericConstant* ptr);
-GWBN_RelationalOperator* gwbn_NewRelationalOperator();
-void gwbn_DeleteRelationalOperator(GWBN_RelationalOperator* ptr);
-GWBN_LogicalOperator* gwbn_NewLogicalOperator();
-void gwbn_DeleteLogicalOperator(GWBN_LogicalOperator* ptr);
 GWBN_FunctionalOperator* gwbn_NewFunctionalOperator();
 void gwbn_DeleteRunctionalOperator(GWBN_FunctionalOperator* ptr);
 
