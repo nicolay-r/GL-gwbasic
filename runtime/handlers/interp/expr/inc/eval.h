@@ -25,8 +25,6 @@ GWBR_ExpressionResult gwbr_EvaluateExpression(GWBE_Environment* env, GWBN_Expres
 
 GWBR_ExpressionResult gwbr_EvaluateNumericExpression(GWBE_Environment* env, GWBN_NumericExpression* node);
 GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWBN_ArithmeticOperator* node);
-GWBR_ExpressionResult gwbr_EvaluateRelationalOperator(GWBE_Environment* env, GWBN_RelationalOperator* node);
-GWBR_ExpressionResult gwbr_EvaluateLogicalOperator(GWBE_Environment* env, GWBN_LogicalOperator* node);
 GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment* env, GWBN_FunctionalOperator* node);
 GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_NumericTerm* node);
 GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_NumericConstant *node);

@@ -38,15 +38,6 @@ GWBR_ExpressionResult gwbr_EvaluateNumericExpression(GWBE_Environment* env, GWBN
 		case GWBNT_ARITHMETICOPERATOR:
 			result = gwbr_EvaluateArithmeticOperator(env, node->arithm);
 			break;
-		case GWBNT_RELATIONALOPERATOR:
-			result = gwbr_EvaluateRelationalOperator(env, node->rel);
-			break;
-		case GWBNT_LOGICALOPERATOR:
-			result = gwbr_EvaluateLogicalOperator(env, node->log);
-			break;
-		case GWBNT_FUNCTIONALOPERATOR:
-			result = gwbr_EvaluateFunctionalOperator(env, node->func);
-			break;
 	}
 	return result;
 }
@@ -62,35 +53,99 @@ GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWB
 	{
 		case GWBBT_ADD:
 		{
-			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
-			GWBR_ExpressionResult b = gwbr_EvaluateNumericExpression(env, node->b);
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
 			result = gwbr_EvaluateAdd(a, b);
 			break;
 		}
 		case GWBBT_SUB:
 		{
-			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
-			GWBR_ExpressionResult b = gwbr_EvaluateNumericExpression(env, node->b);
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
 			result = gwbr_EvaluateSub(a, b);
 			break;
 		}
 		case GWBBT_MUL:
 		{
-			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
-			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->term_b);
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
 			result = gwbr_EvaluateMul(a, b);
 			break;
 		}
 		case GWBBT_DIV:
 		{
-			GWBR_ExpressionResult a = gwbr_EvaluateNumericExpression(env, node->a);
-			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->term_b);
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
 			result = gwbr_EvaluateDiv(a, b);
+			break;
+		}
+		case GWBBT_POW:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			result = gwbr_EvaluatePow(a, b);
+			break;
+		}
+			
+		/* equal */
+		case GWBBT_EQUAL:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);	
+			result = gwbr_EvaluateEqual(a, b);
+			break;
+		}
+		/* inequal */
+		case GWBBT_INEQUAL:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			result = gwbr_EvaluateInequal(a, b);
+			break;
+		}
+		/* lt */
+		case GWBBT_LT:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			result = gwbr_EvaluateLT(a, b);
+			break;
+		}
+		/* gt */
+		case GWBBT_GT:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			result = gwbr_EvaluateGT(a, b);
+			break;
+		}
+		/* gte */
+		case GWBBT_GTE:
+		{
+			GWBR_ExpressionResult a = gwbr_EvaluateArithmeticOperator(env, node->a);
+			GWBR_ExpressionResult b = gwbr_EvaluateArithmeticOperator(env, node->b);
+			result = gwbr_EvaluateGTE(a, b);
 			break;
 		}
 		case GWBNT_NUMERICTERM:
 		{
 			result = gwbr_EvaluateNumericTerm(env, node->term);
+			break;
+		}
+		case GWBNT_ARITHMETICOPERATOR:
+		{
+			result = gwbr_EvaluateArithmeticOperator(env, node->a);
+			break;
+		}
+		case GWBBT_UNARY_MINUS:
+		{
+			result = gwbr_EvaluateArithmeticOperator(env, node->a);
+			
+			GWBR_ExpressionResult b;
+			b.val.type = GWBCT_INTEGER;
+			b.val.int_val = -1;
+
+			result = gwbr_EvaluateMul(result, b);
 			break;
 		}
 	}
@@ -106,34 +161,20 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 
 	switch (node->type)
 	{
-		case GWBNT_NUMERICEXPRESSION:
-			result = gwbr_EvaluateNumericExpression(env, node->num_expr);
-			break;
-		case GWBBT_UNARY_MINUS:
-			result = gwbr_EvaluateNumericTerm(env, node->term);
-			
-			GWBR_ExpressionResult b;
-			b.val.type = GWBCT_INTEGER;
-			b.val.int_val = -1;
-			
-			result = gwbr_EvaluateMul(result, b);
-			break;
 		case GWBNT_FUNCTIONALOPERATOR:
 			result = gwbr_EvaluateFunctionalOperator(env, node->func_op);
 			break;
-		case GWBBT_POW:
-		{
-			GWBR_ExpressionResult a = gwbr_EvaluateNumericTerm(env, node->a);
-			GWBR_ExpressionResult b = gwbr_EvaluateNumericTerm(env, node->b);
-			result = gwbr_EvaluatePow(a, b);
-			break;
-		}
+		
 		case GWBNT_NUMERICVARIABLE:
+		{
 			result = gwbr_EvaluateNumericVariable(env, node->var);
 			break;
+		}
 		case GWBNT_NUMERICCONSTANT:
+		{
 			result = gwbr_EvaluateNumericConstant(env, node->num_const);
 			break;
+		}
 	}
 
 	return result;
@@ -212,64 +253,6 @@ GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_N
 	return result;
 }
 
-
-GWBR_ExpressionResult gwbr_EvaluateRelationalOperator(GWBE_Environment *env, GWBN_RelationalOperator *node)
-{
-	GWBR_ExpressionResult result;
-	
-	assert(node != NULL);
-
-	GWBR_ExpressionResult a, b;
-	switch (node->args_type)
-	{
-		case GWBNT_ARITHMETICOPERATOR:
-		{
-			a = gwbr_EvaluateArithmeticOperator(env, node->a);
-			b = gwbr_EvaluateArithmeticOperator(env, node->b);
-			break;
-		}
-		case GWBNT_STRINGOPERATOR:
-		{
-			a = gwbr_EvaluateStringOperator(env, node->s1);
-			b = gwbr_EvaluateStringOperator(env, node->s2);
-			break;
-		}
-	}
-	
-	/*
-		Выполнение операций сравнения
-	*/
-	switch (node->op_type)
-	{
-		case GWBBT_EQUAL:
-			/* equal */
-			result = gwbr_EvaluateEqual(a, b);
-			break;
-		case GWBBT_INEQUAL:
-			/* inequal */
-			result = gwbr_EvaluateInequal(a, b);
-			break;
-		case GWBBT_LT:
-			/* lt */
-			result = gwbr_EvaluateLT(a, b);
-			break;
-		case GWBBT_GT:
-			/* gt */
-			result = gwbr_EvaluateGT(a, b);
-			break;
-		case GWBBT_GTE:
-			/* gte */
-			result = gwbr_EvaluateGTE(a, b);
-			break;
-	}
-
-	return result;
-}
-GWBR_ExpressionResult gwbr_EvaluateLogicalOperator(GWBE_Environment *env, GWBN_LogicalOperator *node)
-{
-	GWBR_ExpressionResult result;
-	return result;
-}
 GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment *env, GWBN_FunctionalOperator *node)
 {
 	GWBR_ExpressionResult result;
