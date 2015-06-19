@@ -47,4 +47,21 @@ GWBN_ArrayVariable* gwbn_NewArrayVariable() {
 void gwbn_DeleteArrayVariable(GWBN_ArrayVariable* ptr) {
 	free(ptr);
 }
+		
+GWBN_ArrayVariables* gwbn_NewArrayVariables() {
+	GWBN_ArrayVariables* result = (GWBN_ArrayVariables*) malloc (sizeof(GWBN_ArrayVariables));
+	return result;
+} 
 	
+void gwbn_DeleteArrayVariables(GWBN_ArrayVariables* ptr) {
+	free(ptr);
+}
+GWBN_ConstIntegers* gwbn_NewConstIntegers()
+{
+	GWBN_ConstIntegers* result = (GWBN_ConstIntegers*) malloc (sizeof(GWBN_ConstIntegers));
+	return result;
+}
+void gwbn_DeleteConstIntegers(GWBN_ConstIntegers* ptr)
+{
+	free(ptr);
+}

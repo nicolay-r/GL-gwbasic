@@ -10,9 +10,15 @@ typedef struct GWBN_Variable GWBN_Variable;
 typedef struct GWBN_StringVariable GWBN_StringVariable;
 typedef struct GWBN_NumericVariable GWBN_NumericVariable;
 typedef struct GWBN_ArrayVariable GWBN_ArrayVariable;
+typedef struct GWBN_ArrayVariables GWBN_ArrayVariables;
+typedef struct GWBN_ConstIntegers GWBN_ConstIntegers;
 
 /*
 	Structures
+*/
+
+/* 
+	Variables 
 */
 struct GWBN_Variables {
 	GWBN_Variable* var;
@@ -37,11 +43,25 @@ struct GWBN_NumericVariable {
 					GWBNT_DOUBLEPRECISIONVARIABLE 	*/
 	char* name;
 };
+
+/* 
+	Array Variables 
+*/
+struct GWBN_ArrayVariables {
+	GWBN_ArrayVariable* var;
+	struct GWBN_ArrayVariables* next;
+};
+
 struct GWBN_ArrayVariable {
 	int type;
 	char* name;
-	//GWBN_ConstIntegers* dims;
-	int* dim;
+	GWBN_ConstIntegers* dims;
+	//int* dim;
+};
+
+struct GWBN_ConstIntegers {
+	int _int;
+	struct GWBN_ConstIntegers* next;
 };
 
 /*
@@ -57,5 +77,10 @@ GWBN_NumericVariable* gwbn_NewNumericVariable();
 void gwbn_DeleteNumericVariable(GWBN_NumericVariable* ptr);
 GWBN_ArrayVariable* gwbn_NewArrayVariable();
 void gwbn_DeleteArrayVariable(GWBN_ArrayVariable* ptr);
+GWBN_ArrayVariables* gwbn_NewArrayVariables();
+void gwbn_DeleteArrayVariables(GWBN_ArrayVariables* ptr);
+GWBN_ConstIntegers* gwbn_NewConstIntegers();
+void gwbn_DeleteConstIntegers(GWBN_ConstIntegers* ptr);
+
 
 #endif

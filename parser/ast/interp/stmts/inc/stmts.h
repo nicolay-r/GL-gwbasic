@@ -7,7 +7,7 @@
 */
 #include <stdlib.h>
 #include "../../expr/inc/expr.h"
-#include "../../vars/inc/vars.h"
+#include "../../vars/inc/vars.h" /* GWBN_Variables, GWBN_*/
 
 typedef struct GWBN_Statements GWBN_Statements;
 typedef struct GWBN_Statement GWBN_Statement;
@@ -88,7 +88,7 @@ struct GWBN_Call {
 	/* Not Implemented */
 };
 struct GWBN_Dim {
-	/* Not Implemented */
+	GWBN_ArrayVariables* arr_vars;
 };
 struct GWBN_Let {
 	GWBN_Variable *var;

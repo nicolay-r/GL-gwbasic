@@ -115,6 +115,9 @@
 	GWBN_CircleOptions*		circle_opts;
 	GWBN_Cls*			cls;
 	GWBN_Screen*			screen;
+	GWBN_Dim*			dim;
+	GWBN_ArrayVariables*		arr_vars;
+	GWBN_ConstIntegers*		const_ints;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -202,7 +205,9 @@
 %type <circle_opts> CircleOptions
 %type <cls> Cls
 %type <screen> Screen
-
+%type <dim> Dim
+%type <arr_vars> ArrayVariables
+%type <const_ints> ConstIntegers
 /*
 	Expressions
 */
@@ -308,7 +313,7 @@ NextStatements: EOLN				{ $$ = NULL; }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Call					{ printf("CALL %s\n", ne); }	
-	| Dim					{ printf("DIM %s\n", ne); }
+	| Dim					{ $$ = gwbn_NewStatement();  $$->type = GWBNT_DIM; $$->dim = $1; }
 	| Let					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LET; $$->let = $1; }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
 	| DefFn					{ printf("DEF FN %s\n", ne); }
@@ -366,7 +371,7 @@ TrOff:	TROFF									{ $$ = gwbn_NewTrOff(); }
 
 Beep:	BEEP
 Call:	CALL '('  Variables ')'
-Dim:	DIM ArrayVariables
+Dim:	DIM ArrayVariables							{ $$ = gwbn_NewDim(); $$->arr_vars = $2; }
 OptionBase: OPTION BASE NumericConstant
 Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$->expr = $4; }
 	| Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $1; $$->expr = $3; }
@@ -474,8 +479,8 @@ LineNumbers: LineNumber ',' LineNumbers
 FunctionArguments: VariableName ',' FunctionArguments
 	| VariableName
 
-ArrayVariables: ArrayVariable ',' ArrayVariables
-	| ArrayVariable
+ArrayVariables: ArrayVariable ',' ArrayVariables		{ $$ = gwbn_NewArrayVariables(); $$->var = $1; $$->next = $3; }
+	| ArrayVariable						{ $$ = gwbn_NewArrayVariables(); $$->var = $1; $$->next = NULL; }
 
 Variables: Variable ',' Variables				{ $$ = gwbn_NewVariables(); $$->var = $1; $$->next = $3; }
 	| Variable						{ $$ = gwbn_NewVariables(); $$->var = $1; $$->next = NULL; }
@@ -490,10 +495,10 @@ NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type =
 	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
 	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = $1; }
 
-ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = $1; }
+ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = $1; $$->dims = $3; }
 
-ConstIntegers: CONST_INTEGER ',' ConstIntegers
-	| CONST_INTEGER
+ConstIntegers: CONST_INTEGER ',' ConstIntegers			{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = $3; }
+	| CONST_INTEGER						{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = NULL; }
 
 Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_NUMERICEXPRESSION; $$->num_expr = $1; }
 	| StringExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_STRINGEXPRESSION; $$->str_expr = $1; }

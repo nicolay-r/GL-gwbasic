@@ -28,6 +28,7 @@
 #define GWBNT_CIRCLE			1110
 #define GWBNT_CLS			1111
 #define GWBNT_SCREEN			1112
+#define GWBNT_DIM			1113
 
 /*
 	Variables
