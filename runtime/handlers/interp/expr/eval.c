@@ -172,6 +172,11 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 			result = gwbr_EvaluateNumericVariable(env, node->var);
 			break;
 		}
+		case GWBNT_ARRAYVARIABLE:
+		{
+			result = gwbr_EvaluateArrayVariable(env, node->arr);
+			break;
+		}
 		case GWBNT_NUMERICCONSTANT:
 		{
 			result = gwbr_EvaluateNumericConstant(env, node->num_const);

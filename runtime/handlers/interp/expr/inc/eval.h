@@ -23,6 +23,8 @@ struct GWBR_ExpressionResult {
 */
 GWBR_ExpressionResult gwbr_EvaluateExpression(GWBE_Environment* env, GWBN_Expression* node);
 
+
+GWBR_ExpressionResult gwbr_EvaluateArrayVariable(GWBE_Environment* env, GWBN_ArrayVariable *node);
 GWBR_ExpressionResult gwbr_EvaluateNumericExpression(GWBE_Environment* env, GWBN_NumericExpression* node);
 GWBR_ExpressionResult gwbr_EvaluateArithmeticOperator(GWBE_Environment* env, GWBN_ArithmeticOperator* node);
 GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment* env, GWBN_FunctionalOperator* node);
