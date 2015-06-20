@@ -73,6 +73,9 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_SCREEN:
 				result = gwbh_Screen(env, node->screen);
 				return result;
+			case GWBNT_DIM:
+				result = gwbh_Dim(env, node->dim);
+				return result;
 		}
 	}
 	/*
@@ -111,16 +114,102 @@ GWBR_Result gwbh_Call(GWBE_Environment *env, GWBN_Call* node) {
 	return result;	 
 } 
 	
+GWBR_Result gwbh_Indexes(GWBE_Environment *env, GWBN_Indexes* indexes, GWBC_Indexes* core_indexes)
+{
+	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
+	
+	assert(env != NULL);
+	assert(core_indexes != NULL);
+
+	int length = 0;
+	GWBN_Indexes* curr_index = indexes;
+	while (curr_index != NULL)
+	{
+		/* go to next index */
+		curr_index = curr_index->next;
+		length++;
+	}
+	
+	/* set initial length */
+	core_indexes->count = length;
+	core_indexes->indexes = malloc(sizeof(int)* (core_indexes->count));
+
+	/* going again from beginning to end */
+	int i = 0;
+	curr_index = indexes;
+	while (curr_index != NULL)
+	{
+		GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, curr_index->num);
+		
+		assert(res.val.type == GWBCT_INTEGER);
+
+		/* set index values */
+		core_indexes->indexes[i] = res.val.int_val;
+
+		/* go to next index */
+		curr_index = curr_index->next;
+		i++;
+	}
+	
+	return result;
+}
+
 GWBR_Result gwbh_Dim(GWBE_Environment *env, GWBN_Dim* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
+
+	assert(env != NULL);
 
 	/* "Dim" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"Dim\" Handler"); 
 
+	assert(node != NULL);
+	assert(node->arr_vars != NULL);
+	GWBN_ArrayVariables* arr_vars = node->arr_vars;
+	while (arr_vars != NULL)
+	{
+		assert(arr_vars->var != NULL);
+
+		GWBN_ArrayVariable *arr_var = arr_vars->var;
+		
+		GWBC_Indexes core_indexes;
+
+		/* Convert Indexes */
+		/* Потом надо очистить эти индексы */
+		assert(arr_var->dims != NULL);
+		gwbh_Indexes(env, arr_var->dims, &core_indexes); 
+	
+		switch (arr_var->type)
+		{
+			case GWBNT_NUMERICVARIABLE:
+			{
+				/* Init numeric array */
+				assert(arr_var != NULL);
+				assert(arr_var->num != NULL);
+				assert(arr_var->num->name != NULL);
+
+				GWBC_Variable* new_var = gwbc_NewArrayVariable(arr_var->num->name, arr_var->num->type, &core_indexes);
+				/* Add local variable */ 
+				gwbe_Context_AddLocalVariable(env, new_var);
+				break;
+			}
+			case GWBNT_STRINGVARIABLE:
+			{
+				gwbo_DisplayMessage(env, "String Arrays doesn't supported");
+				break;
+			}
+		}
+
+		/* Go To the next variable */
+		arr_vars = arr_vars->next;
+	}
+
 	result.type = GWBR_RESULT_OK;
 	return result;	 
 } 
-	
+
+
 GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;

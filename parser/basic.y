@@ -495,8 +495,8 @@ NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type =
 	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
 	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = $1; }
 
-ArrayVariable: StringVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->str = $1; $$->dims = $3; }
-	| NumericVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->num = $1; $$->dims = $3; }
+ArrayVariable: StringVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->type = GWBNT_STRINGVARIABLE; $$->str = $1; $$->dims = $3; }
+	| NumericVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1; $$->dims = $3; }
 
 Indexes: NumericExpression ',' Indexes				{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = $3; }
 	| NumericExpression					{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = NULL; }

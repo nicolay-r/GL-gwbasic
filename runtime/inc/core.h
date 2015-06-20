@@ -129,6 +129,8 @@ void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list);
 
 /* Variable Prototypes */
 GWBC_Variable* gwbc_NewVariable(char* name, int node_var_type);
+GWBC_Variable* gwbc_NewArrayVariable(char* name, int node_var_type, GWBC_Indexes* inds);
+
 void gwbc_DeleteVariable(GWBC_Variable* var);
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds);
 GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds, GWBC_Value val);
