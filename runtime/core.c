@@ -117,25 +117,45 @@ void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list)
 		*list = NULL;
 	}
 }
-GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count)
+GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds)
 {
-	GWBC_Value value;
+	assert(var != NULL);
+	assert(var->arr != NULL);
+	assert(inds != NULL);
+	assert(inds->indexes != NULL);
 
-	/* Not Implemented */
-	assert(0 && "Unimplemented Exception");
+	GWBC_ArrayDimension* curr_dim = var->arr->dim; 
+	int i;
+	for (i = 0; i < inds->count-1; i++)
+	{
+		int cell_index = inds->indexes[i];
+		curr_dim = curr_dim->cells[cell_index].next_dim;
+	}
 
-	return value;
+	int last_index = inds->indexes[inds->count - 1];
+
+	return curr_dim->cells[last_index].val;
 }
 
-GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count, GWBC_Value val)
+GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds, GWBC_Value val)
 {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
-	/* Not Implemented */
-	assert(0 && "Unimplemented Exception");
+	/* Здесь нужна проверка на выход за границы массива */
+	GWBC_ArrayDimension* curr_dim = var->arr->dim; 
+	int i;
+	for (i = 0; i < inds->count-1; i++)
+	{
+		int cell_index = inds->indexes[i];
+		curr_dim = curr_dim->cells[cell_index].next_dim;
+	}
 
-	return result;	
+	int last_index = inds->indexes[inds->count - 1];
+
+	curr_dim->cells[last_index].val = val;
+
+	return result;
 }
 #include <stdio.h>
 GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val)

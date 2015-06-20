@@ -130,8 +130,8 @@ void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list);
 /* Variable Prototypes */
 GWBC_Variable* gwbc_NewVariable(char* name, int node_var_type);
 void gwbc_DeleteVariable(GWBC_Variable* var);
-GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count);
-GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count, GWBC_Value val);
+GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds);
+GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds, GWBC_Value val);
 GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val);
 void gwbc_InitArrayDimension(GWBC_Indexes* inds, int curr_index, int node_var_type, GWBC_ArrayDimension* this);
   
