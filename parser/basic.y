@@ -449,6 +449,7 @@ PrintExpressions: Expression ',' PrintExpressions			{ $$ = gwbn_NewPrintExpressi
 	| Expression							{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_NONE; $$->next = NULL; }
 	| ','								{ $$ = gwbn_NewPrintExpressions(); $$->expr = NULL; $$->sep_type = GWBBT_COMMA; $$->next = NULL; }
 	| ';'								{ $$ = gwbn_NewPrintExpressions(); $$->expr = NULL; $$->sep_type = GWBBT_SEMICOLON; $$->next = NULL; }
+	|								{ $$ = gwbn_NewPrintExpressions(); $$->expr = NULL; $$->sep_type = GWBBT_NONE; $$->next = NULL; }
 
 LineInput: LINE INPUT InputPromptString StringVariable
 

@@ -819,8 +819,11 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 	GWBN_PrintExpressions* print_exprs = node->exprs;	
 	do
 	{
-		GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
-		gwbo_DisplayCoreValue(env, &expr_res.val);
+		if (print_exprs->expr != NULL)
+		{
+			GWBR_ExpressionResult expr_res = gwbr_EvaluateExpression(env, print_exprs->expr);
+			gwbo_DisplayCoreValue(env, &expr_res.val);
+		}
 
 		switch (print_exprs->sep_type)
 		{
@@ -830,7 +833,6 @@ GWBR_Result gwbh_Print(GWBE_Environment *env, GWBN_Print* node) {
 				gwbo_NextLine(env);
 				break;
 			case GWBBT_NONE:
-				gwbo_NextLine(env);
 				break;
 		};
 
