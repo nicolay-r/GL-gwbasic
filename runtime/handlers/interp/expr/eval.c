@@ -8,6 +8,8 @@
 #include "inc/relational.h" 		/* RelationalOperations */
 #include "inc/math.h"			/* MathFunctions */
 
+#include "../vars/inc/vars.h"		/* Variable auxilary handlers */
+
 #include <string.h>			/* strcat() */
 #include <assert.h>
 #include <stdio.h>
@@ -175,6 +177,34 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 			result = gwbr_EvaluateNumericConstant(env, node->num_const);
 			break;
 		}
+	}
+
+	return result;
+}
+
+GWBR_ExpressionResult gwbr_EvaluateArrayVariable(GWBE_Environment* env, GWBN_ArrayVariable *node)
+{
+	GWBR_ExpressionResult result;
+
+	assert(node != NULL);
+
+	/* Getting Indexes */
+	GWBC_Indexes core_indexes;
+	assert(node->dims != NULL);
+	gwbh_Indexes(env, node->dims, &core_indexes); 
+	
+	GWBC_Variable* var = gwbe_Context_GetVariable(env, 
+		node->type == GWBNT_STRINGVARIABLE ? node->str->name : node->num->name);  
+
+	/* Searching For Variable */ 
+	if (var != NULL)
+	{
+		/* Getting Core Value */ 
+		result.val = gwbc_Variable_GetArrayValue(var, &core_indexes);
+	}
+	else 
+	{
+		assert(0 && "Variable doesn't existed");
 	}
 
 	return result;

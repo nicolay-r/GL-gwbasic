@@ -10,6 +10,7 @@
 
 #include "../../../inc/input.h"		/* GWBI_GetLine() */
 #include "../../../inc/env.h"		/* gwbe_* */
+#include "../vars/inc/vars.h"		/* gwbh_Indexes() */
 
 #include <output.h>			/* gwbo_DisplayCoreValue() */
 
@@ -114,54 +115,12 @@ GWBR_Result gwbh_Call(GWBE_Environment *env, GWBN_Call* node) {
 	return result;	 
 } 
 	
-GWBR_Result gwbh_Indexes(GWBE_Environment *env, GWBN_Indexes* indexes, GWBC_Indexes* core_indexes)
-{
-	GWBR_Result result;
-	result.type = GWBR_RESULT_OK;
-	
-	assert(env != NULL);
-	assert(core_indexes != NULL);
-
-	int length = 0;
-	GWBN_Indexes* curr_index = indexes;
-	while (curr_index != NULL)
-	{
-		/* go to next index */
-		curr_index = curr_index->next;
-		length++;
-	}
-	
-	/* set initial length */
-	core_indexes->count = length;
-	core_indexes->indexes = malloc(sizeof(int)* (core_indexes->count));
-
-	/* going again from beginning to end */
-	int i = 0;
-	curr_index = indexes;
-	while (curr_index != NULL)
-	{
-		GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, curr_index->num);
-		
-		assert(res.val.type == GWBCT_INTEGER);
-
-		/* set index values */
-		core_indexes->indexes[i] = res.val.int_val;
-
-		/* go to next index */
-		curr_index = curr_index->next;
-		i++;
-	}
-	
-	return result;
-}
-
 GWBR_Result gwbh_Dim(GWBE_Environment *env, GWBN_Dim* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
 	assert(env != NULL);
 
-	/* "Dim" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"Dim\" Handler"); 
 
 	assert(node != NULL);

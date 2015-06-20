@@ -537,7 +537,6 @@ ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewAri
 NumericTerm: FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = $1; $$->type = GWBNT_FUNCTIONALOPERATOR; }
 	| NumericVariable					{ $$ = gwbn_NewNumericTerm(); $$->var = $1; $$->type = GWBNT_NUMERICVARIABLE; }
 	| NumericConstant 					{ $$ = gwbn_NewNumericTerm(); $$->num_const = $1; $$->type = GWBNT_NUMERICCONSTANT; }
-
 StringExpression: StringOperator				{ $$ = gwbn_NewStringExpression(); $$->op = $1; }
 StringOperator:	StringTerm '+' StringOperator			{ $$ = gwbn_NewStringOperator(); $$->type = GWBBT_ADD; $$->a =$1; $$->b = $3; }
 	| StringTerm						{ $$ = gwbn_NewStringOperator(); $$->type = GWBNT_STRINGTERM; $$->term = $1; } 
