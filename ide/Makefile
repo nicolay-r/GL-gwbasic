@@ -6,7 +6,8 @@ RUNTIME_SRCS= $(RUNTIME_FOLDER)input.c $(RUNTIME_FOLDER)runtime.c $(RUNTIME_FOLD
 	$(RUNTIME_FOLDER)handlers/interp/stmts/*.c \
 	$(RUNTIME_FOLDER)handlers/interp/cmds/*.c \
 	$(RUNTIME_FOLDER)handlers/interp/expr/*.c \
-	$(RUNTIME_FOLDER)handlers/interp/funcs/*.c
+	$(RUNTIME_FOLDER)handlers/interp/funcs/*.c \
+	$(RUNTIME_FOLDER)handlers/interp/vars/*.c
 
 PARSER_FOLDER=../parser/
 AST_FOLDER=$(PARSER_FOLDER)ast/
