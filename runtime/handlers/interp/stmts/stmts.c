@@ -240,36 +240,40 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		case GWBNT_ARRAYVARIABLE:
 		{	
 			gwbo_DisplayDebugMessage(env, "Array variable");
-			/* Undeclared */
-			/*
-			switch (node->arr->type)
+			/* Convert Indexes */
+			/* Потом надо очистить эти индексы */
+			assert(node != NULL);
+			assert(node->var != NULL);
+			assert(node->var->arr != NULL);
+			assert(node->var->arr->dims != NULL);
+			
+			GWBC_Indexes core_indexes;
+			gwbh_Indexes(env, node->var->arr->dims, &core_indexes);
+			
+			switch (node->var->arr->type)
 			{
 				case GWBNT_STRINGVARIABLE:
 				{
-					new_var = gwbc_NewVariable(GWBCT_ARRAY, node->arr->str->name);
-
-					switch (node->arr->num->type)
-					{
-						case GWBNT_INTEGERVARIABLE:
-							new_var->arr->type = GWBCT_INTEGER:
-							break;
-						case GWBNT_SINGLEPRECISIONVARIABLE:
-							new_var->arr->type = GWBCT_SINGLE;
-							break;
-						case GWBNT_DOUBLEPRECISIONVARIABLE:
-							new_var->arr->type = GWBCT_DOUBLE;
-							break;
-					}
-
-					result = gwbc_Variable_SetArrayValue(new_vgr,
 					break;
 				}
 				case GWBNT_NUMERICVARIABLE:
 				{
-					new_var = gwbc_NewVariable(GWBCT_ARRAY, node->arr->num->name);
+					assert(node->var->arr->num != NULL);
+					assert(node->var->arr->num->name != NULL);
+
+					GWBC_Variable* var = gwbe_Context_GetVariable(env, node->var->arr->num->name);
+					if (var != NULL)
+					{
+						/* Существует */
+						gwbc_Variable_SetArrayValue(var, &core_indexes, expr_res.val);  
+					}
+					else 
+					{
+						gwbo_DisplayMessage(env, "Array variable was not found");
+					}
 					break;
 				}
-			}*/
+			}
 			break;
 		}
 	}
@@ -280,25 +284,28 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			break;
 		case GWBR_RESULT_OK:
 		{
-			/*
-				Сохранение значения 
-			*/
-			if (!gwbe_Context_ExistsVariable(env, new_var))
-				gwbe_Context_AddLocalVariable(env, new_var);
-			else
+			if (node->var->type != GWBNT_ARRAYVARIABLE)
 			{
-				GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
-				
-				assert(var != NULL);
+				/*
+					Сохранение значения 
+				*/
+				if (!gwbe_Context_ExistsVariable(env, new_var))
+					gwbe_Context_AddLocalVariable(env, new_var);
+				else
+				{
+					GWBC_Variable* var = gwbe_Context_GetVariable(env, new_var->name);
+					
+					assert(var != NULL);
 
-				if (var->type == GWBCT_VALUE)
-				{
-					gwbc_Variable_SetValue(var, *(new_var->val));
-				
-				}
-				else if (var->type == GWBCT_ARRAY)
-				{
-					/* присовение значения элементу массива */	
+					if (var->type == GWBCT_VALUE)
+					{
+						gwbc_Variable_SetValue(var, *(new_var->val));
+					
+					}
+					else if (var->type == GWBCT_ARRAY)
+					{
+						/* присовение значения элементу массива */	
+					}
 				}
 			}
 		}

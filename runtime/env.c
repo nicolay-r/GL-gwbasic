@@ -149,6 +149,35 @@ GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* 
 	return result;
 }
 
+char gwbe_Context_ExistsVariableByName(GWBE_Environment* env, char* name)
+{
+	assert(env->ctx != NULL);
+	assert(env->ctx->level >= 0);
+	
+	GWBE_Context* ctx = env->ctx;
+	
+	int curr_level;
+	for (curr_level = ctx->level; curr_level >= 0; curr_level--)
+	{
+		if (ctx->local_vars[curr_level] != NULL)
+		{ /* если список не пустой */
+			GWBC_VariableListNode* vars = ctx->local_vars[curr_level];		
+			while (vars != NULL)
+			{
+				assert(vars->var != NULL);
+				assert(vars->var->name != NULL);
+				assert(name != NULL);
+				if (strcmp(vars->var->name, name) == 0)
+					return 1;
+				vars = vars->next;
+			}
+		}
+	}
+
+	return 0;
+
+}
+
 char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var)
 {
 	assert(env->ctx != NULL);

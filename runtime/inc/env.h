@@ -124,6 +124,7 @@ GWBR_Result gwbe_Context_AddVariable(GWBE_Environment* env, GWBC_Variable* var);
 GWBR_Result gwbe_Context_AddLocalVariable(GWBE_Environment* env, GWBC_Variable* var);
 
 /* Context */
+char gwbe_Context_ExistsVariableByName(GWBE_Environment* env, char* name);
 char gwbe_Context_ExistsVariable(GWBE_Environment* env, GWBC_Variable* var);
 void gwbe_Context_IncSkipFlag(GWBE_Environment* env);
 void gwbe_Context_DecSkipFlag(GWBE_Environment* env);

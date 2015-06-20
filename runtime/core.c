@@ -49,39 +49,37 @@ GWBC_Variable* gwbc_NewArrayVariable(char* name, int node_var_type, GWBC_Indexes
 	var->arr = (GWBC_Array*) malloc(sizeof(GWBC_Array));
 	var->arr->dim_count = inds->count;
 
-	GWBC_ArrayDimension *curr_dim = malloc(sizeof(GWBC_ArrayDimension));
-	gwbc_InitArrayDimension(inds, 0, node_var_type, curr_dim);	
+	var->arr->dim = malloc(sizeof(GWBC_ArrayDimension));
+	gwbc_InitArrayDimension(inds, 0, node_var_type, var->arr->dim);	
 
 	return var;	
 }
-
+#include <stdio.h>
 void gwbc_InitArrayDimension(GWBC_Indexes* inds, int curr_index, int node_var_type, GWBC_ArrayDimension* this)
 {
 	assert(this != NULL);
 	
-	int i;
-	for (i = curr_index; i < inds->count; i++)
+	int i = curr_index;
+	
+	this->length = inds->indexes[i];
+	
+	this->cells = malloc(sizeof(GWBC_ArrayCell)*this->length);
+	
+	/* Init cells */
+	int j;
+	for (j = 0; j < this->length; j++)
 	{
-		this->length = inds->indexes[i];
-		
-		this->cells = malloc(sizeof(GWBC_ArrayCell)*this->length);
-
-		/* Init cells */
-		int j;
-		for (j = 0; j < this->length; j++)
+		if (i < inds->count - 1)
 		{
-			if (i < inds->count - 1)
-			{
-				/* Create Next Dimension */
-				this->type = GWBCT_ARRAYDIMENSION;
-				this->cells[j].next_dim = malloc(sizeof(GWBC_ArrayDimension)*inds->indexes[i+1]);
-				gwbc_InitArrayDimension(inds, i+1, node_var_type, this->cells[j].next_dim);
-			}
-			else 
-			{	/* Has value */
-				this->cells[j].val.type = GWBCT_VALUE;
-				this->cells[j].val.type = gwbc_ConvertToCoreType(node_var_type);
-			}
+			/* Create Next Dimension */
+			this->type = GWBCT_ARRAYDIMENSION;
+			this->cells[j].next_dim = malloc(sizeof(GWBC_ArrayDimension)*inds->indexes[i+1]);
+			gwbc_InitArrayDimension(inds, i+1, node_var_type, this->cells[j].next_dim);
+		}
+		else 
+		{	/* Has value */
+			this->cells[j].val.type = GWBCT_VALUE;
+			this->cells[j].val.type = gwbc_ConvertToCoreType(node_var_type);
 		}
 	}
 }
@@ -142,17 +140,25 @@ GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Indexes* inds, 
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 
+	assert(inds != NULL);
+	assert(var != NULL);
+
 	/* Здесь нужна проверка на выход за границы массива */
 	GWBC_ArrayDimension* curr_dim = var->arr->dim; 
 	int i;
 	for (i = 0; i < inds->count-1; i++)
 	{
+		assert(curr_dim != NULL);
 		int cell_index = inds->indexes[i];
+		
+		assert(cell_index < curr_dim->length);
+
 		curr_dim = curr_dim->cells[cell_index].next_dim;
 	}
 
 	int last_index = inds->indexes[inds->count - 1];
 
+	assert(curr_dim);
 	curr_dim->cells[last_index].val = val;
 
 	return result;
