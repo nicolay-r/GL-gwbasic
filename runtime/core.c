@@ -57,7 +57,7 @@ void gwbc_VariableListNode_Clear(GWBC_VariableListNode** list)
 		*list = NULL;
 	}
 }
-GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes)
+GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count)
 {
 	GWBC_Value value;
 
@@ -67,7 +67,7 @@ GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, int* indexes)
 	return value;
 }
 
-GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, int* indexes, GWBC_Value val)
+GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count, GWBC_Value val)
 {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
