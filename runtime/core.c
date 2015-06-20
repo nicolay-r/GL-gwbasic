@@ -9,20 +9,34 @@
 #include <stdlib.h>
 #include <assert.h>
 
-GWBC_Variable* gwbc_NewVariable(int type, char* name)
+GWBC_Variable* gwbc_NewVariable(char* name, int node_var_type)
 {
 	GWBC_Variable* var = (GWBC_Variable*) malloc(sizeof(GWBC_Variable));
-	var->type = type;
+	var->type = GWBCT_VALUE;
 	var->name = strdup(name);
 	
-	if (type == GWBCT_VALUE)
+	var->val = (GWBC_Value*) malloc(sizeof(GWBC_Value));
+	
+	switch (node_var_type)
 	{
-		var->val = (GWBC_Value*) malloc(sizeof(GWBC_Value));
+		case GWBNT_STRINGVARIABLE:
+			var->val->type = GWBCT_STRING;
+			break;
+		case GWBNT_INTEGERVARIABLE:
+			var->val->type = GWBCT_INTEGER;
+			break;
+		case GWBNT_SINGLEPRECISIONVARIABLE:
+			var->val->type = GWBCT_SINGLE;
+			break;
+		case GWBNT_DOUBLEPRECISIONVARIABLE:
+			var->val->type = GWBCT_DOUBLE;
+			break;
+		default:
+			assert(0 && "Undefinded type of AST-node");
+			break;
 	}
-	else if (type == GWBCT_ARRAY)
-	{
-		var->arr = (GWBC_Array*) malloc(sizeof(GWBC_Array));
-	}
+
+
 	return var;		
 }
 

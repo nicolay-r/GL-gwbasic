@@ -134,29 +134,15 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 		case GWBNT_STRINGVARIABLE:
 		{
 			gwbo_DisplayDebugMessage(env, "String Variable");
-			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->str->name);
-			new_var->val->type = GWBCT_STRING; // gwbc_Variable_SetValueType
-			result = gwbc_Variable_SetValue(new_var, expr_res.val);
+			new_var = gwbc_NewVariable(node->var->str->name, GWBNT_STRINGVARIABLE);
 			
+			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			break;
 		}
 		case GWBNT_NUMERICVARIABLE:
 		{	
 			gwbo_DisplayDebugMessage(env,"Numeric variable");
-			new_var = gwbc_NewVariable(GWBCT_VALUE, node->var->num->name);
-			
-			switch (node->var->num->type)
-			{
-				case GWBNT_INTEGERVARIABLE:
-					new_var->val->type = GWBCT_INTEGER;
-					break;
-				case GWBNT_SINGLEPRECISIONVARIABLE:
-					new_var->val->type = GWBCT_SINGLE;
-					break;
-				case GWBNT_DOUBLEPRECISIONVARIABLE:
-					new_var->val->type = GWBCT_DOUBLE;
-					break;
-			}
+			new_var = gwbc_NewVariable(node->var->num->name, node->var->num->type);
 
 			result = gwbc_Variable_SetValue(new_var, expr_res.val);
 			//gwbo_DisplayCoreValue(env, new_var->val);
@@ -496,19 +482,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node) {
 			gwbe_Context_PushLocalVariableLevel(env);
 
 			/* Создание новой переменной */
-			var = gwbc_NewVariable(GWBCT_VALUE, node->num_var->name); 
-			switch (node->num_var->type)
-			{
-				case GWBNT_INTEGERVARIABLE:
-					var->val->type = GWBCT_INTEGER;
-					break;
-				case GWBNT_SINGLEPRECISIONVARIABLE:
-					var->val->type = GWBCT_SINGLE;
-					break;
-				case GWBNT_DOUBLEPRECISIONVARIABLE:
-					var->val->type = GWBCT_DOUBLE;
-					break;
-			}
+			var = gwbc_NewVariable(node->num_var->name, node->num_var->type); 	
 			
 			GWBR_ExpressionResult res = gwbr_EvaluateNumericExpression(env, node->from_num_expr);
 			
