@@ -16,6 +16,27 @@ typedef struct GWBC_Variable GWBC_Variable;
 typedef struct GWBC_Circle GWBC_Circle;
 typedef struct GWBC_Line GWBC_Line;
 typedef struct GWBC_DisplayPoint GWBC_DisplayPoint;
+typedef struct GWBC_Indexes GWBC_Indexes;
+typedef union GWBC_ArrayCell GWBC_ArrayCell;
+
+/*
+	Values
+*/
+#define GWBCT_INTEGER		1
+#define GWBCT_SINGLE		2
+#define GWBCT_DOUBLE		3
+#define GWBCT_STRING		4
+
+struct GWBC_Value{
+	int type;			/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
+	union {
+		int int_val;		/* integer */
+		float single_val;	/* single prec */
+		double double_val;	/* double prec */	
+		char* str_val;		/* string */
+	};
+};
+
 /*
 	Variable ListNode
 */
@@ -42,6 +63,8 @@ struct GWBC_Variable{
 /*
 	Array
 */
+#define GWBCT_ARRAYDIMENSION	100
+
 #define GWBC_MAX_DIM_COUNT	255
 
 struct GWBC_Array{
@@ -50,32 +73,21 @@ struct GWBC_Array{
 	GWBC_ArrayDimension* dim; 		/* Array storage */
 };
  
+union GWBC_ArrayCell {
+	GWBC_Value val;
+	GWBC_ArrayDimension* next_dim;
+};
+
 struct GWBC_ArrayDimension {
+	int type;				/* GWBCT_ARRAYDIMENSION, GWBCT_VALUE */
 	int length;
-	union {
-		GWBC_Value* val;	
-		struct GWBC_ArrayDimension* next_dim;
-	}* cells;	/* cells[length] */
+	GWBC_ArrayCell* cells;			/* cells[length] */
 };
 
-/*
-	Values
-*/
-#define GWBCT_INTEGER		1
-#define GWBCT_SINGLE		2
-#define GWBCT_DOUBLE		3
-#define GWBCT_STRING		4
-
-struct GWBC_Value{
-	int type;			/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
-	union {
-		int int_val;		/* integer */
-		float single_val;	/* single prec */
-		double double_val;	/* double prec */	
-		char* str_val;		/* string */
-	};
+struct GWBC_Indexes {
+	int count;
+	int* indexes;
 };
-
 /*
 	Graphics and Display Objects
 */
@@ -121,5 +133,6 @@ void gwbc_DeleteVariable(GWBC_Variable* var);
 GWBC_Value gwbc_Variable_GetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count);
 GWBR_Result gwbc_Variable_SetArrayValue(GWBC_Variable* var, GWBC_Value* indexes, int indexes_count, GWBC_Value val);
 GWBR_Result gwbc_Variable_SetValue(GWBC_Variable* var, GWBC_Value val);
-
+void gwbc_InitArrayDimension(GWBC_Indexes* inds, int curr_index, int node_var_type, GWBC_ArrayDimension* this);
+  
 #endif

@@ -9,6 +9,24 @@
 #include <stdlib.h>
 #include <assert.h>
 
+int gwbc_ConvertToCoreType(int node_var_type)
+{
+	switch (node_var_type)
+	{
+		case GWBNT_STRINGVARIABLE:
+			return GWBCT_STRING;
+		case GWBNT_INTEGERVARIABLE:
+			return GWBCT_INTEGER;
+		case GWBNT_SINGLEPRECISIONVARIABLE:
+			return GWBCT_SINGLE;
+		case GWBNT_DOUBLEPRECISIONVARIABLE:
+			return GWBCT_DOUBLE;
+		default:
+			assert(0 && "Undefinded type of AST-node");
+			break;
+	}
+}
+
 GWBC_Variable* gwbc_NewVariable(char* name, int node_var_type)
 {
 	GWBC_Variable* var = (GWBC_Variable*) malloc(sizeof(GWBC_Variable));
@@ -17,27 +35,55 @@ GWBC_Variable* gwbc_NewVariable(char* name, int node_var_type)
 	
 	var->val = (GWBC_Value*) malloc(sizeof(GWBC_Value));
 	
-	switch (node_var_type)
-	{
-		case GWBNT_STRINGVARIABLE:
-			var->val->type = GWBCT_STRING;
-			break;
-		case GWBNT_INTEGERVARIABLE:
-			var->val->type = GWBCT_INTEGER;
-			break;
-		case GWBNT_SINGLEPRECISIONVARIABLE:
-			var->val->type = GWBCT_SINGLE;
-			break;
-		case GWBNT_DOUBLEPRECISIONVARIABLE:
-			var->val->type = GWBCT_DOUBLE;
-			break;
-		default:
-			assert(0 && "Undefinded type of AST-node");
-			break;
-	}
-
+	var->val->type =  gwbc_ConvertToCoreType(node_var_type);
 
 	return var;		
+}
+
+GWBC_Variable* gwbc_NewArrayVariable(char* name, int node_var_type, GWBC_Indexes* inds)
+{
+	GWBC_Variable* var = (GWBC_Variable*) malloc(sizeof(GWBC_Variable));
+	var->type = GWBCT_ARRAY;
+	var->name = strdup(name);
+
+	var->arr = (GWBC_Array*) malloc(sizeof(GWBC_Array));
+	var->arr->dim_count = inds->count;
+
+	GWBC_ArrayDimension *curr_dim = malloc(sizeof(GWBC_ArrayDimension));
+	gwbc_InitArrayDimension(inds, 0, node_var_type, curr_dim);	
+
+	return var;	
+}
+
+void gwbc_InitArrayDimension(GWBC_Indexes* inds, int curr_index, int node_var_type, GWBC_ArrayDimension* this)
+{
+	assert(this != NULL);
+	
+	int i;
+	for (i = curr_index; i < inds->count; i++)
+	{
+		this->length = inds->indexes[i];
+		
+		this->cells = malloc(sizeof(GWBC_ArrayCell)*this->length);
+
+		/* Init cells */
+		int j;
+		for (j = 0; j < this->length; j++)
+		{
+			if (i < inds->count - 1)
+			{
+				/* Create Next Dimension */
+				this->type = GWBCT_ARRAYDIMENSION;
+				this->cells[j].next_dim = malloc(sizeof(GWBC_ArrayDimension)*inds->indexes[i+1]);
+				gwbc_InitArrayDimension(inds, i+1, node_var_type, this->cells[j].next_dim);
+			}
+			else 
+			{	/* Has value */
+				this->cells[j].val.type = GWBCT_VALUE;
+				this->cells[j].val.type = gwbc_ConvertToCoreType(node_var_type);
+			}
+		}
+	}
 }
 
 void gwbc_DeleteVariable(GWBC_Variable* var)
