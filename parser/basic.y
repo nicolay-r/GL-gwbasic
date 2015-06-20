@@ -495,7 +495,8 @@ NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type =
 	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
 	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = $1; }
 
-ArrayVariable: DECLARATION '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->name = $1; $$->dims = $3; }
+ArrayVariable: StringVariable '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->str = $1; $$->dims = $3; }
+	| NumericVariable '(' ConstIntegers ')'			{ $$ = gwbn_NewArrayVariable(); $$->num = $1; $$->dims = $3; }
 
 ConstIntegers: CONST_INTEGER ',' ConstIntegers			{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = $3; }
 	| CONST_INTEGER						{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = NULL; }

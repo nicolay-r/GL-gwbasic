@@ -53,10 +53,13 @@ struct GWBN_ArrayVariables {
 };
 
 struct GWBN_ArrayVariable {
-	int type;
-	char* name;
+	int type; 	/* GWBNT_StringVariable, GWBNT_NumericVariable */
 	GWBN_ConstIntegers* dims;
-	//int* dim;
+
+	union {
+		GWBN_StringVariable* str;
+		GWBN_NumericVariable* num;
+	};
 };
 
 struct GWBN_ConstIntegers {
