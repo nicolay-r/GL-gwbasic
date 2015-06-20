@@ -56,12 +56,4 @@ GWBN_ArrayVariables* gwbn_NewArrayVariables() {
 void gwbn_DeleteArrayVariables(GWBN_ArrayVariables* ptr) {
 	free(ptr);
 }
-GWBN_ConstIntegers* gwbn_NewConstIntegers()
-{
-	GWBN_ConstIntegers* result = (GWBN_ConstIntegers*) malloc (sizeof(GWBN_ConstIntegers));
-	return result;
-}
-void gwbn_DeleteConstIntegers(GWBN_ConstIntegers* ptr)
-{
-	free(ptr);
-}
+

@@ -1,7 +1,6 @@
 #ifndef _GWBASIC_EXPRESSIONS_H_
 #define _GWBASIC_EXPRESSIONS_H_
 
-#include "../../vars/inc/vars.h"
 #include "../../../inc/base.h"		/* GWBB_Integer, GWBB_Single, GWBB_Double, GWBB_String */
 
 typedef struct GWBN_ArithmeticOperator GWBN_ArithmeticOperator;
@@ -20,6 +19,7 @@ typedef struct GWBN_NumericConstant GWBN_NumericConstant;
 	Recursively dependent
 */
 #include "../../funcs/inc/funcs.h"
+#include "../../vars/inc/vars.h"
 
 /*
 	Expression

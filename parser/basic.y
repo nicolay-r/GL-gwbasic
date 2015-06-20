@@ -117,7 +117,7 @@
 	GWBN_Screen*			screen;
 	GWBN_Dim*			dim;
 	GWBN_ArrayVariables*		arr_vars;
-	GWBN_ConstIntegers*		const_ints;
+	GWBN_Indexes*			inds;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -207,7 +207,7 @@
 %type <screen> Screen
 %type <dim> Dim
 %type <arr_vars> ArrayVariables
-%type <const_ints> ConstIntegers
+%type <inds> Indexes
 /*
 	Expressions
 */
@@ -495,11 +495,11 @@ NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type =
 	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
 	| DECLARATION '#'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_DOUBLEPRECISIONVARIABLE; $$->name = $1; }
 
-ArrayVariable: StringVariable '(' ConstIntegers ')'		{ $$ = gwbn_NewArrayVariable(); $$->str = $1; $$->dims = $3; }
-	| NumericVariable '(' ConstIntegers ')'			{ $$ = gwbn_NewArrayVariable(); $$->num = $1; $$->dims = $3; }
+ArrayVariable: StringVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->str = $1; $$->dims = $3; }
+	| NumericVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->num = $1; $$->dims = $3; }
 
-ConstIntegers: CONST_INTEGER ',' ConstIntegers			{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = $3; }
-	| CONST_INTEGER						{ $$ = gwbn_NewConstIntegers(); $$->_int = $1; $$->next = NULL; }
+Indexes: NumericExpression ',' Indexes				{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = $3; }
+	| NumericExpression					{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = NULL; }
 
 Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_NUMERICEXPRESSION; $$->num_expr = $1; }
 	| StringExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_STRINGEXPRESSION; $$->str_expr = $1; }

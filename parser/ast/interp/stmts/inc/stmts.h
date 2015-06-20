@@ -7,7 +7,6 @@
 */
 #include <stdlib.h>
 #include "../../expr/inc/expr.h"
-#include "../../vars/inc/vars.h" /* GWBN_Variables, GWBN_*/
 
 typedef struct GWBN_Statements GWBN_Statements;
 typedef struct GWBN_Statement GWBN_Statement;
