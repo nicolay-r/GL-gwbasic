@@ -45,9 +45,9 @@ struct GWBC_Variable{
 #define GWBC_MAX_DIM_COUNT	255
 
 struct GWBC_Array{
-	int elem_type;	/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
-	int dim_count;
-	GWBC_ArrayDimension* dim; 
+	int type;				/* GWBCT_INTEGER, GWBCT_SINGLE, GWBCT_DOUBLE, GWBCT_STRING */
+	int dim_count;				/* Amount of Dimentions */
+	GWBC_ArrayDimension* dim; 		/* Array storage */
 };
  
 struct GWBC_ArrayDimension {

@@ -163,8 +163,40 @@ GWBR_Result gwbh_Let(GWBE_Environment *env, GWBN_Let* node) {
 			break;
 		}
 		case GWBNT_ARRAYVARIABLE:
-			/* Not Implemented */
+		{	
+			gwbo_DisplayDebugMessage(env, "Array variable");
+			/* Undeclared */
+			/*
+			switch (node->arr->type)
+			{
+				case GWBNT_STRINGVARIABLE:
+				{
+					new_var = gwbc_NewVariable(GWBCT_ARRAY, node->arr->str->name);
+
+					switch (node->arr->num->type)
+					{
+						case GWBNT_INTEGERVARIABLE:
+							new_var->arr->type = GWBCT_INTEGER:
+							break;
+						case GWBNT_SINGLEPRECISIONVARIABLE:
+							new_var->arr->type = GWBCT_SINGLE;
+							break;
+						case GWBNT_DOUBLEPRECISIONVARIABLE:
+							new_var->arr->type = GWBCT_DOUBLE;
+							break;
+					}
+
+					result = gwbc_Variable_SetArrayValue(new_vgr,
+					break;
+				}
+				case GWBNT_NUMERICVARIABLE:
+				{
+					new_var = gwbc_NewVariable(GWBCT_ARRAY, node->arr->num->name);
+					break;
+				}
+			}*/
 			break;
+		}
 	}
 		
 	switch (result.type)
