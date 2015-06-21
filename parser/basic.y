@@ -16,7 +16,7 @@
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT END
 %token LOCATE MID
 
 %token ABS ASC 
@@ -118,6 +118,7 @@
 	GWBN_Dim*			dim;
 	GWBN_ArrayVariables*		arr_vars;
 	GWBN_Indexes*			inds;
+	GWBN_End*			end;
 
 	/* Expressions */	
 	GWBN_Expression*		expr;
@@ -208,6 +209,8 @@
 %type <dim> Dim
 %type <arr_vars> ArrayVariables
 %type <inds> Indexes
+%type <end> End
+
 /*
 	Expressions
 */
@@ -338,6 +341,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| OnErrorGoto				{ printf("ON ERROR GOTO %s\n", ne); }
 	| OnGosub				{ printf("ON .. GOSUB ..%s\n", ne); }
 	| OnGoto				{ printf("ON .. GOTO .. %s\n", ne); }
+	| End					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_END; $$->end = $1; }
 
 Run:	RUN					{ $$ = gwbn_NewRun(); }
 System:	SYSTEM
@@ -473,6 +477,8 @@ MidTo:
 OnErrorGoto: ON ERROR GOTO LineNumber
 OnGosub: ON Expression GOSUB LineNumbers
 OnGoto: ON Expression GOTO LineNumbers
+End: END							{ $$ = gwbn_NewEnd(); }
+
 LineNumbers: LineNumber ',' LineNumbers
 	| LineNumber
 

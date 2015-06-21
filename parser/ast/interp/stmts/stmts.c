@@ -249,3 +249,13 @@ void gwbn_DeleteOnGoto(GWBN_OnGoto* ptr) {
 	free(ptr);
 }
 
+GWBN_End* gwbn_NewEnd()
+{
+	GWBN_End* result = (GWBN_End*) malloc(sizeof(GWBN_End));
+	return result;
+}
+
+void gwbn_DeleteEnd(GWBN_End* ptr)
+{
+	free(ptr);
+}

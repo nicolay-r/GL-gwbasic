@@ -64,6 +64,7 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 (?i:PRINT)		{ return PRINT; }
 (?i:LOCATE)		{ return LOCATE; }
 (?i:MID)		{ return MID; }
+(?i:END)		{ return END; }
 
 (?i:LEFT$)		{ return LEFT_STR; }
 (?i:MID$)		{ return MID_STR; }

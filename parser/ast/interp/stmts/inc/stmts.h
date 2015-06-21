@@ -35,6 +35,7 @@ typedef struct GWBN_Mid GWBN_Mid;
 typedef struct GWBN_OnErrorGoto GWBN_OnErrorGoto;
 typedef struct GWBN_OnGosub GWBN_OnGosub;
 typedef struct GWBN_OnGoto GWBN_OnGoto;
+typedef struct GWBN_End GWBN_End;
 
 /*
 	Statements Includes
@@ -76,6 +77,7 @@ struct GWBN_Statement {
 		GWBN_Cls* cls;
 		GWBN_Return* ret;
 		GWBN_GoSub* gosub;
+		GWBN_End* end;
 	};
 }; 
 
@@ -162,6 +164,9 @@ struct GWBN_OnGosub {
 struct GWBN_OnGoto {
 	/* Not Implemented */
 };
+struct GWBN_End {	
+};
+
 /*
 	Prototypes
 */
@@ -219,6 +224,9 @@ GWBN_OnGosub* gwbn_NewOnGosub();
 void gwbn_DeleteOnGosub(GWBN_OnGosub* ptr);
 GWBN_OnGoto* gwbn_NewOnGoto();
 void gwbn_DeleteOnGoto(GWBN_OnGoto* ptr);
+GWBN_End* gwbn_NewEnd();
+void gwbn_DeleteEnd(GWBN_End* ptr);
+
 
 
 #endif
