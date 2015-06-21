@@ -27,6 +27,7 @@ GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node);
 GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node);
 GWBR_Result gwbh_GoSub(GWBE_Environment *env, GWBN_GoSub* node);
 GWBR_Result gwbh_Return(GWBE_Environment *env, GWBN_Return* node);
+GWBR_Result gwbh_End(GWBE_Environment *env, GWBN_End* node);
 GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node);
 GWBR_Result gwbh_IfThenElse(GWBE_Environment *env, GWBN_IfThenElse* node);
 GWBR_Result gwbh_Input(GWBE_Environment *env, GWBN_Input* node);

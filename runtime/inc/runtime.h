@@ -18,4 +18,6 @@ void gwbr_Run(GWBE_Environment* env);
 */
 GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env);
 GWBR_Result gwbr_RunProgram(GWBE_Environment* env);
+void gwbr_FinishProgram(GWBE_Environment* env, GWBR_Result result);
+
 #endif

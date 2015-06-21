@@ -11,6 +11,7 @@
 #include "../../../inc/input.h"		/* GWBI_GetLine() */
 #include "../../../inc/env.h"		/* gwbe_* */
 #include "../vars/inc/vars.h"		/* gwbh_Indexes() */
+#include "../../../inc/runtime.h"	/* gwbr_FinishProgram() */
 
 #include <output.h>			/* gwbo_DisplayCoreValue() */
 
@@ -76,6 +77,15 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 				return result;
 			case GWBNT_DIM:
 				result = gwbh_Dim(env, node->dim);
+				return result;
+			case GWBNT_GOSUB:
+				result = gwbh_GoSub(env, node->gosub);
+				return result;
+			case GWBNT_RETURN:
+				result = gwbh_Return(env, node->ret);
+				return result;
+			case GWBNT_END:
+				result = gwbh_End(env, node->end);
 				return result;
 		}
 	}
@@ -589,29 +599,97 @@ GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node) {
 	
 GWBR_Result gwbh_GoSub(GWBE_Environment *env, GWBN_GoSub* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
+	
+	assert(env != NULL);
 
-	/* "GoSub" handler implementation */
 	gwbo_DisplayDebugMessage(env,"In \"GoSub\" Handler"); 
 
-	result.type = GWBR_RESULT_OK;
+	/* Allert Message in Interpreter Mode */	
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{
+		gwbo_DisplayMessage(env, "This statement can't be run in \"Interpter Mode\"");
+		gwbo_NextLine(env);
+		return result;
+	}
+	
+	/* Saving the return adress */
+	gwbe_CallbackStack_PushCurrentLine(env);
+
+	/* Autodecrement line address */
+	assert(node != NULL);
+	assert(env->ctx != NULL);
+	env->ctx->current_line = node->line - 1;	
+
+	/* Creating New Context */
+	gwbe_Context_PushLocalVariableLevel(env);
+	
 	return result;	 
 } 
 	
 GWBR_Result gwbh_Return(GWBE_Environment *env, GWBN_Return* node) {
 	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
 
-	/* "Return" handler implementation */
+	assert(env != NULL);
+
 	gwbo_DisplayDebugMessage(env,"In \"Return\" Handler"); 
 
-	result.type = GWBR_RESULT_OK;
+	/* Allert Message In Interpreter Mode */
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{
+		gwbo_DisplayMessage(env, "This statement can't be run in \"Interpter Mode\"");
+		gwbo_NextLine(env);
+		return result;
+	}
+	
+	/* Getting the return adress */
+	int return_line = gwbe_CallbackStack_Top(env);
+	gwbe_CallbackStack_Pop(env);
+
+	/* Autoincrement return adress */
+	assert(env->ctx != NULL);
+	env->ctx->current_line = return_line + 1;	
+
+	/* Destroy LocalVariableLevel */
+	gwbe_Context_PopLocalVariableLevel(env);
+
 	return result;	 
 } 
 	
+GWBR_Result gwbh_End(GWBE_Environment *env, GWBN_End* end){ 
+	GWBR_Result result;
+	result.type = GWBR_RESULT_OK;
+
+	gwbo_DisplayDebugMessage(env,"In \"End\" Handler"); 
+
+	/* Allert Message In Interpreter Mode */
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{
+		gwbo_DisplayMessage(env, "This statement can't be run in \"Interpter Mode\"");
+		gwbo_NextLine(env);
+		return result;
+	}
+
+	/* Forcely finish program */	
+	gwbr_FinishProgram(env, result);
+
+	return result;	 
+}
+
 GWBR_Result gwbh_Goto(GWBE_Environment *env, GWBN_Goto* node) {
 	GWBR_Result result;
 	result.type = GWBR_RESULT_OK;
 	
 	gwbo_DisplayDebugMessage(env,"In \"Goto\" Handler"); 
+	
+	if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+	{
+		gwbo_DisplayMessage(env, "This statement can't be run in \"Interpter Mode\"");
+		gwbo_NextLine(env);
+		return result;
+	}
+	
 	assert(node != NULL);
 	assert(env->ctx != NULL);
 	/* Здесь делается поправка на систему исполнения, которая 
