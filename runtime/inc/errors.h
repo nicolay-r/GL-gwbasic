@@ -16,7 +16,7 @@
 
 /* Notifications */
 #define GWBR_NOTIFICATION_WAITFORVALUE  	200	/* Ожидание ввода результата пользователем */		
-
+#define GWBR_NOTIFICATION_FINISHPROGRAM		201	/* Указать на завершение программы */
 /*
 	Result Of Interpretation
 */

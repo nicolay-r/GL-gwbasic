@@ -659,7 +659,6 @@ GWBR_Result gwbh_Return(GWBE_Environment *env, GWBN_Return* node) {
 	
 GWBR_Result gwbh_End(GWBE_Environment *env, GWBN_End* end){ 
 	GWBR_Result result;
-	result.type = GWBR_RESULT_OK;
 
 	gwbo_DisplayDebugMessage(env,"In \"End\" Handler"); 
 
@@ -671,8 +670,8 @@ GWBR_Result gwbh_End(GWBE_Environment *env, GWBN_End* end){
 		return result;
 	}
 
-	/* Forcely finish program */	
-	gwbr_FinishProgram(env, result);
+	/* Notify to Finish program */	
+	result.type = GWBR_NOTIFICATION_FINISHPROGRAM;
 
 	return result;	 
 }
