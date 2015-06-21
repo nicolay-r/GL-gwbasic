@@ -29,6 +29,7 @@
 #define GWBNT_CLS			1111
 #define GWBNT_SCREEN			1112
 #define GWBNT_DIM			1113
+#define GWBNT_GOSUB			1114
 
 /*
 	Variables

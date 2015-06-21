@@ -74,6 +74,8 @@ struct GWBN_Statement {
 		GWBN_For* _for;
 		GWBN_Next* next;
 		GWBN_Cls* cls;
+		GWBN_Return* ret;
+		GWBN_GoSub* gosub;
 	};
 }; 
 

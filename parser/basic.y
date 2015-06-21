@@ -326,8 +326,8 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Cls					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_CLS; $$->cls = $1; }
 	| For					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_FOR; $$->_for = $1; }
 	| Next					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_NEXT; $$->next = $1; }
-	| GoSub					{ printf("GOSUB %s\n", ne); }
-	| Return				{ printf("RETURN %s\n", ne); }
+	| GoSub					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOSUB; $$->gosub = $1; }
+	| Return				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_RETURN; $$->ret = $1; }
 	| Goto					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
 	| IfThenElse				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_IFTHENELSE; $$->if_then_else = $1; }
 	| Input					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_INPUT; $$->input = $1; }
