@@ -13,9 +13,6 @@ void gwbo_DisplayMessage(GWBE_Environment* env, char* msg)
 	assert(ide->text_buffer != NULL);
 	
 	gwbg_TextBuffer_PushString(ide->text_buffer, msg);
-
-	/* Force Render Ide */
-	gwbg_Ide_Render();
 }
 void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 {
@@ -27,9 +24,6 @@ void gwbo_DisplayDebugMessage(GWBE_Environment* env, char* msg)
 		gwbg_TextBuffer_PushString(ide->text_buffer, msg);
 		gwbo_NextLine(env);
 	}
-	
-	/* Force Render Ide */
-	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
@@ -48,9 +42,6 @@ void gwbo_DisplayResult(GWBE_Environment* env, GWBR_Result result)
 			gwbo_DisplayMessage(env, "Uknown Error");
 			break;
 	}
-
-	/* Force Render Ide */
-	gwbg_Ide_Render();
 }	
 
 void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
@@ -81,9 +72,6 @@ void gwbo_DisplayCoreValue(GWBE_Environment* env, GWBC_Value *result)
 			gwbg_TextBuffer_PushString(ide->text_buffer, result->str_val);
 			break;
 	}
-
-	/* Force Render */
-	gwbg_Ide_Render();
 }
 
 void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
@@ -126,8 +114,6 @@ void gwbo_Cls(GWBE_Environment* env)
 	/* Clean canvas */
 	gwbg_Canvas_Clear(ide->canvas);
 	gwbg_TextBuffer_Clear(ide->text_buffer);
-	/* Force Render */
-	gwbg_Ide_Render();
 }
 
 void gwbo_NextLine(GWBE_Environment* env)
