@@ -114,6 +114,9 @@ void gwbo_Cls(GWBE_Environment* env)
 	/* Clean canvas */
 	gwbg_Canvas_Clear(ide->canvas);
 	gwbg_TextBuffer_Clear(ide->text_buffer);
+	
+	/* Force Render */
+	gwbg_Ide_Render();
 }
 
 void gwbo_NextLine(GWBE_Environment* env)
