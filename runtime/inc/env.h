@@ -117,6 +117,8 @@ GWBE_ProgramLine* gwbe_DeleteProgramLine();
 void gwbe_PushCharToRequest(GWBE_Environment* env, char c);
 void gwbe_ClearRequest(GWBE_Environment* env);
 void gwbe_PopCharFromRequest(GWBE_Environment* env);
+void gwbe_SetRuntimeMode(GWBE_Environment* env, int new_mode);
+void gwbe_SetRuntimeWaitMode(GWBE_Environment* env, int new_mode);
 
 //GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableListNode* vars, struct GWBN_Expression* body);
 //void GWBE_DeleteFunction(struct GWBE_Function* func);

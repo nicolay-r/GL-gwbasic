@@ -26,12 +26,12 @@ void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 			{
 				case GWBE_RUNTIMEMODE_INTERPRETERWAIT:
 				{	
-					env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
+					gwbe_SetRuntimeMode(env, GWBE_RUNTIMEMODE_INTERPRETER);
 					break;
 				}
 				case GWBE_RUNTIMEMODE_PROGRAMWAIT:
 				{	
-					env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
+					gwbe_SetRuntimeMode(env, GWBE_RUNTIMEMODE_PROGRAM);
 					break;
 				}
 				default:

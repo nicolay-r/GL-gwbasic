@@ -33,6 +33,18 @@ GWBE_Environment* gwbe_NewEnvironment()
 	return env;
 }
 
+void gwbe_SetRuntimeMode(GWBE_Environment* env, int new_mode)
+{
+	env->runtime_mode = new_mode;
+}
+
+void gwbe_SetRuntimeWaitMode(GWBE_Environment *env, int new_mode)
+{
+	env->runtime_mode = new_mode;
+	gwbe_ClearRequest(env);
+}
+
+
 void gwbe_DeleteEnvironment(GWBE_Environment* env)
 {
 	free(env);

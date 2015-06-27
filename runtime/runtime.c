@@ -61,8 +61,9 @@ void gwbr_Run(GWBE_Environment *env)
 			/* Переводим среду в режим "ожидания запроса пользователя" 
 			   в случае, если оно не было изменено */
 			if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
-				env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETERWAIT;
-			
+			{
+				gwbe_SetRuntimeWaitMode(env, GWBE_RUNTIMEMODE_INTERPRETERWAIT);
+			}
 			break;
 		}
 		case GWBE_RUNTIMEMODE_PROGRAM:
@@ -106,8 +107,7 @@ void gwbr_FinishProgram(GWBE_Environment* env, GWBR_Result result)
 	gwbo_NextLine(env);
 
 	/* Переключаем режим среды на "ожидаение ввода пользовательского запроса" */
-	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETERWAIT;
-	gwbe_ClearRequest(env);
+	gwbe_SetRuntimeWaitMode(env, GWBE_RUNTIMEMODE_INTERPRETERWAIT);
 }
 
 /*
@@ -145,8 +145,7 @@ GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 	if (result.type == GWBR_NOTIFICATION_WAITFORVALUE)
 	{
 		/* Изменяем состояние среды исполнения на "ожидание ввода данных" */
-		env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAMWAIT;
-		gwbe_ClearRequest(env);
+		gwbe_SetRuntimeWaitMode(env, GWBE_RUNTIMEMODE_PROGRAMWAIT);
 	}
 	/* Если не ожидается ввод с клавиатуры */
 	if (current_line >= GWBE_PROGRAM_MAXLINES || 
@@ -169,8 +168,7 @@ void gwbr_StartProgram(GWBE_Environment* env)
 	gwbo_DisplayDebugMessage(env, "In \"StartProgram\" Handler"); 	
 	
 	/* переключаем режим среды на выполнениеп программы */
-	env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
-
+	gwbe_SetRuntimeMode(env, GWBE_RUNTIMEMODE_PROGRAM);
 }
 
 /*
