@@ -149,7 +149,8 @@ GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 		gwbe_ClearRequest(env);
 	}
 	/* Если не ожидается ввод с клавиатуры */
-	if (current_line >= GWBE_PROGRAM_MAXLINES)
+	if (current_line >= GWBE_PROGRAM_MAXLINES || 
+		result.type == GWBR_NOTIFICATION_FINISHPROGRAM)
 	{
 		gwbr_FinishProgram(env, result);
 	}
