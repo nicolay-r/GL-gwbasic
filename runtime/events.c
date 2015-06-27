@@ -23,12 +23,12 @@ void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 			/* Change the state of environment */
 			switch (env->runtime_mode)
 			{
-				case GWBE_RUNTIMEMODE_WAIT:
+				case GWBE_RUNTIMEMODE_INTERPRETERWAIT:
 				{	
 					env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
 					break;
 				}
-				case GWBE_RUNTIMEMODE_PROGRAMPAUSE:
+				case GWBE_RUNTIMEMODE_PROGRAMWAIT:
 				{	
 					env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAM;
 					break;

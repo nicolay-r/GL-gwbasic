@@ -17,7 +17,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 {
 	/* Инициализация окружения */
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
-	env->runtime_mode = GWBE_RUNTIMEMODE_WAIT;
+	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETERWAIT;
 	env->trace_mode = 1;		/* Trace mode ENABLED. */
 	env->graphics_mode = 0;		/* Graphics mode DISABLED. */
 

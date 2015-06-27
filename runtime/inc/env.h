@@ -28,10 +28,10 @@ typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 /*
 	Environment
 */
-#define GWBE_RUNTIMEMODE_INTERPRETER	1				/* Интерпретация запроса пользователя */
-#define GWBE_RUNTIMEMODE_PROGRAM	2				/* Исполнение программы на GW-Basic */
-#define GWBE_RUNTIMEMODE_WAIT		3				/* Ожидание пользовательского запроса */
-#define GWBE_RUNTIMEMODE_PROGRAMPAUSE	4				/* Ожидание ввода данных пользователем в процессе выполения программы */
+#define GWBE_RUNTIMEMODE_INTERPRETER		1			/* Интерпретация запроса пользователя */
+#define GWBE_RUNTIMEMODE_PROGRAM		2			/* Исполнение программы на GW-Basic */
+#define GWBE_RUNTIMEMODE_INTERPRETERWAIT	3			/* Ожидание пользовательского запроса */
+#define GWBE_RUNTIMEMODE_PROGRAMWAIT		4			/* Ожидание ввода данных пользователем в процессе выполения программы */
 
 struct GWBE_Environment {
 	int trace_mode;							/* Режим трассировки (0 - выключен, 1 - включен) */ 

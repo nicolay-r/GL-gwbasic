@@ -15,6 +15,7 @@
 90 	FOR i% = 0 TO shoots%
 92		PRINT "You got ", shoots% - i% , " shoots.";
 95 		INPUT "Shoot at coordinate: ", uX%, uY%
+96		PRINT "You shoot at (", uX%, ",", uY%, ")";
 100		dist# = SQR((uX%-screenX%)*(uX%-screenX%) + (uY%-screenY%)*(uY%-screenY%))
 105		PRINT "Distance: ", dist#;
 106		LINE (uX% - 30, uY% - 30) - (uX% + 30, uY% + 30), 12
