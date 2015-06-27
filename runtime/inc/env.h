@@ -38,7 +38,8 @@ struct GWBE_Environment {
 	int runtime_mode;						/* GWBE_RUNTIMEMODE_INTERPRETER, GWBE_RUNTIMEMODE_PROGRAM */
 	int graphics_mode;						/* 0 - DISABLED GRAPHIX, 1 - ENABLED GRAPHIX */
 	struct GWBE_Context* ctx;
-	struct GWBE_Program* program;		
+	struct GWBE_Program* program;
+	struct GWBE_Keyboard* keyboard;		
 	struct GWBE_FunctionListNode* udef_funcs;
 	struct GWBI_Input* input;
 };
@@ -95,6 +96,13 @@ struct GWBE_Function {
 
 struct GWBE_FunctionListNode {
 	struct GWBE_Function *val, *next;
+};
+
+/*
+	Keyboard
+*/
+struct GWBE_Keyboard {
+	int pressed_key;			/* ASCII code of the pressed key */
 };
 
 /*

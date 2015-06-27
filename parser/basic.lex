@@ -70,6 +70,8 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 (?i:MID$)		{ return MID_STR; }
 (?i:RIGHT$)		{ return RIGHT_STR; }
 
+(?i:INKEY$)		{ return INKEY_STR; }
+
 =			{ return EQUAL; }
 \<\>			{ return INEQUAL; }
 \<			{ return LT; }

@@ -56,4 +56,12 @@ GWBN_ArrayVariables* gwbn_NewArrayVariables() {
 void gwbn_DeleteArrayVariables(GWBN_ArrayVariables* ptr) {
 	free(ptr);
 }
-
+GWBN_SystemVariable* gwbn_NewSystemVariable()
+{
+	GWBN_SystemVariable* result = (GWBN_SystemVariable*) malloc (sizeof(GWBN_SystemVariable));
+	return result;
+}
+void gwbn_DeleteSystemVariable(GWBN_SystemVariable* ptr)
+{
+	free(ptr);
+}

@@ -11,6 +11,7 @@ typedef struct GWBN_StringVariable GWBN_StringVariable;
 typedef struct GWBN_NumericVariable GWBN_NumericVariable;
 typedef struct GWBN_ArrayVariable GWBN_ArrayVariable;
 typedef struct GWBN_ArrayVariables GWBN_ArrayVariables;
+typedef struct GWBN_SystemVariable GWBN_SystemVariable;
 
 /*
 	Dependencies
@@ -31,11 +32,13 @@ struct GWBN_Variables {
 struct GWBN_Variable {
 	int type;		/*	GWBNT_STRINGVARIABLE
 					GWBNT_NUMERICVARIABLE
-					GWBNT_STRINGVARIABLE	*/
+					GWBNT_STRINGVARIABLE	
+					GWBNT_SYSTEMVARIABLE	*/
 	union {
 		GWBN_StringVariable* str;
 		GWBN_NumericVariable* num;
 		GWBN_ArrayVariable* arr;
+		GWBN_SystemVariable* sys;
 	};
 };
 struct GWBN_StringVariable {
@@ -46,6 +49,10 @@ struct GWBN_NumericVariable {
 					GWBNT_SINGLEPRECISIONVARIABLE 
 					GWBNT_DOUBLEPRECISIONVARIABLE 	*/
 	char* name;
+};
+struct GWBN_SystemVariable {
+	int var_type;		/* variable type */
+	int val_type;		/* value type */
 };
 
 /* 
@@ -80,4 +87,6 @@ GWBN_ArrayVariable* gwbn_NewArrayVariable();
 void gwbn_DeleteArrayVariable(GWBN_ArrayVariable* ptr);
 GWBN_ArrayVariables* gwbn_NewArrayVariables();
 void gwbn_DeleteArrayVariables(GWBN_ArrayVariables* ptr);
+GWBN_SystemVariable* gwbn_NewSystemVariable();
+void gwbn_DeleteSystemVariable(GWBN_SystemVariable* ptr);
 #endif

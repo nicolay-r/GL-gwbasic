@@ -23,6 +23,8 @@
 %token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN RND SQR
 %token LEFT_STR MID_STR RIGHT_STR
 
+%token INKEY_STR
+
 %token TO STEP AS ON ERROR
 
 %token DECLARATION
@@ -138,6 +140,7 @@
 	GWBN_NumericVariable*		num_var;
 	GWBN_StringVariable*		str_var;
 	GWBN_ArrayVariable*		arr_var;
+	GWBN_SystemVariable*		sys_var;
 
 	/* Functions */
 	GWBN_Function*			func;
@@ -233,6 +236,7 @@
 %type <num_var> NumericVariable;
 %type <str_var> StringVariable;
 %type <arr_var> ArrayVariable;
+%type <sys_var> SystemVariable;
 
 /*
 	Functions
@@ -495,8 +499,7 @@ Variables: Variable ',' Variables				{ $$ = gwbn_NewVariables(); $$->var = $1; $
 Variable: StringVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_STRINGVARIABLE; $$->str = $1;}
 	| NumericVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1;}
 	| ArrayVariable						{ $$ = gwbn_NewVariable(); $$->type = GWBNT_ARRAYVARIABLE; $$->arr = $1; }
-
-StringVariable: DECLARATION '$'					{ $$ = gwbn_NewStringVariable(); $$->name = $1; }
+	| SystemVariable					{ $$ = gwbn_NewVariable(); $$->type = GWBNT_SYSTEMVARIABLE; $$->sys = $1; }
 
 NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_INTEGERVARIABLE; $$->name = $1; }
 	| DECLARATION '!'					{ $$ = gwbn_NewNumericVariable(); $$->type = GWBNT_SINGLEPRECISIONVARIABLE; $$->name = $1; }
@@ -504,6 +507,10 @@ NumericVariable: DECLARATION '%'				{ $$ = gwbn_NewNumericVariable(); $$->type =
 
 ArrayVariable: StringVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->type = GWBNT_STRINGVARIABLE; $$->str = $1; $$->dims = $3; }
 	| NumericVariable '(' Indexes ')'			{ $$ = gwbn_NewArrayVariable(); $$->type = GWBNT_NUMERICVARIABLE; $$->num = $1; $$->dims = $3; }
+
+StringVariable: DECLARATION '$'					{ $$ = gwbn_NewStringVariable(); $$->name = $1; }
+
+SystemVariable:	INKEY_STR	/* INKEY$ */			{ $$ = gwbn_NewSystemVariable(); $$->var_type = GWBNT_SYSTEMVARIABLE_INKEY; $$->val_type = GWBNT_STRINGVARIABLE; }
 
 Indexes: NumericExpression ',' Indexes				{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = $3; }
 	| NumericExpression					{ $$ = gwbn_NewIndexes(); $$->num = $1; $$->next = NULL; }
