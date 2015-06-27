@@ -17,7 +17,7 @@ GWBE_Environment* gwbe_NewEnvironment()
 {
 	/* Инициализация окружения */
 	GWBE_Environment* env = (GWBE_Environment*) malloc(sizeof(GWBE_Environment));
-	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
+	env->runtime_mode = GWBE_RUNTIMEMODE_WAIT;
 	env->trace_mode = 1;		/* Trace mode ENABLED. */
 	env->graphics_mode = 0;		/* Graphics mode DISABLED. */
 
@@ -68,6 +68,40 @@ GWBE_CallbackStack* gwbe_NewCallbackStack()
 	
 	return callback_stack;
 }
+
+void gwbe_PushCharToRequest(GWBE_Environment* env, char c)
+{
+	assert(env != NULL);
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
+	
+	env->input->buffer[env->input->buffer_len] = c;
+	env->input->buffer_len++;
+	env->input->buffer[env->input->buffer_len] = 0;
+}
+void gwbe_ClearRequest(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
+
+	env->input->buffer_len = 0;
+	env->input->buffer[0] = 0;
+}
+void gwbe_PopCharFromRequest(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->input != NULL);
+	assert(env->input->buffer != NULL);
+
+	if (env->input->buffer_len > 0)
+	{
+		env->input->buffer_len--;
+		env->input->buffer[env->input->buffer_len] = 0;
+	}
+
+}
+
 
 GWBR_Result gwbe_FunctionListNode_Add(GWBE_FunctionListNode** list, GWBE_Function* func)
 {

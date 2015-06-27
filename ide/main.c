@@ -49,33 +49,41 @@ void SetData(GLubyte *data)
 }
 void processNormalKeys(unsigned char key, int x, int y)
 {
+	// Process keypressing by IDE
 	switch (key)
 	{
 		case 8: /* Backspace */
+		{
 			gwbg_TextBuffer_PopChar(ide->text_buffer);
-			gwbg_Environment_PopCharFromRequest(ide->env);
 			break;
+		}
 		case 13: /* Enter */	
+		{
 			gwbg_TextBuffer_CursorNextLine(ide->text_buffer);
-			
-			if (ide->env->input->buffer_len)
-			{
-				/* Append Enter */
-				gwbg_Environment_PushCharToRequest(ide->env, '\n');
-			
-				/* Run user request */
-				gwbr_Run(ide->env);
-				
-				/* Clear user request*/
-				gwbg_Environment_ClearRequest(ide->env);
-			}
 			break;
+		}
 		default:
-			//SetData(data);
-			gwbg_TextBuffer_PushChar(ide->text_buffer, key);
-			gwbg_Environment_PushCharToRequest(ide->env, key);
+		{
+			gwbg_TextBuffer_PushChar(ide->text_buffer, key);		
 			break;
+		}
 	}
+	
+	// Process keypressing by runtime 	
+	gwbr_Event_OnKeyPressed(ide->env, key);	
+}
+
+#define GWBI_RUNTIME_TIMER_ID	0
+
+void runtimeTimer(int id)
+{
+	//
+	// Executing user requests or user program in GW-Basic
+	//
+	gwbr_Run(ide->env);
+
+	// Waiting for timer again
+	glutTimerFunc(0, runtimeTimer, id);
 }
 
 GWBG_Ide* GWBG_CreateIde()
@@ -96,6 +104,7 @@ GWBG_Ide* GWBG_CreateIde()
 	glutDisplayFunc(gwbg_Ide_Render);
 	glutReshapeFunc(fixedSize);
 	glutKeyboardFunc(processNormalKeys);
+	glutTimerFunc(0, runtimeTimer, GWBI_RUNTIME_TIMER_ID);
 
 	return ide;	
 }

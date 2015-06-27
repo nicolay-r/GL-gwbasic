@@ -48,11 +48,21 @@ z	*/
 		{
 			/* Обрабатываем запрос пользователя */
 			GWBN_Interpreter* interpreter = gwbr_Parse(env->input->buffer);
+			
 			/* Handle the received "GWBN_Interpreter*" */
 			if (interpreter != NULL)
 			{
 				gwbh_Interpreter(env, interpreter);
 			}
+
+			/* Очищаем содержимое буфера */
+			gwbe_ClearRequest(env);
+
+			/* Переводим среду в режим "ожидания запроса пользователя" 
+			   в случае, если оно не было изменено */
+			if (env->runtime_mode == GWBE_RUNTIMEMODE_INTERPRETER)
+				env->runtime_mode = GWBE_RUNTIMEMODE_WAIT;
+			
 			break;
 		}
 		case GWBE_RUNTIMEMODE_PROGRAM:
@@ -61,10 +71,19 @@ z	*/
 			gwbr_ContinueProgram(env);
 			break;
 		}
+		case GWBE_RUNTIMEMODE_WAIT:
+		{
+			/* Idle, nothing to do */
+			break;
+		}
+		case GWBE_RUNTIMEMODE_PROGRAMPAUSE:
+		{
+			/* Idle, nothing to do */
+			break;
+		}
 		default:
 		{
-			gwbo_DisplayDebugMessage(env, "Unimplemented runtime mode");
-			gwbo_NextLine(env);
+			assert(0 && "Unimplemented Runtime Mode");
 			break;
 		}
 	}
@@ -86,8 +105,8 @@ void gwbr_FinishProgram(GWBE_Environment* env, GWBR_Result result)
 	gwbo_DisplayResult(env, result);
 	gwbo_NextLine(env);
 
-	/* Переключаем режим среды на "интерпретируемый" */
-	env->runtime_mode = GWBE_RUNTIMEMODE_INTERPRETER;
+	/* Переключаем режим среды на "ожидаение ввода пользовательского запроса" */
+	env->runtime_mode = GWBE_RUNTIMEMODE_WAIT;
 }
 
 /*
@@ -124,6 +143,12 @@ GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 	/* Если не ожидается ввод с клавиатуры */
 	if (result.type != GWBR_NOTIFICATION_WAITFORVALUE)
 		gwbr_FinishProgram(env, result);
+	/* Если ожидается ввод с клавиатуры */ 
+	else if (result.type == GWBR_NOTIFICATION_WAITFORVALUE)
+	{
+		/* Изменяем состояние среды исполнения на "ожидание ввода данных" */
+		env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAMPAUSE;
+	}
 
 	return result;
 }

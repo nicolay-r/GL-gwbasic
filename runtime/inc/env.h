@@ -28,8 +28,10 @@ typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
 /*
 	Environment
 */
-#define GWBE_RUNTIMEMODE_INTERPRETER	1
-#define GWBE_RUNTIMEMODE_PROGRAM	2
+#define GWBE_RUNTIMEMODE_INTERPRETER	1				/* Интерпретация запроса пользователя */
+#define GWBE_RUNTIMEMODE_PROGRAM	2				/* Исполнение программы на GW-Basic */
+#define GWBE_RUNTIMEMODE_WAIT		3				/* Ожидание пользовательского запроса */
+#define GWBE_RUNTIMEMODE_PROGRAMPAUSE	4				/* Ожидание ввода данных пользователем в процессе выполения программы */
 
 struct GWBE_Environment {
 	int trace_mode;							/* Режим трассировки (0 - выключен, 1 - включен) */ 
@@ -110,6 +112,11 @@ void gwbe_DeleteEnvironment(GWBE_Environment* env);
 
 GWBE_ProgramLine* gwbe_NewProgramLine();
 GWBE_ProgramLine* gwbe_DeleteProgramLine();
+
+/* Environment */
+void gwbe_PushCharToRequest(GWBE_Environment* env, char c);
+void gwbe_ClearRequest(GWBE_Environment* env);
+void gwbe_PopCharFromRequest(GWBE_Environment* env);
 
 //GWBE_Function* GWBE_NewFunction(char* name, struct GWBE_VariableListNode* vars, struct GWBN_Expression* body);
 //void GWBE_DeleteFunction(struct GWBE_Function* func);

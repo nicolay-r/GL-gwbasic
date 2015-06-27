@@ -186,37 +186,6 @@ void gwbg_TextBuffer_Clear(GWBG_TextBuffer* text_buffer)
 	text_buffer->cursor->x = 0;
 	text_buffer->cursor->y = 0;
 }
-void gwbg_Environment_ClearRequest(GWBE_Environment* env)
-{
-	assert(env != NULL);
-	assert(env->input != NULL);
-	assert(env->input->buffer != NULL);
-
-	env->input->buffer_len = 0;
-	env->input->buffer[0] = 0;
-}
-void gwbg_Environment_PushCharToRequest(GWBE_Environment* env, char c)
-{
-	assert(env != NULL);
-	assert(env->input != NULL);
-	assert(env->input->buffer != NULL);
-	
-	env->input->buffer[env->input->buffer_len] = c;
-	env->input->buffer_len++;
-	env->input->buffer[env->input->buffer_len] = 0;
-}
-void gwbg_Environment_PopCharFromRequest(GWBE_Environment* env)
-{
-	assert(env != NULL);
-	assert(env->input != NULL);
-	assert(env->input->buffer != NULL);
-
-	if (env->input->buffer_len > 0)
-	{
-		env->input->buffer_len--;
-		env->input->buffer[env->input->buffer_len] = 0;
-	}
-}
 
 /* Canvas */
 void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line)
