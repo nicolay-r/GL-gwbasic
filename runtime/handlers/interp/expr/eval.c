@@ -182,6 +182,11 @@ GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_Numer
 			result = gwbr_EvaluateNumericConstant(env, node->num_const);
 			break;
 		}
+		case GWBNT_SYSTEMVARIABLE:
+		{
+			result = gwbr_EvaluateSystemVariable(env, node->sys);
+			break;
+		}
 	}
 
 	return result;
@@ -260,6 +265,24 @@ GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_N
 	{
 		gwbo_DisplayMessage(env, "Undeclared variable: ");
 		gwbo_DisplayMessage(env, node->name);
+	}
+
+	return result;
+}
+GWBR_ExpressionResult gwbr_EvaluateSystemVariable(GWBE_Environment *env, GWBN_SystemVariable *node)
+{
+	GWBR_ExpressionResult result;
+	assert(node != NULL);
+
+	switch (node->var_type)
+	{
+		case GWBNT_SYSTEMVARIABLE_INKEY:
+		{
+			/* Get key from a keyboard */
+			result.val.type = GWBCT_INTEGER; 
+			result.val.int_val = gwbe_GetKey(env);	
+			break;
+		}
 	}
 
 	return result;

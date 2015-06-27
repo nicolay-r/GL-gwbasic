@@ -552,7 +552,8 @@ NumericTerm: FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = 
 	| NumericVariable					{ $$ = gwbn_NewNumericTerm(); $$->var = $1; $$->type = GWBNT_NUMERICVARIABLE; }
 	| ArrayVariable						{ $$ = gwbn_NewNumericTerm(); $$->arr = $1; $$->type = GWBNT_ARRAYVARIABLE; }
 	| NumericConstant 					{ $$ = gwbn_NewNumericTerm(); $$->num_const = $1; $$->type = GWBNT_NUMERICCONSTANT; }
-
+	| SystemVariable					{ $$ = gwbn_NewNumericTerm(); $$->sys = $1; $$->type = GWBNT_SYSTEMVARIABLE; }	
+			
 StringExpression: StringOperator				{ $$ = gwbn_NewStringExpression(); $$->op = $1; }
 StringOperator:	StringTerm '+' StringOperator			{ $$ = gwbn_NewStringOperator(); $$->type = GWBBT_ADD; $$->a =$1; $$->b = $3; }
 	| StringTerm						{ $$ = gwbn_NewStringOperator(); $$->type = GWBNT_STRINGTERM; $$->term = $1; } 

@@ -30,6 +30,9 @@ GWBE_Environment* gwbe_NewEnvironment()
 	/* Инициализация и очистка Input буфера */	
 	env->input = gwbi_NewInput();
 
+	/* Инициализация модуля клавиатуры */
+	env->keyboard = gwbe_NewKeyboard(); 
+
 	return env;
 }
 
@@ -43,7 +46,6 @@ void gwbe_SetRuntimeWaitMode(GWBE_Environment *env, int new_mode)
 	env->runtime_mode = new_mode;
 	gwbe_ClearRequest(env);
 }
-
 
 void gwbe_DeleteEnvironment(GWBE_Environment* env)
 {
@@ -69,6 +71,13 @@ GWBE_Context* gwbe_NewContext()
 	ctx->callback_stack = gwbe_NewCallbackStack();
 	
 	return ctx;
+}
+
+GWBE_Keyboard* gwbe_NewKeyboard()
+{
+	GWBE_Keyboard* kbd = malloc(sizeof(GWBE_Keyboard));
+	
+	return kbd;
 }
 
 GWBE_CallbackStack* gwbe_NewCallbackStack()
@@ -314,4 +323,24 @@ void gwbe_Context_PopLocalVariableLevel(GWBE_Environment* env)
 	assert(env->ctx != NULL);
 	gwbc_VariableListNode_Clear(&env->ctx->local_vars[env->ctx->level]); 
 	env->ctx->level--;
+}
+
+int gwbe_GetKey(GWBE_Environment* env)
+{
+	assert(env != NULL);
+	assert(env->keyboard != NULL);
+
+	int key = env->keyboard->pressed_key;
+	// Set's a zero code to pressed_key
+	env->keyboard->pressed_key = 0;
+
+	return key;	
+}	
+
+void gwbe_SetKey(GWBE_Environment* env, int key)
+{
+	assert(env != NULL);
+	assert(env->keyboard != NULL);
+
+	env->keyboard->pressed_key = key;
 }

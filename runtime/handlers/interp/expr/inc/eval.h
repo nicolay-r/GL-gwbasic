@@ -31,6 +31,7 @@ GWBR_ExpressionResult gwbr_EvaluateFunctionalOperator(GWBE_Environment* env, GWB
 GWBR_ExpressionResult gwbr_EvaluateNumericTerm(GWBE_Environment* env, GWBN_NumericTerm* node);
 GWBR_ExpressionResult gwbr_EvaluateNumericConstant(GWBE_Environment *env, GWBN_NumericConstant *node);
 GWBR_ExpressionResult gwbr_EvaluateNumericVariable(GWBE_Environment *env, GWBN_NumericVariable *node);
+GWBR_ExpressionResult gwbr_EvaluateSystemVariable(GWBE_Environment *env, GWBN_SystemVariable* node);
 
 GWBR_ExpressionResult gwbr_EvaluateStringExpression(GWBE_Environment* env, GWBN_StringExpression* node);
 GWBR_ExpressionResult gwbr_EvaluateStringOperator(GWBE_Environment* env, GWBN_StringOperator* node);

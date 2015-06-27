@@ -19,6 +19,7 @@ typedef struct GWBE_Function GWBE_Function;
 typedef struct GWBE_FunctionListNode GWBE_FunctionListNode;
 typedef struct GWBE_ProgramLine GWBE_ProgramLine;
 typedef struct GWBE_ProgramLineListNode GWBE_ProgramLineListNode;
+typedef struct GWBE_Keyboard GWBE_Keyboard;
 
 /*
 	Environment Dependencies
@@ -114,6 +115,7 @@ GWBE_Environment* gwbe_NewEnvironment();
 GWBE_Program* gwbe_NewProgram();
 GWBE_Context* gwbe_NewContext(); 
 GWBE_CallbackStack* gwbe_NewCallbackStack();
+GWBE_Keyboard* gwbe_NewKeyboard();
 
 /* Dtors */
 void gwbe_DeleteEnvironment(GWBE_Environment* env);
@@ -153,5 +155,9 @@ void gwbe_Context_PopLocalVariableLevel(GWBE_Environment* env);
 void gwbe_CallbackStack_PushCurrentLine(GWBE_Environment* env);
 void gwbe_CallbackStack_Pop(GWBE_Environment* env);
 int gwbe_CallbackStack_Top(GWBE_Environment* env);
+
+/* Keyboard */
+int gwbe_GetKey(GWBE_Environment* env);
+void gwbe_SetKey(GWBE_Environment* env, int key);
 
 #endif

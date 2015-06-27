@@ -54,12 +54,13 @@ struct GWBN_ArithmeticOperator{
 };
 	
 struct GWBN_NumericTerm {
-	int type; /* GWBNT_FUNCTIONAL, GWBNT_NUMERICVARIABLE, GWBNT_NUMERICCONSTANT, GWBN_ARRAYVARIABLE */
+	int type; /* GWBNT_FUNCTIONAL, GWBNT_NUMERICVARIABLE, GWBNT_NUMERICCONSTANT, GWBNT_ARRAYVARIABLE, GWBNT_SYSTEMVARIABLE */
 	union {
 		GWBN_FunctionalOperator* func_op;
 		GWBN_NumericVariable* var;
 		GWBN_NumericConstant* num_const;
 		GWBN_ArrayVariable* arr;
+		GWBN_SystemVariable* sys;
 	};
 };
 
