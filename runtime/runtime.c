@@ -41,7 +41,7 @@ void gwbr_Run(GWBE_Environment *env)
 		Пока проверка не осуществляется,
 		и запрос всегда разбирается как
 		пользовательский запрос к IDE.
-z	*/
+	*/
 	switch (env->runtime_mode)
 	{
 		case GWBE_RUNTIMEMODE_INTERPRETER:
