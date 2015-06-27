@@ -3,6 +3,7 @@
 #include "inc/env.h"
 #include <assert.h>
 
+#include <stdio.h>
 /*
 	Function Implementations
 */
@@ -35,6 +36,7 @@ void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 				}
 				default:
 				{
+					printf("%d\n", env->runtime_mode); 
 					assert(0 && "Unimplemented runtime mode");
 					break;
 				}

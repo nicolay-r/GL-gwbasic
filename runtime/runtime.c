@@ -122,7 +122,7 @@ GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 	result.type = GWBR_RESULT_OK;
 	
 	int current_line = env->ctx->current_line;
-	while (current_line < GWBE_PROGRAM_MAXLINES && result.type == GWBR_RESULT_OK)
+	if (current_line < GWBE_PROGRAM_MAXLINES && result.type == GWBR_RESULT_OK)
 	{
 		assert(env->program != NULL);
 		assert(env->program->lines != NULL);
@@ -141,15 +141,17 @@ GWBR_Result gwbr_ContinueProgram(GWBE_Environment* env)
 		}
 	}	
 
-	/* Если не ожидается ввод с клавиатуры */
-	if (result.type != GWBR_NOTIFICATION_WAITFORVALUE)
-		gwbr_FinishProgram(env, result);
 	/* Если ожидается ввод с клавиатуры */ 
-	else if (result.type == GWBR_NOTIFICATION_WAITFORVALUE)
+	if (result.type == GWBR_NOTIFICATION_WAITFORVALUE)
 	{
 		/* Изменяем состояние среды исполнения на "ожидание ввода данных" */
 		env->runtime_mode = GWBE_RUNTIMEMODE_PROGRAMWAIT;
 		gwbe_ClearRequest(env);
+	}
+	/* Если не ожидается ввод с клавиатуры */
+	if (current_line >= GWBE_PROGRAM_MAXLINES)
+	{
+		gwbr_FinishProgram(env, result);
 	}
 
 	return result;
