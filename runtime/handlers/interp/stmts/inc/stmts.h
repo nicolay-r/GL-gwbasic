@@ -23,6 +23,8 @@ GWBR_Result gwbh_Paint(GWBE_Environment *env, GWBN_Paint* node);
 GWBR_Result gwbh_Pset(GWBE_Environment *env, GWBN_Pset* node);
 GWBR_Result gwbh_Preset(GWBE_Environment *env, GWBN_Preset* node);
 GWBR_Result gwbh_Cls(GWBE_Environment *env, GWBN_Cls* node);
+GWBR_Result gwbh_While(GWBE_Environment *env, GWBN_While* node);
+GWBR_Result gwbh_Wend(GWBE_Environment *env, GWBN_Wend* node);
 GWBR_Result gwbh_For(GWBE_Environment *env, GWBN_For* node);
 GWBR_Result gwbh_Next(GWBE_Environment *env, GWBN_Next* node);
 GWBR_Result gwbh_GoSub(GWBE_Environment *env, GWBN_GoSub* node);

@@ -7,19 +7,19 @@
 	/*
 		Connection with the yylex structures:
 		yy_scan_string, and yy_delete_buffer
-	*/	
+	*/
 	typedef struct yy_buffer_state * YY_BUFFER_STATE;
 	extern YY_BUFFER_STATE yy_scan_string(char *str);
 	extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
-	
+
 %}
 /* command keywords*/
 %token RUN SYSTEM AUTO BLOAD BSAVE MERGE CHDIR CLEAR CONT DELETE EDIT FILES KILL LIST LLIST LOAD MKDIR NAME TRON TROFF
 
-%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT END
+%token BEEP CALL DIM OPTION BASE LET DEF FN CIRCLE SCREEN LINE PAINT PSET PRESET CLS FOR NEXT GOSUB RETURN GOTO IF THEN ELSE INPUT PRINT END WHILE WEND
 %token LOCATE MID
 
-%token ABS ASC 
+%token ABS ASC
 %token CINT COS EXP EXTERR FIX INT LEN LOG SGN TAN RND SQR
 %token LEFT_STR MID_STR RIGHT_STR
 
@@ -60,9 +60,9 @@
 
 /* Type declaration */
 %code requires {
-	
-	/*	
-		AST Node Types 
+
+	/*
+		AST Node Types
 	*/
 	#include "ast/inc/types.h"
 	#include "ast/interp/inc/interp.h"
@@ -72,7 +72,7 @@
 	#include "ast/interp/stmts/inc/print.h"
 
 	/*
-		Main Parser Prototype (Runtime Requires)	
+		Main Parser Prototype (Runtime Requires)
 	*/
 	GWBN_Interpreter* gwbp_Parse(char* sourceCode);
 
@@ -85,16 +85,16 @@
 	GWBN_Interpreter* 		interpreter;
 	GWBN_DirectMode*		directMode;
 	GWBN_IndirectMode* 		indirectMode;
-	
+
 	/* Commands */
-	GWBN_Command*			command;	
+	GWBN_Command*			command;
 	GWBN_Run*			run;
 	Auto*				_auto;
 	GWBN_TrOn*			tron;
 	GWBN_TrOff*			troff;
 	GWBN_Load*			load;
 	GWBN_List*			list;
-	
+
 	/* Statements */
 	GWBN_Statements*		statements;
 	GWBN_Statement*			statement;
@@ -104,10 +104,10 @@
 	GWBN_PrintExpressions*		print_exprs;
 	GWBN_Input*			input;
 	GWBN_InputPrompt*		input_prompt;
-	GWBN_Goto*			_goto;	
+	GWBN_Goto*			_goto;
 	GWBN_IfThenElse*		if_then_else;
 	GWBN_Then*			then;
-	GWBN_Else*			_else;	
+	GWBN_Else*			_else;
 	GWBN_For*			_for;
 	GWBN_Next*			next;
 	GWBN_ScreenCoordinate*		scr_coord;
@@ -121,8 +121,10 @@
 	GWBN_ArrayVariables*		arr_vars;
 	GWBN_Indexes*			inds;
 	GWBN_End*			end;
+	GWBN_While*			_while;
+	GWBN_Wend*			wend;
 
-	/* Expressions */	
+	/* Expressions */
 	GWBN_Expression*		expr;
 	GWBN_NumericExpression*		num_expr;
 	GWBN_ArithmeticOperator*	arithm_op;
@@ -155,10 +157,10 @@
 	GWBN_Fix*			fix;
 	GWBN_Int*			_int;
 	GWBN_CInt*			cint;
-	GWBN_Sgn*			sgn;	
+	GWBN_Sgn*			sgn;
 	GWBN_Sqr*			sqr;
 	GWBN_Rnd*			rnd;
-	
+
 	/* Constants */
 	GWBN_NumericConstant*		num_const;
 	int 				int_num;
@@ -213,6 +215,8 @@
 %type <arr_vars> ArrayVariables
 %type <inds> Indexes
 %type <end> End
+%type <_while> While
+%type <wend> Wend
 
 /*
 	Expressions
@@ -225,6 +229,7 @@
 %type <str_op> StringOperator
 %type <str_term> StringTerm
 %type <func_op> FunctionalOperator
+
 /*
 	%type <func_op> FunctionalOperator
 */
@@ -274,15 +279,15 @@ Interpreter: DirectMode				{
 							$$ = gwbn_NewInterpreter();
 							$$->type = GWBNT_DIRECT_MODE;
 							$$->direct = $1;
-							*interpreter = $$;	
-							return 0;							
+							*interpreter = $$;
+							return 0;
 						}
 	| IndirectMode				{
 							$$ = gwbn_NewInterpreter();
 							$$->type = GWBNT_INDIRECT_MODE;
 							$$->indirect = $1;
-							*interpreter = $$;								
-							return 0; 
+							*interpreter = $$;
+							return 0;
 						}
 
 IndirectMode: LineNumber			{ $$ = gwbn_NewIndirectMode(); $$->line_number = $1; $$->statements = NULL; }
@@ -305,9 +310,9 @@ Command: Run					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_RUN; $$->run = $1;}
 	| Edit					{ printf("EDIT %s\n", ne); }
 	| Files					{ printf("FILES %s\n", ne); }
 	| Kill					{ printf("KILL %s\n", ne); }
-	| List					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LIST; $$->list = $1; } 
+	| List					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LIST; $$->list = $1; }
 	| LList					{ printf("LLIST %s\n", ne); }
-	| Load					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LOAD; $$->load = $1; } 
+	| Load					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_LOAD; $$->load = $1; }
 	| MkDir					{ printf("MKDIR %s\n", ne); }
 	| Name					{ printf("NAME %s\n", ne); }
 	| TrOn					{ $$ = gwbn_NewCommand(); $$->type = GWBNT_TRON; $$->tron = $1; }
@@ -319,7 +324,7 @@ NextStatements: EOLN				{ $$ = NULL; }
 	| ':' Statements			{ $$ = $2; }
 
 Statement: Beep					{ printf("BEEP %s\n", ne); }
-	| Call					{ printf("CALL %s\n", ne); }	
+	| Call					{ printf("CALL %s\n", ne); }
 	| Dim					{ $$ = gwbn_NewStatement();  $$->type = GWBNT_DIM; $$->dim = $1; }
 	| Let					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_LET; $$->let = $1; }
 	| OptionBase				{ printf("OPTION BASE %s\n", ne); }
@@ -332,6 +337,8 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| Preset				{ printf("PRESET %s\n", ne); }
 	| Cls					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_CLS; $$->cls = $1; }
 	| For					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_FOR; $$->_for = $1; }
+	| While					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_WHILE; $$->_while = $1; }
+	| Wend					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_WEND; $$->wend = $1; }
 	| Next					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_NEXT; $$->next = $1; }
 	| GoSub					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_GOSUB; $$->gosub = $1; }
 	| Return				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_RETURN; $$->ret = $1; }
@@ -339,7 +346,7 @@ Statement: Beep					{ printf("BEEP %s\n", ne); }
 	| IfThenElse				{ $$ = gwbn_NewStatement(); $$->type = GWBNT_IFTHENELSE; $$->if_then_else = $1; }
 	| Input					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_INPUT; $$->input = $1; }
 	| Print					{ $$ = gwbn_NewStatement(); $$->type = GWBNT_PRINT; $$->print = $1; }
-	| LineInput				{ printf("LINE INPUT %s\n", ne); }		
+	| LineInput				{ printf("LINE INPUT %s\n", ne); }
 	| Locate				{ printf("LOCATE %s\n", ne); }
 	| Mid					{ printf("MID$ %s\n", ne); }
 	| OnErrorGoto				{ printf("ON ERROR GOTO %s\n", ne); }
@@ -355,14 +362,14 @@ BLoad: 	BLOAD FileName ',' Offset
 BSave:	BSAVE FileName ',' Offset ',' Length
 Merge:	MERGE FileName
 ChDir:	CHDIR
-Clear:	CLEAR Expression			
-Cont:	CONT					
-Delete:	DELETE LineNumber Dash LineNumber	
-	| DELETE LineNumber Dash	
+Clear:	CLEAR Expression
+Cont:	CONT
+Delete:	DELETE LineNumber Dash LineNumber
+	| DELETE LineNumber Dash
 Edit: 	EDIT LineNumber
 	| EDIT '.'
 Files:	FILES FilePath
-	| FILES					
+	| FILES
 Kill: 	KILL FileName
 List:	LIST LineNumber Dash LineNumber ',' FileName { $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = $4; $$->file_name = $6; }
 	| LIST LineNumber Dash ',' FileName		{ $$ = gwbn_NewList(); $$->line_from = $2; $$->line_to = -1; $$->file_name = $5; }
@@ -386,7 +393,7 @@ Let: 	LET Variable EQUAL Expression						{ $$ = gwbn_NewLet(); $$->var = $2; $$-
 DefFn:	DEF FN VariableName '(' FunctionArguments ')' EQUAL Expression
 	| DEF FN VariableName EQUAL Expression
 
-Circle:	CIRCLE ScreenCoordinate ',' NumericExpression CircleOptions /* Radius */{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $4; $$->opts = $5; } 
+Circle:	CIRCLE ScreenCoordinate ',' NumericExpression CircleOptions /* Radius */{ $$ = gwbn_NewCircle(); $$->coord = $2; $$->r = $4; $$->opts = $5; }
 CircleOptions: 									{ $$ = gwbn_NewCircleOptions(); $$->color = NULL; }
 	| ',' NumericExpression /* Color */					{ $$ = gwbn_NewCircleOptions(); $$->color = $2; }
 	| ',' NumericExpression ',' NumericExpression /* Color, Start */							{ /* Not implemented */ }
@@ -406,7 +413,7 @@ Line: LINE ScreenCoordinate '-' ScreenCoordinate LineOptions			{ $$ = gwbn_NewLi
 	| LINE '-' ScreenCoordinate LineOptions					{ $$ = gwbn_NewLine(); $$->coord_a = NULL; $$->coord_b = $3; $$->opts = $4; }
 LineOptions: 									{ $$ = gwbn_NewLineOptions(); $$->color = NULL; }
 	| ',' NumericExpression	/* LineColor */					{ $$ = gwbn_NewLineOptions(); $$->color = $2; }
-	| ',' NumericExpression ',' DECLARATION /* + FillingFormat */		{ /* Not Supported */ } 
+	| ',' NumericExpression ',' DECLARATION /* + FillingFormat */		{ /* Not Supported */ }
 	| ',' ',' DECLARATION /* FillingFormat */				{ /* Not Supported */ }
 
 Paint: PAINT ScreenCoordinate PaintOptions
@@ -428,20 +435,22 @@ ScreenCoordinate: '(' NumericExpression ',' NumericExpression ')'		{ $$ = gwbn_N
 Cls: CLS									{ $$ = gwbn_NewCls(); }
 
 For: FOR NumericVariable EQUAL NumericExpression TO NumericExpression 			{ $$ = gwbn_NewFor(); $$->num_var = $2; $$->from_num_expr = $4; $$->to_num_expr = $6; $$->step = NULL; }
-Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }							
+Next: NEXT Variables									{ $$ = gwbn_NewNext(); $$->vars = $2; }
+While: WHILE NumericExpression								{ $$ = gwbn_NewWhile(); $$->num_expr = $2; }
+Wend: WEND										{ $$ = gwbn_NewWend(); }
 GoSub: GOSUB LineNumber									{ $$ = gwbn_NewGoSub(); $$->line = $2; }
 Return: RETURN										{ $$ = gwbn_NewReturn(); $$->type = GWBNT_RETURN;/* нужно в runtime реализовать стек возврата */}
 	| RETURN LineNumber								{ $$ = gwbn_NewReturn(); $$->line = GWBNT_LINENUMBER; $$->line = $2; }
 
 Goto: GOTO LineNumber							{ $$ = gwbn_NewGoto(); $$->line = $2; }
 
-IfThenElse: IF Expression Then Else					{ $$ = gwbn_NewIfThenElse(); $$->expr = $2; $$->then = $3; $$->_else = $4; } 
+IfThenElse: IF Expression Then Else					{ $$ = gwbn_NewIfThenElse(); $$->expr = $2; $$->then = $3; $$->_else = $4; }
 Then: THEN Statements 							{ $$ = gwbn_NewThen(); $$->type = GWBNT_STATEMENTS; $$->stmts = $2; }
 	| Goto								{ $$ = gwbn_NewThen(); $$->type = GWBNT_GOTO; $$->_goto = $1; }
 Else:									{ $$ = gwbn_NewElse(); $$->stmts = NULL; }
 	| ELSE Statements						{ $$ = gwbn_NewElse(); $$->stmts = $2; }
 
-Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }	
+Input: INPUT InputPrompt Variables					{ $$ = gwbn_NewInput(); $$->prompt = $2; $$->vars = $3; }
 Input: INPUT Variables							{ $$ = gwbn_NewInput(); $$->prompt = NULL; $$->vars = $2; }
 InputPrompt: InputPromptString InputPromptEndType			{ $$ = gwbn_NewInputPrompt(); $$->str = $1; $$->end_type = $2; }
 InputPromptString:							{ $$ = NULL; }
@@ -449,8 +458,8 @@ InputPromptString:							{ $$ = NULL; }
 InputPromptEndType: ','							{ $$ = GWBBT_COMMA; }
 	| ';'								{ $$ = GWBBT_SEMICOLON; }
 
-Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }		
-PrintOperator: PRINT	
+Print: PrintOperator PrintExpressions					{ $$ = gwbn_NewPrint(); $$->exprs = $2; }
+PrintOperator: PRINT
 	| '?'
 PrintExpressions: Expression ',' PrintExpressions			{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_COMMA; $$->next = $3; }
 	| Expression ';' PrintExpressions				{ $$ = gwbn_NewPrintExpressions(); $$->expr = $1; $$->sep_type = GWBBT_SEMICOLON; $$->next = $3; }
@@ -520,12 +529,12 @@ Expression: NumericExpression					{ $$ = gwbn_NewExpression(); $$->type = GWBNT_
 
 NumericExpression: ArithmeticOperator				{ $$ = gwbn_NewNumericExpression(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->arithm = $1;}
 
-ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_ADD; $$->a = $1; $$->b = $3; } 
-	| ArithmeticOperator '-' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_SUB; $$->a = $1; $$->b = $3; } 
-	| ArithmeticOperator '*' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_MUL; $$->a = $1; $$->b = $3; } 
-	| ArithmeticOperator '/' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_DIV; $$->a = $1; $$->b = $3; } 
-	| ArithmeticOperator '^' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_POW; $$->a = $1; $$->b = $3; } 
-	
+ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_ADD; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator '-' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_SUB; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator '*' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_MUL; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator '/' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_DIV; $$->a = $1; $$->b = $3; }
+	| ArithmeticOperator '^' ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_POW; $$->a = $1; $$->b = $3; }
+
 	/* logical operators */
 	|  NOT ArithmeticOperator				{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_NOT; $$->a = $2; }
 	|  ArithmeticOperator AND ArithmeticOperator 		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_AND; $$->a = $1; $$->b = $3; }
@@ -533,7 +542,7 @@ ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewAri
 	|  ArithmeticOperator XOR ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_XOR; $$->a = $1; $$->b = $3; }
 	|  ArithmeticOperator EQV ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_EQV; $$->a = $1; $$->b = $3; }
 	|  ArithmeticOperator IMP ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_IMP; $$->a = $1; $$->b = $3; }
-	
+
 	/* Relatinals operations */
 	| ArithmeticOperator EQUAL ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_EQUAL; $$->a = $1; $$->b = $3; }
 	| ArithmeticOperator INEQUAL ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_INEQUAL; $$->a = $1; $$->b = $3; }
@@ -542,32 +551,32 @@ ArithmeticOperator: ArithmeticOperator '+' ArithmeticOperator	{ $$ = gwbn_NewAri
 	| ArithmeticOperator LTE ArithmeticOperator		{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_LTE; $$->a = $1; $$->b = $3; }
 
 	/* bitwise operators can be implemented here */
-	
+
 	/* Unary operators */
-	| '(' ArithmeticOperator ')'				{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->a = $2; } 
-	| '-' ArithmeticOperator %prec UMINUS			{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_UNARY_MINUS; $$->a = $2; } 
+	| '(' ArithmeticOperator ')'				{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_ARITHMETICOPERATOR; $$->a = $2; }
+	| '-' ArithmeticOperator %prec UMINUS			{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBBT_UNARY_MINUS; $$->a = $2; }
 	| NumericTerm						{ $$ = gwbn_NewArithmeticOperator(); $$->type = GWBNT_NUMERICTERM; $$->term = $1; }
 
 NumericTerm: FunctionalOperator					{ $$ = gwbn_NewNumericTerm(); $$->func_op = $1; $$->type = GWBNT_FUNCTIONALOPERATOR; }
 	| NumericVariable					{ $$ = gwbn_NewNumericTerm(); $$->var = $1; $$->type = GWBNT_NUMERICVARIABLE; }
 	| ArrayVariable						{ $$ = gwbn_NewNumericTerm(); $$->arr = $1; $$->type = GWBNT_ARRAYVARIABLE; }
 	| NumericConstant 					{ $$ = gwbn_NewNumericTerm(); $$->num_const = $1; $$->type = GWBNT_NUMERICCONSTANT; }
-	| SystemVariable					{ $$ = gwbn_NewNumericTerm(); $$->sys = $1; $$->type = GWBNT_SYSTEMVARIABLE; }	
-			
+	| SystemVariable					{ $$ = gwbn_NewNumericTerm(); $$->sys = $1; $$->type = GWBNT_SYSTEMVARIABLE; }
+
 StringExpression: StringOperator				{ $$ = gwbn_NewStringExpression(); $$->op = $1; }
 StringOperator:	StringTerm '+' StringOperator			{ $$ = gwbn_NewStringOperator(); $$->type = GWBBT_ADD; $$->a =$1; $$->b = $3; }
-	| StringTerm						{ $$ = gwbn_NewStringOperator(); $$->type = GWBNT_STRINGTERM; $$->term = $1; } 
+	| StringTerm						{ $$ = gwbn_NewStringOperator(); $$->type = GWBNT_STRINGTERM; $$->term = $1; }
 StringTerm: StringVariable					{ $$ = gwbn_NewStringTerm(); $$->type = GWBNT_STRINGVARIABLE; $$->var = $1; }
 	| CONST_STRING						{ $$ = gwbn_NewStringTerm(); $$->type = GWBBT_STRING; $$->str = $1; }
 
 NumericConstant: CONST_INTEGER					{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_INTEGER; $$->const_int = $1; }
-	| CONST_FLOAT						{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_SINGLE; $$->const_float = $1; }	
+	| CONST_FLOAT						{ $$ = gwbn_NewNumericConstant(); $$->type = GWBBT_SINGLE; $$->const_float = $1; }
 
 FunctionalOperator: MathFunction				{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; }
 	| StringFunction					{ $$ = gwbn_NewFunctionalOperator(); $$->type = GWBNT_STRINGFUNCTION; /*$$->str_func = $1;*/ }
 
 Function: StringFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_STRINGFUNCTION; /*str->func = $1*/ }
-	| MathFunction						{ $$ = gwbn_NewFunction(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; } 
+	| MathFunction						{ $$ = gwbn_NewFunction(); $$->type = GWBNT_MATHFUNCTION; $$->math_func = $1; }
 	| SystemFunction					{ $$ = gwbn_NewFunction(); $$->type = GWBNT_SYSTEMFUNCTION; }
 
 StringFunction: Asc
@@ -582,23 +591,23 @@ Left_Str: LEFT_STR '(' StringExpression ',' NumericExpression ')'
 Mid_Str: MID_STR '(' StringExpression ',' NumericExpression ',' NumericExpression ')'
 Right_Str: RIGHT_STR '(' StringExpression ',' NumericExpression ')'
 
-MathFunction: Abs						{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_ABS; $$->abs = $1; }					
+MathFunction: Abs						{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_ABS; $$->abs = $1; }
 	| Exp							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_EXP; $$->exp = $1; }
 	| Sin							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SIN; $$->sin = $1; }
 	| Cos							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_COS; $$->cos = $1; }
 	| Tan							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_TAN; $$->tan = $1; }
 	| Log							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_LOG; $$->log = $1; }
-	| Fix							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_FIX; $$->fix = $1; } 
+	| Fix							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_FIX; $$->fix = $1; }
 	| Int							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_INT; $$->_int = $1; }
 	| CInt							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_CINT; $$->cint = $1; }
 	| Sgn							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SGN; $$->sgn = $1; }
 	| Sqr							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_SQR; $$->sqr = $1; }
 	| Rnd							{ $$ = gwbn_NewMathFunction(); $$->type = GWBNT_RND; $$->rnd = $1; }
-	
+
 Abs: ABS '(' NumericExpression ')'				{ $$ = gwbn_NewAbs(); $$->expr = $3; }
 Exp: EXP '(' NumericExpression ')'				{ $$ = gwbn_NewExp(); $$->expr = $3; }
 Sin: SIN '(' NumericExpression ')'				{ $$ = gwbn_NewSin(); $$->expr = $3; }
-Cos: COS '(' NumericExpression ')'				{ $$ = gwbn_NewCos(); $$->expr = $3; }			
+Cos: COS '(' NumericExpression ')'				{ $$ = gwbn_NewCos(); $$->expr = $3; }
 Tan: TAN '(' NumericExpression ')'				{ $$ = gwbn_NewTan(); $$->expr = $3; }
 Log: LOG '(' NumericExpression ')'				{ $$ = gwbn_NewLog(); $$->expr = $3; }
 Fix: FIX '(' NumericExpression ')'				{ $$ = gwbn_NewFix(); $$->expr = $3; }
@@ -643,8 +652,8 @@ GWBN_Interpreter* gwbp_Parse(char* source_code)
 	YY_BUFFER_STATE buffer = yy_scan_string(source_code);
 	yyparse(interpreter);
 	yy_delete_buffer(buffer);
-	
+
 	GWBN_Interpreter* result = *interpreter;
 	free(interpreter);
-	return result; 
-}	
+	return result;
+}

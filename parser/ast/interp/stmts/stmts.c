@@ -259,3 +259,22 @@ void gwbn_DeleteEnd(GWBN_End* ptr)
 {
 	free(ptr);
 }
+GWBN_While* gwbn_NewWhile()
+{
+	GWBN_While* result = (GWBN_While*) malloc(sizeof(GWBN_While));
+	return result;
+
+}
+void gwbn_DeleteWhile(GWBN_While* ptr)
+{
+	free(ptr);
+}
+GWBN_Wend* gwbn_NewWend()
+{
+	GWBN_Wend* result = (GWBN_Wend*) malloc(sizeof(GWBN_Wend));
+	return result;
+}
+void gwbn_DeleteWend(GWBN_Wend* ptr)
+{
+	free(ptr);
+}

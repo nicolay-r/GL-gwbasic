@@ -36,6 +36,8 @@ typedef struct GWBN_OnErrorGoto GWBN_OnErrorGoto;
 typedef struct GWBN_OnGosub GWBN_OnGosub;
 typedef struct GWBN_OnGoto GWBN_OnGoto;
 typedef struct GWBN_End GWBN_End;
+typedef struct GWBN_While GWBN_While;
+typedef struct GWBN_Wend GWBN_Wend;
 
 /*
 	Statements Includes
@@ -71,15 +73,17 @@ struct GWBN_Statement {
 		GWBN_Print* print;
 		GWBN_Input* input;
 		GWBN_Goto* _goto;
-		GWBN_IfThenElse* if_then_else;		
+		GWBN_IfThenElse* if_then_else;
 		GWBN_For* _for;
 		GWBN_Next* next;
 		GWBN_Cls* cls;
 		GWBN_Return* ret;
 		GWBN_GoSub* gosub;
 		GWBN_End* end;
+		GWBN_While* _while;
+		GWBN_Wend* wend;
 	};
-}; 
+};
 
 /*
 	Structures
@@ -104,7 +108,7 @@ struct GWBN_DefFn {
 	/* Not Implemented */
 };
 struct GWBN_ScreenCoordinate {
-	GWBN_NumericExpression *x, *y;	
+	GWBN_NumericExpression *x, *y;
 };
 
 struct GWBN_Screen {
@@ -124,7 +128,7 @@ struct GWBN_Cls {
 };
 struct GWBN_For {
 	GWBN_NumericVariable* num_var;
-	GWBN_NumericExpression *from_num_expr, *to_num_expr, *step; 
+	GWBN_NumericExpression *from_num_expr, *to_num_expr, *step;
 };
 struct GWBN_Next {
 	GWBN_Variables* vars;
@@ -132,16 +136,16 @@ struct GWBN_Next {
 struct GWBN_GoSub {
 	GWBB_Integer line;
 };
-struct GWBN_Return {	
+struct GWBN_Return {
 	int type;
 	GWBB_Integer line;
 };
 struct GWBN_Goto {
-	GWBB_Integer line;	
+	GWBB_Integer line;
 };
 struct GWBN_Input {
 	GWBN_InputPrompt* prompt;
-	GWBN_Variables* vars;	
+	GWBN_Variables* vars;
 };
 struct GWBN_Print {
 	GWBN_PrintExpressions* exprs;
@@ -164,7 +168,13 @@ struct GWBN_OnGosub {
 struct GWBN_OnGoto {
 	/* Not Implemented */
 };
-struct GWBN_End {	
+struct GWBN_End {
+};
+struct GWBN_While {
+	GWBN_NumericExpression* num_expr;
+};
+struct GWBN_Wend {
+	/* Empty */
 };
 
 /*
@@ -226,7 +236,10 @@ GWBN_OnGoto* gwbn_NewOnGoto();
 void gwbn_DeleteOnGoto(GWBN_OnGoto* ptr);
 GWBN_End* gwbn_NewEnd();
 void gwbn_DeleteEnd(GWBN_End* ptr);
-
+GWBN_While* gwbn_NewWhile();
+void gwbn_DeleteWhile(GWBN_While* ptr);
+GWBN_Wend* gwbn_NewWend();
+void gwbn_DeleteWend(GWBN_Wend* ptr);
 
 
 #endif

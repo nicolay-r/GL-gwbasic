@@ -3,11 +3,11 @@
 #ifndef _GWBASIC_INTERPRETER_TYPES_H_
 #define _GwBASIC_INTERPRETER_TYPES_H_
 
-/* 
-	Interpreter 
+/*
+	Interpreter
 */
 #define GWBNT_INTERPRETER		1001
-#define GWBNT_DIRECT_MODE		1002	
+#define GWBNT_DIRECT_MODE		1002
 #define GWBNT_INDIRECT_MODE		1003
 #define GWBNT_STATEMENTS		1004
 #define GWBNT_STATEMENT			1005
@@ -31,6 +31,8 @@
 #define GWBNT_DIM			1113
 #define GWBNT_GOSUB			1114
 #define GWBNT_END			1115
+#define GWBNT_WHILE                     1116
+#define GWBNT_WEND                      1117
 
 /*
 	Variables
@@ -42,7 +44,6 @@
 #define GWBNT_SINGLEPRECISIONVARIABLE 	1204
 #define	GWBNT_DOUBLEPRECISIONVARIABLE 	1205
 #define GWBNT_SYSTEMVARIABLE		1206
-
 #define GWBNT_SYSTEMVARIABLE_INKEY	1250
 
 /*
@@ -63,7 +64,7 @@
 */
 #define GWBNT_NUMERICCONSTANT			1500
 
-/*	
+/*
 	Commands
 */
 #define GWBNT_COMMAND				1700

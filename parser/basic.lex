@@ -54,6 +54,8 @@ DECLARATION	{LETTER}({LETTER}|{NUMBER}|\.)*
 
 (?i:FOR)		{ return FOR; }
 (?i:NEXT)		{ return NEXT; }
+(?i:WHILE)		{ return WHILE; }
+(?i:WEND)		{ return WEND; }
 (?i:GOSUB)		{ return GOSUB; }
 (?i:RETURN)		{ return RETURN; }
 (?i:GOTO)		{ return GOTO; }
