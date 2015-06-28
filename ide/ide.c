@@ -264,6 +264,9 @@ void gwbg_Canvas_Clear(GWBG_Canvas* canvas)
 	for (i = 0; i < ide->height; i++)
 		for (j = 0; j < ide->width*contents; j++)
 			canvas->data[i*ide->width*contents + j] = 0;
+
+	/* удаление отображемых объектов из буфера */
+	canvas->to_draw_count = 0;
 }
 
 
