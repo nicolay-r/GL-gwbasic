@@ -9,6 +9,9 @@
 */
 void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 {
+	/* Save the pressed key */
+	gwbe_SetKey(env, key);
+
 	switch (key)
 	{
 		case 8: /* Backspace */
