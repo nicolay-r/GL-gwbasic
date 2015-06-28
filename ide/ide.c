@@ -2,6 +2,7 @@
 
 #include "inc/ide.h"
 #include "inc/settings.h"
+#include "inc/render.h"		/* gwbg_Ide_Render */
 
 #include <string.h>
 #include <assert.h>
@@ -205,7 +206,17 @@ void gwbg_Canvas_AddLine(GWBG_Canvas* canvas, GWBC_Line line)
 	{
 		assert(ide != NULL);
 		assert(ide->env != NULL);
-		gwbo_DisplayMessage(ide->env, "Error: Can't add more lines in canvas buffer");	
+
+		/* Force Render */
+		gwbg_Ide_Render();
+	
+		/* Recall Function */
+		gwbg_Canvas_AddLine(canvas, line);
+
+		/*
+		gwbo_DisplayMessage(ide->env, "Error: Can't add more lines in canvas buffer");
+		gwbo_NextLine(ide->env);
+		*/
 	}
 }
 
@@ -226,7 +237,17 @@ void gwbg_Canvas_AddCircle(GWBG_Canvas* canvas, GWBC_Circle circle)
 	{
 		assert(ide != NULL);
 		assert(ide->env != NULL);
+	
+		/* Force Render */
+		gwbg_Ide_Render();
+
+		/* Recall Function */
+		gwbg_Canvas_AddCircle(canvas, circle);
+
+		/*
 		gwbo_DisplayMessage(ide->env, "Error: Can't add more circles in canvas buffer");
+		gwbo_NextLine(ide->env);
+		*/
 	}
 }
 

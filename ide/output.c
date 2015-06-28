@@ -80,9 +80,6 @@ void gwbo_DisplayLine(GWBE_Environment* env, GWBC_Line line)
 	{
 		/* Draw line */	
 		gwbg_Canvas_AddLine(ide->canvas, line);
-
-		/* Force Render */
-		gwbg_Ide_Render();
 	}
 	else
 	{
@@ -97,9 +94,6 @@ void gwbo_DisplayCircle(GWBE_Environment* env, GWBC_Circle circle)
 	{
 		/* Draw Circle */
 		gwbg_Canvas_AddCircle(ide->canvas, circle);
-
-		/* Force Render */
-		gwbg_Ide_Render();
 	}
 	else
 	{
@@ -114,9 +108,6 @@ void gwbo_Cls(GWBE_Environment* env)
 	/* Clean canvas */
 	gwbg_Canvas_Clear(ide->canvas);
 	gwbg_TextBuffer_Clear(ide->text_buffer);
-	
-	/* Force Render */
-	gwbg_Ide_Render();
 }
 
 void gwbo_NextLine(GWBE_Environment* env)
