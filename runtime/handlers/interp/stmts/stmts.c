@@ -87,10 +87,7 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
 			case GWBNT_END:
 				result = gwbh_End(env, node->end);
 				return result;
-                        case GWBNT_WHILE:
-                                result = gwbh_While(env, node->_while);
-                                return result;
-		}
+            	}
 	}
 	/*
 		Операции, которые всегда выполняются
@@ -106,7 +103,10 @@ GWBR_Result gwbh_Statement(GWBE_Environment *env, GWBN_Statement* node) {
                 case GWBNT_WEND:
                         result = gwbh_Wend(env, node->wend);
                         return result;
-	}
+	       case GWBNT_WHILE:
+                        result = gwbh_While(env, node->_while);
+                        return result;
+        }
 
 	return result;
 }
@@ -495,7 +495,7 @@ GWBR_Result gwbh_While(GWBE_Environment *env, GWBN_While* node) {
         if (env->ctx->skip_flag)
         {
         	/* учитываем, что это вложенный цикл */
-		env->ctx->skip_flag++;
+		gwbe_Context_IncSkipFlag(env);
 		return result;
         }
 
@@ -512,7 +512,7 @@ GWBR_Result gwbh_While(GWBE_Environment *env, GWBN_While* node) {
         {
                 /* Выход из цикла */
                 gwbo_DisplayDebugMessage(env, "Out of Cycle");
-                env->ctx->skip_flag++;
+                gwbe_Context_IncSkipFlag(env);
         }
 
         return result;
@@ -534,6 +534,7 @@ GWBR_Result gwbh_Wend(GWBE_Environment *env, GWBN_Wend* node) {
 	{
                 /* Do Nothing */
 	}
+
 	if (env->ctx->skip_flag > 0)	/* Wend для вложенного цикла */
 	{
 		gwbe_Context_DecSkipFlag(env);
