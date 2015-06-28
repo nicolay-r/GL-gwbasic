@@ -46,7 +46,7 @@ struct GWBG_ObjectsToDraw
 	};
 };
 
-#define GWBG_CANVAS_MAXOBJECTS		10
+#define GWBG_CANVAS_MAXOBJECTS		1000
 
 struct GWBG_Canvas
 {
