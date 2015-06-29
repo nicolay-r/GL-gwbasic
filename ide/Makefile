@@ -1,5 +1,5 @@
 
-IDE_SRCS= *.c 
+IDE_SRCS= *.c
 RUNTIME_FOLDER= ../runtime/
 RUNTIME_SRCS= $(RUNTIME_FOLDER)input.c $(RUNTIME_FOLDER)runtime.c $(RUNTIME_FOLDER)env.c $(RUNTIME_FOLDER)core.c $(RUNTIME_FOLDER)events.c \
 	$(RUNTIME_FOLDER)handlers/interp/*.c \
@@ -22,5 +22,5 @@ PARSER_SRCS= \
 	$(AST_FOLDER)interp/vars/*.c
 
 all:
-	make -C $(PARSER_FOLDER)	
-	gcc $(IDE_SRCS) $(RUNTIME_SRCS) $(PARSER_SRCS) -Wall -lGL -Iinc/ -lGLU -lglut -lm -o run
+	make -C $(PARSER_FOLDER)
+	gcc $(IDE_SRCS) $(RUNTIME_SRCS) $(PARSER_SRCS) -g -Wall -lGL -Iinc/ -lGLU -lglut -lm -o run -O0
