@@ -19,27 +19,27 @@ void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 			gwbe_PopCharFromRequest(env);
 			break;
 		}
-		case 13: /* Enter */	
+		case 13: /* Enter */
 		{
 			/* Append Enter */
 			gwbe_PushCharToRequest(env, '\n');
-			
+
 			/* Change the state of environment */
 			switch (env->runtime_mode)
 			{
 				case GWBE_RUNTIMEMODE_INTERPRETERWAIT:
-				{	
+				{
 					gwbe_SetRuntimeMode(env, GWBE_RUNTIMEMODE_INTERPRETER);
 					break;
 				}
 				case GWBE_RUNTIMEMODE_PROGRAMWAIT:
-				{	
+				{
 					gwbe_SetRuntimeMode(env, GWBE_RUNTIMEMODE_PROGRAM);
 					break;
 				}
 				default:
 				{
-					printf("%d\n", env->runtime_mode); 
+					printf("%d\n", env->runtime_mode);
 					assert(0 && "Unimplemented runtime mode");
 					break;
 				}
@@ -49,7 +49,14 @@ void gwbr_Event_OnKeyPressed(GWBE_Environment* env, int key)
 		}
 		default:
 		{
-			gwbe_PushCharToRequest(env, key);
+                        switch (env->runtime_mode)
+                        {
+                                case GWBE_RUNTIMEMODE_PROGRAM:
+                                        break;
+                                default:
+			                gwbe_PushCharToRequest(env, key);
+                                        break;
+                        }
 			break;
 		}
 	}
