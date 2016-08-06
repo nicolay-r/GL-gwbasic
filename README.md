@@ -11,8 +11,10 @@ Developed for educational purposes.
 
 Screenshots
 -----------
-<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot_2.png" height="320px" width="240px"/>
-<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot.png" height="320px" width="240px"/>
+<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot_2.png"
+    height="240px" width="320px"/>
+<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot.png"
+    height="240px" width="320px"/>
 
 Documentation
 -------------
