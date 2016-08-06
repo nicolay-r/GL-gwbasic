@@ -11,8 +11,8 @@ Developed for educational purposes.
 
 Screenshots
 -----------
-![image](https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot_2.png "Editing program")
-![image](https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot.png "Running program")
+<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot_2.png" height="320px" width="240px"/>
+<img src="https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot.png" height="320px" width="240px"/>
 
 Documentation
 -------------
