@@ -1,6 +1,18 @@
 Description
 -----------
-IDE Microsoft GWBasic simulator based on OpenGL (glut), flex/bison (for grammar rules), C (ide, runtime). Developed for educational purposes.
+This project represents implementation of Microsoft GWBasic IDE based on the
+following technologies:
+
+* **OpenGL/GLUT** (ide);
+* **Flex/Bison** (for grammar rules);
+* **C** (shell, ide, runtime).
+
+Developed for educational purposes.
+
+Screenshots
+-----------
+![alt text](https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot_2.png "Editing program")
+![alt text](https://github.com/nicolay-r/GL-gwbasic/blob/master/man/pics/gwbasic_screenshot.png "Running program")
 
 Documentation
 -------------
